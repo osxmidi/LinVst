@@ -79,7 +79,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
 
     addextension(dllName, "dll");
 
-    std::string arg = dllName2 + "," + getFileIdentifiers();
+    std::string arg = dllName + "," + getFileIdentifiers();
 
     const char *argStr = arg.c_str();
 
