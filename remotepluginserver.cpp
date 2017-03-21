@@ -140,31 +140,20 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
 	cleanup();
 	throw((std::string)"Failed to open shared memory file");
     }
-
-    b = true;
-  //  tryWrite(m_controlResponseFd, &b, sizeof(bool));
       
         sprintf(tmpFileBase, "/tmp/rplugin_shn_%s",
 	    fileIdentifiers.substr(42, 6).c_str());
     m_shmFileName2 = strdup(tmpFileBase);
-
-    b = false;
 
     if ((m_shmFd2 = open(m_shmFileName2, O_RDWR)) < 0) {
 	tryWrite(m_controlResponseFd, &b, sizeof(bool));
 	cleanup();
 	throw((std::string)"Failed to open shared memory file");
     }
-
-    b = true;
-    // tryWrite(m_controlResponseFd, &b, sizeof(bool));
-    
     
         sprintf(tmpFileBase, "/tmp/rplugin_sho_%s",
 	    fileIdentifiers.substr(48, 6).c_str());
     m_shmFileName3 = strdup(tmpFileBase);
-
-     b = false;
 
     if ((m_shmFd3 = open(m_shmFileName3, O_RDWR)) < 0) {
 	tryWrite(m_controlResponseFd, &b, sizeof(bool));
