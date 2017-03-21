@@ -294,9 +294,6 @@ connected = false;
 	if (!b) {
 		cleanup();
 		throw((std::string)"Remote plugin did not start correctly");
-
-setBufferSize(1024);
-
     }
 }
 
