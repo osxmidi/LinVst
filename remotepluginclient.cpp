@@ -245,10 +245,7 @@ connected = false;
 
    for (int attempt = 0; attempt < timeout; ++attempt) {
 
-    if ((m_parResponseFd = open(m_parResponseFileName, O_RDONLY)) < 0) {
-		cleanup();
-		throw((std::string)"Failed to open control FIFO");
-    }		if ((m_parRequestFd =
+    	if ((m_parRequestFd =
 		 open(m_parRequestFileName, O_WRONLY | O_NONBLOCK)) >= 0) {
                  
 			connected = true;
@@ -272,7 +269,7 @@ connected = false;
     }
 
     connected = false;
-    for (int attempt = 0; attempt < 6; ++attempt) {
+    for (int attempt = 0; attempt < timeout; ++attempt) {
 		 if ((m_processFd = open(m_processFileName, O_WRONLY | O_NONBLOCK)) >= 0) {
               
 			connected = true;
