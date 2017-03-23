@@ -1,10 +1,10 @@
 # LinVst
 
-LinVst is a Linux vst plugin that loads Windows vst's.
+LinVst is a Linux vst plugin that runs Windows vst's.
 
 To make
 
-The plugininterfaces folderfrom the VST2.4 SDK needs to be in the LinVst files folder.
+The plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder. https://www.steinberg.net/en/company/developers.html
 
 make clean
 
