@@ -24,9 +24,9 @@ Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs l
 
 linvst.so needs to be renamed to the windows vst name (without the .dll extension) and the windows vst and the renamed linvst.so need to be in the same folder/directory.
 
-So, for example if linvst.so is renamed to test.so for a windows vst named test.dll then it will load test.dll.
+So, for example if linvst.so is renamed to test.so then it will run test.dll when test.so is loaded within a Linux VST capable DAW.
 
-linvst.so is a Linux vst that loads any windows vst that linvst.so is renamed to.
+linvst.so is a Linux vst that loads and runs any windows vst that linvst.so is renamed to.
 
 linvst.so can be copied and renamed multiple times to load multiple windows vst's.
 
@@ -49,6 +49,8 @@ ucrtbase.dll)
 Melda MXXX (turn GPU acceleration off)
 
 u-he Podolski
+
+Obxd Synth
 
 Ignite Amps TPA-1
 
