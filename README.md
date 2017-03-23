@@ -26,7 +26,7 @@ linvst.so needs to be renamed to the windows vst name (without the .dll extensio
 
 So, for example if linvst.so is renamed to test.so then it will run test.dll when test.so is loaded within a Linux VST capable DAW.
 
-linvst.so is a Linux vst that loads and runs any windows vst that linvst.so is renamed to.
+linvst.so is a Linux vst template that loads and runs any windows vst that linvst.so is renamed to.
 
 linvst.so can be copied and renamed multiple times to load multiple windows vst's.
 
