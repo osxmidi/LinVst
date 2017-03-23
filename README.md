@@ -32,13 +32,15 @@ Tested with Wine 2.1 devel
 
 Tested windows vst's
 
-Kontakt Player 5.6 (additional dll's might be needed msvcp140.dll
+Kontakt Player 5.6 (turn multiprocessing off)
+
+(additional dll's might be needed msvcp140.dll
 concrt140.dll
 api-ms-win-crt-time-l1-1-0.dll
 api-ms-win-crt-runtime-l1-1-0.dll
 ucrtbase.dll)
 
-Melda MXXX
+Melda MXXX (turn GPU acceleration off)
 
 u-he Podolski
 
