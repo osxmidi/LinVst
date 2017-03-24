@@ -696,18 +696,18 @@ RemotePluginClient::process(float **inputs, float **outputs, int sampleFrames)
        {	
        }
 
-/*
     for (int i = 0; i < m_numOutputs; ++i) 
      {
      memcpy(outputs[i], m_shm + (i + m_numInputs) * blocksz, blocksz );
      }
-*/
 
+/*	
     for (int i = 0; i < m_numOutputs; ++i) {
 
      outputs[i] = (float *)&m_shm[(i + m_numInputs) * blocksz];
 
     }
+*/	
 	
     pthread_mutex_unlock(&mutex2);
 
@@ -721,6 +721,12 @@ int ret;
 int eventnum;
 int *ptr;
 int sizeidx = 0;
+	
+if(evnts->numEvents <= 0)
+return 0;
+	
+if(!evnts)
+return 0;
 
 pthread_mutex_lock(&mutex2);
 	
