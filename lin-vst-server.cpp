@@ -615,7 +615,6 @@ hostCallback(AEffect *plugin, long opcode, long index,
     case audioMasterCurrentId:
 	if (debugLevel > 1)
 	    cerr << "dssi-vst-server[2]: audioMasterCurrentId requested" << endl;
-	rv = 0;
 	break;
 
     case audioMasterIdle:
@@ -702,8 +701,7 @@ hostCallback(AEffect *plugin, long opcode, long index,
 	if (!sampleRate) {
 	    cerr << "WARNING: Sample rate requested but not yet set" << endl;
 	}
-	plugin->dispatcher(plugin, effSetSampleRate,
-			   0, 0, NULL, (float)sampleRate);
+	plugin->dispatcher(plugin, effSetSampleRate, 0, 0, NULL, (float)sampleRate);
 	break;
 
     case audioMasterGetBlockSize:
@@ -712,8 +710,7 @@ hostCallback(AEffect *plugin, long opcode, long index,
 	if (!bufferSize) {
 	    cerr << "WARNING: Buffer size requested but not yet set" << endl;
 	}
-	plugin->dispatcher(plugin, effSetBlockSize,
-			   0, bufferSize, NULL, 0);
+	// plugin->dispatcher(plugin, effSetBlockSize, 0, bufferSize, NULL, 0);
 	break;
 
     case audioMasterGetInputLatency:
