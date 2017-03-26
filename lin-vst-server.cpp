@@ -68,7 +68,6 @@ HANDLE parThreadHandle = 0;
 HWND hWnd = 0;
 bool exiting = false;
 bool inProcessThread = false;
-bool alive = false;
 int bufferSize = 0;
 int sampleRate = 0;
 bool guiVisible = false;
@@ -212,8 +211,8 @@ RemoteVSTServer::~RemoteVSTServer()
 	guiVisible = false;
     }
 
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
-    m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
+     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+     m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
    
 
     pthread_mutex_unlock(&mutex);
@@ -909,42 +908,6 @@ hostCallback(AEffect *plugin, long opcode, long index,
 };
 
 DWORD WINAPI
-WatchdogThreadMain(LPVOID parameter)
-{
-    struct sched_param param;
-    param.sched_priority = 2;
-    int result = sched_setscheduler(0, SCHED_FIFO, &param);
-    if (result < 0) {
-	perror("Failed to set realtime priority for watchdog thread");
-    }
-
-    int count = 0;
-
-    while (!exiting) {
-	if (!alive) {
-	    ++count;
-	}
-	if (count == 20) {
-	    cerr << "Remote VST plugin watchdog: terminating audio and param thread" << endl;
-	    // bam
-	    TerminateThread(parThreadHandle, 0);
-	    TerminateThread(audioThreadHandle, 0);
-	    exiting = 1;
-	    break;
-	} else {
-//	    cerr << "Remote VST plugin watchdog: OK, count is " << count << endl;
-	}
-	sleep(1);
-    }
-
-    cerr << "Remote VST plugin watchdog thread: returning" << endl;
-
-    param.sched_priority = 0;
-    (void)sched_setscheduler(0, SCHED_OTHER, &param);
-    return 0;
-}
-
-DWORD WINAPI
 ParThreadMain(LPVOID parameter)
 {
     struct sched_param param;
@@ -958,7 +921,6 @@ ParThreadMain(LPVOID parameter)
     } 
 
     while (!exiting) {
-	alive = true;
 	try {
 	    // This can call sendMIDIData, setCurrentProgram, process
 	    remoteVSTServerInstance->dispatchParEvents();
@@ -971,8 +933,6 @@ ParThreadMain(LPVOID parameter)
 	}
     }
 
-    cerr << "Remote VST plugin param thread: returning" << endl;
-
     param.sched_priority = 0;
     (void)sched_setscheduler(0, SCHED_OTHER, &param);
 
@@ -984,26 +944,14 @@ AudioThreadMain(LPVOID parameter)
 {
     struct sched_param param;
     param.sched_priority = 1;
-    HANDLE watchdogThreadHandle;
 
     int result = sched_setscheduler(0, SCHED_FIFO, &param);
 
     if (result < 0) {
 	perror("Failed to set realtime priority for audio thread");
-    } else {
-	// Start a watchdog thread as well
-	DWORD watchdogThreadId = 0;
-	watchdogThreadHandle =
-	    CreateThread(0, 0, WatchdogThreadMain, 0, 0, &watchdogThreadId);
-	if (!watchdogThreadHandle) {
-	    cerr << "Failed to create watchdog thread -- not using RT priority for audio thread" << endl;
-	    param.sched_priority = 0;
-	    (void)sched_setscheduler(0, SCHED_OTHER, &param);
-	}
-    }
+    } 
 
     while (!exiting) {
-	alive = true;
 	try {
 	    // This can call sendMIDIData, setCurrentProgram, process
 	    remoteVSTServerInstance->dispatchProcess(50);
@@ -1016,15 +964,9 @@ AudioThreadMain(LPVOID parameter)
 	}
     }
 
-    cerr << "Remote VST plugin audio thread: returning" << endl;
-
     param.sched_priority = 0;
     (void)sched_setscheduler(0, SCHED_OTHER, &param);
-
-    if (watchdogThreadHandle) {
-	TerminateThread(watchdogThreadHandle, 0);
-	CloseHandle(watchdogThreadHandle);
-    }
+	
     return 0;
 }
 
@@ -1309,12 +1251,21 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	cerr << "dssi-vst-server[1]: cleaning up" << endl;
     }
 
-    CloseHandle(parThreadHandle);
+    if(parThreadHandle)
+    {
+	TerminateThread(parThreadHandle, 0);  
+	CloseHandle(parThreadHandle);
+    }	    
     if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: closed param thread" << endl;
     }
 
-    CloseHandle(audioThreadHandle);
+    if(audioThreadHandle)
+    {
+        TerminateThread(audioThreadHandle, 0);
+	CloseHandle(audioThreadHandle);
+	    
+    }
     if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: closed audio thread" << endl;
     }
