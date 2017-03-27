@@ -321,7 +321,15 @@ RemotePluginClient::cleanup()
 	close(m_controlResponseFd);
 	m_controlResponseFd = -1;
     }
-    if (m_processFd >= 0) {
+     if (m_parRequestFd >= 0) {
+	close(m_parRequestFd);
+	m_parRequestFd = -1;
+    }
+    if (m_parResponseFd >= 0) {
+	close(m_parResponseFd);
+	m_parResponseFd = -1;
+    }
+   if (m_processFd >= 0) {
 	close(m_processFd);
 	m_processFd = -1;
     }
