@@ -58,7 +58,7 @@ struct ERect retRect = {0, 0, 10, 10};
                 *((struct ERect **)ptr) = &retRect;
 			break;
 		case effEditIdle:
-			plugin->effVoidOp(effEditIdle);
+		//	plugin->effVoidOp(effEditIdle);
 			break;
 		case effStartProcess:
 			plugin->effVoidOp(effStartProcess);
