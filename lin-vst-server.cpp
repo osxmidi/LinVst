@@ -975,8 +975,8 @@ MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg) {
     case WM_CLOSE:
-    ShowWindow(g_host.hwnd, SW_HIDE);
-    return TRUE;
+         remoteVSTServerInstance->hideGUI();
+         return TRUE;
     }
 
     return DefWindowProc(hWnd, msg, wParam, lParam);
