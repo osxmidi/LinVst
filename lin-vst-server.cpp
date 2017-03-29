@@ -1034,7 +1034,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 
     if (!libHandle) {
 	cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
-	exit(0);
+	return 1;
     }
    
     AEffect *(__stdcall* getInstance)(audioMasterCallback);
@@ -1050,7 +1050,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 		 << OLD_PLUGIN_ENTRY_POINT << "\"" << endl;
 
           FreeLibrary(libHandle);
-          exit(0);
+          return 1;
 	}
 
 	getInstance = (AEffect*(__stdcall*)(audioMasterCallback))
@@ -1063,7 +1063,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 		 << libname << "\"" << endl;
 	    
           FreeLibrary(libHandle);
-          exit(0);
+          return 1;
 
 	} else if (debugLevel > 0) {
 	    cerr << "dssi-vst-server[1]: VST entrypoint \""
@@ -1082,7 +1082,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	     << libname << "\"" << endl;
 	
           FreeLibrary(libHandle);
-          exit(0);
+          return 1;
 
     } else if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: plugin instantiated" << endl;
@@ -1092,7 +1092,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;
 	
        FreeLibrary(libHandle);
-       exit(0);
+       return 1;
 
     } else if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: plugin is a VST" << endl;
@@ -1112,7 +1112,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	     << endl;
 	
          FreeLibrary(libHandle);
-         exit(0);
+         return 1;
 
     } else if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: plugin supports processReplacing" << endl;
@@ -1138,7 +1138,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
 	  
           FreeLibrary(libHandle);
-          exit(0);
+          return 1;
 
     } else if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: registered Windows application class \"" << APPLICATION_CLASS_NAME << "\"" << endl;
@@ -1153,7 +1153,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
 	
          FreeLibrary(libHandle);
-         exit(0);
+         return 1;
 
     } else if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: created main window" << endl;
@@ -1167,12 +1167,12 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
     } catch (std::string message) {
 	cerr << "ERROR: Remote VST startup failed: " << message << endl;
        FreeLibrary(libHandle);
-       exit(0);
+       return 1;
 
     } catch (RemotePluginClosedException) {
 	cerr << "ERROR: Remote VST plugin communication failure in startup" << endl;
 	FreeLibrary(libHandle);
-        exit(0);
+        return 1;
     }
 
    DWORD threadIdp = 0;
@@ -1181,7 +1181,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	cerr << "Failed to create param thread!" << endl;
 	delete remoteVSTServerInstance;
 	FreeLibrary(libHandle);
-	exit(0);
+	return 1;
     } else if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: created para mthread" << endl;
     }   
@@ -1192,7 +1192,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	cerr << "Failed to create audio thread!" << endl;
 	delete remoteVSTServerInstance;
 	FreeLibrary(libHandle);
-	exit(0);
+	return 1;
     } else if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: created audio thread" << endl;
     }   
