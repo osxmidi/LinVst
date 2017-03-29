@@ -975,16 +975,8 @@ MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg) {
     case WM_CLOSE:
-         remoteVSTServerInstance->hideGUI();
-         return TRUE;
-       
-
-    case WM_DESTROY:
-        PostQuitMessage(0);
-	guiVisible = false;
-        exiting = true;
-	return 0;
-
+    ShowWindow(g_host.hwnd, SW_HIDE);
+    return TRUE;
     }
 
     return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -1216,15 +1208,12 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 
 	    /* this bit based on fst by Torben Hohn, patch worked out
 	     * by Robert Jonsson - thanks! */
-
-
+		
 	    if (msg.message == WM_TIMER) {
+		if(guiVisible == true)
 		plugin->dispatcher (plugin, effEditIdle, 0, 0, NULL, 0);
 	    }
-
-
 	}
-
 
 	if (exiting) break;
 
