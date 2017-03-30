@@ -71,6 +71,8 @@ bool inProcessThread = false;
 int bufferSize = 0;
 int sampleRate = 0;
 bool guiVisible = false;
+int parfin = 0;
+int audfin = 0;
 
 RemotePluginDebugLevel debugLevel = RemotePluginDebugNone;
 
@@ -922,8 +924,11 @@ ParThreadMain(LPVOID parameter)
 
     while (!exiting) {
 	try {
-	    // This can call sendMIDIData, setCurrentProgram, process
-	    remoteVSTServerInstance->dispatchPar(10);
+	    if (guiVisible) {
+		remoteVSTServerInstance->dispatchPar(10);
+	    } else {
+		remoteVSTServerInstance->dispatchPar(500);
+	    }
 	} catch (std::string message) {
 	    cerr << "ERROR: Remote VST server instance failed: " << message << endl;
 	    exiting = true;
@@ -936,6 +941,8 @@ ParThreadMain(LPVOID parameter)
     param.sched_priority = 0;
     (void)sched_setscheduler(0, SCHED_OTHER, &param);
 
+    parfin = 1;
+	
      return 0;
 }
 
@@ -966,6 +973,8 @@ AudioThreadMain(LPVOID parameter)
 
     param.sched_priority = 0;
     (void)sched_setscheduler(0, SCHED_OTHER, &param);
+	
+    audfin = 1;	
 	
     return 0;
 }
@@ -1235,7 +1244,13 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
     remoteVSTServerInstance->vsteventsfree(VSTSIZE);   
 
     // wait for audio thread to catch up
-    sleep(1);
+   for(int i=0;i<1000;i++)
+   {
+   usleep(10000);
+   if(parfin && audfin)
+   break;
+   }
+
 
     if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: cleaning up" << endl;
