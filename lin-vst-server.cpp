@@ -833,7 +833,7 @@ hostCallback(AEffect *plugin, long opcode, long index,
 	    !strcmp((char*)ptr, "sendVstMidiEvent") ||
 	   // !strcmp((char*)ptr, "sendVstTimeInfo") ||
 	    !strcmp((char*)ptr, "sizeWindow") /* ||
-	 //   !strcmp((char*)ptr, "supplyIdle") */) {
+	    !strcmp((char*)ptr, "supplyIdle") */) {
 	    rv = 1;
 	}
 	break;
