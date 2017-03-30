@@ -438,7 +438,7 @@ RemotePluginServer::dispatchPar(int timeout)
     }
     if (n == 1) {
 	//	printf("got a control select\n");
-	dispatchControlEvents();
+	dispatchParEvents();
     }
 #endif
 */
