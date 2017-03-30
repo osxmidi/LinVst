@@ -248,6 +248,8 @@ void RemoteVSTServer::effDoVoid(int opcode)
 if(opcode == effClose)
 {
 
+usleep(500000);	
+	
  terminate();
 
 }
