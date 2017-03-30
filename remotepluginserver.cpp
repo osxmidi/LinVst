@@ -431,9 +431,9 @@ RemotePluginServer::dispatchPar(int timeout)
     fd_set rfds, ofds;
     timeval timeo = {0,timeout * 1000};
     FD_ZERO(&rfds);
-    FD_SET(m_controlRequestFd, &rfds);
+    FD_SET(m_parRequestFd, &rfds);
     FD_ZERO(&ofds);
-    if ((n = select(m_controlRequestFd+1, &rfds, &ofds, &ofds, &timeo)) == -1) {
+    if ((n = select(m_parRequestFd+1, &rfds, &ofds, &ofds, &timeo)) == -1) {
 	throw RemotePluginClosedException();
     }
     if (n == 1) {
@@ -448,8 +448,40 @@ RemotePluginServer::dispatchPar(int timeout)
 void
 RemotePluginServer::dispatchProcess(int timeout)
 {
-	// just block in dispatchProcessEvents
+ //#if 0
+    struct pollfd pfd;
+  //  printf("in dispatchcontrol event\n");    
+    pfd.fd = m_processFd;
+    pfd.events = POLLIN | POLLPRI | POLLERR | POLLHUP | POLLNVAL;
+
+    if (poll(&pfd, 1, timeout) < 0) {
+	throw RemotePluginClosedException();
+    }
+  //  printf("dispatchin control event\n");    
+    if ((pfd.revents & POLLIN) || (pfd.revents & POLLPRI)) {
 	dispatchProcessEvents();
+    } else if (pfd.revents) {
+	throw RemotePluginClosedException();
+    }
+/*
+#else
+    int n;
+    fd_set rfds, ofds;
+    timeval timeo = {0,timeout * 1000};
+    FD_ZERO(&rfds);
+    FD_SET(m_processFd, &rfds);
+    FD_ZERO(&ofds);
+    if ((n = select(m_processRequestFd+1, &rfds, &ofds, &ofds, &timeo)) == -1) {
+	throw RemotePluginClosedException();
+    }
+    if (n == 1) {
+	//	printf("got a control select\n");
+	dispatchProcessEvents();
+    }
+#endif
+*/	
+	// just block in dispatchProcessEvents
+	// dispatchProcessEvents();
 }
 
 void
