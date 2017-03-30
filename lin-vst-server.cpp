@@ -988,7 +988,7 @@ MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg) {
     case WM_CLOSE:
-	 if (!exiting) 	    
+	 if (!exiting && guiVisible) 	    
          remoteVSTServerInstance->hideGUI();
          return TRUE;
     }
