@@ -134,6 +134,7 @@ struct ERect retRect = {0, 0, 10, 10};
 			break;
                 case effClose:
                 plugin->effVoidOp(effClose);
+		usleep(500000);
                 delete plugin;
                  break;
 
