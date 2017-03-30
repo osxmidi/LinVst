@@ -938,10 +938,12 @@ ParThreadMain(LPVOID parameter)
 	}
     }
 
-    param.sched_priority = 0;
-    (void)sched_setscheduler(0, SCHED_OTHER, &param);
+  //  param.sched_priority = 0;
+  // (void)sched_setscheduler(0, SCHED_OTHER, &param);
 
     parfin = 1;
+	
+    ExitThread(0);		
 	
      return 0;
 }
@@ -971,10 +973,12 @@ AudioThreadMain(LPVOID parameter)
 	}
     }
 
-    param.sched_priority = 0;
-    (void)sched_setscheduler(0, SCHED_OTHER, &param);
+ //   param.sched_priority = 0;
+ //   (void)sched_setscheduler(0, SCHED_OTHER, &param);
 	
     audfin = 1;	
+	
+   ExitThread(0);		
 	
     return 0;
 }
@@ -1244,13 +1248,17 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
     remoteVSTServerInstance->vsteventsfree(VSTSIZE);   
 
     // wait for audio thread to catch up
+	
+sleep(1);	
+	
+/*		
    for(int i=0;i<1000;i++)
    {
    usleep(10000);
    if(parfin && audfin)
    break;
    }
-
+*/
 
     if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: cleaning up" << endl;
@@ -1258,7 +1266,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 
     if(parThreadHandle)
     {
-	TerminateThread(parThreadHandle, 0);  
+//	TerminateThread(parThreadHandle, 0);  
 	CloseHandle(parThreadHandle);
     }	    
     if (debugLevel > 0) {
@@ -1267,7 +1275,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 
     if(audioThreadHandle)
     {
-        TerminateThread(audioThreadHandle, 0);
+  //      TerminateThread(audioThreadHandle, 0);
 	CloseHandle(audioThreadHandle);
 	    
     }
