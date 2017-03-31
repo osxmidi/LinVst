@@ -234,15 +234,14 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 	RemotePluginClient *plugin;
 	try {
 		plugin = new RemoteVSTClient(audioMaster);
-
-              usleep(500000);
-
-	    initEffect(plugin->theEffect, plugin);
-
+		
 	} catch (std::string e) {
 		return 0;
 	}
 
+              usleep(200000);
+
+	    initEffect(plugin->theEffect, plugin);
 
 	return plugin->theEffect;
 }
