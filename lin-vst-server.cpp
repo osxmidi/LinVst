@@ -1032,7 +1032,7 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
     if (!libname || !libname[0] || !fileInfo || !fileInfo[0]) {
 	cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
 	cerr << "(Command line was: " << cmdline << ")" << endl;
-	exit(2);
+        return 1;
     }
 
     // LADSPA labels can't contain spaces so dssi-vst replaces spaces
