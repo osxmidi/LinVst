@@ -6,7 +6,7 @@
 #ifndef REMOTE_PLUGIN_H
 #define REMOTE_PLUGIN_H
 
-#define FIXED_SHM_SIZE  (4 * 65536 * sizeof(float))
+#define FIXED_SHM_SIZE  (8 * 65536 * sizeof(float))
 
 const float RemotePluginVersion = 0.986;
 
