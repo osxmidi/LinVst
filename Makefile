@@ -16,7 +16,7 @@ BUILD_FLAGS_WIN = -m64 -O2 -I/usr/include/wine-development/windows
 
 LINK_FLAGS   = $(LDFLAGS)
 
-LINK_PLUGIN = -shared -lpthread -ldl -lX11 $(LINK_FLAGS)
+LINK_PLUGIN = -shared -lpthread -ldl $(LINK_FLAGS)
 LINK_WINE   = -lpthread  $(LINK_FLAGS)
 
 TARGETS     = linvst.so lin-vst-server.exe
