@@ -20,7 +20,7 @@ sudo make install
 
 Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /usr/lib/vst
 
-Use Makefile-embed for host embedded window (experimental)
+Use Makefile-embed for host embedded window option (experimental)
 
 -------
 
