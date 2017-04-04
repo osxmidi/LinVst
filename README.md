@@ -20,6 +20,8 @@ sudo make install
 
 Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /usr/lib/vst
 
+Use Makefile-embed for host embedded window option (experimental)
+
 -------
 
 linvst.so needs to be renamed to the windows vst name (without the .dll extension) and the windows vst and the renamed linvst.so need to be in the same folder/directory.
