@@ -67,11 +67,14 @@ Tested with Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Re
 
 Tested with Wine 2.1 devel
 
+Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
+
 Tested windows vst's
 
-Kontakt Player 5.6 (turn multiprocessing off)
+Kontakt Player 5.6 (turn multiprocessing off). Requires Wine 2.1 and above
 
-(additional dll's might be needed msvcp140.dll
+(additional dll's might be needed 
+msvcp140.dll
 concrt140.dll
 api-ms-win-crt-time-l1-1-0.dll
 api-ms-win-crt-runtime-l1-1-0.dll
