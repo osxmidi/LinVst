@@ -2,7 +2,7 @@
 
 -----
 
-LinVst is a Linux vst plugin that runs Windows vst's.
+LinVst is a Linux vst plugin that runs Windows 64 bit vst's.
 
 -------
 
