@@ -45,7 +45,11 @@ To make
 
 The plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder. https://www.steinberg.net/en/company/developers.html
 
-Wine libwine development files, sudo apt-get install libwine-development-dev
+Wine libwine development files.
+
+For Ubuntu/Debian, sudo apt-get install libwine-development-dev
+
+wine-devel packages for other distros.
 
 --------
 
