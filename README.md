@@ -73,6 +73,9 @@ Tested with Wine 2.1 devel
 
 Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
 
+On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
+The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
+
 Tested windows vst's
 
 Kontakt Player 5.6 (turn multiprocessing off). Requires Wine 2.1 and above
