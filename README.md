@@ -51,6 +51,8 @@ For Ubuntu/Debian, sudo apt-get install libwine-development-dev
 
 wine-devel packages for other distros.
 
+libX11 development needed for embedded version.
+
 --------
 
 sudo make clean
