@@ -11,12 +11,12 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DAMT -DEMBED $(CXX_FLAGS)
-BUILD_FLAGS_WIN = -m64 -O2 -DAMT -DEMBED -I/usr/include/wine-development/windows
+BUILD_FLAGS  = -fPIC -O2 -DAMT $(CXX_FLAGS)
+BUILD_FLAGS_WIN = -m64 -O2 -DAMT -I/usr/include/wine-development/windows
 
 LINK_FLAGS   = $(LDFLAGS)
 
-LINK_PLUGIN = -shared -lpthread -ldl -lX11 $(LINK_FLAGS)
+LINK_PLUGIN = -shared -lpthread -ldl $(LINK_FLAGS)
 LINK_WINE   = -lpthread  $(LINK_FLAGS)
 
 TARGETS     = linvst.so lin-vst-server.exe
