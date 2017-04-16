@@ -589,6 +589,11 @@ connected = false;
     }
 
 #endif
+	
+   if(!m_shm)
+    sizeShm();
+
+   theEffect = new AEffect;
 
     bool b = false;
     tryRead(m_controlResponseFd, &b, sizeof(bool));
@@ -596,12 +601,7 @@ connected = false;
 		cleanup();
 		throw((std::string)"Remote plugin did not start correctly");
     }
-	
-    theEffect = new AEffect;
-	
-    if(!m_shm)
-    sizeShm();
-    
+	    
 }
 
 void
