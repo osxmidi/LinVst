@@ -199,9 +199,6 @@ sprintf(tmpFileBase, "/tmp/rplugin_sho_%s", fileIdentifiers.substr(60, 6).c_str(
      b = true;
      tryWrite(m_controlResponseFd, &b, sizeof(bool));
 
-if(!m_shm)
-sizeShm();
-
 }
 
 
