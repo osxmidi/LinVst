@@ -203,14 +203,16 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers,
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
 
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&mutex);    
+	    
+    if(!m_shm)
+    sizeShm();
 }
 
 RemoteVSTServer::~RemoteVSTServer()
 {
 
     pthread_mutex_lock(&mutex);
-
 
     if (guiVisible) {
         #ifndef EMBED
@@ -226,9 +228,7 @@ RemoteVSTServer::~RemoteVSTServer()
    
 
     pthread_mutex_unlock(&mutex);
-	
-    if(!m_shm)
-    sizeShm();
+
 }
 
 void
