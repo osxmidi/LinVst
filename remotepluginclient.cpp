@@ -731,7 +731,6 @@ RemotePluginClient::cleanup()
 #ifdef AMT
   if(m_AMThread)
  pthread_join(m_AMThread, NULL);
-
 #endif
 
 }
@@ -1045,14 +1044,16 @@ RemotePluginClient::process(float **inputs, float **outputs, int sampleFrames)
 	// std::cerr << "ERROR: RemotePluginClient::process: no shared memory region available" << std::endl;
 	return;
     }
-
+	
+    #ifdef AMT
     if(m_updateio)
     {
      getInputCount();
      getOutputCount();
      m_updateio = 0;
-    }
-
+     }
+     #endif
+	
     pthread_mutex_lock(&mutex2);
 
     size_t blocksz = m_bufferSize * sizeof(float);
