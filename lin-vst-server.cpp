@@ -226,7 +226,9 @@ RemoteVSTServer::~RemoteVSTServer()
    
 
     pthread_mutex_unlock(&mutex);
-
+	
+    if(!m_shm)
+    sizeShm();
 }
 
 void
