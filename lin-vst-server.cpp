@@ -1438,18 +1438,18 @@ plugin->flags &= ~effFlagsCanDoubleReplacing;
 
  }
 
+    try {
 	remoteVSTServerInstance =
 	    new RemoteVSTServer(fileInfo, plugin, libname);
- 
-
-      if(!remoteVSTServerInstance)
-      {
-
-	cerr << "ERROR: Remote VST startup failed: " << endl;
-       FreeLibrary(libHandle);
-       return 1;
-
-       }
+    } catch (std::string message) {
+	cerr << "ERROR: Remote VST startup failed: " << message << endl;
+        FreeLibrary(libHandle);
+	return 1;
+    } catch (RemotePluginClosedException) {
+	cerr << "ERROR: Remote VST plugin communication failure in startup" << endl;
+        FreeLibrary(libHandle);
+	return 1;
+    }
 
    DWORD threadIdp = 0;
     parThreadHandle = CreateThread(0, 0, ParThreadMain, 0, 0, &threadIdp);
