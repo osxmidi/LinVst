@@ -282,10 +282,9 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_pipesize(0),
     m_pipesize1(0),
     m_pipesize2(0),
-    m_runok(0)   
-{
-
-theEffect = new AEffect;
+    m_runok(0),
+    theEffect(0) 
+    {
 
     char tmpFileBase[60];
     sprintf(tmpFileBase, "/tmp/rplugin_crq_XXXXXX");
@@ -444,10 +443,6 @@ theEffect = new AEffect;
 		cleanup();
 		throw((std::string)"Failed to open or create shared memory file");
     }
-  
-if(!m_shm)
-sizeShm();
-
 }
 
 RemotePluginClient::~RemotePluginClient()
@@ -457,10 +452,10 @@ RemotePluginClient::~RemotePluginClient()
 m_threadbreak = 1;
 m_threadbreakexit = 1;
 #endif
-
-delete theEffect;
-
-    cleanup();
+ 
+   if(theEffect);
+   delete theEffect;
+   cleanup();
 }
 
 void
@@ -601,6 +596,11 @@ connected = false;
 		cleanup();
 		throw((std::string)"Remote plugin did not start correctly");
     }
+	
+    theEffect = new AEffect;
+	
+    if(!m_shm)
+    sizeShm();
     
 }
 
