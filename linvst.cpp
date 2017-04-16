@@ -23,6 +23,7 @@ linvst Mark White 2017
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <iostream>
 
 #include "remotevstclient.h"
 
@@ -305,7 +306,14 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 
 	RemotePluginClient *plugin;
 
+        try {
 	plugin = new RemoteVSTClient(audioMaster);  
+	} catch (std::string e) {
+
+        std::cerr << "Could not connect to Server" << std::endl;
+                 delete plugin;
+		return 0;
+	}
 
          if(plugin->m_runok == 1)
          {
