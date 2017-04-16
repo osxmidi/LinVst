@@ -124,7 +124,6 @@ protected:
 #endif
 
     char *m_shmFileName;
-    char *m_shm;
     size_t m_shmSize;
         
     char *m_shmFileName2;
@@ -138,12 +137,11 @@ protected:
 
     RemotePluginDebugLevel m_debugLevel;
 
-    void sizeShm();
-
 public:
+   void sizeShm();
+   char *m_shm;
    char *m_shm2;
-   char *m_shm3;   
-   
+   char *m_shm3;      
    void dispatchParEvents();
    
 #ifdef AMT
