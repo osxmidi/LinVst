@@ -132,10 +132,7 @@ vstevents(VSTSIZE);
 #endif
 */
 
-
-
-
-       opcode = -1;
+     opcode = -1;
 
      tryRead(m_AMResponseFd, &opcode, sizeof(int));
 
@@ -443,11 +440,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 		cleanup();
 		throw((std::string)"Failed to open or create shared memory file");
     }
-	    
-    if(!m_shm)
-    sizeShm();
-
-   theEffect = new AEffect;
 }
 
 RemotePluginClient::~RemotePluginClient()
@@ -492,7 +484,11 @@ RemotePluginClient::syncStartup()
 		cleanup();
 		throw((std::string)"Plugin server timed out on startup");
 	}
+	
+    if(!m_shm)
+    sizeShm();
 
+   theEffect = new AEffect;
 
    if ((m_controlResponseFd = open(m_controlResponseFileName, O_RDONLY)) < 0) {
 		cleanup();
