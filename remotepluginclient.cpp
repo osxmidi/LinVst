@@ -443,6 +443,11 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 		cleanup();
 		throw((std::string)"Failed to open or create shared memory file");
     }
+	    
+    if(!m_shm)
+    sizeShm();
+
+   theEffect = new AEffect;
 }
 
 RemotePluginClient::~RemotePluginClient()
@@ -590,11 +595,6 @@ connected = false;
 
 #endif
 	
-   if(!m_shm)
-    sizeShm();
-
-   theEffect = new AEffect;
-
     bool b = false;
     tryRead(m_controlResponseFd, &b, sizeof(bool));
 	if (!b) {
