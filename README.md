@@ -2,7 +2,7 @@
 
 -----
 
-LinVst is a Linux vst plugin that runs Windows 64 bit vst's.
+LinVst is a Linux vst plugin that runs Windows 64 bit and 32 bit vst's.
 
 -------
 
@@ -52,6 +52,23 @@ For Ubuntu/Debian, sudo apt-get install libwine-development-dev
 wine-devel packages for other distros.
 
 libX11 development needed for embedded version.
+
+--
+
+For LinVst32
+
+MakefileVst32 or Makefile-embedVst32
+
+Additional 32 bit development libraries are probably needed.
+
+On Ubuntu 64 bits
+
+sudo apt-get install libc6-dev-i386
+sudo apt-get install gcc-multilib g++-multilib
+sudo apt-get install wine-devel:i386
+
+export WINEPREFIX=/home/user/prefix32
+export WINEARCH=win32
 
 --------
 
