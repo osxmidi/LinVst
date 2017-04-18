@@ -64,10 +64,13 @@ Additional 32 bit development libraries are probably needed.
 On Ubuntu 64 bits
 
 sudo apt-get install libc6-dev-i386
+
 sudo apt-get install gcc-multilib g++-multilib
+
 sudo apt-get install wine-devel:i386
 
 export WINEPREFIX=/home/user/prefix32
+
 export WINEARCH=win32
 
 --------
