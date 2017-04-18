@@ -112,10 +112,20 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
                                         return;
 				} else if (child == 0) { 
      
+#ifdef VST32
+  
+       if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL)) {
+                                        m_runok = 1;
+                                         return;
+					}  
+#else
+
        if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL)) {
                                         m_runok = 1;
                                          return;
-					}          
+					}  
+
+#endif        
                                          }
                                          
 	                                syncStartup();
