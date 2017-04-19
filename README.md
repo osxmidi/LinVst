@@ -67,7 +67,7 @@ sudo apt-get install libc6-dev-i386
 
 sudo apt-get install gcc-multilib g++-multilib
 
-sudo apt-get install wine-devel:i386
+sudo apt-get install wine-devel-dev:i386
 
 export WINEPREFIX=/home/user/prefix32
 
