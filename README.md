@@ -53,7 +53,7 @@ wine-devel packages for other distros.
 
 libX11 development needed for embedded version.
  
---
+--------
 
 For LinVst32
 
