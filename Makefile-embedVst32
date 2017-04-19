@@ -17,7 +17,7 @@ BUILD_FLAGS_WIN = -m32 -O2 -DAMT -DEMBED -I/usr/include/wine-development/windows
 LINK_FLAGS   = $(LDFLAGS)
 
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 $(LINK_FLAGS)
-LINK_WINE   = -m32 -lpthread  $(LINK_FLAGS)
+LINK_WINE   = -m32 -L/usr/lib/i386-linux-gnu/wine-development -lpthread  $(LINK_FLAGS)
 
 TARGETS     = linvst.so lin-vst-server32.exe
 
