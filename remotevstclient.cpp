@@ -61,6 +61,16 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
    std::string dllName;
 
    bool test;
+	    
+   #ifdef VST6432
+
+   int dlltype;
+   
+   unsigned int offset;
+
+   char buffer[256];
+
+   #endif
 
     if(!dladdr((const char*)selfname, &info))
      {
@@ -102,6 +112,68 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
     }
 
     }
+	    
+  #ifdef VST6432
+
+  std::ifstream mfile(dllName.c_str(), std::ifstream::binary);
+
+  if(!mfile)
+  {
+  m_runok = 1;
+  return;
+  }
+
+  mfile.read(&buffer[0], 2);
+
+  short *ptr;
+
+  ptr = (short *)&buffer[0];
+  
+  if (*ptr != 0x5a4d)
+   {
+   mfile.close();
+   m_runok = 1;
+   return;
+   }
+ 
+  mfile.seekg (60, mfile.beg);
+  
+  mfile.read (&buffer[0], 4);
+
+  int *ptr2;
+
+  ptr2 = (int *)&buffer[0];
+
+  offset = *ptr2;
+  
+  offset += 4;
+  
+  mfile.seekg (offset, mfile.beg);
+
+  mfile.read (&buffer[0], 2);
+
+  unsigned short *ptr3;
+
+  ptr3 = (unsigned short *)&buffer[0];
+  
+  if (*ptr3 == 0x8664)
+  dlltype = 1;
+  else if (*ptr3 == 0x014c)
+  dlltype = 2;
+  else if (*ptr3 == 0x0200)
+  dlltype = 3;
+
+  if(dlltype == 0)
+  {
+  mfile.close();
+  m_runok = 1;
+  return;
+  }
+ 
+  mfile.close();
+
+ #endif
+
 
     std::string arg = dllName + "," + getFileIdentifiers();
 
@@ -111,7 +183,29 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
                                         m_runok = 1;
                                         return;
 				} else if (child == 0) { 
+					
+#ifdef VST6432
+
+      if(dlltype == 2)
+      {
      
+       if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL)) {
+                                        m_runok = 1;
+                                         return;
+					}   
+
+      }
+      else
+      {
+
+       if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL)) {
+                                        m_runok = 1;
+                                         return;
+					}   
+      }
+
+#else
+					
 #ifdef VST32
   
        if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL)) {
@@ -125,7 +219,9 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
                                          return;
 					}  
 
-#endif        
+#endif
+					
+#endif
                                          }
                                          
 	                                syncStartup();
