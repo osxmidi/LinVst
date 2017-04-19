@@ -52,7 +52,7 @@ For Ubuntu/Debian, sudo apt-get install libwine-development-dev
 wine-devel packages for other distros.
 
 libX11 development needed for embedded version.
-
+ 
 --
 
 For LinVst32
@@ -72,6 +72,10 @@ sudo apt-get install libwine-development-dev:i386
 export WINEPREFIX=/home/user/prefix32
 
 export WINEARCH=win32
+
+--------
+
+Makefile-Wine-64-32 builds a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
 
 --------
 
