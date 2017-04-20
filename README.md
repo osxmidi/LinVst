@@ -55,6 +55,11 @@ libX11 development needed for embedded version.
  
 --------
 
+A 32 bit WINEPREFIX is needed to enable 32 bit vst's on Linux 64 bit systems https://wiki.winehq.org/FAQ#How_do_I_create_a_32_bit_wineprefix_on_a_64_bit_system.3F
+
+Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development setup locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
+
+
 For LinVst32
 
 MakefileVst32 or Makefile-embedVst32
@@ -86,6 +91,8 @@ make
 sudo make install
 
 Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder
+
+(also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support)
 
 Use Makefile-embed for host embedded window option (experimental)
 
