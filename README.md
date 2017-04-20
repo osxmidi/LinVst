@@ -66,7 +66,7 @@ MakefileVst32 or Makefile-embedVst32
 
 Additional 32 bit development libraries are probably needed.
 
-On Ubuntu 64 bits
+On Ubuntu/Debian 64 bits
 
 maybe 
 
