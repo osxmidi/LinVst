@@ -57,7 +57,7 @@ libX11 development needed for embedded version.
 
 A 32 bit WINEPREFIX is needed to enable 32 bit vst's on Linux 64 bit systems https://wiki.winehq.org/FAQ#How_do_I_create_a_32_bit_wineprefix_on_a_64_bit_system.3F
 
-Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development setup locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
+Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
 
 
 For LinVst32
