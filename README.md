@@ -68,6 +68,10 @@ Additional 32 bit development libraries are probably needed.
 
 On Ubuntu 64 bits
 
+maybe 
+
+sudo dpkg --add-architecture i386
+
 sudo apt-get install libc6-dev-i386
 
 sudo apt-get install gcc-multilib g++-multilib
