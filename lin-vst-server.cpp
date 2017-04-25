@@ -1182,7 +1182,7 @@ int delay;
     }
 
     return rv;
-};
+}
 
 DWORD WINAPI
 ParThreadMain(LPVOID parameter)
