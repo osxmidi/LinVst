@@ -781,17 +781,7 @@ size_t sz3 = 128000;
 size_t sz3 = 512;
 
 #endif
-
-  //  if (m_numInputs < 0 || m_numOutputs < 0 || m_bufferSize < 0) 
-  //  return;
-
-    size_t checksz = (m_numInputs + m_numOutputs) * m_bufferSize * sizeof(float);
-
-	if (checksz > FIXED_SHM_SIZE) {
-		cleanup();
-		throw((std::string)"exceeded fixed shm size");
-	}
-			
+	
     ftruncate(m_shmFd, sz);
 
     m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED, m_shmFd, 0);
