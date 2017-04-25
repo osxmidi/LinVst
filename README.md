@@ -27,6 +27,12 @@ Use the renamed file (test.so) in a Linux VST capable DAW
 
 Load test.so within the Linux DAW and then test.so will load and run the (name associated) test.dll windows vst 
 
+linvstconvert can automatically batch rename linvst.so to mutiple windows vst dll names that are in a folder/directory.
+
+Copy linvstconvert and linvst.so to the folder/direcory containing the windows vst dll's and run linvstconvert in that folder/directory (sudo permission might be needed for some folders/directories).
+
+After the conversion, the files (.so files) are ready to be used in Linux vst DAW's.
+
 --------
 
 linvst.so needs to be renamed to the windows vst name (the .so and .dll extensions are left as they are and are not part of the renaming).
