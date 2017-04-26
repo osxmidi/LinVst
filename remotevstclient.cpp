@@ -85,25 +85,27 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
      }
   
     dllName = info.dli_fname;
-
-    if(dllName.find(".dll") != std::string::npos)
     dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".dll");
-    else if (dllName.find(".Dll") != std::string::npos)
-    dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".Dll");
-    else if (dllName.find(".DLL") != std::string::npos)
-    dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".DLL");
-    else{
-    m_runok = 1;
-    return;
-    }
-	    
     test = std::ifstream(dllName.c_str()).good();
 
+    if(!test)
+    {
+    dllName = info.dli_fname;
+    dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".Dll");  
+    test = std::ifstream(dllName.c_str()).good();
+
+    if(!test)
+    {
+    dllName = info.dli_fname;
+    dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".DLL");
+    test = std::ifstream(dllName.c_str()).good();
+    }
     if(!test)
     {
     m_runok = 1;
     return;
     }
+   }
 	    
   #ifdef VST6432
 
