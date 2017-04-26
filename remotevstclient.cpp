@@ -149,6 +149,8 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
   unsigned short *ptr3;
 
   ptr3 = (unsigned short *)&buffer[0];
+	    
+  dlltype = 0;
   
   if (*ptr3 == 0x8664)
   dlltype = 1;
