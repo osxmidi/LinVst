@@ -116,10 +116,18 @@ Tested with Wine 2.1 devel
 
 Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
 
+Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines implementation.
+
+Winetricks wininet might help.
+
+Additional dll's might have to be added to Wine for some plugins.
+
 On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
 The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
 
 Upgrading to the latest wine-stable version is recommended.
+
+Winetricks might help with some plugins.
 
 Tested windows vst's
 
