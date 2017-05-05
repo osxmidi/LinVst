@@ -252,27 +252,23 @@ int finish;
 
 if(opcode == effClose)
 {
-
 #ifdef AMT
 finish = 9999;
-
+	
 if(m_shm3)
 writeInt(m_AMResponseFd, finish); 
 #endif
+
+writeInt(m_controlResponseFd, 1);
 	
 usleep(500000);
 
- terminate();
-
+terminate();
 }
 else{
-
  m_plugin->dispatcher(m_plugin, opcode, 0, 0, NULL, 0);
-
 }
-
 }
-
 
 std::string
 RemoteVSTServer::getEffString(int opcode, int index)
