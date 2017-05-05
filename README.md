@@ -12,7 +12,7 @@ To use LinVst, the linvst.so file simply needs to be renamed to match the window
 
 (the .so and .dll extensions are left as they are and are not part of the renaming)
 
-Both the windows vst dll file and the renamed linvst.so file need to be in the same directory/folder
+Both the windows vst dll file and the renamed linvst.so file are then a matched pair and need to be kept together in the same directory/folder.
 
 For Example
 
