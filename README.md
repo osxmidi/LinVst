@@ -2,7 +2,7 @@
 
 -----
 
-LinVst is a Linux vst plugin that runs Windows 64 bit and 32 bit vst's.
+LinVst enables Windows vst's to be used as Linux vst's in Linux vst capable daws.
 
 -------
 
