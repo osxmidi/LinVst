@@ -750,24 +750,7 @@ hostCallback(AEffect *plugin, long opcode, long index,
 
     case audioMasterAutomate:
     {
-	/*!!! Automation:
-
-	When something changes here, we send it straight to the GUI
-	via our back channel.  The GUI sends it back to the host via
-	configure; that comes to us; and we somehow need to know to
-	ignore it.  Checking whether it's the same as the existing
-	param value won't cut it, as we might be changing that
-	continuously.  (Shall we record that we're expecting the
-	configure call because we just sent to the GUI?)
-
-	float v = plugin->getParameter(plugin, index);
-
-	if (debugLevel > 1)
-	    cerr << "dssi-vst-server[2]: audioMasterAutomate(" << index << "," << v << ")" << endl;
-
-	remoteVSTServerInstance->scheduleGUINotify(index, v);
-       */
-
+        plugin->setParameter(plugin, index, opt);
 	break;
     }
 
