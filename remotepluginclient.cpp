@@ -1160,17 +1160,21 @@ RemotePluginClient::openGUI()
 }
 
 #endif
-
 void
 RemotePluginClient::effVoidOp(int opcode)
 {
         if(opcode == effClose)
         {
         m_finishaudio = 1;
+        writeOpcode(m_controlRequestFd, RemotePluginDoVoid);
+        writeInt(m_controlRequestFd, opcode);
+        readInt(m_controlResponseFd);
         }
-
-    writeOpcode(m_controlRequestFd, RemotePluginDoVoid);
-    writeInt(m_controlRequestFd, opcode);
+        else
+        {
+        writeOpcode(m_controlRequestFd, RemotePluginDoVoid);
+        writeInt(m_controlRequestFd, opcode);
+        }
 }
 
 int RemotePluginClient::getChunk(void **ptr, int bank_prg)
