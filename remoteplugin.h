@@ -20,6 +20,7 @@ enum RemotePluginDebugLevel {
 enum RemotePluginOpcode {
 
     RemotePluginGetVersion = 0,
+    RemotePluginUniqueID,
     RemotePluginGetName,
     RemotePluginGetMaker,
 	RemotePluginGetFlags,
