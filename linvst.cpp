@@ -292,7 +292,7 @@ void initEffect(AEffect *eff, RemotePluginClient *plugin)
 	eff->initialDelay = plugin->getinitialDelay();
 	eff->object = (void *) plugin;
 	eff->user = 0;
-	eff->uniqueID = 0xabcd1234;
+	eff->uniqueID = plugin->getUID();
 	eff->version = 100;
 	eff->processReplacing = process;
 	eff->processDoubleReplacing = processDouble;
