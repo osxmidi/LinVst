@@ -43,6 +43,8 @@ public:
     std::string  getFileIdentifiers();
 
     float        getVersion();
+    int          getUID();
+
     std::string  getName();
     std::string  getMaker();
 
