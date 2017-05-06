@@ -721,6 +721,10 @@ RemotePluginServer::dispatchControlEvents()
 	writeFloat(m_controlResponseFd, getVersion());
 	break;
 
+    case RemotePluginUniqueID:
+	writeInt(m_controlResponseFd, getUID());
+	break;
+	    
     case RemotePluginGetName:
 	writeString(m_controlResponseFd, getName());
 	break;
