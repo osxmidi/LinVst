@@ -96,7 +96,7 @@ public:
     virtual int          getOutputCount() { return m_plugin->numOutputs; }
     virtual int          getFlags() { return m_plugin->flags; }
     virtual int          getinitialDelay() { return m_plugin->initialDelay; }
-
+    virtual int          getUID() { return m_plugin->uniqueID; }
     virtual int          getParameterCount() { return m_plugin->numParams; }
     virtual std::string  getParameterName(int);
     virtual void         setParameter(int, float);
