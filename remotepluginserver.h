@@ -48,6 +48,7 @@ public:
 //  virtual int		 getVersion() = 0;
 //  virtual void         eff_mainsChanged(int v) = 0;
 	
+    virtual int          getUID()                  { return 0; }	
     virtual int          getParameterCount()                  { return 0; }
     virtual std::string  getParameterName(int)                { return ""; }
     virtual void         setParameter(int, float)             { return; }
