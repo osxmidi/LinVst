@@ -834,6 +834,13 @@ RemotePluginClient::getVersion()
     return readFloat(m_controlResponseFd);
 }
 
+int
+RemotePluginClient::getUID()
+{
+    writeOpcode(m_controlRequestFd, RemotePluginUniqueID);
+    return readInt(m_controlResponseFd);
+}
+
 std::string
 RemotePluginClient::getName()
 {
