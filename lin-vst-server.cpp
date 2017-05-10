@@ -441,10 +441,10 @@ RemoteVSTServer::getProgramName(int p)
     }
 
      char name[128];
-     long prevProgram = m_plugin->dispatcher(m_plugin, effGetProgram, 0, 0, NULL, 0);
-     m_plugin->dispatcher(m_plugin, effSetProgram, 0, p, NULL, 0);
+ //    long prevProgram = m_plugin->dispatcher(m_plugin, effGetProgram, 0, 0, NULL, 0);
+ //    m_plugin->dispatcher(m_plugin, effSetProgram, 0, p, NULL, 0);
      m_plugin->dispatcher(m_plugin, effGetProgramName, p, 0, name, 0);
-     m_plugin->dispatcher(m_plugin, effSetProgram, 0, prevProgram, NULL, 0);
+ //    m_plugin->dispatcher(m_plugin, effSetProgram, 0, prevProgram, NULL, 0);
 
     return name;
 }
