@@ -158,3 +158,5 @@ Nick Crow Lab Amp Sims
 Voxengo Boogex Guitar Effects
 
 Klanghelm MJUC Compressor
+
+TDR SlickEQ mixing/mastering equalizer 
