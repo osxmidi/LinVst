@@ -141,16 +141,20 @@ api-ms-win-crt-time-l1-1-0.dll
 api-ms-win-crt-runtime-l1-1-0.dll
 ucrtbase.dll
 
-Melda MXXX (turn GPU acceleration off)
+Melda MXXX Multi Effects (turn GPU acceleration off)
 
-u-he Podolski
+u-he Podolski Synth
+
+u-he Protoverb Reverb
 
 Obxd Synth
 
-Ignite Amps TPA-1
+Ignite Amps TPA-1 Amp Sim
 
 LePou Amp Sims
 
 Nick Crow Lab Amp Sims
 
 Voxengo Boogex Guitar Effects
+
+Klanghelm MJUC Compressor
