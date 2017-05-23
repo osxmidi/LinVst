@@ -130,26 +130,27 @@ Upgrading to the latest wine-stable version is recommended.
 Winetricks might help with some plugins.
 
 Tested windows vst's
+--
+Kontakt Player 5.6.8 (turn multiprocessing off). Requires Wine 2.0 and above
 
-Kontakt Player 5.6 (turn multiprocessing off). Requires Wine 2.1 and above
+Additional dll's (below) might be needed for Kontakt. Copy dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
 
-(additional dll's might be needed 
 msvcp140.dll
 concrt140.dll
 api-ms-win-crt-time-l1-1-0.dll
 api-ms-win-crt-runtime-l1-1-0.dll
-ucrtbase.dll)
-
+ucrtbase.dll
+--
 Melda MXXX (turn GPU acceleration off)
-
+--
 u-he Podolski
-
+--
 Obxd Synth
-
+--
 Ignite Amps TPA-1
-
+--
 LePou Amp Sims
-
+--
 Nick Crow Lab Amp Sims
-
+--
 Voxengo Boogex Guitar Effects
