@@ -148,6 +148,9 @@ Obxd Synth
 
 Ignite Amps TPA-1
 
+LePou Amp Sims
+
+Nick Crow Lab Amp Sims
 
 
 
