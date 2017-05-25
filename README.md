@@ -31,6 +31,8 @@ linvstconvert can automatically batch rename linvst.so to mutiple windows vst dl
 
 Copy linvstconvert and linvst.so to the folder/directory containing the windows vst dll's and change into that folder/directory and run linvstconvert in that folder/directory (sudo permission might be needed for some folders/directories).
 
+Copying/moving plugins to a folder/directory with user permissions (if possible) is a good idea.
+
 After the naming conversion, the newly created files (.so files) are ready to be used in Linux vst DAW's from the folder that was used for the naming conversion.
 
 --------
@@ -117,8 +119,6 @@ The solution is to initialise Wine first by running winecfg or any other Wine ba
 Upgrading to the latest wine-stable version is recommended.
 
 Winetricks might help with some plugins.
-
-Copying/moving plugins to a folder/directory with user permissions (if possible) is a good idea.
 
 ------
 
