@@ -90,10 +90,6 @@ export WINEARCH=win32
 
 --------
 
-Makefile-Wine-64-32 builds a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
-
---------
-
 sudo make clean
 
 make
@@ -104,7 +100,9 @@ Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs l
 
 (also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support)
 
-Use Makefile-embed for host embedded window option (experimental)
+Makefile-embed6432 and Makefile-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
+
+Use Makefile-embed6432 for host embedded window option (experimental)
 
 ------
 
@@ -128,6 +126,8 @@ The solution is to initialise Wine first by running winecfg or any other Wine ba
 Upgrading to the latest wine-stable version is recommended.
 
 Winetricks might help with some plugins.
+
+------
 
 Tested windows vst's
 
