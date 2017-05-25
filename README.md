@@ -118,6 +118,8 @@ Upgrading to the latest wine-stable version is recommended.
 
 Winetricks might help with some plugins.
 
+Copying/moving plugins to a folder/directory with user permissions (if possible) is a good idea.
+
 ------
 
 Tested windows vst's
@@ -133,6 +135,8 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 Guitar Rig 5
 
 Reaktor 6
+
+TH3 Amp Sim
 
 Melda MXXX Multi Effects (turn GPU acceleration off)
 
