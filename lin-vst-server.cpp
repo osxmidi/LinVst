@@ -558,9 +558,14 @@ RemoteVSTServer::setCurrentProgram(int p)
 	cerr << "dssi-vst-server[2]: setCurrentProgram(" << p << ")" << endl;
     }
 
+    if((hostreaper == 1) && (setprogrammiss == 1))
+    {
+    writeInt(m_controlResponseFd, 1);
+    return;
+    }
+
     if(p < m_plugin->numPrograms)
     {
-    if((hostreaper == 0) && (setprogrammiss == 0))
     m_plugin->dispatcher(m_plugin, effSetProgram, 0, p, 0, 0);
     }
 
