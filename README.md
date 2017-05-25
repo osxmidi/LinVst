@@ -102,7 +102,7 @@ Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs l
 
 Makefile-embed6432 and Makefile-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
 
-Use Makefile-embed6432 for host embedded window option (experimental)
+Makefile-embed6432 is for the host embedded window option (experimental)
 
 ------
 
@@ -137,11 +137,7 @@ Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
 Kontakt and Wine 2.8 staging only need an additional msvcp140.dll override. 
 To override dll's, copy windows dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
 
-msvcp140.dll
-concrt140.dll
-api-ms-win-crt-time-l1-1-0.dll
-api-ms-win-crt-runtime-l1-1-0.dll
-ucrtbase.dll
+(Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
 
 Guitar Rig 5
 
