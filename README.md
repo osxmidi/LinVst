@@ -133,13 +133,19 @@ Tested windows vst's
 
 Kontakt Player 5.6.8 (turn multiprocessing off). Requires Wine 2.0 and above
 
-Additional dll's (below) might be needed for Kontakt. Copy dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
+Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
+Kontakt and Wine 2.8 staging only need an additional msvcp140.dll override. 
+To override dll's, copy windows dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
 
 msvcp140.dll
 concrt140.dll
 api-ms-win-crt-time-l1-1-0.dll
 api-ms-win-crt-runtime-l1-1-0.dll
 ucrtbase.dll
+
+Guitar Rig 5
+
+Reaktor 6
 
 Melda MXXX Multi Effects (turn GPU acceleration off)
 
