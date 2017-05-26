@@ -86,6 +86,8 @@ Check with the edit option that the dll's settings are native first and then bui
 
 https://www.winehq.org/docs/wineusr-guide/config-wine-main
 
+Sometimes required dll's might be missing and additional windows redistributable packages might need to be installed.
+
 ------
 
 Tested windows vst's
