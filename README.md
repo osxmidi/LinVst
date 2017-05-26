@@ -61,7 +61,7 @@ Some plugins might use wininet for internet connections (online registration, on
 
 Winetricks wininet might help.
 
-Additional dll's might have to be added to Wine for some plugins.
+Additional dll's (dll overrides) might have to be added to Wine for some plugins.
 
 On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
 The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
@@ -82,7 +82,7 @@ Overriding a dll involves copying the windows dll to .wine/drive_c/windows/syste
 
 Run winecfg and select the Libraries tab and then select the dll to override from the list.
 
-Checking with edit that the dll's settings are native first and then builtin.
+Check with the edit option that the dll's settings are native first and then builtin.
 
 https://www.winehq.org/docs/wineusr-guide/config-wine-main
 
