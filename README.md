@@ -72,7 +72,7 @@ Winetricks might help with some plugins.
 
 ------
 
-Wine dll config
+Wine Config
 
 Sometimes a windows vst needs a Wine dll override.
 
@@ -87,6 +87,8 @@ Check with the edit option that the dll's settings are native first and then bui
 https://www.winehq.org/docs/wineusr-guide/config-wine-main
 
 Sometimes required dll's might be missing and additional windows redistributable packages might need to be installed.
+
+Some windows vst's use D3D/DirectX and Wine uses Linux OpenGL to implement it, so a capable Linux OpenGL driver/setup might be required for some windows vst's.
 
 ------
 
