@@ -31,7 +31,7 @@ linvstconvert can automatically batch rename linvst.so to mutiple windows vst dl
 
 Copy linvstconvert and linvst.so to the folder/directory containing the windows vst dll's and change into that folder/directory and run linvstconvert in that folder/directory (sudo permission might be needed for some folders/directories).
 
-Copying/moving plugins (and in some cases their associated presets etc) to a folder/directory with user permissions (if possible) is a good idea.
+Copying/moving plugins (and in some cases their associated presets etc) to a folder/directory with user permissions (if possible) is generally a good idea unless the vst plugin requires a fixed path.
 
 After the naming conversion, the newly created files (.so files) are ready to be used in Linux vst DAW's from the folder that was used for the naming conversion.
 
