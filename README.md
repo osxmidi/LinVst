@@ -31,7 +31,7 @@ linvstconvert can automatically batch rename linvst.so to mutiple windows vst dl
 
 Copy linvstconvert and linvst.so to the folder/directory containing the windows vst dll's and change into that folder/directory and run linvstconvert in that folder/directory (sudo permission might be needed for some folders/directories).
 
-Copying/moving plugins to a folder/directory with user permissions (if possible) is a good idea.
+Copying/moving plugins (and in some cases their associated presets etc) to a folder/directory with user permissions (if possible) is a good idea.
 
 After the naming conversion, the newly created files (.so files) are ready to be used in Linux vst DAW's from the folder that was used for the naming conversion.
 
@@ -106,11 +106,11 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 Guitar Rig 5 (same dll overrides as Kontakt)
 
-Reaktor 6 (same dll overrides as Kontakt)
+Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
 
 TH3 Amp Sim
 
-Addictive Drums 2
+Addictive Drums 2 (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installed directory).
 
 Melda MXXX Multi Effects (turn GPU acceleration off)
 
