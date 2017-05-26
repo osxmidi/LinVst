@@ -110,6 +110,8 @@ Reaktor 6 (same dll overrides as Kontakt)
 
 TH3 Amp Sim
 
+Addictive Drums 2
+
 Melda MXXX Multi Effects (turn GPU acceleration off)
 
 u-he Podolski Synth
