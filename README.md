@@ -132,9 +132,9 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 (Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
 
-Guitar Rig 5
+Guitar Rig 5 (same dll overrides as Kontakt)
 
-Reaktor 6
+Reaktor 6 (same dll overrides as Kontakt)
 
 TH3 Amp Sim
 
