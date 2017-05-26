@@ -47,6 +47,83 @@ linvst.so can be copied and renamed multiple times to load multiple windows vst'
 
 Basically, linvst.so becomes the windows vst once it's renamed to the windows vst's name and can then be used in Linux vst hosts.
 
+------
+
+LinVst 
+
+Tested with Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.4
+
+Tested with Wine 2.1 devel
+
+Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
+
+Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines implementation.
+
+Winetricks wininet might help.
+
+Additional dll's might have to be added to Wine for some plugins.
+
+On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
+The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
+
+Upgrading to the latest wine-stable version is recommended.
+
+Winetricks might help with some plugins.
+
+------
+
+Wine dll config
+
+Sometimes a windows vst needs a Wine dll override.
+
+If the Wine debugger displays "unimplemented function in XXXX.dll" somewhere in it's output, then that dll usually needs to be overriden with a windows dll.
+
+Overriding a dll involves copying the windows dll to .wine/drive_c/windows/system and then running winecfg to tell wine to override the dll.
+
+Run winecfg and select the Libraries tab and then select the dll to override from the list.
+
+Checking with edit that the dll's settings are native first and then builtin.
+
+https://www.winehq.org/docs/wineusr-guide/config-wine-main
+
+------
+
+Tested windows vst's
+
+Kontakt Player 5.6.8 (turn multiprocessing off). Requires Wine 2.0 and above
+
+Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
+Kontakt and Wine 2.8 staging only need an additional msvcp140.dll override. 
+To override dll's, copy windows dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
+
+(Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
+
+Guitar Rig 5 (same dll overrides as Kontakt)
+
+Reaktor 6 (same dll overrides as Kontakt)
+
+TH3 Amp Sim
+
+Melda MXXX Multi Effects (turn GPU acceleration off)
+
+u-he Podolski Synth
+
+u-he Protoverb Reverb
+
+Obxd Synth
+
+Ignite Amps TPA-1 Amp Sim
+
+LePou Amp Sims
+
+Nick Crow Lab Amp Sims
+
+Voxengo Boogex Guitar Effects
+
+Klanghelm MJUC Compressor
+
+TDR SlickEQ mixing/mastering equalizer 
+
 --------
 
 To make
@@ -97,63 +174,3 @@ Makefile-embed6432 and Makefile-6432 build a LinVst version that autodetects and
 
 Makefile-embed6432 is for the host embedded window option (experimental)
 
-------
-
-LinVst 
-
-Tested with Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.4
-
-Tested with Wine 2.1 devel
-
-Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
-
-Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines implementation.
-
-Winetricks wininet might help.
-
-Additional dll's might have to be added to Wine for some plugins.
-
-On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
-The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
-
-Upgrading to the latest wine-stable version is recommended.
-
-Winetricks might help with some plugins.
-
-------
-
-Tested windows vst's
-
-Kontakt Player 5.6.8 (turn multiprocessing off). Requires Wine 2.0 and above
-
-Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
-Kontakt and Wine 2.8 staging only need an additional msvcp140.dll override. 
-To override dll's, copy windows dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
-
-(Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
-
-Guitar Rig 5 (same dll overrides as Kontakt)
-
-Reaktor 6 (same dll overrides as Kontakt)
-
-TH3 Amp Sim
-
-Melda MXXX Multi Effects (turn GPU acceleration off)
-
-u-he Podolski Synth
-
-u-he Protoverb Reverb
-
-Obxd Synth
-
-Ignite Amps TPA-1 Amp Sim
-
-LePou Amp Sims
-
-Nick Crow Lab Amp Sims
-
-Voxengo Boogex Guitar Effects
-
-Klanghelm MJUC Compressor
-
-TDR SlickEQ mixing/mastering equalizer 
