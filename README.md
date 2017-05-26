@@ -88,7 +88,9 @@ https://www.winehq.org/docs/wineusr-guide/config-wine-main
 
 Sometimes required dll's might be missing and additional windows redistributable packages might need to be installed.
 
-Some windows vst's use D3D/DirectX and Wine uses Linux OpenGL to implement them, so a capable Linux OpenGL driver/setup might be required for some windows vst's.
+Some windows vst's use D3D, and Wine uses Linux OpenGL to implement D3D, so a capable Linux OpenGL driver/setup might be required for some windows vst's.
+
+Some D3D dll overrides might be needed for some windows vst's.
 
 ------
 
