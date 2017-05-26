@@ -2,7 +2,7 @@
 
 -----
 
-LinVst enables Windows vst's to be used as Linux vst's in Linux vst capable daws.
+LinVst enables Windows vst's to be used as Linux vst's in Linux vst capable DAW's.
 
 -------
 
