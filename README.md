@@ -27,7 +27,7 @@ Use the renamed file (test.so) in a Linux VST capable DAW
 
 Load test.so within the Linux DAW and then test.so will load and run the (name associated) test.dll windows vst 
 
-linvstconvert can automatically batch rename linvst.so to mutiple windows vst dll names that are in a folder/directory.
+linvstgtk2 or linvstgtk2 or linvstconvert can automatically batch rename linvst.so to mutiple windows vst dll names that are in a folder/directory.
 
 Copy linvstconvert and linvst.so to the folder/directory containing the windows vst dll's and change into that folder/directory and run linvstconvert in that folder/directory (sudo permission might be needed for some folders/directories).
 
@@ -110,7 +110,11 @@ Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
 
 TH3 Amp Sim
 
+Amlitube 4
+
 Addictive Drums 2 (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
+
+EZDrummer2 (on slower video systems the browser window rather than the drumkit or mixer window might need to be selected for playback as the drumkit/mixer visuals may interfere with the playback).
 
 Melda MXXX Multi Effects (turn GPU acceleration off)
 
