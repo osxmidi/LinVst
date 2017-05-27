@@ -122,6 +122,10 @@ T-RackS
 
 Nebula4
 
+VUMT
+
+Stillwell plugins
+
 u-he Podolski Synth
 
 u-he Protoverb Reverb
