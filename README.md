@@ -118,6 +118,10 @@ EZDrummer2 (on slower video systems the browser window rather than the drumkit o
 
 Melda MXXX Multi Effects (turn GPU acceleration off)
 
+T-RackS
+
+Nebula4
+
 u-he Podolski Synth
 
 u-he Protoverb Reverb
