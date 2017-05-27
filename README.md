@@ -110,11 +110,11 @@ Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
 
 TH3 Amp Sim
 
-Amlitube 4
+Amplitube 4
 
 Addictive Drums 2 (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
 
-EZDrummer2 (on slower video systems the browser window rather than the drumkit or mixer window might need to be selected for playback as the drumkit/mixer visuals may interfere with the playback).
+EZDrummer2 (on slower video systems the browser window rather than the drumkit or mixer window might need to be selected for playback as the drumkit/mixer visuals may interfere with the playback response).
 
 Melda MXXX Multi Effects (turn GPU acceleration off)
 
