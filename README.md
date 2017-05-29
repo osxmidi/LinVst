@@ -114,7 +114,9 @@ Amplitube 4
 
 Addictive Drums 2 (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
 
-EZDrummer2 (on slower video systems the browser window rather than the drumkit or mixer window might need to be selected for playback as the drumkit/mixer visuals may interfere with the playback response).
+EZDrummer2
+
+Mercuriall Spark Amp Sim
 
 Melda MXXX Multi Effects (turn GPU acceleration off)
 
@@ -192,5 +194,5 @@ Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs l
 
 Makefile-embed6432 and Makefile-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
 
-Makefile-embed6432 is for the host embedded window option (experimental)
+Makefile-embed6432 and Makefile-embed are for the host embedded window option.
 
