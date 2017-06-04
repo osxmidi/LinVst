@@ -365,7 +365,12 @@ void RemoteVSTServer::EffectOpen()
     {
     setprogrammiss = 1;
     }
-
+    
+    if(strncmp(buffer, "T-Rack", 6) == 0)
+    {
+    setprogrammiss = 1;
+    }
+    
     buffer[0] = '\0';
     m_plugin->dispatcher(m_plugin, effGetVendorString, 0, 0, buffer, 0);
     if (debugLevel > 0) {
@@ -373,6 +378,11 @@ void RemoteVSTServer::EffectOpen()
 	     << "\"" << endl;
     }
     if (buffer[0]) m_maker = buffer;
+    
+    if(strncmp(buffer, "IK", 2) == 0)
+    {
+    setprogrammiss = 1;
+    }
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
 
@@ -564,8 +574,7 @@ RemoteVSTServer::setCurrentProgram(int p)
 	cerr << "dssi-vst-server[2]: setCurrentProgram(" << p << ")" << endl;
     }
 
-   // if((hostreaper == 1) && (setprogrammiss == 1))
-    if(hostreaper == 1)
+   if((hostreaper == 1) && (setprogrammiss == 1))
     {
     writeInt(m_parResponseFd, 1);
     return;
