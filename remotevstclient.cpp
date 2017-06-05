@@ -169,6 +169,19 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
 
  #endif
 
+  char hit2[4096];
+
+  std::string dllNamewin = dllName;
+
+  std::size_t idx = dllNamewin.find("drive_c");
+
+  if(idx != std::string::npos)
+  {
+  const char *hit = dllNamewin.c_str();
+  strcpy(hit2, hit);
+  hit2[idx - 1] = '\0';
+  setenv("WINEPREFIX", hit2, 1);
+  }
 
     std::string arg = dllName + "," + getFileIdentifiers();
 
