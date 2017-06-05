@@ -696,10 +696,10 @@ RemotePluginClient::cleanup()
     }   
     
 #ifdef AMT
-
+/*
     if(m_shm)
     {
-    
+   
     for(int i=0;i<1000;i++)
     {
     usleep(10000);
@@ -708,6 +708,7 @@ RemotePluginClient::cleanup()
     }  
 
     }
+*/
 
   if(m_AMThread)
  pthread_join(m_AMThread, NULL);
