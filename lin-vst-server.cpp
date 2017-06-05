@@ -450,7 +450,7 @@ writeInt(m_AMResponseFd, finish);
 
 writeInt(m_controlResponseFd, 1);
 	
-usleep(500000);
+// usleep(500000);
 
 terminate();
 }
@@ -1546,14 +1546,15 @@ alive = true;
     // wait for audio thread to catch up
 	
  //   sleep(1);
-		
+
+/*
     for(int i=0;i<1000;i++)
     {
     usleep(10000);
     if(parfin && audfin)
     break;
     }
-
+*/
     if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: cleaning up" << endl;
     }
