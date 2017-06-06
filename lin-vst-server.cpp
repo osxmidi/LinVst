@@ -1547,14 +1547,13 @@ alive = true;
 	
  //   sleep(1);
 
-/*
     for(int i=0;i<1000;i++)
     {
     usleep(10000);
     if(parfin && audfin)
     break;
     }
-*/
+
     if (debugLevel > 0) {
 	cerr << "dssi-vst-server[1]: cleaning up" << endl;
     }
