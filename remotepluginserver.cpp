@@ -201,28 +201,14 @@ sprintf(tmpFileBase, "/tmp/rplugin_sho_%s", fileIdentifiers.substr(60, 6).c_str(
 
 }
 
-
 RemotePluginServer::~RemotePluginServer()
 {
     cleanup();
 }
 
-
 void
 RemotePluginServer::cleanup()
 {
-    if (m_shm) {
-	munmap(m_shm, m_shmSize);
-	m_shm = 0;
-    }
-   if (m_shm2) {
-	munmap(m_shm2, m_shmSize2);
-	m_shm2 = 0;
-    }
-   if (m_shm3) {
-	munmap(m_shm3, m_shmSize3);
-	m_shm3 = 0;
-    }
 
     if (m_controlRequestFd >= 0) {
 	close(m_controlRequestFd);
@@ -262,18 +248,6 @@ RemotePluginServer::cleanup()
 
 #endif
 
-    if (m_shmFd >= 0) {
-	close(m_shmFd);
-	m_shmFd = -1;
-    }
-    if (m_shmFd2 >= 0) {
-	close(m_shmFd2);
-	m_shmFd2 = -1;
-    }
-    if (m_shmFd3 >= 0) {
-	close(m_shmFd3);
-	m_shmFd3 = -1;
-    }
     if (m_controlRequestFileName) {
 	free(m_controlRequestFileName);
 	m_controlRequestFileName = 0;
@@ -312,6 +286,38 @@ RemotePluginServer::cleanup()
 
 #endif
 
+    delete m_inputs;
+    m_inputs = 0;
+
+    delete m_outputs;
+    m_outputs = 0;
+
+    if (m_shm) {
+	munmap(m_shm, m_shmSize);
+	m_shm = 0;
+    }
+   if (m_shm2) {
+	munmap(m_shm2, m_shmSize2);
+	m_shm2 = 0;
+    }
+   if (m_shm3) {
+	munmap(m_shm3, m_shmSize3);
+	m_shm3 = 0;
+    }
+
+    if (m_shmFd >= 0) {
+	close(m_shmFd);
+	m_shmFd = -1;
+    }
+    if (m_shmFd2 >= 0) {
+	close(m_shmFd2);
+	m_shmFd2 = -1;
+    }
+    if (m_shmFd3 >= 0) {
+	close(m_shmFd3);
+	m_shmFd3 = -1;
+    }
+
     if (m_shmFileName) {
 	free(m_shmFileName);
 	m_shmFileName = 0;
@@ -327,11 +333,6 @@ RemotePluginServer::cleanup()
 	m_shmFileName3 = 0;
     }
     
-    delete m_inputs;
-    m_inputs = 0;
-
-    delete m_outputs;
-    m_outputs = 0;
 }
 
 void
