@@ -696,7 +696,7 @@ RemotePluginClient::cleanup()
     }   
     
 #ifdef AMT
-/*
+
     if(m_shm)
     {
    
@@ -708,7 +708,6 @@ RemotePluginClient::cleanup()
     }  
 
     }
-*/
 
   if(m_AMThread)
  pthread_join(m_AMThread, NULL);
