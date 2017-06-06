@@ -92,6 +92,12 @@ Some windows vst's use D3D, and Wine uses Linux OpenGL to implement D3D, so a ca
 
 Some D3D dll overrides might be needed for some windows vst's.
 
+Individual plugins can have their own WINEPREFIX environment.
+
+If a windows vst dll file and it's associated renamed linvst.so file are located within a WINEPREFIX then the plugin will use that WINEPREFIX.
+
+Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
+
 ------
 
 Tested windows vst's
@@ -160,8 +166,6 @@ wine-devel packages for other distros.
 
 libX11 development needed for embedded version.
  
-A 32 bit WINEPREFIX is needed to enable 32 bit vst's on Linux 64 bit systems https://wiki.winehq.org/FAQ#How_do_I_create_a_32_bit_wineprefix_on_a_64_bit_system.3F
-
 Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
 
 Additional 32 bit development libraries are probably needed.
@@ -175,10 +179,6 @@ sudo apt-get install libc6-dev-i386
 sudo apt-get install gcc-multilib g++-multilib
 
 sudo apt-get install libwine-development-dev:i386
-
-export WINEPREFIX=/home/user/prefix32
-
-export WINEARCH=win32
 
 --------
 
