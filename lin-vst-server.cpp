@@ -1546,7 +1546,7 @@ alive = true;
 	
  //   sleep(1);
 
-WaitForMultipleObjects(2, ThreadHandle, TRUE, 5000000); 
+WaitForMultipleObjects(2, ThreadHandle, TRUE, 5000); 
 
 /*
     for(int i=0;i<1000;i++)
