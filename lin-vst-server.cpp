@@ -214,7 +214,7 @@ usleep(10000);
  //   param.sched_priority = 0;
  //   (void)sched_setscheduler(0, SCHED_OTHER, &param);
 
-    parfin = 1;	
+ //   parfin = 1;	
 
  //   ExitThread(0);		
 	
@@ -258,7 +258,7 @@ usleep(10000);
 //    param.sched_priority = 0;
 //    (void)sched_setscheduler(0, SCHED_OTHER, &param);
 	
-     audfin = 1;	
+  //   audfin = 1;	
 
  //   ExitThread(0);		
 	
