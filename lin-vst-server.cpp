@@ -196,7 +196,7 @@ ParThreadMain(LPVOID parameter)
 		if (guiVisible) {
 		remoteVSTServerInstance->dispatchPar(10);
 	    } else {
-		remoteVSTServerInstance->dispatchPar(500);
+		remoteVSTServerInstance->dispatchPar(10);
 	    }
 
 	} catch (std::string message) {
@@ -1532,7 +1532,7 @@ alive = true;
 	   if (guiVisible) {
 		remoteVSTServerInstance->dispatchControl(10);
 	    } else {
-		remoteVSTServerInstance->dispatchControl(500);
+		remoteVSTServerInstance->dispatchControl(10);
 	    }
 	} catch (RemotePluginClosedException) {
 	    cerr << "ERROR: Remote VST plugin communication failure in GUI thread" << endl;
