@@ -152,6 +152,8 @@ public:
 
 #endif
 
+    int m_threadsfinish;
+
 };
 
 #endif
