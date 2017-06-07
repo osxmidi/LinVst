@@ -204,9 +204,9 @@ int delay;
 	}
           }
 
-     m_threadbreakexit = 1;
+ //    m_threadbreakexit = 1;
 
-     pthread_exit(0);
+ //    pthread_exit(0);
 
      return 0;
 }
@@ -421,10 +421,12 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 RemotePluginClient::~RemotePluginClient()
 {
 
+/*
 #ifdef AMT
 m_threadbreak = 1;
 m_threadbreakexit = 1;
 #endif
+ */
  
    if(theEffect);
    delete theEffect;
@@ -805,7 +807,7 @@ size_t sz3 = 512;
 #ifdef AMT
 
  m_threadbreak = 0;
- m_threadbreakexit = 0;
+//  m_threadbreakexit = 0;
 
  pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this);
  
