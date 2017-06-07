@@ -247,12 +247,14 @@ std::size_t idx = dllNamewin.find("drive_c");
 
 RemoteVSTClient::~RemoteVSTClient()
 {
+/*
     for(int i=0;i<300;i++)
     {
     if(waitpid(-1, NULL, WNOHANG)) 
     break;
     usleep(10000);
-    }  
+    } 
+ */
 }
 
 
