@@ -76,7 +76,8 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_shm3(0),
     m_shmSize3(0),
     m_inputs(0),
-    m_outputs(0)
+    m_outputs(0),
+    m_threadsfinish(0)
 {
    
     char tmpFileBase[60];
@@ -438,6 +439,8 @@ RemotePluginServer::dispatchControl(int timeout)
     if ((pfd.revents & POLLIN) || (pfd.revents & POLLPRI)) {
 	dispatchControlEvents();
     } else if (pfd.revents) {
+        if(m_threadsfinish == 1)
+        return;
 	throw RemotePluginClosedException();
     }
 /*
@@ -449,6 +452,8 @@ RemotePluginServer::dispatchControl(int timeout)
     FD_SET(m_controlRequestFd, &rfds);
     FD_ZERO(&ofds);
     if ((n = select(m_controlRequestFd+1, &rfds, &ofds, &ofds, &timeo)) == -1) {
+        if(m_threadsfinish == 1)
+        return;
 	throw RemotePluginClosedException();
     }
     if (n == 1) {
@@ -476,6 +481,8 @@ RemotePluginServer::dispatchPar(int timeout)
     if ((pfd.revents & POLLIN) || (pfd.revents & POLLPRI)) {
 	dispatchParEvents();
     } else if (pfd.revents) {
+        if(m_threadsfinish == 1)
+        return;
 	throw RemotePluginClosedException();
     }
 /*
@@ -487,6 +494,8 @@ RemotePluginServer::dispatchPar(int timeout)
     FD_SET(m_parRequestFd, &rfds);
     FD_ZERO(&ofds);
     if ((n = select(m_parRequestFd+1, &rfds, &ofds, &ofds, &timeo)) == -1) {
+        if(m_threadsfinish == 1)
+        return;
 	throw RemotePluginClosedException();
     }
     if (n == 1) {
@@ -513,6 +522,8 @@ RemotePluginServer::dispatchProcess(int timeout)
     if ((pfd.revents & POLLIN) || (pfd.revents & POLLPRI)) {
 	dispatchProcessEvents();
     } else if (pfd.revents) {
+        if(m_threadsfinish == 1)
+        return;
 	throw RemotePluginClosedException();
     }
 /*
@@ -524,6 +535,8 @@ RemotePluginServer::dispatchProcess(int timeout)
     FD_SET(m_processFd, &rfds);
     FD_ZERO(&ofds);
     if ((n = select(m_processFd+1, &rfds, &ofds, &ofds, &timeo)) == -1) {
+        if(m_threadsfinish == 1)
+        return;
 	throw RemotePluginClosedException();
     }
     if (n == 1) {
@@ -880,6 +893,10 @@ RemotePluginServer::dispatchControlEvents()
     case RemotePluginDoVoid:
     {
 	int opcode = readInt(m_controlRequestFd);
+	
+	if(opcode == effClose)
+        m_threadsfinish = 1;
+
 	effDoVoid(opcode);
 	break;
     }
