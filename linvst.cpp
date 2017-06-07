@@ -192,6 +192,7 @@ int height = 0;
                 case effClose:
                 plugin->effVoidOp(effClose);
 		
+		/*
                 #ifdef AMT	
                   if(plugin->m_shm3)
                     {
@@ -209,7 +210,8 @@ int height = 0;
                 #else
                 usleep(500000);
                 #endif          
-                 
+                 */
+		 
                  delete plugin;
                  break;
 
