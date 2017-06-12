@@ -54,8 +54,11 @@ Using a folder of windows dll files as an example.
 Say the folder contains 
 
 Delay.dll
+
 Compressor.dll
+
 Chorus.dll
+
 Synth.dll
 
 then after the renaming (using the renaming utility) the folder will look like
@@ -65,6 +68,9 @@ Delay.so
 
 Compressor.dll
 Compressor.so
+
+Chorus.dll
+Chorus.so
 
 Synth.dll
 Synth.so
