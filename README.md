@@ -49,6 +49,42 @@ Basically, linvst.so becomes the windows vst once it's renamed to the windows vs
 
 ------
 
+Using a folder of windows dll files as an example.
+
+Say the folder contains 
+
+Delay.dll
+Compressor.dll
+Chorus.dll
+Synth.dll
+
+then after the renaming (using the renaming utility) the folder will look like
+
+Delay.dll
+Delay.so
+
+Compressor.dll
+Compressor.so
+
+Synth.dll
+Synth.so
+
+The files ending with .so can be used inside Linux Vst DAWS to load and manage the associated dll files (ie Delay.so loads and manages Delay.dll).
+
+Say that a windows vst installation installed a windows vst named Delay.dll into the VstPlugins directory inside of a WINEPREFIX ie (/home/user/.wine/drive_c/Program Files/VstPlugins), then the renaming utility needs to be used with sudo or gsudo because the WINEPREFIX does not have user write permissions.
+
+So after the renaming there is Delay.dll and Delay.so in the /home/user/.wine/drive_c/Program Files/VstPlugins directory.
+
+The Linux DAW plugin search path could be appended to include /home/user/.wine/drive_c/Program Files/VstPlugins and then the plugin can be loaded.
+
+Another way is to make a symbolic link to /home/user/.wine/drive_c/Program Files/VstPlugins/Delay.so from a more convenient folder such as /home/user/vst and make sure that /home/user/vst is included in the Linux DAW's plugin search path.
+
+There can be multiple WINEPREFIXES (by default there is just one) and each WINEPREFIX can have a different wine setup, including dll overrides etc.
+
+When a plugin is loaded from within a WINEPREFIX, it picks up on that WINEPREFIXES individual setup (works for symbolic links as well as discussed above).
+
+------
+
 LinVst 
 
 Tested with Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.4
