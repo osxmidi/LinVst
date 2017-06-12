@@ -27,9 +27,9 @@ Use the renamed file (test.so) in a Linux VST capable DAW
 
 Load test.so within the Linux DAW and then test.so will load and run the (name associated) test.dll windows vst 
 
-linvstgtk2 or linvstgtk2 or linvstconvert can batch name convert linvst.so to mutiple windows vst dll names that are located in a folder/directory.
+linvstgtk2 or linvstgtk2 or linvstconvert can batch name convert linvst.so to mutiple windows vst dll names that are located in a folder/directory (linvstconvert is command line only that needs to be located in the folder to be converted).
 
-Copy linvstconvert and linvst.so to the folder/directory containing the windows vst dll's and change into that folder/directory and run linvstconvert in that folder/directory (sudo permission might be needed for some folders/directories).
+sudo permission might be needed for some folders/directories that don't have user permissions.
 
 After the naming conversion, the newly created files (.so files) are ready to be used in Linux vst DAW's from the folder that was used for the naming conversion.
 
@@ -37,17 +37,6 @@ Copying/moving plugins (and in some cases their associated presets etc) to a fol
 
 --------
 
-linvst.so needs to be renamed to the windows vst name (the .so and .dll extensions are left as they are and are not part of the renaming).
-
-Both the windows vst dll file and the renamed linvst.so file need to be in the same folder/directory.
-
-linvst.so is a Linux vst template that loads and runs any windows vst that linvst.so is renamed to.
-
-linvst.so can be copied and renamed multiple times to load multiple windows vst's.
-
-Basically, linvst.so becomes the windows vst once it's renamed to the windows vst's name and can then be used in Linux vst hosts.
-
-------
 
 Using a folder of windows dll files as an example.
 
@@ -77,17 +66,31 @@ Synth.so
 
 The files ending with .so can be used inside Linux Vst DAWS to load and manage the associated dll files (ie Delay.so loads and manages Delay.dll).
 
-Say that a windows vst installation installed a windows vst named Delay.dll into the VstPlugins directory inside of a WINEPREFIX ie (/home/user/.wine/drive_c/Program Files/VstPlugins), then the renaming utility needs to be used with sudo or gsudo because the WINEPREFIX does not have user write permissions.
+Say that a windows vst installation has installed a windows vst named Delay.dll into the VstPlugins directory inside of a WINEPREFIX ie (/home/user/.wine/drive_c/Program Files/VstPlugins), then the renaming utility needs to be used with sudo or gsudo because the WINEPREFIX does not have user write permissions.
 
 So after the renaming there is Delay.dll and Delay.so in the /home/user/.wine/drive_c/Program Files/VstPlugins directory.
 
 The Linux DAW plugin search path could be appended to include /home/user/.wine/drive_c/Program Files/VstPlugins and then the plugin can be loaded.
 
-Another way is to make a symbolic link to /home/user/.wine/drive_c/Program Files/VstPlugins/Delay.so from a more convenient folder such as /home/user/vst and make sure that /home/user/vst is included in the Linux DAW's plugin search path.
+Another way is to make a symbolic link to /home/user/.wine/drive_c/Program Files/VstPlugins/Delay.so or to the whole /home/user/.wine/drive_c/Program Files/VstPlugins directory from a more convenient folder such as /home/user/vst and make sure that /home/user/vst is included in the Linux DAW's plugin search path.
 
 There can be multiple WINEPREFIXES (by default there is just one) and each WINEPREFIX can have a different wine setup, including dll overrides etc.
 
+Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a WINEPREFIX and setting the WINEPREFIX variable to point to a certain WINEPREFIX (export WINEPREFIX=~/.wine-new) before running the windows vst installation program.
+
 When a plugin is loaded from within a WINEPREFIX, it picks up on that WINEPREFIXES individual setup (works for symbolic links as well as discussed above).
+
+-------
+
+linvst.so needs to be renamed to the windows vst name (the .so and .dll extensions are left as they are and are not part of the renaming).
+
+Both the windows vst dll file and the renamed linvst.so file need to be in the same folder/directory.
+
+linvst.so is a Linux vst template that loads and runs any windows vst that linvst.so is renamed to.
+
+linvst.so can be copied and renamed multiple times to load multiple windows vst's.
+
+Basically, linvst.so becomes the windows vst once it's renamed to the windows vst's name and can then be used in Linux vst hosts.
 
 ------
 
