@@ -35,8 +35,7 @@ After the naming conversion, the newly created files (.so files) are ready to be
 
 Copying/moving plugins (and in some cases their associated presets etc) to a folder/directory with user permissions (if possible) is generally a good idea unless the vst plugin requires a fixed path.
 
---------
-
+-------
 
 Using a folder of windows dll files as an example.
 
@@ -76,11 +75,11 @@ Another way is to make a symbolic link to /home/user/.wine/drive_c/Program Files
 
 There can be multiple WINEPREFIXES (by default there is just one) and each WINEPREFIX can have a different wine setup, including dll overrides etc.
 
-Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a WINEPREFIX and setting the WINEPREFIX variable to point to a certain WINEPREFIX (export WINEPREFIX=~/.wine-new) before running the windows vst installation program.
+Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a WINEPREFIX (export WINEPREFIX=~/.wine-new wine winecfg) before running the windows vst installation program.
 
-When a plugin is loaded from within a WINEPREFIX, it picks up on that WINEPREFIXES individual setup (works for symbolic links as well as discussed above).
+When a plugin is loaded from within a WINEPREFIX, it picks up on that WINEPREFIXES individual setup (also works for symbolic links as discussed above).
 
--------
+------
 
 linvst.so needs to be renamed to the windows vst name (the .so and .dll extensions are left as they are and are not part of the renaming).
 
