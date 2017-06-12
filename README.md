@@ -65,15 +65,15 @@ Synth.so
 
 The files ending with .so can be used inside Linux Vst DAWS to load and manage the associated dll files (ie Delay.so loads and manages Delay.dll).
 
-Say that a windows vst installation has installed a windows vst named Delay.dll into the VstPlugins directory inside of a WINEPREFIX ie (/home/user/.wine/drive_c/Program Files/VstPlugins), then the renaming utility needs to be used with sudo or gsudo because the WINEPREFIX does not have user write permissions.
+Say that a windows vst installation has installed a windows vst named Delay.dll into the VstPlugins directory inside of a WINEPREFIX ie (/home/user/.wine/drive_c/Program Files/VstPlugins), then the renaming utility needs to be used with sudo or gksudo because the WINEPREFIX does not have user write permissions.
 
 So after the renaming there is Delay.dll and Delay.so in the /home/user/.wine/drive_c/Program Files/VstPlugins directory.
 
-The Linux DAW plugin search path could be appended to include /home/user/.wine/drive_c/Program Files/VstPlugins and then the plugin can be loaded.
+The Linux DAW plugin search path is then appended to include /home/user/.wine/drive_c/Program Files/VstPlugins and then the plugin(s) can be loaded.
 
 Another way is to make a symbolic link to /home/user/.wine/drive_c/Program Files/VstPlugins/Delay.so or to the whole /home/user/.wine/drive_c/Program Files/VstPlugins directory from a more convenient folder such as /home/user/vst and make sure that /home/user/vst is included in the Linux DAW's plugin search path.
 
-There can be multiple WINEPREFIXES (by default there is just one) and each WINEPREFIX can have a different wine setup, including dll overrides etc.
+There can be multiple WINEPREFIXES (by default there is one ~/.wine) and each WINEPREFIX can have a different wine setup, including dll overrides etc.
 
 Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a WINEPREFIX (export WINEPREFIX=~/.wine-new wine winecfg) before running the windows vst installation program.
 
