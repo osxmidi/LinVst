@@ -127,7 +127,7 @@ int height = 0;
      
  plugin->showGUI();
 		 
- usleep(500000);
+ // usleep(500000);
 
  handle = plugin->winm.handle;
 
