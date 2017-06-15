@@ -791,6 +791,9 @@ RemoteVSTServer::hideGUI()
     guiVisible = false;
 
 writeInt(m_controlResponseFd, 1);
+	
+if(!exiting)
+usleep(50000);
 
 } 
 
