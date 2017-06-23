@@ -924,16 +924,24 @@ RemotePluginClient::getinitialDelay()
 int
 RemotePluginClient::getInputCount()
 {
-    writeOpcode(m_processFd, RemotePluginGetInputCount);
-    m_numInputs = readInt(m_processResponseFd);
+  //  writeOpcode(m_processFd, RemotePluginGetInputCount);
+  //  m_numInputs = readInt(m_processResponseFd);
+	
+    writeOpcode(m_parRequestFd, RemotePluginGetInputCount);
+    m_numInputs = readInt(m_parResponseFd);
+	
     return m_numInputs;
 }
 
 int
 RemotePluginClient::getOutputCount()
 {
-    writeOpcode(m_processFd, RemotePluginGetOutputCount);
-    m_numOutputs = readInt(m_processResponseFd);
+  //  writeOpcode(m_processFd, RemotePluginGetOutputCount);
+  //  m_numOutputs = readInt(m_processResponseFd);
+	
+    writeOpcode(m_parRequestFd, RemotePluginGetOutputCount);
+    m_numOutputs = readInt(m_parResponseFd);
+
     return m_numOutputs;
 }
 
