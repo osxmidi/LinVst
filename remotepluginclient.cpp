@@ -995,10 +995,17 @@ RemotePluginClient::getProgramCount()
 }
 
 std::string
-RemotePluginClient::getProgramName(int n)
+RemotePluginClient::getProgramNameIndexed(int n)
+{
+    writeOpcode(m_parRequestFd, RemotePluginGetProgramNameIndexed);
+    writeInt(m_parRequestFd, n);
+    return readString(m_parResponseFd);
+}    
+
+std::string
+RemotePluginClient::getProgramName()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetProgramName);
-    writeInt(m_parRequestFd, n);
     return readString(m_parResponseFd);
 }    
 
