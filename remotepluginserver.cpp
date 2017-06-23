@@ -609,7 +609,8 @@ RemotePluginServer::dispatchProcessEvents()
 	processVstEvents();
 	}
         break;
-	
+		    
+/*		    	
      case RemotePluginGetInputCount:
        {
 
@@ -654,6 +655,8 @@ RemotePluginServer::dispatchProcessEvents()
 	writeInt(m_processResponseFd, m_numOutputs);
         }
 	break;
+	
+*/	
 
     default:
     
@@ -853,6 +856,20 @@ RemotePluginServer::dispatchParEvents()
             getProgram();
 		break;
 	}
+		    
+     case RemotePluginGetInputCount:
+       {
+       m_numInputs = getInputCount();
+       writeInt(m_parResponseFd, m_numInputs);
+       }
+	break;
+
+    case RemotePluginGetOutputCount:
+       {
+       m_numOutputs = getOutputCount();      
+       writeInt(m_parResponseFd, m_numOutputs);
+       }
+	break;
 
    default:
 	std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode "
