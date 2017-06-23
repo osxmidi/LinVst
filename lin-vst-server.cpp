@@ -573,7 +573,7 @@ std::string
 RemoteVSTServer::getProgramName()
 {
     if (debugLevel > 1) {
-	cerr << "dssi-vst-server[2]: getProgramName(" << p << ")" << endl;
+	cerr << "dssi-vst-server[2]: getProgramName()" << endl;
     }
      char name[128];
      m_plugin->dispatcher(m_plugin, effGetProgramName, 0, 0, name, 0);
