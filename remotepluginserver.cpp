@@ -859,14 +859,44 @@ RemotePluginServer::dispatchParEvents()
 		    
      case RemotePluginGetInputCount:
        {
-       m_numInputs = getInputCount();
+       int numin = getInputCount();
+	// m_numInputs = getInputCount();
+ 
+       if(numin != m_numInputs)
+       {
+       if(m_inputs)
+       {
+       delete m_inputs;
+       m_inputs = 0;
+       }
+       if (numin > 0)
+       m_inputs = new float*[numin];
+       }
+	       
+       m_numInputs = numin;
+
        writeInt(m_parResponseFd, m_numInputs);
        }
 	break;
 
     case RemotePluginGetOutputCount:
        {
-       m_numOutputs = getOutputCount();      
+       int numout = getOutputCount();
+      // m_numOutputs = getOutputCount();      
+
+       if(numout != m_numOutputs)
+       {
+       if(m_outputs)
+       {
+       delete m_outputs;
+       m_outputs = 0;
+       }
+       if (numout > 0)
+       m_outputs = new float*[numout];
+       }   
+      
+       m_numOutputs = numout;
+
        writeInt(m_parResponseFd, m_numOutputs);
        }
 	break;
