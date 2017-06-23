@@ -771,8 +771,12 @@ RemotePluginServer::dispatchParEvents()
 	writeInt(m_parResponseFd, getProgramCount());
 	break;
 
+    case RemotePluginGetProgramNameIndexed:
+	writeString(m_parResponseFd, getProgramNameIndexed(readInt(m_parRequestFd)));
+	break;
+
     case RemotePluginGetProgramName:
-	writeString(m_parResponseFd, getProgramName(readInt(m_parRequestFd)));
+	writeString(m_parResponseFd, getProgramName());
 	break;
 
     case RemotePluginSetDebugLevel:
