@@ -52,6 +52,7 @@ enum RemotePluginOpcode {
     RemotePluginGetParameters,
 
     RemotePluginGetProgramCount = 350,
+    RemotePluginGetProgramNameIndexed,
     RemotePluginGetProgramName,
     RemotePluginSetCurrentProgram,
 
