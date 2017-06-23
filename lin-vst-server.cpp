@@ -1414,11 +1414,19 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 	}
     }
 
-   if((libname2[0] == '/') && (libname2[1] == '/'))
-   libname = strdup(&libname2[1]);
-   else
-   libname = strdup(libname2);
-
+    if(libname2 != NULL) {
+    if((libname2[0] == '/') && (libname2[1] == '/'))
+    libname = strdup(&libname2[1]);
+    else
+    libname = strdup(libname2);
+    }
+    else
+    {
+    cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
+    cerr << "(Command line was: " << cmdline << ")" << endl;
+    return 1;
+    }
+	
     if (!libname || !libname[0] || !fileInfo || !fileInfo[0]) {
 	cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
 	cerr << "(Command line was: " << cmdline << ")" << endl;
