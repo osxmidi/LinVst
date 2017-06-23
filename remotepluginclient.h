@@ -69,7 +69,8 @@ public:
     void         getParameters(int, int, float *);
 
     int          getProgramCount();
-    std::string  getProgramName(int);
+    std::string  getProgramNameIndexed(int);
+    std::string  getProgramName();
     void         setCurrentProgram(int);
 
     int	processVstEvents(VstEvents *);
