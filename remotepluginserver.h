@@ -59,7 +59,8 @@ public:
     }
 
     virtual int          getProgramCount()                    { return 0; }
-    virtual std::string  getProgramName(int)                  { return ""; }
+    virtual std::string  getProgramNameIndexed(int)        { return ""; }
+    virtual std::string  getProgramName()                  { return ""; }
     virtual void         setCurrentProgram(int)               { return; }
 
     virtual int          getEffInt(int opcode) { return 0; }
