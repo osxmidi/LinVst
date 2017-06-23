@@ -102,7 +102,8 @@ public:
     virtual void         getParameters(int, int, float *);
 
     virtual int          getProgramCount() { return m_plugin->numPrograms; }
-    virtual std::string  getProgramName(int);
+    virtual std::string  getProgramNameIndexed(int);
+    virtual std::string  getProgramName();
     virtual void         setCurrentProgram(int);
 
 
@@ -551,19 +552,25 @@ RemoteVSTServer::getParameters(int p0, int pn, float *v)
 }
 
 std::string
-RemoteVSTServer::getProgramName(int p)
+RemoteVSTServer::getProgramNameIndexed(int p)
 {
     if (debugLevel > 1) {
 	cerr << "dssi-vst-server[2]: getProgramName(" << p << ")" << endl;
     }
-
      char name[128];
- //    long prevProgram = m_plugin->dispatcher(m_plugin, effGetProgram, 0, 0, NULL, 0);
- //    m_plugin->dispatcher(m_plugin, effSetProgram, 0, p, NULL, 0);
-     m_plugin->dispatcher(m_plugin, effGetProgramName, p, 0, name, 0);
- //    m_plugin->dispatcher(m_plugin, effSetProgram, 0, prevProgram, NULL, 0);
+     m_plugin->dispatcher(m_plugin, effGetProgramNameIndexed, p, 0, name, 0);
+     return name;
+}
 
-    return name;
+std::string
+RemoteVSTServer::getProgramName()
+{
+    if (debugLevel > 1) {
+	cerr << "dssi-vst-server[2]: getProgramName(" << p << ")" << endl;
+    }
+     char name[128];
+     m_plugin->dispatcher(m_plugin, effGetProgramName, 0, 0, name, 0);
+     return name;
 }
 
 void
