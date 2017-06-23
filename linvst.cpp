@@ -94,8 +94,11 @@ static ERect retRect = {0,0,200,500};
 		case effGetParamDisplay:
 			plugin->getEffString(effGetParamDisplay, index, (char *) ptr, kVstMaxParamStrLen);
 			break;
+		case effGetProgramNameIndexed:
+			strncpy((char *) ptr, plugin->getProgramNameIndexed(index).c_str(), kVstMaxProgNameLen);
+			break;
 		case effGetProgramName:
-			strncpy((char *) ptr, plugin->getProgramName(index).c_str(), kVstMaxProgNameLen);
+			strncpy((char *) ptr, plugin->getProgramName().c_str(), kVstMaxProgNameLen);
 			break;
 		case effSetSampleRate:
 			plugin->setSampleRate(opt);
