@@ -1,6 +1,5 @@
-/*
-  dssi-vst: a DSSI plugin wrapper for VST effects and instruments
-  Copyright 2004-2007 Chris Cannam
+/*  dssi-vst: a DSSI plugin wrapper for VST effects and instruments
+    Copyright 2004-2007 Chris Cannam
 */
 
 #ifndef REMOTE_PLUGIN_H
@@ -10,31 +9,30 @@
 
 const float RemotePluginVersion = 0.986;
 
-enum RemotePluginDebugLevel {
+enum RemotePluginDebugLevel
+{
     RemotePluginDebugNone,
     RemotePluginDebugSetup,
     RemotePluginDebugEvents,
     RemotePluginDebugData
 };
 
-enum RemotePluginOpcode {
-
+enum RemotePluginOpcode
+{
     RemotePluginGetVersion = 0,
     RemotePluginUniqueID,
     RemotePluginGetName,
     RemotePluginGetMaker,
-	RemotePluginGetFlags,
-	RemotePluginGetinitialDelay,
-	RemotePluginProcessEvents,
-	RemotePluginGetChunk,
-	RemotePluginSetChunk,
-	// RemotePluginCanBeAutomated,
-	RemotePluginGetProgram,
-        RemotePluginEffectOpen,	
-	// RemotePluginGetUniqueID,
-	// RemotePluginGetInitialDelay,
-
-
+    RemotePluginGetFlags,
+    RemotePluginGetinitialDelay,
+    RemotePluginProcessEvents,
+    RemotePluginGetChunk,
+    RemotePluginSetChunk,
+    // RemotePluginCanBeAutomated,
+    RemotePluginGetProgram,
+    RemotePluginEffectOpen,
+    // RemotePluginGetUniqueID,
+    // RemotePluginGetInitialDelay,
 
     RemotePluginSetBufferSize = 100,
     RemotePluginSetSampleRate,
@@ -72,10 +70,9 @@ enum RemotePluginOpcode {
     RemotePluginGetEffInt = 800,
     RemotePluginGetEffString,
     RemotePluginDoVoid,
-	
+
     RemotePluginNoOpcode = 9999
 };
 
 class RemotePluginClosedException { };
-
 #endif
