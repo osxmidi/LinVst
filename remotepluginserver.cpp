@@ -325,32 +325,25 @@ void RemotePluginServer::cleanup()
         close(m_shmFd3);
         m_shmFd3 = -1;
     }
-
     if (m_shmFileName)
     {
         free(m_shmFileName);
         m_shmFileName = 0;
     }
-
     if (m_shmFileName2)
     {
         free(m_shmFileName2);
         m_shmFileName2 = 0;
     }
-
     if (m_shmFileName3)
     {
         free(m_shmFileName3);
         m_shmFileName3 = 0;
     }
-
 }
 
 void RemotePluginServer::sizeShm()
 {
-    if (m_shm)
-        return;
-
     size_t sz = FIXED_SHM_SIZE;
     size_t sz2 = 128000;
 #ifdef AMT
@@ -358,6 +351,9 @@ void RemotePluginServer::sizeShm()
 #else
     size_t sz3 = 512;
 #endif
+
+    if (m_shm)
+        return;
 
     m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED, m_shmFd, 0);
     if (!m_shm)
@@ -595,17 +591,7 @@ void RemotePluginServer::dispatchProcessEvents()
     {
         int sampleFrames = readInt(m_processFd);
 
-        if (m_bufferSize < 0)
-        {
-            writeInt(m_processResponseFd, 100);
-            break;
-        }
-        if (m_numInputs < 0)
-        {
-            writeInt(m_processResponseFd, 100);
-            break;
-        }
-        if (m_numOutputs < 0)
+        if ((m_bufferSize < 0) || (m_numInputs < 0) || (m_numOutputs < 0))
         {
             writeInt(m_processResponseFd, 100);
             break;
@@ -614,23 +600,17 @@ void RemotePluginServer::dispatchProcessEvents()
         size_t blocksz = m_bufferSize * sizeof(float);
 
         for (int i = 0; i < m_numInputs; ++i)
-        {
             m_inputs[i] = (float *)(m_shm + i * blocksz);
-        }
         for (int i = 0; i < m_numOutputs; ++i)
-        {
             m_outputs[i] = (float *)(m_shm + (i + m_numInputs) * blocksz);
-        }
 
         process(m_inputs, m_outputs, sampleFrames);
         writeInt(m_processResponseFd, 100);
-    }
         break;
+    }
 
     case RemotePluginProcessEvents:
-    {
         processVstEvents();
-    }
         break;
 
 /*
@@ -685,8 +665,8 @@ void RemotePluginServer::dispatchProcessEvents()
 
 void RemotePluginServer::dispatchParEvents()
 {
-    RemotePluginOpcode opcode = RemotePluginNoOpcode;
-    static float *parameterBuffer = 0;
+    RemotePluginOpcode  opcode = RemotePluginNoOpcode;
+    static float        *parameterBuffer = 0;
 
     tryRead(m_parRequestFd, &opcode, sizeof(RemotePluginOpcode));
     // std::cerr << "control opcoded " << opcode << std::endl;
@@ -709,7 +689,6 @@ void RemotePluginServer::dispatchParEvents()
     case RemotePluginSetCurrentProgram:
         setCurrentProgram(readInt(m_parRequestFd));
         break;
-
 
     case RemotePluginSetBufferSize:
     {
@@ -775,9 +754,7 @@ void RemotePluginServer::dispatchParEvents()
     case RemotePluginGetParameters:
     {
         if (!parameterBuffer)
-        {
             parameterBuffer = new float[getParameterCount()];
-        }
         int p0 = readInt(m_parRequestFd);
         int pn = readInt(m_parRequestFd);
         getParameters(p0, pn, parameterBuffer);
@@ -843,16 +820,12 @@ void RemotePluginServer::dispatchParEvents()
 */
 
     case RemotePluginGetChunk:
-    {
         getChunk();
         break;
-    }
 
     case RemotePluginSetChunk:
-    {
         setChunk();
         break;
-    }
 
 /*
     case RemotePluginCanBeAutomated:
@@ -863,10 +836,8 @@ void RemotePluginServer::dispatchParEvents()
 */
 
     case RemotePluginGetProgram:
-    {
         getProgram();
         break;
-    }
 
     case RemotePluginGetInputCount:
     {
@@ -883,10 +854,10 @@ void RemotePluginServer::dispatchParEvents()
             if (numin > 0)
                 m_inputs = new float*[numin];
         }
-       m_numInputs = numin;
-       writeInt(m_parResponseFd, m_numInputs);
-    }
+        m_numInputs = numin;
+        writeInt(m_parResponseFd, m_numInputs);
         break;
+    }
 
     case RemotePluginGetOutputCount:
     {
@@ -905,8 +876,8 @@ void RemotePluginServer::dispatchParEvents()
         }
         m_numOutputs = numout;
         writeInt(m_parResponseFd, m_numOutputs);
-    }
         break;
+    }
 
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode " << opcode << std::endl;
@@ -925,29 +896,22 @@ void RemotePluginServer::dispatchControlEvents()
     {
 
     case RemotePluginShowGUI:
-    {
         showGUI();
         break;
-    }
 
     case RemotePluginHideGUI:
-    {
         hideGUI();
         break;
-    }
 
 #ifdef EMBED
     case RemotePluginOpenGUI:
-    {
         openGUI();
         break;
-    }
 #endif
 
     case RemotePluginDoVoid:
     {
         int opcode = readInt(m_controlRequestFd);
-
         if (opcode == effClose)
             m_threadsfinish = 1;
         effDoVoid(opcode);
@@ -955,14 +919,11 @@ void RemotePluginServer::dispatchControlEvents()
     }
 
     case RemotePluginEffectOpen:
-    {
         EffectOpen();
         break;
-    }
 
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
     }
     // std::cerr << "done dispatching control\n";
 }
-
