@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -37,9 +38,7 @@
 
 
 #ifdef AMT
-
 #define finishthread 9999
-
 
 void* RemotePluginClient::AMThread()
 {
@@ -112,15 +111,12 @@ void* RemotePluginClient::AMThread()
                 switch(opcode)
                 {
                 case audioMasterGetTime:
-                {
                     tryRead(m_AMResponseFd, &val, sizeof(int));
                     timeInfo = (VstTimeInfo *) m_audioMaster(theEffect, audioMasterGetTime, 0, val, 0, 0);
                     tryWrite(m_AMRequestFd, timeInfo, sizeof(VstTimeInfo));
-                }
                     break;
 
                 case audioMasterIOChanged:
-                {
                     tryRead(m_AMResponseFd, &am, sizeof(am));
                     theEffect->flags = am.flags;
                     theEffect->numPrograms = am.pcount;
@@ -131,20 +127,16 @@ void* RemotePluginClient::AMThread()
                     // m_updateio = 1;
                     m_audioMaster(theEffect, audioMasterIOChanged, 0, 0, 0, 0);
                     writeInt(m_AMRequestFd, ok);
-                }
                     break;
 
                 case audioMasterProcessEvents:
-                {
                     tryRead(m_AMResponseFd, &val, sizeof(int));
                     ptr2 = (int *)m_shm3;
                     els = *ptr2;
                     sizeidx = sizeof(int);
 
                     if (els > VSTSIZE)
-                    {
                         els = VSTSIZE;
-                    }
 
                     evptr = &vstev[0];
                     evptr->numEvents = els;
@@ -157,9 +149,9 @@ void* RemotePluginClient::AMThread()
                         evptr->events[i] = bsize;
                         sizeidx += size;
                     }
+
                     m_audioMaster(theEffect, audioMasterProcessEvents, 0, val, evptr, 0);
                     writeInt(m_AMRequestFd, ok);
-                }
                     break;
 
                 default:
@@ -439,10 +431,7 @@ void RemotePluginClient::syncStartup()
             break;
         }
         else if (errno != ENXIO)
-        {
-            // an actual error occurred
-            break;
-        }
+            break; // an actual error occurred
         usleep(250000);
     }
 
@@ -470,10 +459,7 @@ void RemotePluginClient::syncStartup()
                 break;
             }
             else if (errno != ENXIO)
-            {
-                // an actual error occurred
-                break;
-            }
+                break; // an actual error occurred
             usleep(250000);
         }
 
@@ -499,10 +485,7 @@ void RemotePluginClient::syncStartup()
                 break;
             }
             else if (errno != ENXIO)
-            {
-                // an actual error occurred
-                break;
-            }
+                break; // an actual error occurred
             usleep(250000);
         }
 
@@ -529,10 +512,7 @@ void RemotePluginClient::syncStartup()
                 break;
             }
             else if (errno != ENXIO)
-            {
-                // an actual error occurred
-                break;
-            }
+                break; // an actual error occurred
             usleep(250000);
         }
 
@@ -713,7 +693,6 @@ void RemotePluginClient::cleanup()
 #ifdef AMT
 /*
     if (m_shm)
-    {
         for (int i=0;i<1000;i++)
         {
             usleep(10000);
@@ -721,7 +700,6 @@ void RemotePluginClient::cleanup()
             break;
         }
 
-    }
 */
     if (m_AMThread)
         pthread_join(m_AMThread, NULL);
@@ -809,7 +787,6 @@ void RemotePluginClient::sizeShm()
 #ifdef AMT
     m_threadbreak = 0;
     // m_threadbreakexit = 0;
-
     pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this);
  #endif
 }
@@ -845,9 +822,7 @@ void RemotePluginClient::setBufferSize(int s)
         return;
 
     if (!m_shm)
-    {
         sizeShm();
-    }
 
     if (s == m_bufferSize)
         return;
@@ -917,7 +892,6 @@ int RemotePluginClient::getInputCount()
 
     writeOpcode(m_parRequestFd, RemotePluginGetInputCount);
     m_numInputs = readInt(m_parResponseFd);
-
     return m_numInputs;
 }
 
@@ -928,7 +902,6 @@ int RemotePluginClient::getOutputCount()
 
     writeOpcode(m_parRequestFd, RemotePluginGetOutputCount);
     m_numOutputs = readInt(m_parResponseFd);
-
     return m_numOutputs;
 }
 
@@ -1004,21 +977,8 @@ void RemotePluginClient::setCurrentProgram(int n)
 
 void RemotePluginClient::process(float **inputs, float **outputs, int sampleFrames)
 {
-    if (m_finishaudio == 1)
+    if ((m_finishaudio == 1) || (m_bufferSize < 0) || (m_numInputs < 0) || (m_numOutputs < 0))
         return;
-    if (m_bufferSize < 0)
-    {
-        return;
-    }
-    if (m_numInputs < 0)
-    {
-        return;
-    }
-    if (m_numOutputs < 0)
-    {
-        return;
-    }
-
     if ((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(float) > FIXED_SHM_SIZE)
         return;
 
@@ -1034,23 +994,19 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     size_t blocksz = m_bufferSize * sizeof(float);
 
     for (int i = 0; i < m_numInputs; ++i)
-    {
         memcpy(m_shm + i * blocksz, inputs[i], sampleFrames*sizeof(float));
-    }
 
     writeOpcode(m_processFd, RemotePluginProcess);
     writeInt(m_processFd, sampleFrames);
 
     int resp;
-
     while ((resp = readInt(m_processResponseFd)) != 100)
     {
     }
 
     for (int i = 0; i < m_numOutputs; ++i)
-    {
         memcpy(outputs[i], m_shm + (i + m_numInputs) * blocksz, sampleFrames*sizeof(float));
-    }
+
     return;
 }
 
@@ -1061,11 +1017,7 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     int *ptr;
     int sizeidx = 0;
 
-    if (evnts->numEvents <= 0)
-        return 0;
-    if (!evnts)
-        return 0;
-    if (m_finishaudio == 1)
+    if ((evnts->numEvents <= 0) || (!evnts) || (m_finishaudio == 1))
         return 0;
 
     ptr = (int *)m_shm2;
@@ -1093,7 +1045,6 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
 
     writeOpcode(m_processFd, RemotePluginProcessEvents);
     int ok = readInt(m_processResponseFd);
-
     return ret;
 }
 
@@ -1161,9 +1112,7 @@ int RemotePluginClient::getChunk(void **ptr, int bank_prg)
     int sz = readInt(m_parResponseFd);
 
     if (chunk_ptr != 0)
-    {
         free(chunk_ptr);
-    }
     chunk_ptr = malloc(sz);
 
     tryRead(m_parResponseFd, chunk_ptr, sz);
