@@ -44,6 +44,7 @@
 #include <string>
 #include <fstream>
 
+
 const char *selfname()
 {
     int i = 5;
@@ -57,17 +58,14 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     bool        test;
 
 #ifdef VST6432
-
-   int dlltype;
-
+   int          dlltype;
    unsigned int offset;
+   char         buffer[256];
+#endif
 
-   char buffer[256];
-
-   #endif
     char        hit2[4096];
 
-    if (!dladdr((const char*)selfname, &info))
+    if (!dladdr((const char*) selfname, &info))
     {
         m_runok = 1;
         return;
@@ -119,7 +117,6 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
 
     mfile.read(&buffer[0], 2);
-
     short *ptr;
     ptr = (short *) &buffer[0];
 
@@ -135,7 +132,6 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 
     int *ptr2;
     ptr2 = (int *) &buffer[0];
-
     offset = *ptr2;
     offset += 4;
 
