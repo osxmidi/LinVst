@@ -30,8 +30,8 @@
 
 #include <X11/Xlib.h>
 // #include <X11/Xatom.h>
-
 #endif
+
 
 extern "C" {
 
@@ -52,22 +52,20 @@ extern "C" {
 
 VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr value, void* ptr, float opt)
 {
-    RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
-
-    VstIntPtr v = 0;
-
-    static ERect retRect = {0,0,200,500};
+    RemotePluginClient  *plugin = (RemotePluginClient *) effect->object;
+    VstIntPtr           v = 0;
+    static ERect        retRect = {0,0,200,500};
 
     switch (opcode)
     {
     case effEditGetRect:
     {
-
         ERect *rp = &retRect;
         *((struct ERect **)ptr) = rp;
     }
 
         break;
+
     case effEditIdle:
         // plugin->effVoidOp(effEditIdle);
         break;
@@ -79,6 +77,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     case effStopProcess:
         plugin->effVoidOp(effStopProcess);
         break;
+
     case effGetVendorString:
         strncpy((char *) ptr, plugin->getMaker().c_str(), kVstMaxVendorStrLen);
         break;
@@ -106,6 +105,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     case effGetProgramName:
         strncpy((char *) ptr, plugin->getProgramName().c_str(), kVstMaxProgNameLen);
         break;
+
     case effSetSampleRate:
         plugin->setSampleRate(opt);
         break;
@@ -129,12 +129,12 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     case effEditOpen:
 #ifdef EMBED
     {
-        Window child;
-        Window parent;
-        Display* display;
-        int handle = 0;
-        int width = 0;
-        int height = 0;
+        Window  child;
+        Window  parent;
+        Display *display;
+        int     handle = 0;
+        int     width = 0;
+        int     height = 0;
 
         plugin->showGUI();
         // usleep(500000);
@@ -142,8 +142,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         handle = plugin->winm.handle;
         width = plugin->winm.width;
         height = plugin->winm.height;
-        parent = (Window)ptr;
-        child = (Window)handle;
+        parent = (Window) ptr;
+        child = (Window) handle;
 
         display = XOpenDisplay(0);
         // XResizeWindow(display, child, width, height);
@@ -231,9 +231,7 @@ void process(AEffect* effect, float** inputs, float** outputs, VstInt32 sampleFr
     RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
 
     if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
-    {
         plugin->process(inputs, outputs, sampleFrames);
-    }
     return;
 }
 
@@ -242,22 +240,17 @@ void setParameter(AEffect* effect, VstInt32 index, float parameter)
     RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
 
     if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
-    {
         plugin->setParameter(index, parameter);
-    }
     return;
 }
 
 float getParameter(AEffect* effect, VstInt32 index)
 {
-    RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
-    float retval;
-    retval = -1;
+    RemotePluginClient  *plugin = (RemotePluginClient *) effect->object;
+    float               retval = -1;
 
     if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
-    {
         retval = plugin->getParameter(index);
-    }
     return retval;
 }
 
@@ -289,10 +282,10 @@ void initEffect(AEffect *eff, RemotePluginClient *plugin)
 
 VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 {
+    RemotePluginClient *plugin;
+
     if (!audioMaster (0, audioMasterVersion, 0, 0, 0, 0))
         return 0;
-
-    RemotePluginClient *plugin;
 
     try
     {
