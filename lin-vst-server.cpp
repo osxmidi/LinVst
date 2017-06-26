@@ -61,6 +61,7 @@
 
 #define VSTSIZE 2048
 
+
 HANDLE  ThreadHandle[2] = {0, 0};
 bool    exiting = false;
 bool    inProcessThread = false;
@@ -104,8 +105,8 @@ public:
     virtual std::string getProgramName();
     virtual void        setCurrentProgram(int);
 
-    virtual void         showGUI();
-    virtual void         hideGUI();
+    virtual void        showGUI();
+    virtual void        hideGUI();
 
 #ifdef EMBED
     virtual void        openGUI();
@@ -133,11 +134,6 @@ public:
 
     virtual bool        warn(std::string);
 
-private:
-    std::string         m_name;
-    std::string         m_maker;
-
-public:
     HWND                hWnd;
     WNDCLASSEX          wclass;
     bool                haveGui;
@@ -147,9 +143,14 @@ public:
 
     AEffect             *m_plugin;
     VstEvents           vstev[VSTSIZE];
+
+private:
+    std::string         m_name;
+    std::string         m_maker;
 };
 
 RemoteVSTServer         *remoteVSTServerInstance = 0;
+
 
 LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -186,14 +187,10 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
             try
             {
                 // This can call sendMIDIData, setCurrentProgram, process
-                if (guiVisible)
-                {
+                if (guiVisible) //FIXME this looks superfluous?
                     remoteVSTServerInstance->dispatchPar(10);
-                }
                 else
-                {
                     remoteVSTServerInstance->dispatchPar(10);
-                }
             }
             catch (std::string message)
             {
@@ -316,63 +313,46 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
 void RemoteVSTServer::EffectOpen()
 {
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: opening plugin" << endl;
-    }
 
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
 
-
     if (m_plugin->dispatcher(m_plugin, effGetVstVersion, 0, 0, NULL, 0) < 2)
     {
         if (debugLevel > 0)
-        {
             cerr << "dssi-vst-server[1]: plugin is VST 1.x" << endl;
-        }
     }
     else
     {
         if (debugLevel > 0)
-        {
             cerr << "dssi-vst-server[1]: plugin is VST 2.0 or newer" << endl;
-        }
     }
 
     char buffer[65];
+
     buffer[0] = '\0';
     m_plugin->dispatcher(m_plugin, effGetEffectName, 0, 0, buffer, 0);
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: plugin name is \"" << buffer << "\"" << endl;
-    }
     if (buffer[0]) m_name = buffer;
 
 /*
     if (strncmp(buffer, "Guitar Rig 5", 12) == 0)
-    {
         setprogrammiss = 1;
-    }
     if (strncmp(buffer, "T-Rack", 6) == 0)
-    {
         setprogrammiss = 1;
-    }
-
 */
 
     buffer[0] = '\0';
     m_plugin->dispatcher(m_plugin, effGetVendorString, 0, 0, buffer, 0);
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: vendor string is \"" << buffer << "\"" << endl;
-    }
     if (buffer[0]) m_maker = buffer;
 
 /*
     if (strncmp(buffer, "IK", 2) == 0)
-    {
         setprogrammiss = 1;
-    }
 */
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
@@ -459,9 +439,7 @@ void RemoteVSTServer::setBufferSize(int sz)
     writeInt(m_parResponseFd, 1);
 
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: set buffer size to " << sz << endl;
-    }
 }
 
 void RemoteVSTServer::setSampleRate(int sr)
@@ -476,9 +454,7 @@ void RemoteVSTServer::setSampleRate(int sr)
     writeInt(m_parResponseFd, 1);
 
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: set sample rate to " << sr << endl;
-    }
 }
 
 void RemoteVSTServer::reset()
@@ -517,17 +493,13 @@ float RemoteVSTServer::getParameter(int p)
 void RemoteVSTServer::getParameters(int p0, int pn, float *v)
 {
     for (int i = p0; i <= pn; ++i)
-    {
         v[i - p0] = m_plugin->getParameter(m_plugin, i);
-    }
 }
 
 std::string RemoteVSTServer::getProgramNameIndexed(int p)
 {
     if (debugLevel > 1)
-    {
         cerr << "dssi-vst-server[2]: getProgramName(" << p << ")" << endl;
-    }
 
     char name[128];
     m_plugin->dispatcher(m_plugin, effGetProgramNameIndexed, p, 0, name, 0);
@@ -538,9 +510,7 @@ std::string
 RemoteVSTServer::getProgramName()
 {
     if (debugLevel > 1)
-    {
         cerr << "dssi-vst-server[2]: getProgramName()" << endl;
-    }
 
     char name[128];
     m_plugin->dispatcher(m_plugin, effGetProgramName, 0, 0, name, 0);
@@ -551,9 +521,7 @@ void
 RemoteVSTServer::setCurrentProgram(int p)
 {
     if (debugLevel > 1)
-    {
         cerr << "dssi-vst-server[2]: setCurrentProgram(" << p << ")" << endl;
-    }
 
 /*
     if ((hostreaper == 1) && (setprogrammiss == 1))
@@ -564,9 +532,7 @@ RemoteVSTServer::setCurrentProgram(int p)
 */
 
     if (p < m_plugin->numPrograms)
-    {
         m_plugin->dispatcher(m_plugin, effSetProgram, 0, p, 0, 0);
-    }
     writeInt(m_parResponseFd, 1);
 }
 
@@ -598,9 +564,7 @@ void RemoteVSTServer::showGUI()
     } winm;
 
     if (debugLevel > 0)
-    {
         cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
-    }
 
     if (haveGui == false)
     {
@@ -636,9 +600,7 @@ void RemoteVSTServer::showGUI()
         return;
     }
     else if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: created main window" << endl;
-    }
 
     m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
     Rect *rect = 0;
@@ -660,9 +622,7 @@ void RemoteVSTServer::showGUI()
                         SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
         if (debugLevel > 0)
-        {
             cerr << "dssi-vst-server[1]: sized window" << endl;
-        }
 
         winm.width = rect->right - rect->left;
         winm.height = rect->bottom - rect->top;
@@ -674,9 +634,7 @@ void RemoteVSTServer::showGUI()
 #else
 
     if (debugLevel > 0)
-    {
         cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
-    }
 
     if (haveGui == false)
     {
@@ -714,9 +672,7 @@ void RemoteVSTServer::showGUI()
                         SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
         if (debugLevel > 0)
-        {
             cerr << "dssi-vst-server[1]: sized window" << endl;
-        }
 
         ShowWindow(hWnd, SW_SHOWNORMAL);
         UpdateWindow(hWnd);
@@ -731,13 +687,7 @@ void RemoteVSTServer::hideGUI()
     // if (!hWnd)
         // return;
 
-    if (haveGui == false)
-    {
-        writeInt(m_controlResponseFd, 1);
-        return;
-    }
-
-    if (guiVisible == false)
+    if ((haveGui == false) || (guiVisible == false))
     {
         writeInt(m_controlResponseFd, 1);
         return;
@@ -778,9 +728,7 @@ int RemoteVSTServer::processVstEvents()
     sizeidx = sizeof(int);
 
     if (els > VSTSIZE)
-    {
         els = VSTSIZE;
-    }
 
     evptr = &vstev[0];
     evptr->numEvents = els;
@@ -849,10 +797,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     switch (opcode)
     {
     case audioMasterAutomate:
-    {
         plugin->setParameter(plugin, index, opt);
         break;
-    }
 
     case audioMasterVersion:
         if (debugLevel > 1)
@@ -879,9 +825,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
     case DEPRECATED_VST_SYMBOL(audioMasterWantMidi):
         if (debugLevel > 1)
-        {
             cerr << "dssi-vst-server[2]: audioMasterWantMidi requested" << endl;
-        }
         // happy to oblige
         rv = 1;
         break;
@@ -913,11 +857,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             if (alive && !exiting && remoteVSTServerInstance->m_shm3  && (bufferSize > 0))
             {
                 evnts = (VstEvents*)ptr;
-                if (!evnts)
+                if ((!evnts) || (evnts->numEvents <= 0))
                     break;
-                if (evnts->numEvents <= 0)
-                    break;
-
                 eventnum = evnts->numEvents;
 
                 ptr2 = (int *)remoteVSTServerInstance->m_shm3;
@@ -925,18 +866,14 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
                 sizeidx = sizeof(int);
 
                 if (eventnum > VSTSIZE)
-                {
                     eventnum = VSTSIZE;
-                }
 
                 for (int i = 0; i < eventnum; i++)
                 {
 
                     VstEvent *pEvent = evnts->events[i];
                     if (pEvent->type == kVstSysExType)
-                    {
                         eventnum--;
-                    }
                     else
                     {
                         unsigned int size = (2*sizeof(VstInt32)) + evnts->events[i]->byteSize;
@@ -944,19 +881,16 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
                         sizeidx += size;
                     }
                 }
-
                 *ptr2 = eventnum;
 
                 writeInt(remoteVSTServerInstance->m_AMResponseFd, opcode);
-
                 writeInt(remoteVSTServerInstance->m_AMResponseFd, value);
-
                 ok = readInt(remoteVSTServerInstance->m_AMRequestFd);
-
             }
         }
 #endif
         break;
+
     case DEPRECATED_VST_SYMBOL(audioMasterSetTime):
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterSetTime requested" << endl;
@@ -1010,7 +944,6 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         int ok2 = readInt(remoteVSTServerInstance->m_AMRequestFd);
 /*
         AEffect* update = remoteVSTServerInstance->m_plugin;
-
         update->flags = am.flags;
         update->numPrograms = am.pcount;
         update->numParams = am.parcount;
@@ -1024,25 +957,19 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
     case DEPRECATED_VST_SYMBOL(audioMasterNeedIdle):
         if (debugLevel > 1)
-        {
             cerr << "dssi-vst-server[2]: audioMasterNeedIdle requested" << endl;
-        }
         // might be nice to handle this better
         rv = 1;
         break;
 
     case audioMasterSizeWindow:
         if (debugLevel > 1)
-        {
             cerr << "dssi-vst-server[2]: audioMasterSizeWindow requested" << endl;
-        }
 
 #ifndef EMBED
         if (remoteVSTServerInstance->hWnd)
-        {
             SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25,
                             SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-        }
         rv = 1;
 #endif
         break;
@@ -1099,9 +1026,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
     case audioMasterGetCurrentProcessLevel:
         if (debugLevel > 1)
-        {
             cerr << "dssi-vst-server[2]: audioMasterGetCurrentProcessLevel requested (level is " << (inProcessThread ? 2 : 1) << ")" << endl;
-        }
         // 0 -> unsupported, 1 -> gui, 2 -> process, 3 -> midi/timer, 4 -> offline
         if (inProcessThread)
             rv = 2;
@@ -1184,16 +1109,14 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterCanDo(" << (char *)ptr << ") requested" << endl;
         if (!strcmp((char*)ptr, "sendVstEvents")
-            || !strcmp((char*)ptr, "sendVstMidiEvent")
-            || !strcmp((char*)ptr, "sendVstTimeInfo")
+                    || !strcmp((char*)ptr, "sendVstMidiEvent")
+                    || !strcmp((char*)ptr, "sendVstTimeInfo")
 #ifndef EMBED
-            || !strcmp((char*)ptr, "sizeWindow")
+                    || !strcmp((char*)ptr, "sizeWindow")
 #endif
-            // || !strcmp((char*)ptr, "supplyIdle")
-            )
-        {
+                    // || !strcmp((char*)ptr, "supplyIdle")
+                    )
             rv = 1;
-        }
         break;
 
     case audioMasterGetLanguage:
@@ -1259,9 +1182,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
     default:
         if (debugLevel > 0)
-        {
             cerr << "dssi-vst-server[0]: unsupported audioMaster callback opcode " << opcode << endl;
-        }
     }
     return rv;
 }
@@ -1290,9 +1211,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                         fileInfo = strdup(cmdline + ci);
                         int l = strlen(fileInfo);
                         if (fileInfo[l-1] == '"' || fileInfo[l-1] == '\'')
-                        {
                             fileInfo[l-1] = '\0';
-                        }
                     }
                 }
             }
@@ -1331,10 +1250,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
     AEffect *(__stdcall* getInstance)(audioMasterCallback);
     getInstance = (AEffect*(__stdcall*)(audioMasterCallback)) GetProcAddress(libHandle, NEW_PLUGIN_ENTRY_POINT);
+
     if (!getInstance)
-    {
         getInstance = (AEffect*(__stdcall*)(audioMasterCallback)) GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
-    }
 
     if (!getInstance)
     {
@@ -1429,14 +1347,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
         try
         {
-            if (guiVisible)
-            {
+            if (guiVisible)  //FIXME seems superfluous?
                 remoteVSTServerInstance->dispatchControl(10);
-            }
             else
-            {
                 remoteVSTServerInstance->dispatchControl(10);
-            }
         }
         catch (RemotePluginClosedException)
         {
@@ -1459,19 +1373,16 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     }
 */
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: cleaning up" << endl;
-    }
 
     if (ThreadHandle[0])
     {
         // TerminateThread(ThreadHandle[0], 0);
         CloseHandle(ThreadHandle[0]);
     }
+
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: closed param thread" << endl;
-    }
 
     if (ThreadHandle[1])
     {
@@ -1479,22 +1390,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         CloseHandle(ThreadHandle[1]);
     }
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: closed audio thread" << endl;
-    }
 
     delete remoteVSTServerInstance;
     remoteVSTServerInstance = 0;
     FreeLibrary(libHandle);
 
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: freed dll" << endl;
-    }
-
     if (debugLevel > 0)
-    {
         cerr << "dssi-vst-server[1]: exiting" << endl;
-    }
     return 0;
 }
