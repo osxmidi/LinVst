@@ -2,10 +2,12 @@
     Copyright 2004-2007 Chris Cannam
 */
 
+
 #ifndef REMOTE_PLUGIN_H
 #define REMOTE_PLUGIN_H
 
 #define FIXED_SHM_SIZE  (16 * 65536 * sizeof(float))
+
 
 const float RemotePluginVersion = 0.986;
 
