@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #ifndef REMOTE_PLUGIN_CLIENT_H
 #define REMOTE_PLUGIN_CLIENT_H
 
@@ -29,11 +30,12 @@
 #include <vector>
 #include <sys/shm.h>
 
+#define VSTSIZE 2048
+
+
 // Any of the methods in this file, including constructors, should be
 // considered capable of throwing RemotePluginClosedException.  Do not
 // call anything here without catching it.
-
-#define VSTSIZE 2048
 
 class RemotePluginClient
 {
@@ -99,6 +101,31 @@ public:
     void                getEffString(int opcode, int index, char *ptr, int len);
     void                effVoidOp(int opcode);
 
+    int                 m_bufferSize;
+    int                 m_numInputs;
+    int                 m_numOutputs;
+    int                 m_finishaudio;
+    int                 m_runok;
+    AEffect             *theEffect;
+
+#ifdef AMT
+    int                 m_threadbreak;
+    int                 m_threadbreakexit;
+    int                 m_updateio;
+    VstEvents           vstev[VSTSIZE];
+#endif
+
+#ifdef EMBED
+    struct winmessage
+    {
+        int handle;
+        int width;
+        int height;
+    } winm;
+#endif
+
+char *m_shm3;
+
 protected:
     void                cleanup();
     void                syncStartup();
@@ -146,32 +173,5 @@ private:
     void                *AMThread();
     audioMasterCallback m_audioMaster;
 #endif
-
-public:
-    int                 m_bufferSize;
-    int                 m_numInputs;
-    int                 m_numOutputs;
-    int                 m_finishaudio;
-    int                 m_runok;
-    AEffect             *theEffect;
-
-#ifdef AMT
-    int                 m_threadbreak;
-    int                 m_threadbreakexit;
-    int                 m_updateio;
-    VstEvents           vstev[VSTSIZE];
-#endif
-
-#ifdef EMBED
-    struct winmessage
-    {
-        int handle;
-        int width;
-        int height;
-    } winm;
-#endif
-
-char *m_shm3;
 };
-
 #endif
