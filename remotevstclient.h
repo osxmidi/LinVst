@@ -23,6 +23,7 @@
 
 #include "remotepluginclient.h"
 
+
 class RemoteVSTClient : public RemotePluginClient
 {
 public:
@@ -30,5 +31,4 @@ public:
             RemoteVSTClient(audioMasterCallback theMaster);
     virtual ~RemoteVSTClient();
 };
-
 #endif
