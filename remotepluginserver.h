@@ -82,6 +82,18 @@ public:
     void                    dispatchProcess(int timeout = -1); // may throw RemotePluginClosedException
     void                    dispatchPar(int timeout = -1); // may throw RemotePluginClosedException
 
+   void                     sizeShm();
+   char                     *m_shm;
+   char                     *m_shm2;
+   char                     *m_shm3;
+   void                     dispatchParEvents();
+
+#ifdef AMT
+    int                     m_AMRequestFd;
+    int                     m_AMResponseFd;
+#endif
+    int                     m_threadsfinish;
+
 protected:
                             RemotePluginServer(std::string fileIdentifiers);
     void                    cleanup();
@@ -129,18 +141,5 @@ private:
     float                   **m_outputs;
 
     RemotePluginDebugLevel  m_debugLevel;
-
-public:
-   void                     sizeShm();
-   char                     *m_shm;
-   char                     *m_shm2;
-   char                     *m_shm3;
-   void                     dispatchParEvents();
-
-#ifdef AMT
-    int                     m_AMRequestFd;
-    int                     m_AMResponseFd;
-#endif
-    int                     m_threadsfinish;
 };
 #endif
