@@ -119,9 +119,9 @@ Some windows vst's use D3D, and Wine uses Linux OpenGL to implement D3D, so a ca
 
 Some D3D dll overrides might be needed for some windows vst's.
 
-D3D/OpenGL Wine config advice can be found at gaming forums.
+D3D/OpenGL Wine config advice can be found at gaming forums and other forums.
 
-Additional dll's (dll overrides) might have to be added to Wine for some plugins.
+Additional dll's (dll overrides) might have to be added to Wine for some Windows vst's to work.
 
 Winetricks might help with some plugins https://github.com/Winetricks/winetricks
 
