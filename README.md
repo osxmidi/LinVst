@@ -121,13 +121,13 @@ Some D3D dll overrides might be needed for some windows vst's.
 
 D3D/OpenGL Wine config advice can be found at gaming forums.
 
+Additional dll's (dll overrides) might have to be added to Wine for some plugins.
+
+Winetricks might help with some plugins https://github.com/Winetricks/winetricks
+
 Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines current implementation.
 
 Winetricks wininet and/or installing winbind for a distro (sudo apt-get install winbind) might help (wininet and it's associated dll's can also be manually installed as dll overrides).
-
-Additional dll's (dll overrides) might have to be added to Wine for some plugins.
-
-Winetricks might help with some plugins.
 
 Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
 
