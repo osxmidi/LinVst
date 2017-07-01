@@ -27,7 +27,7 @@ Use the renamed file (test.so) in a Linux VST capable DAW
 
 Load test.so within the Linux DAW and then test.so will load and run the (name associated) test.dll windows vst 
 
-linvstgtk2 or linvstgtk2 (GUI) or linvstconvert (CLI) can batch name convert linvst.so to mutiple windows vst dll names that are located in a folder/directory (linvstconvert is command line only that needs to be located in the folder to be converted).
+linvstconvert (GUI or CLI) can batch name convert linvst.so to mutiple windows vst dll names that are located in a folder/directory (the linvstconvert CLI version needs to be run from within the dll's folder/directory).
 
 sudo permission might be needed for some folders/directories that don't have user permissions.
 
