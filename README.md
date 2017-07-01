@@ -91,28 +91,11 @@ linvst.so can be copied and renamed multiple times to load multiple windows vst'
 
 Basically, linvst.so becomes the windows vst once it's renamed to the windows vst's name and can then be used in Linux vst hosts.
 
-------
+Individual plugins can have their own WINEPREFIX environment.
 
-LinVst 
+If a windows vst dll file and it's associated renamed linvst.so file are located within a WINEPREFIX then the plugin will use that WINEPREFIX.
 
-Tested with Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.4
-
-Tested with Wine 2.1 devel
-
-Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
-
-Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines implementation.
-
-Winetricks wininet might help.
-
-Additional dll's (dll overrides) might have to be added to Wine for some plugins.
-
-On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
-The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
-
-Upgrading to the latest wine-stable version is recommended.
-
-Winetricks might help with some plugins.
+Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
 ------
 
@@ -136,15 +119,28 @@ Some windows vst's use D3D, and Wine uses Linux OpenGL to implement D3D, so a ca
 
 Some D3D dll overrides might be needed for some windows vst's.
 
-Individual plugins can have their own WINEPREFIX environment.
+D3D/OpenGL Wine config advice can be found at gaming forums.
 
-If a windows vst dll file and it's associated renamed linvst.so file are located within a WINEPREFIX then the plugin will use that WINEPREFIX.
+Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines current implementation.
 
-Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
+Winetricks wininet and/or installing winbind for a distro (sudo apt-get install winbind) might help (wininet and it's associated dll's can also be manually installed as dll overrides).
+
+Additional dll's (dll overrides) might have to be added to Wine for some plugins.
+
+Winetricks might help with some plugins.
+
+Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
+
+On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
+The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
+
+Upgrading to the latest wine-stable version is recommended.
 
 ------
 
-Tested windows vst's
+LinVst tested with Wine 2 and Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.4
+
+Tested vst's
 
 Kontakt Player 5.6.8 (turn multiprocessing off). Requires Wine 2.0 and above
 
