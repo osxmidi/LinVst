@@ -187,10 +187,7 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
             try
             {
                 // This can call sendMIDIData, setCurrentProgram, process
-                if (guiVisible) //FIXME this looks superfluous?
-                    remoteVSTServerInstance->dispatchPar(10);
-                else
-                    remoteVSTServerInstance->dispatchPar(10);
+            remoteVSTServerInstance->dispatchPar(10);
             }
             catch (std::string message)
             {
@@ -1347,10 +1344,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
         try
         {
-            if (guiVisible)  //FIXME seems superfluous?
-                remoteVSTServerInstance->dispatchControl(10);
-            else
-                remoteVSTServerInstance->dispatchControl(10);
+            remoteVSTServerInstance->dispatchControl(10);
         }
         catch (RemotePluginClosedException)
         {
