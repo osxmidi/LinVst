@@ -174,6 +174,8 @@ VUMT
 
 Stillwell plugins
 
+Cobalt (Sanford) Synth
+
 u-he Podolski Synth
 
 u-he Protoverb Reverb
