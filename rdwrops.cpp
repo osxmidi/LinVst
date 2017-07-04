@@ -53,7 +53,7 @@ ssize_t w = 0;
         buf = (void *)(((char *)buf) + w);
 	count -= w;
       
-        */	     
+        /*	     
 	if (count > 0) {
 	    usleep(20000);
 	}
@@ -90,7 +90,7 @@ rdwr_tryRead(int fd, void *buf, size_t count, const char *file, int line)
 	buf = (void *)(((char *)buf) + r);
 	count -= r;
 
-	*/    	    
+	/*    	    
 	if (count > 0) {
 	    usleep(20000);
 	}
