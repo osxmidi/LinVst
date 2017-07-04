@@ -237,7 +237,7 @@ DWORD WINAPI AudioThreadMain(LPVOID parameter)
             try
             {
                 // This can call sendMIDIData, setCurrentProgram, process
-                remoteVSTServerInstance->dispatchProcess(50);
+                remoteVSTServerInstance->dispatchProcess(10);
             }
             catch (std::string message)
             {
