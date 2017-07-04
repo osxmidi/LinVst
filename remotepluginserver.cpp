@@ -597,17 +597,20 @@ void RemotePluginServer::dispatchProcessEvents()
 
         if (m_bufferSize < 0)
         {
-            writeInt(m_processResponseFd, 100);
+            // writeInt(m_processResponseFd, 100);
+            writeInt(m_processResponseFd, 1);
             break;
         }
         if (m_numInputs < 0)
         {
-            writeInt(m_processResponseFd, 100);
+            // writeInt(m_processResponseFd, 100);
+            writeInt(m_processResponseFd, 1);
             break;
         }
         if (m_numOutputs < 0)
         {
-            writeInt(m_processResponseFd, 100);
+            // writeInt(m_processResponseFd, 100);
+            writeInt(m_processResponseFd, 1);
             break;
         }
 
@@ -623,13 +626,16 @@ void RemotePluginServer::dispatchProcessEvents()
         }
 
         process(m_inputs, m_outputs, sampleFrames);
-        writeInt(m_processResponseFd, 100);
+     //   writeInt(m_processResponseFd, 100);
+          writeInt(m_processResponseFd, 1);
+
     }
         break;
 
     case RemotePluginProcessEvents:
     {
         processVstEvents();
+        writeInt(m_processResponseFd, 1);
     }
         break;
 
