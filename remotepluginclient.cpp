@@ -1043,10 +1043,14 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
 
     int resp;
 
+    /*
     while ((resp = readInt(m_processResponseFd)) != 100)
     {
     }
-
+    */
+    
+    int ok = readInt(m_processResponseFd);
+    
     for (int i = 0; i < m_numOutputs; ++i)
     {
         memcpy(outputs[i], m_shm + (i + m_numInputs) * blocksz, sampleFrames*sizeof(float));
