@@ -795,7 +795,6 @@ int RemoteVSTServer::processVstEvents()
     }
 
     m_plugin->dispatcher(m_plugin, effProcessEvents, 0, 0, evptr, 0);
-    writeInt(m_processResponseFd, 1);
     return 1;
 }
 
