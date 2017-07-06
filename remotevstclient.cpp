@@ -1,8 +1,7 @@
-/*
-  dssi-vst: a DSSI plugin wrapper for VST effects and instruments
-  Copyright 2004-2007 Chris Cannam
+/*  dssi-vst: a DSSI plugin wrapper for VST effects and instruments
+    Copyright 2004-2007 Chris Cannam
 
-     This file is part of linvst.
+    This file is part of linvst.
 
     linvst is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,222 +38,196 @@
 #include "rdwrops.h"
 #include "paths.h"
 
-#include <dlfcn.h> 
+#include <dlfcn.h>
 
 #include <iostream>
 #include <string>
 #include <fstream>
 
+
 const char *selfname()
 {
-int i = 5;
+    int i = 5;
 }
 
-RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) :
-    RemotePluginClient(theMaster)
+RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginClient(theMaster)
 {
-     pid_t child;
+    pid_t       child;
+    Dl_info     info;
+    std::string dllName;
+    bool        test;
 
-    Dl_info info;
-
-   std::string dllName;
-
-   bool test;
-	    
-   #ifdef VST6432
-
-   int dlltype;
-   
+#ifdef VST6432
+   int          dlltype;
    unsigned int offset;
+   char         buffer[256];
+#endif
 
-   char buffer[256];
+    char        hit2[4096];
 
-   #endif
+    if (!dladdr((const char*) selfname, &info))
+    {
+        m_runok = 1;
+        return;
+    }
 
-   char hit2[4096];
-
-    if(!dladdr((const char*)selfname, &info))
-     {
-     m_runok = 1;
-     return;
-     }
-
-    if(!info.dli_fname)
-     {
-     m_runok = 1;
-     return;
-     }
+    if (!info.dli_fname)
+    {
+        m_runok = 1;
+        return;
+    }
 
     if (realpath(info.dli_fname, hit2) == 0)
-     {
-     m_runok = 1;
-     return;
-     }    
-  
+    {
+        m_runok = 1;
+        return;
+    }
+
     dllName = hit2;
     dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".dll");
     test = std::ifstream(dllName.c_str()).good();
 
-    if(!test)
+    if (!test)
     {
-    dllName = hit2;
-    dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".Dll");  
-    test = std::ifstream(dllName.c_str()).good();
+        dllName = hit2;
+        dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".Dll");
+        test = std::ifstream(dllName.c_str()).good();
 
-    if(!test)
-    {
-    dllName = hit2;
-    dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".DLL");
-    test = std::ifstream(dllName.c_str()).good();
+        if (!test)
+        {
+            dllName = hit2;
+            dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".DLL");
+            test = std::ifstream(dllName.c_str()).good();
+        }
+
+        if (!test)
+        {
+            m_runok = 1;
+            return;
+        }
     }
-    if(!test)
+
+#ifdef VST6432
+    std::ifstream mfile(dllName.c_str(), std::ifstream::binary);
+
+    if (!mfile)
     {
-    m_runok = 1;
-    return;
+        m_runok = 1;
+        return;
     }
-   }
-	    
-  #ifdef VST6432
 
-  std::ifstream mfile(dllName.c_str(), std::ifstream::binary);
+    mfile.read(&buffer[0], 2);
+    short *ptr;
+    ptr = (short *) &buffer[0];
 
-  if(!mfile)
-  {
-  m_runok = 1;
-  return;
-  }
-
-  mfile.read(&buffer[0], 2);
-
-  short *ptr;
-
-  ptr = (short *)&buffer[0];
-  
-  if (*ptr != 0x5a4d)
-   {
-   mfile.close();
-   m_runok = 1;
-   return;
-   }
- 
-  mfile.seekg (60, mfile.beg);
-  
-  mfile.read (&buffer[0], 4);
-
-  int *ptr2;
-
-  ptr2 = (int *)&buffer[0];
-
-  offset = *ptr2;
-  
-  offset += 4;
-  
-  mfile.seekg (offset, mfile.beg);
-
-  mfile.read (&buffer[0], 2);
-
-  unsigned short *ptr3;
-
-  ptr3 = (unsigned short *)&buffer[0];
-	    
-  dlltype = 0;
-  
-  if (*ptr3 == 0x8664)
-  dlltype = 1;
-  else if (*ptr3 == 0x014c)
-  dlltype = 2;
-  else if (*ptr3 == 0x0200)
-  dlltype = 3;
-
-  if(dlltype == 0)
-  {
-  mfile.close();
-  m_runok = 1;
-  return;
-  }
- 
-  mfile.close();
-
- #endif
-
-hit2[0] = '\0';
-
-std::string dllNamewin = dllName;
-
-std::size_t idx = dllNamewin.find("drive_c");
-
-    if(idx != std::string::npos)
+    if (*ptr != 0x5a4d)
     {
-    const char *hit = dllNamewin.c_str();
-    strcpy(hit2, hit);
-    hit2[idx - 1] = '\0';
-    setenv("WINEPREFIX", hit2, 1);
+        mfile.close();
+        m_runok = 1;
+        return;
+    }
+
+    mfile.seekg (60, mfile.beg);
+    mfile.read (&buffer[0], 4);
+
+    int *ptr2;
+    ptr2 = (int *) &buffer[0];
+    offset = *ptr2;
+    offset += 4;
+
+    mfile.seekg (offset, mfile.beg);
+    mfile.read (&buffer[0], 2);
+
+    unsigned short *ptr3;
+    ptr3 = (unsigned short *) &buffer[0];
+
+    dlltype = 0;
+    if (*ptr3 == 0x8664)
+        dlltype = 1;
+    else if (*ptr3 == 0x014c)
+        dlltype = 2;
+    else if (*ptr3 == 0x0200)
+        dlltype = 3;
+
+    if (dlltype == 0)
+    {
+        mfile.close();
+        m_runok = 1;
+        return;
+    }
+
+    mfile.close();
+#endif
+
+    hit2[0] = '\0';
+
+    std::string dllNamewin = dllName;
+    std::size_t idx = dllNamewin.find("drive_c");
+
+    if (idx != std::string::npos)
+    {
+        const char *hit = dllNamewin.c_str();
+        strcpy(hit2, hit);
+        hit2[idx - 1] = '\0';
+        setenv("WINEPREFIX", hit2, 1);
     }
 
     std::string arg = dllName + "," + getFileIdentifiers();
-
     const char *argStr = arg.c_str();
 
-				if ((child = vfork()) < 0) {
-                                        m_runok = 1;
-                                        return;
-				} else if (child == 0) { 
-					
+    if ((child = vfork()) < 0)
+    {
+        m_runok = 1;
+        return;
+    }
+    else if (child == 0)
+    {
+
 #ifdef VST6432
-
-      if(dlltype == 2)
-      {
-     
-       if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL)) {
-                                        m_runok = 1;
-                                         return;
-					}   
-
-      }
-      else
-      {
-
-       if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL)) {
-                                        m_runok = 1;
-                                         return;
-					}   
-      }
+        if (dlltype == 2)
+        {
+            if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL))
+            {
+                m_runok = 1;
+                return;
+            }
+        }
+        else
+        {
+            if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL))
+            {
+                m_runok = 1;
+                return;
+            }
+        }
 
 #else
-					
 #ifdef VST32
-  
-       if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL)) {
-                                        m_runok = 1;
-                                         return;
-					}  
+        if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL))
+        {
+            m_runok = 1;
+            return;
+        }
 #else
-
-       if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL)) {
-                                        m_runok = 1;
-                                         return;
-					}  
-
+        if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL))
+        {
+            m_runok = 1;
+            return;
+        }
 #endif
-					
 #endif
-                                         }
-                                         
-	                                syncStartup();
-    
-	
- }
+    }
+    syncStartup();
+}
 
 RemoteVSTClient::~RemoteVSTClient()
 {
 /*
-    for(int i=0;i<300;i++)
+    for (int i=0;i<300;i++)
     {
-    if(waitpid(-1, NULL, WNOHANG)) 
-    break;
-    usleep(10000);
-    } 
- */
+        if (waitpid(-1, NULL, WNOHANG))
+        break;
+        usleep(10000);
+    }
+*/
 }
-
-
