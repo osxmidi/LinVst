@@ -238,3 +238,5 @@ Makefile-embed6432 and Makefile-6432 build a LinVst version that autodetects and
 
 Makefile-embed6432 and Makefile-embed are for the host embedded window option.
 
+Makefile-embed6432-rt has real time audio support which may help with some latency issues.
+
