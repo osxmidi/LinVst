@@ -417,7 +417,7 @@ RemotePluginClient::~RemotePluginClient()
     m_threadbreakexit = 1;
 #endif
  */
-    if (theEffect); //FIXME this looks wrong
+    if (theEffect)
     delete theEffect;
     cleanup();
 }
