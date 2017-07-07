@@ -611,7 +611,7 @@ void RemotePluginServer::dispatchProcessEvents()
             break;
         }
 
-        size_t blocksz = m_bufferSize * sizeof(float);
+        size_t blocksz = sampleFrames * sizeof(float);
 
         for (int i = 0; i < m_numInputs; ++i)
         {
@@ -619,7 +619,7 @@ void RemotePluginServer::dispatchProcessEvents()
         }
         for (int i = 0; i < m_numOutputs; ++i)
         {
-            m_outputs[i] = (float *)(m_shm + (i + m_numInputs) * blocksz);
+            m_outputs[i] = (float *)(m_shm + i * blocksz);
         }
 
         process(m_inputs, m_outputs, sampleFrames);
