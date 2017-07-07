@@ -1006,7 +1006,7 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
 {
     if (m_finishaudio == 1)
         return;
-    if (m_bufferSize < 0)
+    if ((m_bufferSize <= 0) || (sampleFrames <= 0))
     {
         return;
     }
@@ -1031,11 +1031,12 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     }
 #endif
 
-    size_t blocksz = m_bufferSize * sizeof(float);
+    size_t blocksz = sampleFrames * sizeof(float);
 
-    for (int i = 0; i < m_numInputs; ++i)
+    if(m_numInputs > 0)
     {
-        memcpy(m_shm + i * blocksz, inputs[i], sampleFrames*sizeof(float));
+    for (int i = 0; i < m_numInputs; ++i)
+    memcpy(m_shm + i * blocksz, inputs[i], blocksz);
     }
 
     writeOpcode(m_processFd, RemotePluginProcess);
@@ -1043,13 +1044,12 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
 
     int resp;
 
-    while ((resp = readInt(m_processResponseFd)) != 100)
-    {
-    }
+    resp = readInt(m_processResponseFd);
 
-    for (int i = 0; i < m_numOutputs; ++i)
+    if(m_numOutputs > 0)
     {
-        memcpy(outputs[i], m_shm + (i + m_numInputs) * blocksz, sampleFrames*sizeof(float));
+    for (int i = 0; i < m_numOutputs; ++i)
+    memcpy(outputs[i], m_shm + i * blocksz, blocksz);
     }
     return;
 }
