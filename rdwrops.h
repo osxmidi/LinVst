@@ -6,6 +6,7 @@
 #ifndef _RD_WR_OPS_H_
 
 #include <string>
+#include <sched.h>
 #include "remoteplugin.h"
 
 extern void rdwr_tryWrite2(int fd, const void *buf, size_t count, const char *file, int line);
@@ -18,6 +19,8 @@ extern void rdwr_writeInt(int fd, int i, const char *file, int line);
 extern int rdwr_readInt(int fd, const char *file, int line);
 extern void rdwr_writeFloat(int fd, float f, const char *file, int line);
 extern float rdwr_readFloat(int fd, const char *file, int line);
+extern void rdwr_getWriteSchedInfo(int Fd, const char *file, int line);
+extern void rdwr_readSetSchedInfo(int Fd, const char *file, int line);
 
 #define tryWrite2(a, b, c) rdwr_tryWrite2(a, b, c, __FILE__, __LINE__)
 #define tryRead(a, b, c) rdwr_tryRead(a, b, c, __FILE__, __LINE__)
@@ -29,5 +32,7 @@ extern float rdwr_readFloat(int fd, const char *file, int line);
 #define readInt(a) rdwr_readInt(a, __FILE__, __LINE__)
 #define writeFloat(a, b) rdwr_writeFloat(a, b, __FILE__, __LINE__)
 #define readFloat(a) rdwr_readFloat(a, __FILE__, __LINE__)
+#define getWriteSchedInfo(a) rdwr_getWriteSchedInfo(a, __FILE__, __LINE__)
+#define readSetSchedInfo(a) rdwr_readSetSchedInfo(a, __FILE__, __LINE__)
 
 #endif

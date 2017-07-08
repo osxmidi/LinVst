@@ -104,6 +104,7 @@ void* RemotePluginClient::AMThread()
 */
                 opcode = -1;
                 tryRead(m_AMResponseFd, &opcode, sizeof(int));
+                readSetSchedInfo(m_AMResponseFd);
 
                 if (opcode == finishthread)
                     break;
@@ -795,24 +796,28 @@ float   RemotePluginClient::getVersion()
 {
     //FIXME!!! client code needs to be testing this
     writeOpcode(m_parRequestFd, RemotePluginGetVersion);
+    getWriteSchedInfo(m_parRequestFd);
     return readFloat(m_parResponseFd);
 }
 
 int RemotePluginClient::getUID()
 {
     writeOpcode(m_parRequestFd, RemotePluginUniqueID);
+    getWriteSchedInfo(m_parRequestFd);
     return readInt(m_parResponseFd);
 }
 
 std::string RemotePluginClient::getName()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetName);
+    getWriteSchedInfo(m_parRequestFd);
     return readString(m_parResponseFd);
 }
 
 std::string RemotePluginClient::getMaker()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetMaker);
+    getWriteSchedInfo(m_parRequestFd);
     return readString(m_parResponseFd);
 }
 
@@ -829,6 +834,7 @@ void RemotePluginClient::setBufferSize(int s)
 
     m_bufferSize = s;
     writeOpcode(m_parRequestFd, RemotePluginSetBufferSize);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, s);
     int ok = readInt(m_parResponseFd);
 }
@@ -836,6 +842,7 @@ void RemotePluginClient::setBufferSize(int s)
 void RemotePluginClient::setSampleRate(int s)
 {
     writeOpcode(m_parRequestFd, RemotePluginSetSampleRate);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, s);
     int ok = readInt(m_parResponseFd);
 }
@@ -843,6 +850,7 @@ void RemotePluginClient::setSampleRate(int s)
 void RemotePluginClient::reset()
 {
     writeOpcode(m_parRequestFd, RemotePluginReset);
+    getWriteSchedInfo(m_parRequestFd);
     if (m_shmSize > 0)
     {
         memset(m_shm, 0, m_shmSize);
@@ -855,11 +863,13 @@ void RemotePluginClient::reset()
 void RemotePluginClient::terminate()
 {
     writeOpcode(m_parRequestFd, RemotePluginTerminate);
+    getWriteSchedInfo(m_parRequestFd);
 }
 
 int RemotePluginClient::getEffInt(int opcode)
 {
     writeOpcode(m_parRequestFd, RemotePluginGetEffInt);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, opcode);
     return readInt(m_parResponseFd);
 }
@@ -867,6 +877,7 @@ int RemotePluginClient::getEffInt(int opcode)
 void RemotePluginClient::getEffString(int opcode, int index, char *ptr, int len)
 {
     writeOpcode(m_parRequestFd, RemotePluginGetEffString);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, opcode);
     writeInt(m_parRequestFd, index);
     strncpy(ptr, readString(m_parResponseFd).c_str(), len);
@@ -876,12 +887,14 @@ void RemotePluginClient::getEffString(int opcode, int index, char *ptr, int len)
 int RemotePluginClient::getFlags()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetFlags);
+    getWriteSchedInfo(m_parRequestFd);
     return readInt(m_parResponseFd);
 }
 
 int RemotePluginClient::getinitialDelay()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetinitialDelay);
+    getWriteSchedInfo(m_parRequestFd);
     return readInt(m_parResponseFd);
 }
 
@@ -891,6 +904,7 @@ int RemotePluginClient::getInputCount()
     // m_numInputs = readInt(m_processResponseFd);
 
     writeOpcode(m_parRequestFd, RemotePluginGetInputCount);
+    getWriteSchedInfo(m_parRequestFd);
     m_numInputs = readInt(m_parResponseFd);
     return m_numInputs;
 }
@@ -901,6 +915,7 @@ int RemotePluginClient::getOutputCount()
     // m_numOutputs = readInt(m_processResponseFd);
 
     writeOpcode(m_parRequestFd, RemotePluginGetOutputCount);
+    getWriteSchedInfo(m_parRequestFd);
     m_numOutputs = readInt(m_parResponseFd);
     return m_numOutputs;
 }
@@ -908,12 +923,14 @@ int RemotePluginClient::getOutputCount()
 int RemotePluginClient::getParameterCount()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetParameterCount);
+    getWriteSchedInfo(m_parRequestFd);
     return readInt(m_parResponseFd);
 }
 
 std::string RemotePluginClient::getParameterName(int p)
 {
     writeOpcode(m_parRequestFd, RemotePluginGetParameterName);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, p);
     return readString(m_parResponseFd);
 }
@@ -921,6 +938,7 @@ std::string RemotePluginClient::getParameterName(int p)
 void RemotePluginClient::setParameter(int p, float v)
 {
     writeOpcode(m_parRequestFd, RemotePluginSetParameter);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, p);
     writeFloat(m_parRequestFd, v);
     // wait for a response
@@ -930,6 +948,7 @@ void RemotePluginClient::setParameter(int p, float v)
 float RemotePluginClient::getParameter(int p)
 {
     writeOpcode(m_parRequestFd, RemotePluginGetParameter);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, p);
     return readFloat(m_parResponseFd);
 }
@@ -937,6 +956,7 @@ float RemotePluginClient::getParameter(int p)
 float RemotePluginClient::getParameterDefault(int p)
 {
     writeOpcode(m_parRequestFd, RemotePluginGetParameterDefault);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, p);
     return readFloat(m_parResponseFd);
 }
@@ -944,6 +964,7 @@ float RemotePluginClient::getParameterDefault(int p)
 void RemotePluginClient::getParameters(int p0, int pn, float *v)
 {
     writeOpcode(m_parRequestFd, RemotePluginGetParameters);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, p0);
     writeInt(m_parRequestFd, pn);
     tryRead(m_parResponseFd, v, (pn - p0 + 1) * sizeof(float));
@@ -952,12 +973,14 @@ void RemotePluginClient::getParameters(int p0, int pn, float *v)
 int RemotePluginClient::getProgramCount()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetProgramCount);
+    getWriteSchedInfo(m_parRequestFd);
     return readInt(m_parResponseFd);
 }
 
 std::string RemotePluginClient::getProgramNameIndexed(int n)
 {
     writeOpcode(m_parRequestFd, RemotePluginGetProgramNameIndexed);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, n);
     return readString(m_parResponseFd);
 }
@@ -965,12 +988,14 @@ std::string RemotePluginClient::getProgramNameIndexed(int n)
 std::string RemotePluginClient::getProgramName()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetProgramName);
+    getWriteSchedInfo(m_parRequestFd);
     return readString(m_parResponseFd);
 }
 
 void RemotePluginClient::setCurrentProgram(int n)
 {
     writeOpcode(m_parRequestFd, RemotePluginSetCurrentProgram);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, n);
     int ok = readInt(m_parResponseFd);
 }
@@ -997,6 +1022,7 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
         memcpy(m_shm + i * blocksz, inputs[i], sampleFrames*sizeof(float));
 
     writeOpcode(m_processFd, RemotePluginProcess);
+    getWriteSchedInfo(m_processFd);
     writeInt(m_processFd, sampleFrames);
 
     int resp;
@@ -1044,6 +1070,7 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     ret = evnts->numEvents;
 
     writeOpcode(m_processFd, RemotePluginProcessEvents);
+    getWriteSchedInfo(m_processFd);
     int ok = readInt(m_processResponseFd);
     return ret;
 }
@@ -1051,12 +1078,14 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
 void RemotePluginClient::setDebugLevel(RemotePluginDebugLevel level)
 {
     writeOpcode(m_parRequestFd, RemotePluginSetDebugLevel);
+    getWriteSchedInfo(m_parRequestFd);
     tryWrite(m_parRequestFd, &level, sizeof(RemotePluginDebugLevel));
 }
 
 bool RemotePluginClient::warn(std::string str)
 {
     writeOpcode(m_parRequestFd, RemotePluginWarn);
+    getWriteSchedInfo(m_parRequestFd);
     writeString(m_parRequestFd, str);
     bool b;
     tryRead(m_parResponseFd, &b, sizeof(bool));
@@ -1108,6 +1137,7 @@ int RemotePluginClient::getChunk(void **ptr, int bank_prg)
 {
     static void *chunk_ptr = 0;
     writeOpcode(m_parRequestFd, RemotePluginGetChunk);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, bank_prg);
     int sz = readInt(m_parResponseFd);
 
@@ -1123,6 +1153,7 @@ int RemotePluginClient::getChunk(void **ptr, int bank_prg)
 int RemotePluginClient::setChunk(void *ptr, int sz, int bank_prg)
 {
     writeOpcode(m_parRequestFd, RemotePluginSetChunk);
+    getWriteSchedInfo(m_parRequestFd);
     writeInt(m_parRequestFd, sz);
     writeInt(m_parRequestFd, bank_prg);
     tryWrite2(m_parRequestFd, ptr, sz);
@@ -1141,6 +1172,7 @@ int RemotePluginClient::canBeAutomated(int param)
 int RemotePluginClient::getProgram()
 {
     writeOpcode(m_parRequestFd, RemotePluginGetProgram);
+    getWriteSchedInfo(m_parRequestFd);
     return readInt(m_parResponseFd);
 }
 
@@ -1149,3 +1181,4 @@ int RemotePluginClient::EffectOpen()
     writeOpcode(m_controlRequestFd, RemotePluginEffectOpen);
     return readInt(m_controlResponseFd);
 }
+

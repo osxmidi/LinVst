@@ -164,3 +164,22 @@ extern float rdwr_readFloat(int fd, const char *file, int line)
     rdwr_tryRead(fd, &f, sizeof(float), file, line);
     return f;
 }
+
+extern void rdwr_getWriteSchedInfo(int fd, const char *file, int line)
+{
+    int policy = -1;
+    sched_param param;
+    param.sched_priority = -1;
+    pthread_getschedparam(pthread_self(), &policy, &param);
+    writeInt(fd, policy);
+    writeInt(fd, param.sched_priority);
+}
+
+extern void rdwr_readSetSchedInfo(int fd, const char *file, int line)
+{
+    int policy = readInt(fd);
+    sched_param param;
+    param.sched_priority = readInt(fd);
+    if (policy != -1)
+        pthread_setschedparam(pthread_self(), policy, &param);
+}

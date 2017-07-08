@@ -403,9 +403,11 @@ void RemoteVSTServer::effDoVoid(int opcode)
 #ifdef AMT
         finish = 9999;
         if (m_shm3)
-        writeInt(m_AMResponseFd, finish);
+        {
+            writeInt(m_AMResponseFd, finish);
+            getWriteSchedInfo(m_AMResponseFd);
+        }
 #endif
-
         writeInt(m_controlResponseFd, 1);
         // usleep(500000);
         terminate();
@@ -832,6 +834,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         if (alive && !exiting && remoteVSTServerInstance->m_shm3 && (bufferSize > 0))
         {
             writeInt(remoteVSTServerInstance->m_AMResponseFd, opcode);
+            getWriteSchedInfo(remoteVSTServerInstance->m_AMResponseFd);
             writeInt(remoteVSTServerInstance->m_AMResponseFd, value);
             tryRead(remoteVSTServerInstance->m_AMRequestFd, &timeInfo, sizeof(timeInfo));
             // printf("%f\n", timeInfo.sampleRate);
@@ -881,6 +884,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
                 *ptr2 = eventnum;
 
                 writeInt(remoteVSTServerInstance->m_AMResponseFd, opcode);
+                getWriteSchedInfo(remoteVSTServerInstance->m_AMResponseFd);
                 writeInt(remoteVSTServerInstance->m_AMResponseFd, value);
                 ok = readInt(remoteVSTServerInstance->m_AMRequestFd);
             }
@@ -937,6 +941,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         am.delay = plugin->initialDelay;
         am.flags &= ~effFlagsCanDoubleReplacing;
         writeInt(remoteVSTServerInstance->m_AMResponseFd, opcode);
+        getWriteSchedInfo(remoteVSTServerInstance->m_AMResponseFd);
         tryWrite(remoteVSTServerInstance->m_AMResponseFd, &am, sizeof(am));
         int ok2 = readInt(remoteVSTServerInstance->m_AMRequestFd);
 /*

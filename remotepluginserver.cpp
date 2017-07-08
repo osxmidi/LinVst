@@ -585,6 +585,8 @@ void RemotePluginServer::dispatchProcessEvents()
 */
     // std::cerr << "read process opcode: " << opcode << std::endl;
 
+    readSetSchedInfo(m_processFd);
+
     switch (opcode)
     {
     case RemotePluginProcess:
@@ -661,8 +663,6 @@ void RemotePluginServer::dispatchProcessEvents()
     // std::cerr << "dispatched process event\n";
 }
 
-
-
 void RemotePluginServer::dispatchParEvents()
 {
     RemotePluginOpcode  opcode = RemotePluginNoOpcode;
@@ -670,6 +670,8 @@ void RemotePluginServer::dispatchParEvents()
 
     tryRead(m_parRequestFd, &opcode, sizeof(RemotePluginOpcode));
     // std::cerr << "control opcoded " << opcode << std::endl;
+
+    readSetSchedInfo(m_parRequestFd);
 
     switch (opcode)
     {
