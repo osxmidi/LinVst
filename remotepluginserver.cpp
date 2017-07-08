@@ -449,7 +449,7 @@ void RemotePluginServer::dispatchControl(int timeout)
     else if (pfd.revents)
     {
         if (m_threadsfinish == 1)
-        return;
+            return;
         throw RemotePluginClosedException();
     }
 /*
@@ -463,7 +463,7 @@ void RemotePluginServer::dispatchControl(int timeout)
     if ((n = select(m_controlRequestFd+1, &rfds, &ofds, &ofds, &timeo)) == -1)
     {
         if (m_threadsfinish == 1)
-        return;
+            return;
         throw RemotePluginClosedException();
     }
     if (n == 1)
@@ -496,7 +496,7 @@ void RemotePluginServer::dispatchPar(int timeout)
     else if (pfd.revents)
     {
         if (m_threadsfinish == 1)
-        return;
+            return;
         throw RemotePluginClosedException();
     }
 /*
@@ -542,7 +542,7 @@ void RemotePluginServer::dispatchProcess(int timeout)
     else if (pfd.revents)
     {
         if (m_threadsfinish == 1)
-        return;
+            return;
         throw RemotePluginClosedException();
     }
 /*
