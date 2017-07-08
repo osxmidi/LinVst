@@ -776,6 +776,9 @@ void RemotePluginClient::sizeShm()
     {
         memset(m_shm, 0, sz);
         m_shmSize = sz;
+        
+        if(mlock(m_shm, sz) != 0)
+        perror("mlock fail1");
     }
 
     ftruncate(m_shmFd2, sz2);
@@ -790,6 +793,10 @@ void RemotePluginClient::sizeShm()
     {
         memset(m_shm2, 0, sz2);
         m_shmSize2 = sz2;
+
+        if(mlock(m_shm2, sz2) != 0)
+        perror("mlock fail2");
+
     }
 
     ftruncate(m_shmFd3, sz3);
@@ -804,6 +811,10 @@ void RemotePluginClient::sizeShm()
     {
         memset(m_shm3, 0, sz3);
         m_shmSize3 = sz3;
+
+        if(mlock(m_shm3, sz3) != 0)
+        perror("mlock fail3");
+
     }
 
 #ifdef AMT
