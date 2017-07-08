@@ -154,6 +154,8 @@ Guitar Rig 5 (same dll overrides as Kontakt)
 
 Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
 
+FM8
+
 TH3 Amp Sim
 
 Amplitube 4
