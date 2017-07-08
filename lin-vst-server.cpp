@@ -39,6 +39,7 @@
 #include <time.h>
 
 #include <sched.h>
+#include <sys/mman.h>
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -1197,6 +1198,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
     cout << "DSSI VST plugin server v" << RemotePluginVersion << endl;
     cout << "Copyright (c) 2004-2006 Chris Cannam" << endl;
+
+    mlockall(MCL_CURRENT | MCL_FUTURE);
 
     if (cmdline)
     {
