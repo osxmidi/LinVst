@@ -147,14 +147,14 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
 #endif
 
 #ifdef AMT
-    sprintf(tmpFileBase, "/tmp/rplugin_shm_%s", fileIdentifiers.substr(48, 6).c_str());
+    sprintf(tmpFileBase, "/vstrplugin_shm_%s", fileIdentifiers.substr(48, 6).c_str());
 #else
-    sprintf(tmpFileBase, "/tmp/rplugin_shm_%s", fileIdentifiers.substr(36, 6).c_str());
+    sprintf(tmpFileBase, "/vstrplugin_shm_%s", fileIdentifiers.substr(36, 6).c_str());
 #endif
     m_shmFileName = strdup(tmpFileBase);
 
     bool b = false;
-    if ((m_shmFd = open(m_shmFileName, O_RDWR)) < 0)
+    if ((m_shmFd = shm_open(m_shmFileName, O_RDWR, 0)) < 0) 
     {
         tryWrite(m_controlResponseFd, &b, sizeof(bool));
         cleanup();
@@ -162,13 +162,13 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     }
 
 #ifdef AMT
-    sprintf(tmpFileBase, "/tmp/rplugin_shn_%s", fileIdentifiers.substr(54, 6).c_str());
+    sprintf(tmpFileBase, "/vstrplugin_shn_%s", fileIdentifiers.substr(54, 6).c_str());
 #else
-    sprintf(tmpFileBase, "/tmp/rplugin_shn_%s", fileIdentifiers.substr(42, 6).c_str());
+    sprintf(tmpFileBase, "/vstrplugin_shn_%s", fileIdentifiers.substr(42, 6).c_str());
 #endif
     m_shmFileName2 = strdup(tmpFileBase);
 
-    if ((m_shmFd2 = open(m_shmFileName2, O_RDWR)) < 0)
+    if ((m_shmFd2 = shm_open(m_shmFileName2, O_RDWR, 0)) < 0) 
     {
         tryWrite(m_controlResponseFd, &b, sizeof(bool));
         cleanup();
@@ -176,19 +176,19 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     }
 
 #ifdef AMT
-    sprintf(tmpFileBase, "/tmp/rplugin_sho_%s", fileIdentifiers.substr(60, 6).c_str());
+    sprintf(tmpFileBase, "/vstrplugin_sho_%s", fileIdentifiers.substr(60, 6).c_str());
 #else
-    sprintf(tmpFileBase, "/tmp/rplugin_sho_%s", fileIdentifiers.substr(48, 6).c_str());
+    sprintf(tmpFileBase, "/vstrplugin_sho_%s", fileIdentifiers.substr(48, 6).c_str());
 #endif
     m_shmFileName3 = strdup(tmpFileBase);
 
-    if ((m_shmFd3 = open(m_shmFileName3, O_RDWR)) < 0)
+    if ((m_shmFd3 = shm_open(m_shmFileName3, O_RDWR, 0)) < 0) 
     {
         tryWrite(m_controlResponseFd, &b, sizeof(bool));
         cleanup();
         throw((std::string)"Failed to open shared memory file 3");
     }
-
+        
     b = true;
     tryWrite(m_controlResponseFd, &b, sizeof(bool));
 }
