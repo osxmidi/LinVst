@@ -38,3 +38,34 @@ Paths::getPath(std::string envVar, std::string deflt, std::string defltHomeRelPa
 
     return pathList;
 }
+
+int shm_mkstemp(char *fileBase)
+{
+    const char charSet[] = "abcdefghijklmnopqrstuvwxyz"
+                           "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                           "0123456789";
+    int size = strlen(fileBase);
+    if (size < 6) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    if (strcmp(fileBase + size - 6, "XXXXXX") != 0) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    while (1) {
+        for (int c = size - 6; c < size; c++) {
+            // Note the -1 to avoid the trailing '\0' in charSet.
+            fileBase[c] = charSet[rand() % (sizeof(charSet) - 1)];
+        }
+
+        int fd = shm_open(fileBase, O_RDWR | O_CREAT | O_EXCL, 0660);
+        if (fd >= 0) {
+            return fd;
+        } else if (errno != EEXIST) { 
+            return -1;
+        }
+    }
+}
