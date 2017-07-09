@@ -362,51 +362,32 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     }
 #endif
 
-    sprintf(tmpFileBase, "/tmp/rplugin_shm_XXXXXX");
-    if (mkstemp(tmpFileBase) < 0)
-    {
-        cleanup();
-        throw((std::string)"Failed to obtain temporary filename");
-    }
-    m_shmFileName = strdup(tmpFileBase);
-
-    m_shmFd = open(m_shmFileName, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    sprintf(tmpFileBase, "/vstrplugin_shm_XXXXXX");
+    m_shmFd = shm_mkstemp(tmpFileBase);
     if (m_shmFd < 0)
     {
         cleanup();
         throw((std::string)"Failed to open or create shared memory file");
     }
+    m_shmFileName = strdup(tmpFileBase);
 
-
-    sprintf(tmpFileBase, "/tmp/rplugin_shn_XXXXXX");
-    if (mkstemp(tmpFileBase) < 0)
-    {
-        cleanup();
-        throw((std::string)"Failed to obtain temporary filename");
-    }
-    m_shmFileName2 = strdup(tmpFileBase);
-
-    m_shmFd2 = open(m_shmFileName2, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    sprintf(tmpFileBase, "/vstrplugin_shn_XXXXXX");
+    m_shmFd2 = shm_mkstemp(tmpFileBase);
     if (m_shmFd2 < 0)
     {
         cleanup();
         throw((std::string)"Failed to open or create shared memory file");
     }
+    m_shmFileName2 = strdup(tmpFileBase);
 
-    sprintf(tmpFileBase, "/tmp/rplugin_sho_XXXXXX");
-    if (mkstemp(tmpFileBase) < 0)
-    {
-        cleanup();
-        throw((std::string)"Failed to obtain temporary filename");
-    }
-    m_shmFileName3 = strdup(tmpFileBase);
-
-    m_shmFd3 = open(m_shmFileName3, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    sprintf(tmpFileBase, "/vstrplugin_sho_XXXXXX");
+    m_shmFd3 = shm_mkstemp(tmpFileBase);
     if (m_shmFd3 < 0)
     {
         cleanup();
         throw((std::string)"Failed to open or create shared memory file");
     }
+    m_shmFileName3 = strdup(tmpFileBase);
 }
 
 RemotePluginClient::~RemotePluginClient()
