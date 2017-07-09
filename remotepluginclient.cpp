@@ -672,22 +672,21 @@ void RemotePluginClient::cleanup()
         close(m_shmFd3);
         m_shmFd3 = -1;
     }
-
     if (m_shmFileName)
     {
-        unlink(m_shmFileName);
+	shm_unlink(m_shmFileName);
         free(m_shmFileName);
         m_shmFileName = 0;
     }
     if (m_shmFileName2)
     {
-        unlink(m_shmFileName2);
+ 	shm_unlink(m_shmFileName2);
         free(m_shmFileName2);
         m_shmFileName2 = 0;
     }
     if (m_shmFileName3)
     {
-        unlink(m_shmFileName3);
+	shm_unlink(m_shmFileName3);
         free(m_shmFileName3);
         m_shmFileName3 = 0;
     }
