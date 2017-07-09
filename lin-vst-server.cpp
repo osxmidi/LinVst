@@ -1273,6 +1273,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     char *fileInfo = 0;
 
     cout << "DSSI VST plugin server v" << RemotePluginVersion << endl;
+    cout << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
+    cout << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
     cout << "Copyright (c) 2004-2006 Chris Cannam" << endl;
 
     if (cmdline)
