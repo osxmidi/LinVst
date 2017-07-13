@@ -208,7 +208,7 @@ For Ubuntu/Debian, sudo apt-get install libwine-development-dev
 
 wine-devel packages for other distros.
 
-libX11 development needed for embedded version.
+libX11 development needed for embedded version (sudo apt-get libx11-dev)
  
 Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
 
@@ -223,6 +223,10 @@ sudo apt-get install libc6-dev-i386
 sudo apt-get install gcc-multilib g++-multilib
 
 sudo apt-get install libwine-development-dev:i386
+
+For Debian add deb http://ftp.de.debian.org/debian distro main non-free to /etc/apt/sources.list (distro gets replaced with distro ie stretch etc)
+
+
 
 --------
 
