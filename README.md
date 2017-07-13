@@ -226,7 +226,7 @@ sudo apt-get install libwine-development-dev:i386
 
 For Debian add deb http://ftp.de.debian.org/debian distro main non-free to /etc/apt/sources.list (distro gets replaced with distro ie stretch etc)
 
-
+sudo apt-get update
 
 --------
 
