@@ -140,7 +140,7 @@ Upgrading to the latest wine-stable version is recommended.
 
 Latency
 
-Some distros/wine are resulting in varying latency.
+Some distros/wine can result in varying latency results.
 
 LinVst has produced reasonable latency results on Ubuntu Studio, but not on some other distros, so some distros (and their setups, wine etc) might be better than others for latency.
 
