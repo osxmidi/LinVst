@@ -142,7 +142,7 @@ Latency
 
 Some distros/wine can result in varying latency results.
 
-LinVst has produced reasonable latency results on Ubuntu Studio, but not on some other distros, so some distros (and their setups, wine etc) might be better than others for latency.
+LinVst has produced reasonable latency results on Ubuntu Studio and Debian with a realtime kernel, but not on some other distros, so some distros (and their setups, wine etc) might be better than others for latency.
 
 ------
 
