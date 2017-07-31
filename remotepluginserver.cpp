@@ -876,8 +876,10 @@ void RemotePluginServer::dispatchGetSetEvents()
     case RemotePluginGetParameter:
     {
         float *ptr2;
+        float retval;
         ptr2 = (float *)&m_shm3[65536];
-        *ptr2 = getParameter(readIntring(&m_shmControl->ringBuffer));
+        retval = getParameter(readIntring(&m_shmControl->ringBuffer));
+        *ptr2 = retval;
         break;
     }
 
