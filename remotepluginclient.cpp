@@ -1064,6 +1064,7 @@ float
 RemotePluginClient::getParameter(int p)
 {
     float *ptr2;
+    float retval;
     if(m_shm)
     {
     ptr2 = (float *)&m_shm3[65536];
@@ -1071,7 +1072,8 @@ RemotePluginClient::getParameter(int p)
     writeIntring(&m_shmControl->ringBuffer, p);
     commitWrite(&m_shmControl->ringBuffer);
     waitForServer();
-    return *ptr2;
+    retval = *ptr2; 
+    return retval;
     }
 }
 
