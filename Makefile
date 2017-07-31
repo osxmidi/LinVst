@@ -25,10 +25,10 @@ TARGETS     = linvst.so lin-vst-server.exe
 
 all: $(TARGETS)
 
-linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o rdwrops.unix.o paths.unix.o
+linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o paths.unix.o
 	$(CXX) $^ $(LINK_PLUGIN) -o $@
 	
-lin-vst-server.exe: lin-vst-server.wine.o remotepluginserver.wine.o rdwrops.wine.o paths.wine.o
+lin-vst-server.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
 	$(WINECXX) $^ $(LINK_WINE) -o $@
 
 # --------------------------------------------------------------
@@ -41,10 +41,7 @@ remotevstclient.unix.o: remotevstclient.cpp
 	
 remotepluginclient.unix.o: remotepluginclient.cpp
 	$(CXX) $(BUILD_FLAGS) -c $^ -o $@
-
-rdwrops.unix.o: rdwrops.cpp
-	$(CXX) $(BUILD_FLAGS) -c $^ -o $@
-
+	
 paths.unix.o: paths.cpp
 	$(CXX) $(BUILD_FLAGS) -c $^ -o $@
 
@@ -55,9 +52,6 @@ lin-vst-server.wine.o: lin-vst-server.cpp
 	$(WINECXX) $(BUILD_FLAGS_WIN) -c $^ -o $@
 
 remotepluginserver.wine.o: remotepluginserver.cpp
-	$(WINECXX) $(BUILD_FLAGS_WIN) -c $^ -o $@
-
-rdwrops.wine.o: rdwrops.cpp
 	$(WINECXX) $(BUILD_FLAGS_WIN) -c $^ -o $@
 
 paths.wine.o: paths.cpp
