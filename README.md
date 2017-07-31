@@ -256,3 +256,4 @@ Makefile-embed6432-rt (host embedded window) has real time audio support which m
 
 Makefile-rt (standalone window) has real time audio support which may help with some latency issues.
 
+The standalone window version may be better suited for some hosts (Tracktion).
