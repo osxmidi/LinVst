@@ -866,6 +866,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterProcessEvents:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterProcessEvents requested" << endl;
+/*
 #ifdef AMT
         {
             VstEvents   *evnts;
@@ -909,6 +910,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             }
         }
 #endif
+*/
         break;
 
     case DEPRECATED_VST_SYMBOL(audioMasterSetTime):
