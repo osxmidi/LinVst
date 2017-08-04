@@ -228,7 +228,7 @@ sudo make install
 
 Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder
 
-Makefile-embed is for the host embedded window option.
+Makefile is for a standalone window version and Makefile-embed is for the host embedded window version.
 
 Makefile-embed-rt (host embedded window) has real time audio support which may help with some latency issues.
 
