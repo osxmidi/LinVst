@@ -218,24 +218,6 @@ wine-devel packages for other distros.
 
 libX11 development needed for embedded version (sudo apt-get install libx11-dev)
  
-Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
-
-Additional 32 bit development libraries are probably needed.
-
-On Ubuntu/Debian 64 bits 
-
-sudo dpkg --add-architecture i386
-
-sudo apt-get install libc6-dev-i386
-
-sudo apt-get install gcc-multilib g++-multilib
-
-sudo apt-get install libwine-development-dev:i386
-
-For Debian add deb http://ftp.de.debian.org/debian distro main non-free to /etc/apt/sources.list (distro gets replaced with distro ie stretch etc)
-
-sudo apt-get update
-
 --------
 
 sudo make clean
@@ -246,13 +228,9 @@ sudo make install
 
 Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder
 
-(also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support)
+Makefile-embed is for the host embedded window option.
 
-Makefile-embed6432 and Makefile-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
-
-Makefile-embed6432 and Makefile-embed are for the host embedded window option.
-
-Makefile-embed6432-rt (host embedded window) has real time audio support which may help with some latency issues.
+Makefile-embed-rt (host embedded window) has real time audio support which may help with some latency issues.
 
 Makefile-rt (standalone window) has real time audio support which may help with some latency issues.
 
