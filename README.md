@@ -194,7 +194,7 @@ u-he Protoverb Reverb
 
 Obxd Synth
 
-OB-X-PRO-II (Disable d2d1 in the Libraries section of winecfg)
+OP-X-PRO-II (Disable d2d1 in the Libraries section of winecfg)
 
 MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg)
 
