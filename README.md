@@ -117,6 +117,8 @@ Sometimes required dll's might be missing and additional windows redistributable
 
 Some windows vst's use D3D, and Wine uses Linux OpenGL to implement D3D, so a capable Linux OpenGL driver/setup might be required for some windows vst's.
 
+Disabling d2d1 in the Libraries section of winecfg can help with some windows vst's.
+
 Some D3D dll overrides might be needed for some windows vst's.
 
 D3D/OpenGL Wine config advice can be found at gaming forums and other forums.
@@ -191,6 +193,10 @@ u-he Podolski Synth
 u-he Protoverb Reverb
 
 Obxd Synth
+
+OB-X-PRO-II (Disable d2d1 in the Libraries section of winecfg)
+
+MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg)
 
 Ignite Amps TPA-1 Amp Sim
 
