@@ -34,6 +34,7 @@
 
 #include <time.h>
 #include <iostream>
+#include <errno.h>
 
 RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_bufferSize(-1),
