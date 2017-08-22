@@ -11,17 +11,15 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DVST6432 -DAMT -DEMBED -DRINGB -DLVRT $(CXX_FLAGS)
+BUILD_FLAGS  = -fPIC -O2 -DAMT -DEMBED -DRINGB $(CXX_FLAGS)
 BUILD_FLAGS_WIN = -m64 -O2 -DAMT -DEMBED -DRINGB -I/usr/include/wine-development/windows
-BUILD_FLAGS_WIN32 = -m32 -O2 -DAMT -DEMBED -DRINGB -I/usr/include/wine-development/windows
 
 LINK_FLAGS   = $(LDFLAGS)
 
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
-LINK_WINE   = -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
-LINK_WINE32   = -L/usr/lib/i386-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
+LINK_WINE   = -lpthread -lrt $(LINK_FLAGS)
 
-TARGETS     = linvst.so lin-vst-server.exe lin-vst-server32.exe
+TARGETS     = linvst.so lin-vst-server.exe
 
 # --------------------------------------------------------------
 
@@ -31,10 +29,7 @@ linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o paths.
 	$(CXX) $^ $(LINK_PLUGIN) -o $@
 	
 lin-vst-server.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
-	$(WINECXX) -m64 $^ $(LINK_WINE) -o $@
-
-lin-vst-server32.exe: lin-vst-server.wine32.o remotepluginserver.wine32.o paths.wine32.o
-	$(WINECXX) -m32 $^ $(LINK_WINE32) -o $@
+	$(WINECXX) $^ $(LINK_WINE) -o $@
 
 # --------------------------------------------------------------
 
@@ -62,16 +57,6 @@ remotepluginserver.wine.o: remotepluginserver.cpp
 paths.wine.o: paths.cpp
 	$(WINECXX) $(BUILD_FLAGS_WIN) -c $^ -o $@
 
-lin-vst-server.wine32.o: lin-vst-server.cpp
-	$(WINECXX) $(BUILD_FLAGS_WIN32) -c $^ -o $@
-
-remotepluginserver.wine32.o: remotepluginserver.cpp
-	$(WINECXX) $(BUILD_FLAGS_WIN32) -c $^ -o $@
-
-paths.wine32.o: paths.cpp
-	$(WINECXX) $(BUILD_FLAGS_WIN32) -c $^ -o $@
-
-
 
 clean:
 	rm -fR *.o *.exe *.so vst $(TARGETS)
@@ -81,4 +66,3 @@ install:
 	install -d $(VST_DIR)
 	install -m 755 linvst.so $(VST_DIR)
 	install -m 755 lin-vst-server.exe lin-vst-server.exe.so $(BIN_DIR)
-	install -m 755 lin-vst-server32.exe lin-vst-server32.exe.so $(BIN_DIR)
