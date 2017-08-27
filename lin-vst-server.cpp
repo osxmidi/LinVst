@@ -146,7 +146,7 @@ public:
 
     HWND                hWnd;
     WNDCLASSEX          wclass;
-    UINT_PTR            timerval;
+    UINT                timerval;
     bool                haveGui;
 
     int                 setprogrammiss;
@@ -314,7 +314,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
             cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
             haveGui = false;
         }	    
-	SetTimer(0, timerval, 20, 0);
+	timerval = SetTimer(0, 0, 20, 0);
     }
 
 #ifndef EMBED
