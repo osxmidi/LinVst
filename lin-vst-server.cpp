@@ -146,6 +146,7 @@ public:
 
     HWND                hWnd;
     WNDCLASSEX          wclass;
+    UINT_PTR            timerval;
     bool                haveGui;
 
     int                 setprogrammiss;
@@ -281,6 +282,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     setprogrammiss(0),
     hostreaper(0),
     haveGui(true),
+    timerval(0),
     hWnd(0)
 {   
     if(starterror == 1)
@@ -311,8 +313,8 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
         {
             cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
             haveGui = false;
-        }
-
+        }	    
+	SetTimer(0, timerval, 20, 0);
     }
 
 #ifndef EMBED
@@ -381,6 +383,9 @@ void RemoteVSTServer::EffectOpen()
 
 RemoteVSTServer::~RemoteVSTServer()
 {
+    if (haveGui == true)
+    KillTimer(0, timerval);
+		
     if (guiVisible)
     {
 #ifndef EMBED
