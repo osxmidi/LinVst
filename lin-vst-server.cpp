@@ -146,7 +146,7 @@ public:
 
     HWND                hWnd;
     WNDCLASSEX          wclass;
-    UINT                timerval;
+    UINT_PTR            timerval;
     bool                haveGui;
 
     int                 setprogrammiss;
