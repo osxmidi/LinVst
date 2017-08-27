@@ -129,7 +129,7 @@ Winetricks might help with some plugins https://github.com/Winetricks/winetricks
 
 Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines current implementation.
 
-Winetricks wininet and/or installing winbind for a distro (sudo apt-get install winbind) might help (wininet and it's associated dll's can also be manually installed as dll overrides).
+Running winetricks wininet and/or installing winbind for a distro (sudo apt-get install winbind) might help (wininet and it's associated dll's can also be manually installed as dll overrides).
 
 Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
 
@@ -183,6 +183,8 @@ T-RackS
 Nebula4
 
 VUMT
+
+Sforzando
 
 Stillwell plugins
 
