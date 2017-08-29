@@ -105,9 +105,13 @@ Sometimes a windows vst needs a Wine dll override.
 
 If the Wine debugger displays "unimplemented function in XXXX.dll" somewhere in it's output, then that dll usually needs to be overriden with a windows dll.
 
-Overriding a dll involves copying the windows dll to .wine/drive_c/windows/system and then running winecfg to tell wine to override the dll.
+Overriding a dll involves copying the windows dll to a wine windows directory and then running winecfg to configure wine to override the dll.
 
-Run winecfg and select the Libraries tab and then select the dll to override from the list.
+64 bit .dlls are copied to /home/username/.wine/drive_c/windows/system32 
+
+32 bit .dlls are copied to /home/username/.wine/drive_c/windows/syswow64
+
+Run winecfg and select the Libraries tab and then select the dll to override from the list or type the name.
 
 Check with the edit option that the dll's settings are native first and then builtin.
 
