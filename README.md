@@ -113,7 +113,7 @@ Overriding a dll involves copying the windows dll to a wine windows directory an
 
 Run winecfg and select the Libraries tab and then select the dll to override from the list or type the name.
 
-Check with the edit option that the dll's settings are native first and then builtin.
+After adding the dll, check with the edit option that the dll's settings are native first and then builtin.
 
 https://www.winehq.org/docs/wineusr-guide/config-wine-main
 
