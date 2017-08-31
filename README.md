@@ -170,6 +170,8 @@ Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
 
 FM8
 
+Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides)
+
 TH3 Amp Sim
 
 Amplitube 4
