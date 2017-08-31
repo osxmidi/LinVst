@@ -174,6 +174,8 @@ FM8
 
 Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides) (copy and paste username and password into the registration window)
 
+S-Gear Amp Sim
+
 TH3 Amp Sim
 
 Amplitube 4
