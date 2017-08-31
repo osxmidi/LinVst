@@ -101,6 +101,8 @@ Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
 Wine Config
 
+Sometimes usernames and passwords might need to be copied and pasted into the window because manual entry might not work in all cases.
+
 Sometimes a windows vst needs a Wine dll override.
 
 If the Wine debugger displays "unimplemented function in XXXX.dll" somewhere in it's output, then that dll usually needs to be overriden with a windows dll.
@@ -170,7 +172,7 @@ Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
 
 FM8
 
-Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides)
+Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides) (copy and paste username and password into the registration window)
 
 TH3 Amp Sim
 
