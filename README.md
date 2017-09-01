@@ -142,6 +142,8 @@ Turning off the vst's multiprocessor support and/or GPU acceleration might help 
 On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
 The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
 
+Drag and Drop features in vst's are not supported.
+
 Upgrading to the latest wine-stable version is recommended.
 
 ------
@@ -155,6 +157,8 @@ LinVst has produced reasonable latency results on Ubuntu Studio and Debian with 
 ------
 
 LinVst tested with Wine 2 and Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.4
+
+Drag and Drop features are not supported.
 
 Tested vst's
 
@@ -178,7 +182,9 @@ S-Gear Amp Sim
 
 TH3 Amp Sim
 
-Amplitube 4
+IK Amplitube 4
+
+IK SampleTank
 
 Addictive Drums 2 (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
 
