@@ -216,6 +216,8 @@ Klanghelm MJUC Compressor
 
 TDR SlickEQ mixing/mastering equalizer 
 
+Toneboosters TrackEssentials (disable d2d1 for Ferox)
+
 --------
 
 To make
