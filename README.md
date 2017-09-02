@@ -202,6 +202,8 @@ VUMT
 
 Sforzando
 
+Zampler RX
+
 Stillwell plugins
 
 Cobalt (Sanford) Synth
