@@ -101,7 +101,7 @@ Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
 Common Problems/Fixes
 
-A large number of vst plugin crashes/problems can be basically narrowed down to the following dll's and overriding/disabling them.
+A large number of vst plugin crashes/problems can be basically narrowed down to the following dll's and then worked around by overriding/disabling them.
 
 Quite a few vst plugins rely on the Visual C++ Redistributable dlls msvcr120.dll msvcr140.dll msvcp120.dll msvcp140.dll etc
 
