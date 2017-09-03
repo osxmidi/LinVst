@@ -101,19 +101,25 @@ Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
 Common Problems/Fixes
 
+A large number of vst plugin crashes/problems can be basically narrowed down to the following dll's and overriding/disabling them.
+
 Quite a few vst plugins rely on the Visual C++ Redistributable dlls msvcr120.dll msvcr140.dll msvcp120.dll msvcp140.dll etc
 
 Some vst plugins might crash if the Visual C++ Redistributable dlls are not present in /home/username/.wine/drive_c/windows/system32 for 64 bit vst's and /home/username/.wine/drive_c/windows/syswow64 for 32 bit vst's, and then overridden in the winecfg Libraries tab
 
 Quite a few plugins rely on the d2d1 dll 
 
-Some vsts might crash if Wines inbuilt d2d1 is active (which it is by default).
+Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
 
 d2d1 can be disabled in the winecfg Libraries tab.
 
 wininet is used by some vst's for net access including registration and online help etc and sometimes wines inbuilt wininet might cause a crash or have unimplemented functions.
 
 wininet can be overridden with wininet.dll and iertutil.dll and nsi.dll
+
+Occasionally other dlls might need to be overridden such as gdiplus.dll etc
+
+For details about overriding a dll, see the next section (Wine Config).
 
 ------
 
