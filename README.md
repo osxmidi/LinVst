@@ -133,7 +133,7 @@ winetricks gdiplus
 
 Winetricks also has a force flag --force ie winetricks --force vcrun2013
 
-cabextract needs to be installed (sudo apt-get install cabextract)
+cabextract needs to be installed (sudo apt-get install cabextract, yum install cabextract etc)
 
 For details about overriding dll's, see the next section (Wine Config).
 
