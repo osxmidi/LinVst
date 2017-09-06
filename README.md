@@ -99,7 +99,7 @@ Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
 ------
 
-Common Problems/Fixes
+Common Problems/Possible Fixes
 
 A large number of vst plugin crashes/problems can be basically narrowed down to the following dll's and then worked around by overriding/disabling them.
 
@@ -119,7 +119,21 @@ wininet can be overridden with wininet.dll and iertutil.dll and nsi.dll
 
 Occasionally other dlls might need to be overridden such as gdiplus.dll etc
 
-For details about overriding a dll, see the next section (Wine Config).
+Winetricks https://github.com/Winetricks/winetricks can make overriding dll's easier.
+
+For the above dll overrides
+
+winetricks vcrun2013
+
+winetricks vcrun2015
+
+winetricks wininet
+
+winetricks gdiplus
+
+Winetricks also has a force flag --force ie winetricks --force vcrun2013
+
+For details about overriding dll's, see the next section (Wine Config).
 
 ------
 
