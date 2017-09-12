@@ -296,6 +296,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
 
     if (haveGui)
     {
+	memset(&wclass, 0, sizeof(WNDCLASSEX));
         wclass.cbSize = sizeof(WNDCLASSEX);
         wclass.style = 0;
         wclass.lpfnWndProc = MainProc;
