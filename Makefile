@@ -11,8 +11,8 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DAMT -DEMBED -DRINGB -DLVRT $(CXX_FLAGS)
-BUILD_FLAGS_WIN = -m64 -O2 -DAMT -DEMBED -DRINGB -I/usr/include/wine-development/windows
+BUILD_FLAGS  = -fPIC -O2 -DAMT -DRINGB -DLVRT $(CXX_FLAGS)
+BUILD_FLAGS_WIN = -m64 -O2 -DAMT -DRINGB -I/usr/include/wine-development/windows
 
 LINK_FLAGS   = $(LDFLAGS)
 
