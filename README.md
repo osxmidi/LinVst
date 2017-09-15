@@ -276,7 +276,7 @@ The plugininterfaces folder contained within the VST2_SDK folder, needs to be pl
 
 Wine libwine development files.
 
-For Ubuntu/Debian, sudo apt-get install libwine-development-dev
+For Ubuntu/Debian, sudo apt-get install libwine-development-dev (for Ubuntu 14.04 it's sudo apt-get install wine1.8 and sudo apt-get install wine1.8-dev)
 
 wine-devel packages for other distros.
 
