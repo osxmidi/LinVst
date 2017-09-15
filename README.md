@@ -316,6 +316,8 @@ Makefile-embed6432 and Makefile-noembed6432 build a LinVst version that autodete
 
 Makefile-embed6432 and Makefile-embed are for the host embedded window option.
 
+Makefile-xembed6432 and Makefile-xembed are for the host embedded window option using XEMBED (some display problems might occur).
+
 Makefile-noembed6432 and Makefile-noembed are for a standalone window version that can be useful for some hosts (Tracktion).
 
 
