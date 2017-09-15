@@ -11,13 +11,13 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DVST6432 -DEMBED -DLVRT -DSEM -DXEMBED $(CXX_FLAGS)
-BUILD_FLAGS_WIN = -m64 -O2 -DEMBED -DSEM -I/usr/include/wine-development/windows
-BUILD_FLAGS_WIN32 = -m32 -O2 -DEMBED -DSEM -I/usr/include/wine-development/windows
+BUILD_FLAGS  = -fPIC -O2 -DVST6432 -DLVRT -DSEM $(CXX_FLAGS)
+BUILD_FLAGS_WIN = -m64 -O2 -DSEM -I/usr/include/wine-development/windows
+BUILD_FLAGS_WIN32 = -m32 -O2 -DSEM -I/usr/include/wine-development/windows
 
 LINK_FLAGS   = $(LDFLAGS)
 
-LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
+LINK_PLUGIN = -shared -lpthread -ldl -lrt $(LINK_FLAGS)
 LINK_WINE   = -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 LINK_WINE32   = -L/usr/lib/i386-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 
