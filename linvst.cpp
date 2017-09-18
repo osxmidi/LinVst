@@ -175,27 +175,23 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         rp->top = 0;
         rp->right = width;
         rp->left = 0;
-
+	    
         display = XOpenDisplay(0);
         XResizeWindow(display, parent, width, height);
-        XSync(display, false);
-        XFlush(display);
-        usleep(100000);
         XReparentWindow(display, child, parent, 0, 0);
-        XSync(display, false);
-        XFlush(display);
 #ifdef XEMBED
+        usleep(250000);
 	sendXembedMessage(display, child, XEMBED_EMBEDDED_NOTIFY, 0, parent, 0);
+        usleep(250000);
 #endif
-        XSync(display, false);
-        XFlush(display);
         XMapWindow(display, child);
         XSync(display, false);
         XFlush(display);
         XCloseDisplay(display);
-        usleep(100000);
+#ifdef XEMBED            
+        usleep(250000);
+#endif        
         plugin->openGUI();
- 
      }
 #else
         plugin->showGUI();
