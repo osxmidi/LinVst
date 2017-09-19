@@ -445,7 +445,7 @@ void RemotePluginServer::sizeShm()
 #ifdef SEM
 
 void
-RemotePluginClient::waitForClient2exit()
+RemotePluginServer::waitForClient2exit()
 {
     if(m_386run == 0)
     {
@@ -458,7 +458,7 @@ RemotePluginClient::waitForClient2exit()
 }
 
 void
-RemotePluginClient::waitForClient3exit()
+RemotePluginServer::waitForClient3exit()
 {
     if(m_386run == 0)
     {
@@ -471,7 +471,7 @@ RemotePluginClient::waitForClient3exit()
 }
 
 void
-RemotePluginClient::waitForClient4exit()
+RemotePluginServer::waitForClient4exit()
 {
     if(m_386run == 0)
     {
@@ -484,7 +484,7 @@ RemotePluginClient::waitForClient4exit()
 }
 
 void
-RemotePluginClient::waitForClient5exit()
+RemotePluginServer::waitForClient5exit()
 {
     if(m_386run == 0)
     {
@@ -499,25 +499,25 @@ RemotePluginClient::waitForClient5exit()
 #else
 
 void
-RemotePluginClient::waitForClient2exit()
+RemotePluginServer::waitForClient2exit()
 {
     fpost(&m_shmControl2->runClient);
 }
 
 void
-RemotePluginClient::waitForClient3exit()
+RemotePluginServer::waitForClient3exit()
 {
     fpost(&m_shmControl3->runClient);
 }
 
 void
-RemotePluginClient::waitForClient4exit()
+RemotePluginServer::waitForClient4exit()
 {
     fpost(&m_shmControl4->runClient);
 }
 
 void
-RemotePluginClient::waitForClient5exit()
+RemotePluginServer::waitForClient5exit()
 {
     fpost(&m_shmControl5->runClient);
 }
