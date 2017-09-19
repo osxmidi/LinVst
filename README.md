@@ -320,7 +320,7 @@ Makefile-noembed6432 and Makefile-noembed are for a standalone window version th
 
 Makefile-noembed6432-drag and Makefile-noembed-drag are for a standalone window version that can accept drag and drop files.
 
-
+Makefiles ending with ontop are for a standalone window version with a always ontop window.
 
 
 
