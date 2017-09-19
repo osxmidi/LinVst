@@ -1372,6 +1372,12 @@ void RemotePluginServer::RemotePluginClosedException()
 m_inexcept = 1;
 
 m_runok = 1;
+	
+waitForClient2exit();
+waitForClient3exit();
+waitForClient4exit();
+waitForClient5exit();
+	
 terminate();
 }
 
