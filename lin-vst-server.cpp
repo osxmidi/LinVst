@@ -163,8 +163,8 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
     case WM_CLOSE:
 #ifndef EMBED
-        // if (!exiting && guiVisible)
-            // remoteVSTServerInstance->hideGUI();
+         if (!exiting && guiVisible)
+         remoteVSTServerInstance->hideGUI();
 #endif
         return TRUE;
     }
