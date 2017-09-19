@@ -681,8 +681,7 @@ void RemoteVSTServer::showGUI()
     }
     else
     {
-        SetWindowPos(hWnd, 0, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25,
-                        SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+        SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
 
         if (debugLevel > 0)
             cerr << "dssi-vst-server[1]: sized window" << endl;
