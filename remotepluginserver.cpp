@@ -442,6 +442,88 @@ void RemotePluginServer::sizeShm()
 
 }
 
+#ifdef SEM
+
+void
+RemotePluginClient::waitForClient2exit()
+{
+    if(m_386run == 0)
+    {
+    sem_post(&m_shmControl2->runClient);
+    }
+    else
+    {
+    fpost(&m_shmControl2->runClient386);
+    }
+}
+
+void
+RemotePluginClient::waitForClient3exit()
+{
+    if(m_386run == 0)
+    {
+    sem_post(&m_shmControl3->runClient);
+    }
+    else
+    {
+    fpost(&m_shmControl3->runClient386);
+    }
+}
+
+void
+RemotePluginClient::waitForClient4exit()
+{
+    if(m_386run == 0)
+    {
+    sem_post(&m_shmControl4->runClient);
+    }
+    else
+    {
+    fpost(&m_shmControl4->runClient386);
+    }
+}
+
+void
+RemotePluginClient::waitForClient5exit()
+{
+    if(m_386run == 0)
+    {
+    sem_post(&m_shmControl5->runClient);
+    }
+    else
+    {
+    fpost(&m_shmControl5->runClient386);
+    }
+}
+
+#else
+
+void
+RemotePluginClient::waitForClient2exit()
+{
+    fpost(&m_shmControl2->runClient);
+}
+
+void
+RemotePluginClient::waitForClient3exit()
+{
+    fpost(&m_shmControl3->runClient);
+}
+
+void
+RemotePluginClient::waitForClient4exit()
+{
+    fpost(&m_shmControl4->runClient);
+}
+
+void
+RemotePluginClient::waitForClient5exit()
+{
+    fpost(&m_shmControl5->runClient);
+}
+
+#endif
+
 void RemotePluginServer::dispatch(int timeout)
 {
 }
