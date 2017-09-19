@@ -635,8 +635,7 @@ void RemoteVSTServer::showGUI()
     }
     else
     {
-        SetWindowPos(hWnd, 0, 0, 0, rect->right - rect->left, rect->bottom - rect->top,
-                        SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+        SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
 
         if (debugLevel > 0)
             cerr << "dssi-vst-server[1]: sized window" << endl;
@@ -718,8 +717,8 @@ void RemoteVSTServer::hideGUI()
 #ifdef EMBED
 void RemoteVSTServer::openGUI()
 {
-    // ShowWindow(hWnd, SW_SHOWNORMAL);
-    ShowWindow(hWnd, SW_SHOW);
+    ShowWindow(hWnd, SW_SHOWNORMAL);
+    // ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);
 }
 #endif
