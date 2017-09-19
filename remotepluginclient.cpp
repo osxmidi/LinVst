@@ -1111,6 +1111,19 @@ RemotePluginClient::waitForServer5exit()
     }
 }
 
+void
+RemotePluginClient::waitForClientexit()
+{
+    if(m_386run == 0)
+    {
+    sem_post(&m_shmControl->runClient);
+    }
+    else
+    {
+    fpost(&m_shmControl->runClient386);
+    }
+}
+
 #else
 
 void
@@ -1181,6 +1194,11 @@ RemotePluginClient::waitForServer5exit()
     fpost(&m_shmControl5->runServer);
 }
 
+void
+RemotePluginClient::waitForClientexit()
+{
+    fpost(&m_shmControl->runClient);
+}
 
 #endif
 
@@ -1323,6 +1341,7 @@ void RemotePluginClient::effVoidOp(int opcode)
 {
     if (opcode == effClose)
     {
+	waitForClientexit()    
         m_threadbreak = 1;
         m_finishaudio = 1;
         writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid);
