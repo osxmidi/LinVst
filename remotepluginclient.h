@@ -94,6 +94,8 @@ public:
     void                waitForServer3exit();
     void                waitForServer4exit();
     void                waitForServer5exit();
+    
+    void                waitForClientexit();
 
     void                setDebugLevel(RemotePluginDebugLevel);
     bool                warn(std::string);
