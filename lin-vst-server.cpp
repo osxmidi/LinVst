@@ -368,6 +368,14 @@ void RemoteVSTServer::EffectOpen()
 */
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
+	
+#ifndef EMBED
+    if (haveGui == true)
+    {
+    if(hWnd)
+    SetWindowText(hWnd, m_name.c_str());
+    }
+#endif   	
 
     plugok = true;
 }
