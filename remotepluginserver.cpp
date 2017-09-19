@@ -1157,7 +1157,13 @@ void RemotePluginServer::dispatchControlEvents()
     {
         int opcode = readIntring(&m_shmControl3->ringBuffer);
         if (opcode == effClose)
-            m_threadsfinish = 1;
+	{	
+        m_threadsfinish = 1;
+	waitForClient2exit();
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
+	}	
         effDoVoid(opcode);
         break;
     }
