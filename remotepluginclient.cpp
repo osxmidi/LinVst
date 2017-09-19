@@ -1341,7 +1341,7 @@ void RemotePluginClient::effVoidOp(int opcode)
 {
     if (opcode == effClose)
     {
-	waitForClientexit()    
+	waitForClientexit();    
         m_threadbreak = 1;
         m_finishaudio = 1;
         writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid);
