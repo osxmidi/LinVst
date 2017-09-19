@@ -605,7 +605,7 @@ void RemoteVSTServer::showGUI()
         DestroyWindow(hWnd);
     hWnd = 0;
 
-    hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+    hWnd = CreateWindowEx(WS_EX_TOOLWINDOW, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
     if (!hWnd)
     {
         // cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
@@ -680,7 +680,7 @@ void RemoteVSTServer::showGUI()
     }
     else
     {
-        SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
+        SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
 
         if (debugLevel > 0)
             cerr << "dssi-vst-server[1]: sized window" << endl;
