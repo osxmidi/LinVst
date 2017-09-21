@@ -265,7 +265,7 @@ void* RemotePluginClient::EMBEDThread()
       XSync(display, false);
       XFlush(display);
          
-      usleep(100000);
+      usleep(250000);
        
       openGUI();
   
