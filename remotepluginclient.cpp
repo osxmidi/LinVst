@@ -36,7 +36,7 @@
 
 #include "paths.h"
 
-#ifdef EMBED
+#ifdef XEMBED
 #define XEMBED_EMBEDDED_NOTIFY	0
 #define XEMBED_FOCUS_OUT 5
 #endif
