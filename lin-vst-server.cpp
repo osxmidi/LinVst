@@ -281,7 +281,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
         haveGui = false;
     }
 
-    if (haveGui)
+    if (haveGui == true)
     {
 	memset(&wclass, 0, sizeof(WNDCLASSEX));
         wclass.cbSize = sizeof(WNDCLASSEX);
@@ -386,25 +386,18 @@ void RemoteVSTServer::EffectOpen()
 RemoteVSTServer::~RemoteVSTServer()
 {
     if (haveGui == true)
-    KillTimer(0, timerval);
-
- //   if (guiVisible)
-    if (haveGui)
     {
-        if(m_plugin)
-        m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+    KillTimer(0, timerval);
+	
+    if(m_plugin)
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+	  
+    if(hWnd)
+    DestroyWindow(hWnd);
 	    
-	// #ifndef EMBED
-        if(hWnd)
-        {
-          DestroyWindow(hWnd);
-       // ShowWindow(hWnd, SW_HIDE);
-      //  UpdateWindow(hWnd);
-        }
-// #endif
-    
-        guiVisible = false;
+    guiVisible = false;
     }
+	
     if(m_plugin)
     {
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
