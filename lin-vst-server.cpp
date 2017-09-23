@@ -388,18 +388,21 @@ RemoteVSTServer::~RemoteVSTServer()
     if (haveGui == true)
     KillTimer(0, timerval);
 
-    if (guiVisible)
+ //   if (guiVisible)
+    if (haveGui)
     {
-#ifndef EMBED
+        if(m_plugin)
+        m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+	    
+	// #ifndef EMBED
         if(hWnd)
         {
           DestroyWindow(hWnd);
        // ShowWindow(hWnd, SW_HIDE);
       //  UpdateWindow(hWnd);
         }
-#endif
-        if(m_plugin)
-        m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+// #endif
+    
         guiVisible = false;
     }
     if(m_plugin)
