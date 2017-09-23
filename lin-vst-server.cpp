@@ -166,9 +166,12 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
          if (!exiting && guiVisible)
          remoteVSTServerInstance->hideGUI();
 #endif
-        return TRUE;
+    break;
+	
+    default:
+    return DefWindowProc(hWnd, msg, wParam, lParam);		   
     }
-    return DefWindowProc(hWnd, msg, wParam, lParam);
+ return 0;
 }
 
 DWORD WINAPI AudioThreadMain(LPVOID parameter)
