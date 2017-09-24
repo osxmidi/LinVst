@@ -391,11 +391,6 @@ RemoteVSTServer::~RemoteVSTServer()
 	
     if(m_plugin)
     m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
-	  
-    if(hWnd)
-    DestroyWindow(hWnd);
-	    
-    guiVisible = false;
     }
 	
     if(m_plugin)
