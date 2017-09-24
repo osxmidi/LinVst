@@ -146,7 +146,11 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         XResizeWindow(plugin->display, plugin->parent, plugin->winm.width, plugin->winm.height);
 
         plugin->runembed = 1;  
+            
+        displayerr = 0;
         }
+        else
+        displayerr = 1;
      }   
 #else
     {
@@ -188,7 +192,11 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         XFlush(display);
 
         XCloseDisplay(display);
+            
+        displayerr = 0;   
         }
+        else
+        displayerr = 1;
     }
 
 #endif
@@ -198,7 +206,13 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
     case effEditClose:
+#ifdef EMBED
+         if(displayerr == 1)
+         break;
+         plugin->hideGUI();           
+#else            
         plugin->hideGUI();
+#endif            
         break;
 
     case effCanDo:
