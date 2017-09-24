@@ -146,6 +146,8 @@ public:
         int width;
         int height;
      } winm;
+    
+  int displayerr;
 #endif
 
 char *m_shm3;
