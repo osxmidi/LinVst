@@ -323,6 +323,9 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_runok(0),
     m_syncok(0),
     m_386run(0),
+#ifdef EMBED
+    displayerr(0),
+#endif
 #ifdef XEMBED
     runembed(0),
 #endif
