@@ -387,7 +387,7 @@ RemoteVSTServer::~RemoteVSTServer()
 {
     if (haveGui == true)
     {
-    KillTimer(0, timerval);
+  //  KillTimer(0, timerval);
 	
     if(m_plugin)
     m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
