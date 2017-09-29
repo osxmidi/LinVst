@@ -12,7 +12,7 @@ BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
 BUILD_FLAGS  = -fPIC -O2 -DLVRT -DSEM $(CXX_FLAGS)
-BUILD_FLAGS_WIN = -m64 -O2 -DSEM -I/usr/include/wine-development/windows
+BUILD_FLAGS_WIN = -m64 -O2 -DSEM -DDRAG -I/usr/include/wine-development/windows
 
 LINK_FLAGS   = $(LDFLAGS)
 
