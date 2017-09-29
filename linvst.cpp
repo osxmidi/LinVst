@@ -1,0 +1,521 @@
+/*  linvst is based on wacvst Copyright 2009 retroware. All rights reserved. and dssi-vst Copyright 2004-2007 Chris Cannam
+
+    linvst Mark White 2017
+
+    This file is part of linvst.
+
+    linvst is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+*/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <iostream>
+
+#include "remotevstclient.h"
+
+#ifdef EMBED
+
+#include <X11/Xlib.h>
+// #include <X11/Xatom.h>
+#endif
+
+extern "C" {
+
+#define VST_EXPORT   __attribute__ ((visibility ("default")))
+
+    extern VST_EXPORT AEffect * VSTPluginMain(audioMasterCallback audioMaster);
+
+    AEffect * main_plugin (audioMasterCallback audioMaster) asm ("main");
+
+#define main main_plugin
+
+    VST_EXPORT AEffect * main(audioMasterCallback audioMaster)
+    {
+        return VSTPluginMain(audioMaster);
+    }
+}
+
+#ifdef EMBED
+#ifdef XEMBED
+#ifndef EMBEDTHREAD
+
+#define XEMBED_EMBEDDED_NOTIFY	0
+#define XEMBED_FOCUS_OUT 5
+
+void sendXembedMessage(Display* display, Window window, long message, long detail,
+		long data1, long data2)
+{
+	XEvent event;
+
+	memset(&event, 0, sizeof(event));
+	event.xclient.type = ClientMessage;
+	event.xclient.window = window;
+	event.xclient.message_type = XInternAtom(display, "_XEMBED", false);
+	event.xclient.format = 32;
+	event.xclient.data.l[0] = CurrentTime;
+	event.xclient.data.l[1] = message;
+	event.xclient.data.l[2] = detail;
+	event.xclient.data.l[3] = data1;
+	event.xclient.data.l[4] = data2;
+
+	XSendEvent(display, window, false, NoEventMask, &event);
+//	XSync(display, false);
+}
+#endif
+#endif
+#endif
+
+#ifdef EMBED
+#ifndef XEMBED
+void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2)
+{
+static int x = 0;
+static int y = 0;
+static Window ignored = 0;
+
+     if(eventrun2 == 1)
+      {
+     if(parent && child && display)
+      {
+
+      int pending = XPending(display);
+
+    for (int i=0; i<pending; i++)
+      {
+      XEvent e;
+
+      XNextEvent(display, &e);
+
+      switch (e.type)
+      {
+      case ConfigureNotify:
+      x = 0;
+      y = 0;
+      ignored = 0;
+
+      XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0, 0, &x, &y, &ignored);
+      e.xconfigure.send_event = false;
+      e.xconfigure.type = ConfigureNotify;
+      e.xconfigure.event = child;
+      e.xconfigure.window = child;
+      e.xconfigure.x = x;
+      e.xconfigure.y = y;
+      e.xconfigure.width = width;
+      e.xconfigure.height = height;
+      e.xconfigure.border_width = 0;
+      e.xconfigure.above = None;
+      e.xconfigure.override_redirect = False;
+      XSendEvent (display, child, False, StructureNotifyMask | SubstructureRedirectMask, &e);
+      break;
+
+      default:
+      break;
+         }
+        }
+      }
+     }
+    }
+#endif
+#endif
+
+VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr value, void* ptr, float opt)
+{
+    RemotePluginClient  *plugin = (RemotePluginClient *) effect->object;
+    VstIntPtr           v = 0;
+    static ERect        retRect = {0,0,200,500};
+
+    switch (opcode)
+    {
+    case effEditGetRect:
+    {
+        ERect *rp = &retRect;
+        *((struct ERect **)ptr) = rp;
+    }
+        break;
+
+    case effEditIdle:
+#ifdef EMBED
+#ifndef XEMBED
+        if(plugin->eventrun == 1)
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun);
+#endif
+#endif
+        // plugin->effVoidOp(effEditIdle);
+        break;
+
+    case effStartProcess:
+        plugin->effVoidOp(effStartProcess);
+        break;
+
+    case effStopProcess:
+        plugin->effVoidOp(effStopProcess);
+        break;
+
+    case effGetVendorString:
+        strncpy((char *) ptr, plugin->getMaker().c_str(), kVstMaxVendorStrLen);
+        break;
+
+    case effGetEffectName:
+        strncpy((char *) ptr, plugin->getName().c_str(), kVstMaxEffectNameLen);
+        break;
+
+    case effGetParamName:
+        strncpy((char *) ptr, plugin->getParameterName(index).c_str(), kVstMaxParamStrLen);
+        break;
+
+    case effGetParamLabel:
+        plugin->getEffString(effGetParamLabel, index, (char *) ptr, kVstMaxParamStrLen);
+        break;
+
+    case effGetParamDisplay:
+        plugin->getEffString(effGetParamDisplay, index, (char *) ptr, kVstMaxParamStrLen);
+        break;
+
+    case effGetProgramNameIndexed:
+        strncpy((char *) ptr, plugin->getProgramNameIndexed(index).c_str(), kVstMaxProgNameLen);
+        break;
+
+    case effGetProgramName:
+        strncpy((char *) ptr, plugin->getProgramName().c_str(), kVstMaxProgNameLen);
+        break;
+
+    case effSetSampleRate:
+        plugin->setSampleRate(opt);
+        break;
+
+    case effSetBlockSize:
+        plugin->setBufferSize ((VstInt32)value);
+        break;
+
+    case effGetVstVersion:
+        v = kVstVersion;
+        break;
+
+    case effGetPlugCategory:
+        v = plugin->getEffInt(effGetPlugCategory);
+        break;
+
+    case effSetProgram:
+        plugin->setCurrentProgram((VstInt32)value);
+        break;
+
+    case effEditOpen:
+#ifdef EMBED
+#ifdef XEMBED
+    {
+        plugin->showGUI();
+       // usleep(50000);
+
+        plugin->handle = plugin->winm.handle;
+        plugin->width = plugin->winm.width;
+        plugin->height = plugin->winm.height;
+        plugin->parent = (Window) ptr;
+        plugin->child = (Window) plugin->handle;
+
+        ERect *rp = &retRect;
+        rp->bottom = plugin->height;
+        rp->top = 0;
+        rp->right = plugin->width;
+        rp->left = 0;
+
+        plugin->display = XOpenDisplay(0);
+
+        if(plugin->display && plugin->handle)
+        {	    
+        XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
+
+#ifdef EMBEDTHREAD
+        plugin->runembed = 1;  
+#else
+     XReparentWindow(plugin->display, plugin->child, plugin->parent, 0, 0);
+
+  //    usleep(250000);
+      sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
+    //  usleep(250000);
+
+      XMapWindow(plugin->display, plugin->child);
+      XSync(plugin->display, false);
+      XFlush(plugin->display);
+         
+      usleep(250000);
+       
+      plugin->openGUI();
+
+      XCloseDisplay(plugin->display);
+      plugin->display = 0;
+#endif            
+        plugin->displayerr = 0;
+        }
+       else
+       {
+       plugin->displayerr = 1;
+       plugin->display = 0;
+       }
+     }   
+#else
+    {
+        plugin->showGUI();
+      //  usleep(50000);
+
+        plugin->handle = plugin->winm.handle;
+        plugin->width = plugin->winm.width;
+        plugin->height = plugin->winm.height;
+        plugin->parent = (Window) ptr;
+        plugin->child = (Window) plugin->handle;
+
+        ERect *rp = &retRect;
+        rp->bottom = plugin->height;
+        rp->top = 0;
+        rp->right = plugin->width;
+        rp->left = 0;
+
+        plugin->display = XOpenDisplay(0);
+
+        if(plugin->display && plugin->handle)
+        {
+       plugin->root = 0;
+       plugin->children = 0;
+       plugin->num = 0;
+
+       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+
+       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+ 
+       plugin->eventrun = 1;
+
+       XSync(plugin->display, false);
+       XFlush(plugin->display);
+
+       XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
+
+#ifdef EMBEDTHREAD
+        plugin->runembed = 1;  
+#else
+       usleep(100000);
+
+       XReparentWindow(plugin->display, plugin->child, plugin->parent, 0, 0);
+
+       XMoveResizeWindow(plugin->display, plugin->child, 0, 0, plugin->width, plugin->height);
+
+       XMapWindow(plugin->display, plugin->child);
+       XSync(plugin->display, false);
+       XFlush(plugin->display);
+
+ //     usleep(100000);
+
+       plugin->openGUI();
+#endif          
+       plugin->displayerr = 0;   
+       }
+       else
+       {
+       plugin->displayerr = 1;
+       plugin->display = 0;
+       plugin->eventrun = 0;
+       }
+     }
+#endif
+#else
+        plugin->showGUI();
+#endif
+        break;
+
+    case effEditClose:
+#ifdef EMBED
+#ifndef XEMBED
+        plugin->eventrun = 0;
+#endif
+        if(plugin->displayerr == 1)
+        break;
+
+        plugin->hideGUI();  
+
+#ifndef XEMBED
+        if(plugin->display)
+        {
+        XSync(plugin->display, false);
+        XCloseDisplay(plugin->display);
+        plugin->display = 0;
+        }   
+#endif     
+#else            
+        plugin->hideGUI();
+#endif            
+        break;
+
+    case effCanDo:
+     //   if (ptr && !strcmp((char *)ptr,"hasCockosExtensions"))
+      //       plugin->effVoidOp(effCanDo);
+        v = 1;
+        break;
+
+    case effProcessEvents:
+        v = plugin->processVstEvents((VstEvents *) ptr);
+        break;
+
+    case effGetChunk:
+        v = plugin->getChunk((void **) ptr, index);
+        break;
+
+    case effSetChunk:
+        v = plugin->setChunk(ptr, value, index);
+        break;
+
+    case effGetProgram:
+        v = plugin->getProgram();
+        break;
+
+    case effClose:
+#ifdef EMBED
+#ifndef XEMBED
+        plugin->eventrun = 0;
+#endif
+#endif
+        plugin->effVoidOp(effClose);
+
+#ifdef EMBED
+#ifndef XEMBED
+        if(plugin->display)
+        {
+        XSync(plugin->display, false);
+        XCloseDisplay(plugin->display);
+        plugin->display = 0;
+        }
+#endif
+#endif
+
+/*
+#ifdef AMT
+        if(plugin->m_shm3)
+        {
+            for(int i=0;i<500;i++)
+            {
+                usleep(10000);
+                if(plugin->m_threadbreakexit)
+                break;
+            }
+        }
+        else
+        {
+            usleep(500000);
+        }
+#else
+        usleep(500000);
+#endif
+*/
+        delete plugin;
+        break;
+
+    default:
+        break;
+    }
+    return v;
+}
+
+void processDouble(AEffect* effect, double** inputs, double** outputs, VstInt32 sampleFrames)
+{
+    return;
+}
+
+void process(AEffect* effect, float** inputs, float** outputs, VstInt32 sampleFrames)
+{
+    RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
+
+    if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
+        plugin->process(inputs, outputs, sampleFrames);
+    return;
+}
+
+void setParameter(AEffect* effect, VstInt32 index, float parameter)
+{
+    RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
+
+    if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
+        plugin->setParameter(index, parameter);
+    return;
+}
+
+float getParameter(AEffect* effect, VstInt32 index)
+{
+    RemotePluginClient  *plugin = (RemotePluginClient *) effect->object;
+    float               retval = -1;
+
+    if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
+        retval = plugin->getParameter(index);
+    return retval;
+}
+
+void initEffect(AEffect *eff, RemotePluginClient *plugin)
+{
+    memset(eff, 0x0, sizeof(AEffect));
+    eff->magic = kEffectMagic;
+    eff->dispatcher = dispatcher;
+    eff->setParameter = setParameter;
+    eff->getParameter = getParameter;
+    eff->numInputs = plugin->getInputCount();
+    eff->numOutputs = plugin->getOutputCount();
+    eff->numPrograms = plugin->getProgramCount();
+    eff->numParams = plugin->getParameterCount();
+    eff->flags = plugin->getFlags();
+    eff->flags &= ~effFlagsCanDoubleReplacing;
+    eff->flags |= effFlagsCanReplacing;
+    eff->resvd1 = 0;
+    eff->resvd2 = 0;
+    eff->initialDelay = plugin->getinitialDelay();
+    eff->object = (void *) plugin;
+    eff->user = 0;
+    eff->uniqueID = plugin->getUID();
+    eff->version = 100;
+    eff->processReplacing = process;
+    eff->processDoubleReplacing = processDouble;
+}
+
+
+VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
+{
+    RemotePluginClient *plugin;
+
+    if (!audioMaster (0, audioMasterVersion, 0, 0, 0, 0))
+        return 0;
+
+    try
+    {
+        plugin = new RemoteVSTClient(audioMaster);
+    }
+    catch (std::string e)
+    {
+        std::cerr << "Could not connect to Server" << std::endl;
+        if(plugin)
+        delete plugin;
+        return 0;
+    }
+
+    if(plugin->m_runok == 1)
+    {
+        if(plugin)
+        delete plugin;
+        return 0;
+    }
+
+    if(plugin->EffectOpen() == 1)
+        initEffect(plugin->theEffect, plugin);
+
+// #ifdef EMBED
+  //     XInitThreads();
+// #endif
+
+    return plugin->theEffect;
+}
