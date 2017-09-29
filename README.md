@@ -312,15 +312,11 @@ Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs l
 
 Makefile-embed6432 and Makefile-noembed6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
 
-Makefile-embed6432 and Makefile-embed are for the host embedded window option.
+Makefile-embed6432 and Makefile-embed are for the daw embedded window option.
 
-Makefile-xembed6432 and Makefile-xembed are for the host embedded window option using XEMBED (some display problems might occur).
+Makefile-noembed6432 and Makefile-noembed are for a standalone window version that can be useful for some daw's.
 
-Makefile-noembed6432 and Makefile-noembed are for a standalone window version that can be useful for some hosts (Tracktion).
-
-Makefile-noembed6432-drag and Makefile-noembed-drag are for a standalone window version that can accept drag and drop files.
-
-Makefiles ending with ontop are for a standalone window version with a always ontop window.
+Makefiles ending with ontop are for a standalone window version with an always ontop window.
 
 
 
