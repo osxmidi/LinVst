@@ -196,7 +196,7 @@ LinVst has produced reasonable latency results on Ubuntu Studio and Debian with 
 
 ------
 
-LinVst tested with Wine 2 and Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Renoise 3.1
+LinVst tested with Wine 2 and Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Linux Renoise 3.1
 
 Tested vst's
 
