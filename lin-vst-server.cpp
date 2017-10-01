@@ -1075,13 +1075,11 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 #ifndef EMBED
         if (remoteVSTServerInstance->hWnd)
 	{	
-	   if (!exiting && guiVisible)	
-            ShowWindow(hWnd, SW_HIDE);
-            SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE);
+            SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);
 	    if (!exiting && guiVisible)
 	    {		    
-	    ShowWindow(hWnd, SW_SHOWNORMAL);
-            UpdateWindow(hWnd);
+	    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
+            UpdateWindow(remoteVSTServerInstance->hWnd);
 	    }	    
 	}   
         rv = 1;
