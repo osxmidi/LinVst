@@ -312,7 +312,7 @@ Makefile-embed6432 and Makefile-noembed6432 build a LinVst version that autodete
 
 Makefile-embed6432 and Makefile-embed are for the daw embedded window option.
 
-Makefile-embed6432-drag is for a drag and drop embedded window version.
+Makefile-embed6432-drag and Makefile-embed-drag are for a drag and drop embedded window version that enables dragging and dropping ino he daws embedded window for Linux Reaper, Linux Tracktion and Linux Bitwig (not Linux Ardour).
 
 Makefile-noembed6432 and Makefile-noembed are for a standalone window version that can be useful for some daw's.
 
