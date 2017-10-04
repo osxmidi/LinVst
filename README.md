@@ -236,7 +236,7 @@ Nebula4
 
 VUMT
 
-Sforzando
+Sforzando (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 
 Zampler RX
 
