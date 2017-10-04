@@ -182,8 +182,6 @@ Turning off the vst's multiprocessor support and/or GPU acceleration might help 
 On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
 The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
 
-Drag and Drop features are not supported on LinVst embedded window versions.
-
 Upgrading to the latest wine-stable version is recommended.
 
 ------
@@ -313,6 +311,8 @@ Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs l
 Makefile-embed6432 and Makefile-noembed6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
 
 Makefile-embed6432 and Makefile-embed are for the daw embedded window option.
+
+Makefile-embed6432-drag is for a drag and drop embedded window version.
 
 Makefile-noembed6432 and Makefile-noembed are for a standalone window version that can be useful for some daw's.
 
