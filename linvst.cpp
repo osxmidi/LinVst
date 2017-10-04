@@ -194,7 +194,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     static Atom XdndProxy;
     static Atom XdndAware;
     static Atom version;
-    static XSetWindowAttributes attr  = {0};
+    static XSetWindowAttributes attr = {0};
 #endif
 #endif
 
