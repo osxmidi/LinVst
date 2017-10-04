@@ -192,6 +192,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #ifdef EMBEDDRAG
     static int parentok = 0;
     static Atom XdndProxy;
+    static Atom XdndAware;
+    static Atom version;
     static XSetWindowAttributes attr  = {0};
 #endif
 #endif
@@ -359,10 +361,12 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
        plugin->x11_win = XCreateWindow(plugin->display, DefaultRootWindow(plugin->display), 0, 0, 1, 1, 0, 0, InputOnly, CopyFromParent, CWEventMask, &attr);
 
+       if(plugin->x11_win)
+       {
        XdndProxy = XInternAtom(plugin->display, "XdndProxy", False);
 
-       Atom XdndAware = XInternAtom(plugin->display, "XdndAware", False);
-       Atom version = 5;
+       XdndAware = XInternAtom(plugin->display, "XdndAware", False);
+       version = 5;
        XChangeProperty(plugin->display, plugin->x11_win, XdndAware, XA_ATOM, 32, PropModeReplace, (unsigned char*)&version, 1);
 
        if(XQueryTree(plugin->display, plugin->parent, &plugin->root, &plugin->pparent, &plugin->children, &plugin->numchildren) != 0)
@@ -375,11 +379,12 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        
        if(parentok)
        XChangeProperty(plugin->display, plugin->pparent, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char*)&plugin->x11_win, 1);
-else
+       else
        XChangeProperty(plugin->display, plugin->parent, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char*)&plugin->x11_win, 1);
 
        XChangeProperty(plugin->display, plugin->x11_win, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char*)&plugin->x11_win, 1);
-#endif
+       }
+       #endif
 
        XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
 
