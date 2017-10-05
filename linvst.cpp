@@ -383,6 +383,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        version = 5;
        XChangeProperty(plugin->display, plugin->x11_win, XdndAware, XA_ATOM, 32, PropModeReplace, (unsigned char*)&version, 1);
 
+       parentok = 0;
+	       
        if(XQueryTree(plugin->display, plugin->parent, &plugin->root, &plugin->pparent, &plugin->children, &plugin->numchildren) != 0)
        {
        if(plugin->children)
