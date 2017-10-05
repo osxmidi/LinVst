@@ -192,7 +192,7 @@ static Window ignored = 0;
 
       memset(&cm, sizeof(cm), 0);
       cm.type = ClientMessage;
-      cm.display = e.xclient.display;
+      cm.display = display;
       cm.window = e.xclient.data.l[0];
       cm.message_type = XdndFinished;
       cm.format=32;
