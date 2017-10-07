@@ -238,6 +238,8 @@ VUMT
 
 Sforzando (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 
+Groove Machine (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+
 Zampler RX
 
 Stillwell plugins
