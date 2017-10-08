@@ -250,7 +250,7 @@ Spire Synth (Disable d2d1 in the Libraries section of winecfg)
 
 OP-X PRO-II (Disable d2d1 in the Libraries section of winecfg)
 
-MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg)
+MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 
 Ignite Amps TPA-1 Amp Sim
 
