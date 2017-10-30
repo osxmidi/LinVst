@@ -320,7 +320,7 @@ Makefile-noembed6432 and Makefile-noembed are for a standalone window version th
 
 Makefiles ending with ontop are for a standalone window version with an always ontop window.
 
-LinVst-Linux32bit-only.zip is for Linux 32bit only systems.
+LinVst-Linux32bit-only.zip contains makefiles for Linux 32bit only systems.
 
 
 
