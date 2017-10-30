@@ -219,7 +219,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 
 #else
 #ifdef VST32
-        if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL))
+        if (execlp("/usr/bin/lin-vst-serverlx32.exe", "/usr/bin/lin-vst-serverlx32.exe", argStr, NULL))
         {
             m_runok = 1;
             return;
