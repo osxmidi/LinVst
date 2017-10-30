@@ -276,7 +276,7 @@ Wine libwine development files.
 
 For Ubuntu/Debian, sudo apt-get install libwine-development-dev (for Ubuntu 14.04 it's sudo apt-get install wine1.8 and sudo apt-get install wine1.8-dev)
 
-wine-devel packages for other distros.
+wine-devel packages for other distros (sudo apt-get install wine-devel).
 
 libX11 development needed for embedded version (sudo apt-get install libx11-dev)
  
