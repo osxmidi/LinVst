@@ -192,7 +192,7 @@ Some distros/wine can result in varying latency results.
 
 LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel and on Debian 9 with a realtime kernel, but not on some other distros without a low latency/real time kernel, so some distros (and their setups, wine etc) might be better than some others for latency.
 
-wineserver can have it's priority level changed from normal to high or very high, by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
+wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
 
 ------
 
