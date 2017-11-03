@@ -194,6 +194,8 @@ LinVst has produced reasonable latency results on Ubuntu Studio with a low laten
 
 wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
 
+The wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 0 and 99 for example STAGING_RT_PRIORITY_SERVER=60
+
 ------
 
 LinVst tested with Wine 2 and Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Linux Renoise 3.1
