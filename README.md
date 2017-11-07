@@ -272,7 +272,7 @@ TDR SlickEQ mixing/mastering equalizer
 
 Toneboosters TrackEssentials (disable d2d1 for Ferox)
 
-Serum Synth (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override)
+Serum Synth (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
 --------
 
