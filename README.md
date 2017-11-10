@@ -145,6 +145,10 @@ Sometimes usernames and passwords might need to be copied and pasted into the wi
 
 Sometimes a windows vst needs a Wine dll override.
 
+Finding out what dll's to possibly override can be done by running "strings vstname.dll | grep -i dll", which will display a list of dll's from the plugins dll file.
+
+For instance, if the dll list contains d2d1.dll and there are problems running the plugin, then d2d1 might possibly be a candidate to override or disable.
+
 If the Wine debugger displays "unimplemented function in XXXX.dll" somewhere in it's output, then that dll usually needs to be overriden with a windows dll.
 
 Overriding a dll involves copying the windows dll to a wine windows directory and then running winecfg to configure wine to override the dll.
