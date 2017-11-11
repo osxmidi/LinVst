@@ -1,1 +1,5 @@
 pluginterfaces
+vst
+*.so
+*.o
+*.exe
