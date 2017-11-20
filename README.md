@@ -135,6 +135,8 @@ Winetricks also has a force flag --force ie winetricks --force vcrun2013
 
 cabextract needs to be installed (sudo apt-get install cabextract, yum install cabextract etc)
 
+To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
+
 For details about overriding dll's, see the next section (Wine Config).
 
 ------
@@ -256,7 +258,7 @@ Stillwell plugins
 
 Cobalt (Sanford) Synth
 
-Spire Synth (Disable d2d1 in the Libraries section of winecfg)
+Spire Synth (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
 OP-X PRO-II (Disable d2d1 in the Libraries section of winecfg)
 
