@@ -198,7 +198,9 @@ Some distros/wine can result in varying latency results.
 
 LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel and on Debian 9 with a realtime kernel (AV Linux should be similar), but not on some other distros without a low latency/real time kernel, so some distros (and their setups, wine etc) might be better than some others for latency.
 
-There is also rtirq https://github.com/rncbc/rtirq
+There is also rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian)
+
+Ubuntu Studio and it's low latency kernel combined with rtirq-init, can produce reasonable latency results.
 
 Setting wineserver to a higher priority may have an effect on cpu load and system response on some systems/setups/plugins.
 
