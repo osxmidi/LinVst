@@ -340,7 +340,7 @@ Makefiles ending with ontop are for a standalone window version with an always o
 
 LinVst-Linux32bit-only.zip contains makefiles for Linux 32bit only systems.
 
-A -no-pie option might be needed for the linvstconvert and linvstconvert tree utilities icons.
+A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
 
 
 
