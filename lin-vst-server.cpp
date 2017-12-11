@@ -617,8 +617,8 @@ void RemoteVSTServer::showGUI()
         return;
     }
 
-    if (hWnd)
-        DestroyWindow(hWnd);
+   // if (hWnd)
+   //     DestroyWindow(hWnd);
     hWnd = 0;
 
 
