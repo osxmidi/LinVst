@@ -28,7 +28,7 @@ Use the renamed file (test.so) in a Linux VST capable DAW
 Load test.so within the Linux DAW and then test.so will load and run the (name associated) test.dll windows vst 
 
 linvstconvert (GUI or CLI) and linvstconverttree can automatically batch name convert linvst.so to mutiple windows vst dll names that are located in a folder/directory (the linvstconvert CLI version needs to be run from within the dll's folder/directory).
-linconvertree can automatically name convert folders and sub folders (directories and sub directories) of vst dll plugins.
+linvstconverttree can automatically name convert folders and sub folders (directories and sub directories) of vst dll plugins.
 
 sudo permission might be needed for some folders/directories that don't have user permissions.
 
@@ -76,7 +76,7 @@ Another way is to make a symbolic link to ~/.wine/drive_c/Program Files/VstPlugi
 
 There can be multiple WINEPREFIXES (by default there is one ~/.wine) containing various vst dll plugins and each WINEPREFIX can have a different wine setup, including dll overrides etc.
 
-Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a new WINEPREFIX (export WINEPREFIX=~/.wine-new wine winecfg) and then run the windows vst installation program or by setting the WINEPREFIX environmental variable to a particular pre existing WINEPREFIX and then installing the vst into it ie export WINEPREFIX=~/.wine-preexisting and then run the vst install.
+Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a new WINEPREFIX (export WINEPREFIX=~/.wine-new winecfg) and then run the windows vst installation program or by setting the WINEPREFIX environmental variable to a particular pre existing WINEPREFIX and then installing the vst into it ie export WINEPREFIX=~/.wine-preexisting and then run the vst install.
 
 A particular WINEPREFIX can be configured by using winecfg with the WINEPREFIX environmental variable set to that particular WINEPREFIX ie export WINEPREFIX=~/.wine-new winecfg.
 
