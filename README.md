@@ -343,6 +343,8 @@ Makefiles ending with ontop are for a standalone window version with an always o
 
 LinVst-Linux32bit-only.zip contains makefiles for Linux 32bit only systems.
 
+For slower systems not displaying the embedded window correctly there is a EMBEDTHREAD define (see the embedded makefiles for details).
+
 A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
 
 
