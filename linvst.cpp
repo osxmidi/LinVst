@@ -481,6 +481,14 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
     case effEditClose:
 #ifdef EMBED
+#ifdef EMBEDTHREAD
+if(plugin->runembed == 1)
+{
+    while(plugin->runembed == 1)
+    usleep(1000);
+    usleep(50000);
+}
+#endif	    
 #ifndef XEMBED
         plugin->eventrun = 0;
 #endif
@@ -530,15 +538,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
     case effClose:
-#ifdef EMBED
-#ifdef EMBEDTHREAD
-if(plugin->runembed == 1)
-{
-    while(plugin->runembed == 1)
-    usleep(1000);
-    usleep(50000);
-}
-#endif	    
+#ifdef EMBED    
 #ifndef XEMBED
         plugin->eventrun = 0;
 #endif
