@@ -153,8 +153,11 @@ public:
         int width;
         int height;
     } winm;
+#ifdef EMBEDRESIZE
+    int guiupdate;
+    int guiupdatecount;
 #endif
-
+#endif
     ERect               *rect;
 
     int                 setprogrammiss;
@@ -284,7 +287,11 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     hostreaper(0),
     haveGui(true),
     timerval(0),
-    hWnd(0)
+    hWnd(0),
+#ifdef EMBEDRESIZE
+    guiupdate(0),
+    guiupdatecount(0)
+#endif
 {   
     if(starterror == 1)
     return;
@@ -1076,8 +1083,21 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterSizeWindow:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterSizeWindow requested" << endl;
+{
+#ifdef EMBED
+#ifdef EMBEDRESIZE
+   int opcodegui = 123456789;
 
-#ifndef EMBED
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcodegui);
+    remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
+    remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
+   
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+
+    remoteVSTServerInstance->guiupdate = 1;
+#endif
+#else
         if (remoteVSTServerInstance->hWnd)
 	{	
             SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);
@@ -1089,6 +1109,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 	}   
         rv = 1;
 #endif
+}
         break;
 
     case audioMasterGetSampleRate:
@@ -1228,7 +1249,11 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         if (!strcmp((char*)ptr, "sendVstEvents")
                     || !strcmp((char*)ptr, "sendVstMidiEvent")
                     || !strcmp((char*)ptr, "sendVstTimeInfo")
-#ifndef EMBED
+#ifdef EMBED
+#ifdef EMBEDRESIZE
+                    || !strcmp((char*)ptr, "sizeWindow")
+#endif
+#else
                     || !strcmp((char*)ptr, "sizeWindow")
 #endif
                     // || !strcmp((char*)ptr, "supplyIdle")
@@ -1467,12 +1492,27 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
             DispatchMessage(&msg);
 
             // this bit based on fst by Torben Hohn, patch worked out by Robert Jonsson - thanks!
-            if (msg.message == WM_TIMER)
-            {
+              if (msg.message == WM_TIMER)
+              {
                 if (guiVisible == true)
+                {
                 plugin->dispatcher (plugin, effEditIdle, 0, 0, NULL, 0);
-            }
-        }
+#ifdef EMBEDRESIZE
+               if(remoteVSTServerInstance->guiupdate == 1)
+                {
+                 remoteVSTServerInstance->guiupdatecount += 1;
+
+                 if(remoteVSTServerInstance->guiupdatecount == 40)
+                  {
+                  remoteVSTServerInstance->guiupdate = 0;
+                  remoteVSTServerInstance->guiupdatecount = 0;
+                  remoteVSTServerInstance->openGUI();
+                   }
+                  }
+#endif
+                 }
+                }
+               }
 
         if (exiting)
             break;
