@@ -288,9 +288,11 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     haveGui(true),
     timerval(0),
     hWnd(0),
+#ifdef EMBED
 #ifdef EMBEDRESIZE
     guiupdate(0),
     guiupdatecount(0)
+#endif
 #endif
 {   
     if(starterror == 1)
@@ -1088,14 +1090,16 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 #ifdef EMBEDRESIZE
    int opcodegui = 123456789;
 
+        if (remoteVSTServerInstance->hWnd)
+	{		    
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcodegui);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
-   
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
-
     remoteVSTServerInstance->guiupdate = 1;
+    rv = 1;	
+	}
 #endif
 #else
         if (remoteVSTServerInstance->hWnd)
@@ -1497,6 +1501,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                 if (guiVisible == true)
                 {
                 plugin->dispatcher (plugin, effEditIdle, 0, 0, NULL, 0);
+#ifdef EMBED
 #ifdef EMBEDRESIZE
                if(remoteVSTServerInstance->guiupdate == 1)
                 {
@@ -1509,6 +1514,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                   remoteVSTServerInstance->openGUI();
                    }
                   }
+#endif
 #endif
                  }
                 }
