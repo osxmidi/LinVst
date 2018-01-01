@@ -1463,6 +1463,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     {
         while (!exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {
+	    TranslateMessage(&msg);
             DispatchMessage(&msg);
 
             // this bit based on fst by Torben Hohn, patch worked out by Robert Jonsson - thanks!
