@@ -233,7 +233,6 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 {
     RemotePluginClient  *plugin = (RemotePluginClient *) effect->object;
     VstIntPtr           v = 0;
-    static ERect        retRect = {0,0,200,500};
     static ERect        *rp;
 
 #ifdef EMBED
