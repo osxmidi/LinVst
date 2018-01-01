@@ -156,6 +156,8 @@ public:
 #ifdef EMBEDRESIZE
     int guiupdate;
     int guiupdatecount;
+    int guiresizewidth;
+    int guiresizeheight;
 #endif
 #endif
     ERect               *rect;
@@ -291,7 +293,9 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
 #ifdef EMBED
 #ifdef EMBEDRESIZE
     guiupdate(0),
-    guiupdatecount(0)
+    guiupdatecount(0),
+    guiresizewidth(500),
+    guiresizeheight(200)
 #endif
 #endif
 {   
@@ -1097,6 +1101,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
+    remoteVSTServerInstance->guiresizewidth = index;
+    remoteVSTServerInstance->guiresizeheight = value;
     remoteVSTServerInstance->guiupdate = 1;
     rv = 1;	
 	}
@@ -1507,11 +1513,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                 {
                  remoteVSTServerInstance->guiupdatecount += 1;
 
-                 if(remoteVSTServerInstance->guiupdatecount == 40)
+                 if(remoteVSTServerInstance->guiupdatecount == 10)
                   {
                   remoteVSTServerInstance->guiupdate = 0;
                   remoteVSTServerInstance->guiupdatecount = 0;
-                  remoteVSTServerInstance->openGUI();
+                  SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP, 0, 0, remoteVSTServerInstance->guiresizewidth, remoteVSTServerInstance->guiresizeheight, 0);
+                  UpdateWindow(remoteVSTServerInstance->hWnd);
                    }
                   }
 #endif
