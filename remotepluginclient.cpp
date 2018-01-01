@@ -67,8 +67,10 @@ void* RemotePluginClient::AMThread()
         int delay;
     } am;
 	
+#ifdef EMBED
 #ifdef EMBEDRESIZE
     #define resizegui 123456789
+#endif
 #endif
 
     while (!m_threadbreak)
@@ -179,6 +181,7 @@ else
                     m_audioMaster(theEffect, audioMasterProcessEvents, 0, val, evptr, 0);
                
                     break;
+#ifdef EMBED			
 #ifdef EMBEDRESIZE
                     case resizegui:
                     retRect.right = readIntring(&m_shmControl->ringBuffer);
@@ -186,7 +189,8 @@ else
                     retRect.left = 0;
                     retRect.top = 0;
                     break;
-#endif			
+#endif
+#endif				
                 default:
                     break;
                 }
