@@ -142,7 +142,7 @@ public:
         int width;
         int height;
      } winm;
-    
+  ERect        retRect = {0,0,200,500};    
   int displayerr;
 #ifdef EMBEDTHREAD
    pthread_t           m_EMBEDThread;
