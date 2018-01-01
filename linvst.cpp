@@ -250,7 +250,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     {
     case effEditGetRect:
     {
-        rp = &retRect;
+        rp = &plugin->retRect;
         *((struct ERect **)ptr) = rp;
     }
         break;
@@ -338,7 +338,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         plugin->parent = (Window) ptr;
         plugin->child = (Window) plugin->handle;
 
-        rp = &retRect;
+        rp = &plugin->retRect;
         rp->bottom = plugin->height;
         rp->top = 0;
         rp->right = plugin->width;
@@ -389,7 +389,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        plugin->parent = (Window) ptr;
        plugin->child = (Window) plugin->handle;
 
-       rp = &retRect;
+       rp = &plugin->retRect;
        rp->bottom = plugin->height;
        rp->top = 0;
        rp->right = plugin->width;
