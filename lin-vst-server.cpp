@@ -289,7 +289,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     hostreaper(0),
     haveGui(true),
     timerval(0),
-    hWnd(0),
 #ifdef EMBED
 #ifdef EMBEDRESIZE
     guiupdate(0),
