@@ -330,23 +330,21 @@ make
 
 sudo make install
 
-Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder
+Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder (lin-vst-serverst for standalone window version)
 
-(also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support)
+(also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support) (lin-vst-serverst32 for standalone window version)
 
-Makefile-embed6432 and Makefile-noembed6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
+Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
 
-Makefile-embed6432 and Makefile-embed are for the daw embedded window option.
+Makefile-embed-6432 (64 and 32 bit vsts) and Makefile-embed-64 (64 bit vsts only) are for the daw embedded window option.
 
-Makefile-embed6432-drag and Makefile-embed-drag are for a drag and drop embedded window version that enables dragging and dropping ino he daws embedded window for Linux Reaper, Linux Tracktion and Linux Bitwig (not Linux Ardour).
+Makefile-standalone-6432 (64 and 32 bit vsts) and Makefile-standalone-64 (64 bit vsts only) are for a standalone window version that can be useful for some daw's.
 
-Makefile-noembed6432 and Makefile-noembed are for a standalone window version that can be useful for some daw's.
+LinVst-Linux32bit-only.zip contains makefiles for Linux 32bit only systems and makes and installs lin-vst-serverlx32 (lin-vst-serverstlx32 for standalone window version).
 
-Makefiles ending with ontop are for a standalone window version with an always ontop window.
+Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
 
-LinVst-Linux32bit-only.zip contains makefiles for Linux 32bit only systems.
-
-For slower systems not displaying the embedded window correctly there is a EMBEDTHREAD define (see the embedded makefiles for details).
+For slower systems not displaying the embedded window correctly there is a EMBEDTHREAD define that can be enabled (see the embedded makefiles for details).
 
 A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
 
