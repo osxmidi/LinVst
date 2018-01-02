@@ -188,6 +188,8 @@ else
                     retRect.bottom = readIntring(&m_shmControl->ringBuffer);
                     retRect.left = 0;
                     retRect.top = 0;
+		    width = retRect.right;
+                    height = retRect.bottom;
                     break;
 #endif
 #endif				
