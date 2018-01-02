@@ -128,7 +128,7 @@ public:
     int                 m_threadbreakexit;
     int                 m_updateio;
     VstEvents           vstev[VSTSIZE];
-    ERect        retRect = {0,0,200,500};    
+    ERect               retRect = {0,0,200,500};    
 
 #ifdef EMBED
    Window  child;
