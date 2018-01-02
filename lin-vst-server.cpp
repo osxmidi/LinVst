@@ -1094,30 +1094,31 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 #ifdef EMBEDRESIZE
    int opcodegui = 123456789;
 
-        if (remoteVSTServerInstance->hWnd)
-	{		    
+        if (remoteVSTServerInstance->hWnd && !exiting && guiVisible)
+	{	
+    remoteVSTServerInstance->guiresizewidth = index;
+    remoteVSTServerInstance->guiresizeheight = value;
+
+   ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
+   SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP, 0, 0, remoteVSTServerInstance->guiresizewidth, remoteVSTServerInstance->guiresizeheight, 0);
+	    
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcodegui);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
-    remoteVSTServerInstance->guiresizewidth = index;
-    remoteVSTServerInstance->guiresizeheight = value;
     remoteVSTServerInstance->guiupdate = 1;
     rv = 1;	
 	}
 #endif
 #else
-        if (remoteVSTServerInstance->hWnd)
+        if (remoteVSTServerInstance->hWnd && !exiting && guiVisible)
 	{	
-            SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);
-	    if (!exiting && guiVisible)
-	    {		    
+            SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);		    
 	    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-            UpdateWindow(remoteVSTServerInstance->hWnd);
-	    }	    
-	}   
+            UpdateWindow(remoteVSTServerInstance->hWnd);	      
         rv = 1;
+        }
 #endif
 }
         break;
@@ -1517,7 +1518,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                   {
                   remoteVSTServerInstance->guiupdate = 0;
                   remoteVSTServerInstance->guiupdatecount = 0;
-                  SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP, 0, 0, remoteVSTServerInstance->guiresizewidth, remoteVSTServerInstance->guiresizeheight, 0);
+                  ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
                   UpdateWindow(remoteVSTServerInstance->hWnd);
                    }
                   }
