@@ -295,8 +295,11 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     guiupdate(0),
     guiupdatecount(0),
     guiresizewidth(500),
-    guiresizeheight(200)
+    guiresizeheight(200),
+    hWnd(0)
 #endif
+#else
+    hWnd(0)
 #endif
 {   
     if(starterror == 1)
