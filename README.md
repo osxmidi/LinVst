@@ -346,6 +346,10 @@ Undefining WINONTOP for the standalone window versions will make a standalone wi
 
 For slower systems not displaying the embedded window correctly there is a EMBEDTHREAD define that can be enabled (see the embedded makefiles for details).
 
+LinVst-Linux32bit-only.zip contains makefiles for 32 bit systems and 32 bit vst's only.
+
+linvstconvertsrc.zip is for making the linvstconvert and linvstconverttree utilities.
+
 A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
 
 
