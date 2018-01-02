@@ -195,14 +195,15 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
     else if (child == 0)
     {
-
 #ifdef VST6432
         if (dlltype == 2)
         {
-
             m_386run = 1;
-
+            #ifdef EMBED
             if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL))
+            #else
+            if (execlp("/usr/bin/lin-vst-serverst32.exe", "/usr/bin/lin-vst-serverst32.exe", argStr, NULL))
+            #endif
             {
                 m_runok = 1;
                 return;
@@ -210,22 +211,33 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         }
         else
         {
+            #ifdef EMBED
             if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL))
+            #else
+            if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
+            #endif
             {
                 m_runok = 1;
                 return;
             }
         }
-
 #else
 #ifdef VST32
-        if (execlp("/usr/bin/lin-vst-serverlx32.exe", "/usr/bin/lin-vst-serverlx32.exe", argStr, NULL))
+            #ifdef EMBED
+            if (execlp("/usr/bin/lin-vst-serverlx32.exe", "/usr/bin/lin-vst-serverlx32.exe", argStr, NULL))
+            #else
+            if (execlp("/usr/bin/lin-vst-serverstlx32.exe", "/usr/bin/lin-vst-serverstlx32.exe", argStr, NULL))
+            #endif
         {
             m_runok = 1;
             return;
         }
 #else
-        if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL))
+            #ifdef EMBED
+            if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL))
+            #else
+            if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
+            #endif
         {
             m_runok = 1;
             return;
