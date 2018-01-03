@@ -151,6 +151,8 @@ Wine Config
 
 Sometimes usernames and passwords might need to be copied and pasted into the window because manual entry might not work in all cases.
 
+Keyboard control input etc can be enabled by unchecking the winecfg option "Allow the window manager to control the windows".
+
 Sometimes a windows vst needs a Wine dll override.
 
 Finding out what dll's to possibly override can be done by running "strings vstname.dll | grep -i dll", which will display a list of dll's from the plugins dll file.
