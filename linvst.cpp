@@ -653,6 +653,8 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 
     if (!audioMaster (0, audioMasterVersion, 0, 0, 0, 0))
         return 0;
+	
+    XInitThreads();
 
     try
     {
