@@ -683,7 +683,6 @@ void RemoteVSTServer::showGUI()
         handlewin = GetPropA(hWnd, "__wine_x11_whole_window");
         winm.handle = (long int) handlewin;
         tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
-        guiVisible = true;
     }
 #else
 
@@ -761,7 +760,8 @@ void RemoteVSTServer::openGUI()
 {
     ShowWindow(hWnd, SW_SHOWNORMAL);
     // ShowWindow(hWnd, SW_SHOW);
-    UpdateWindow(hWnd);
+    UpdateWindow(hWnd);	
+    guiVisible = true;
 }
 #endif
 
