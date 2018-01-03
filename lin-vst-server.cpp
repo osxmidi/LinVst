@@ -296,6 +296,8 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     guiresizewidth(500),
     guiresizeheight(200),
     hWnd(0)
+#else
+    hWnd(0)
 #endif
 #else
     hWnd(0)
