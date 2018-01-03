@@ -676,9 +676,9 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
     if(plugin->EffectOpen() == 1)
         initEffect(plugin->theEffect, plugin);
 
- #ifdef EMBED
+// #ifdef EMBED
         XInitThreads();
- #endif
+// #endif
 
     return plugin->theEffect;
 }
