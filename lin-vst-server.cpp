@@ -1520,10 +1520,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
                  if(remoteVSTServerInstance->guiupdatecount == 10)
                   {
-                  remoteVSTServerInstance->guiupdate = 0;
-                  remoteVSTServerInstance->guiupdatecount = 0;
                   ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
                   UpdateWindow(remoteVSTServerInstance->hWnd);
+                  remoteVSTServerInstance->guiupdate = 0;
+                  remoteVSTServerInstance->guiupdatecount = 0;
                    }
                   }
 #endif
