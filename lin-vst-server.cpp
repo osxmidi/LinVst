@@ -1098,7 +1098,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 #ifdef EMBEDRESIZE
    int opcodegui = 123456789;
 
-        if (remoteVSTServerInstance->hWnd && guiVisible && alive && !exiting && threadrun)
+        if (remoteVSTServerInstance->hWnd && guiVisible && alive && !exiting && threadrun && (remoteVSTServerInstance->guiupdate == 0))
 	{	
     remoteVSTServerInstance->guiresizewidth = index;
     remoteVSTServerInstance->guiresizeheight = value;
