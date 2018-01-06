@@ -149,6 +149,8 @@ For details about overriding dll's, see the next section (Wine Config).
 
 Wine Config
 
+Keyboard control input etc can be enabled for the standalone window LinVst version only, by unchecking the winecfg option "Allow the window manager to control the windows".
+
 Sometimes usernames and passwords might need to be copied and pasted into the window because manual entry might not work in all cases.
 
 Sometimes a windows vst needs a Wine dll override.
