@@ -149,7 +149,9 @@ For details about overriding dll's, see the next section (Wine Config).
 
 Wine Config
 
-Keyboard control input etc can be enabled for the standalone window LinVst version only, by unchecking the winecfg option "Allow the window manager to control the windows".
+Keyboard control input etc can be enabled for the standalone window LinVst version only, by creating a UseTakeFocus string and setting it to a value of N, in HKEY_CURRENT_USER/Software/Wine/X11 Driver (regedit).
+
+More keyboard control can be enabled for the standalone window LinVst version only, by unchecking the winecfg option "Allow the window manager to control the windows".
 
 Sometimes usernames and passwords might need to be copied and pasted into the window because manual entry might not work in all cases.
 
