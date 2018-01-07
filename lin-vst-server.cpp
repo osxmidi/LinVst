@@ -1346,6 +1346,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 {
+    string pathName;
+    char        cdpath[4096];
     char *libname = 0;
     char *libname2 = 0;
     char *fileInfo = 0;
@@ -1396,6 +1398,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         cerr << "(Command line was: " << cmdline << ")" << endl;
         return 1;
     }
+	
+    strcpy(cdpath, libname);
+    pathName = cdpath;
+    size_t found = pathName.find_last_of("/");
+    pathName = pathName.substr(0, found);
+    SetCurrentDirectory(pathName.c_str());
 
     cout << "Loading  " << libname << endl;
 
