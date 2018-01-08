@@ -143,9 +143,6 @@ static Window ignored = 0;
       e.xconfigure.above = None;
       e.xconfigure.override_redirect = False;
       XSendEvent (display, child, False, StructureNotifyMask | SubstructureRedirectMask, &e);
-		      
-      if(reaperid)
-      XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
       break;
 
 #ifdef EMBEDDRAG
