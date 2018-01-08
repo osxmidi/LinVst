@@ -384,6 +384,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_runok(0),
     m_syncok(0),
     m_386run(0),
+    reaperid(0),
 #ifdef EMBED
     child(0),
     parent(0),
