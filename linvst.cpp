@@ -81,9 +81,9 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 #ifdef EMBED
 #ifndef XEMBED
 #ifdef EMBEDDRAG
-void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int reaperid)
+void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
 #else
-void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int reaperid)
+void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
 #endif
 {
 #ifdef EMBEDDRAG
@@ -185,7 +185,7 @@ static Window ignored = 0;
 
       XSendEvent (display, e.xclient.data.l[0], False, NoEventMask, &xevent);
     
-      if(pparent && reaperid)
+      if(parentok && reaperid)
       {
       xevent.xclient.data.l[0] = pparent; 
       XSendEvent (display, e.xclient.data.l[0], False, NoEventMask, &xevent);
@@ -209,7 +209,7 @@ static Window ignored = 0;
       else
       cm.data.l[2] = None;
       XSendEvent(display, e.xclient.data.l[0], False, NoEventMask, (XEvent*)&cm);
-      if(pparent && reaperid)
+      if(parentok && reaperid)
       {
       cm.data.l[0] = pparent;
       XSendEvent(display, e.xclient.data.l[0], False, NoEventMask, (XEvent*)&cm);
@@ -243,7 +243,6 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
 #ifdef EMBED
 #ifdef EMBEDDRAG
-    static int parentok = 0;
     static Atom XdndProxy;
     static Atom XdndAware;
     static Atom version;
@@ -265,9 +264,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #ifndef XEMBED
         if(plugin->eventrun == 1)
 #ifdef EMBEDDRAG
-        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid);
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
 #else
-        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid);
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
 #endif
 #endif
 #endif
@@ -422,17 +421,17 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        version = 5;
        XChangeProperty(plugin->display, plugin->x11_win, XdndAware, XA_ATOM, 32, PropModeReplace, (unsigned char*)&version, 1);
 
-       parentok = 0;
+       plugin->parentok = 0;
 
        if(XQueryTree(plugin->display, plugin->parent, &plugin->root, &plugin->pparent, &plugin->children, &plugin->numchildren) != 0)
        {
        if(plugin->children)
        XFree(plugin->children);
        if((plugin->pparent != plugin->root) && (plugin->pparent != 0))
-       parentok = 1;
+       plugin->parentok = 1;
        }
        
-       if(parentok && plugin->reaperid)
+       if(plugin->parentok && plugin->reaperid)
        XChangeProperty(plugin->display, plugin->pparent, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char*)&plugin->x11_win, 1);
        else
        XChangeProperty(plugin->display, plugin->parent, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char*)&plugin->x11_win, 1);
@@ -441,7 +440,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        }
        #endif
 
-      if(parentok && plugin->reaperid)
+      if(plugin->parentok && plugin->reaperid)
       {
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);
