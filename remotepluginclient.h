@@ -129,7 +129,8 @@ public:
     int                 m_updateio;
     VstEvents           vstev[VSTSIZE];
     ERect               retRect = {0,0,200,500};    
-
+    int                 reaperid;
+    
 #ifdef EMBED
    Window  child;
    Window  parent;
