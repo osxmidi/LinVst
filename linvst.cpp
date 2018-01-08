@@ -185,7 +185,7 @@ static Window ignored = 0;
 
       XSendEvent (display, e.xclient.data.l[0], False, NoEventMask, &xevent);
     
-      if(pparent)
+      if(pparent && reaperid)
       {
       xevent.xclient.data.l[0] = pparent; 
       XSendEvent (display, e.xclient.data.l[0], False, NoEventMask, &xevent);
@@ -209,7 +209,7 @@ static Window ignored = 0;
       else
       cm.data.l[2] = None;
       XSendEvent(display, e.xclient.data.l[0], False, NoEventMask, (XEvent*)&cm);
-      if(pparent)
+      if(pparent && reaperid)
       {
       cm.data.l[0] = pparent;
       XSendEvent(display, e.xclient.data.l[0], False, NoEventMask, (XEvent*)&cm);
