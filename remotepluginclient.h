@@ -158,6 +158,7 @@ public:
    Window root;
    Window *children;
    unsigned int numchildren;
+   int parentok;
 #endif
    int eventrun;
 #endif
