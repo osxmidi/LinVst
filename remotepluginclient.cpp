@@ -400,6 +400,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     root(0),
     children(0),
     numchildren(0),
+    parentok(0),
 #endif
     eventrun(0),
 #endif
