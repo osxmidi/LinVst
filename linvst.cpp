@@ -81,9 +81,9 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 #ifdef EMBED
 #ifndef XEMBED
 #ifdef EMBEDDRAG
-void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2)
+void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int reaperid)
 #else
-void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2)
+void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int reaperid)
 #endif
 {
 #ifdef EMBEDDRAG
@@ -119,6 +119,12 @@ static Window ignored = 0;
 
       switch (e.type)
       {
+
+      case FocusIn:
+      if(reaperid)
+      XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
+      break;
+	
       case ConfigureNotify:
       x = 0;
       y = 0;
@@ -137,6 +143,9 @@ static Window ignored = 0;
       e.xconfigure.above = None;
       e.xconfigure.override_redirect = False;
       XSendEvent (display, child, False, StructureNotifyMask | SubstructureRedirectMask, &e);
+		      
+      if(reaperid)
+      XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
       break;
 
 #ifdef EMBEDDRAG
@@ -259,9 +268,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #ifndef XEMBED
         if(plugin->eventrun == 1)
 #ifdef EMBEDDRAG
-        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun);
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid);
 #else
-        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun);
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid);
 #endif
 #endif
 #endif
@@ -426,7 +435,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        parentok = 1;
        }
        
-       if(parentok)
+       if(parentok && plugin->reaperid)
        XChangeProperty(plugin->display, plugin->pparent, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char*)&plugin->x11_win, 1);
        else
        XChangeProperty(plugin->display, plugin->parent, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char*)&plugin->x11_win, 1);
@@ -435,10 +444,18 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        }
        #endif
 
-       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-
-       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
- 
+      if(parentok && plugin->reaperid)
+      {
+      XSelectInput(plugin->display, plugin->pparent, FocusChangeMask);     
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      }
+      else
+      {
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      }
+	       
        plugin->eventrun = 1;
 
        XSync(plugin->display, false);
@@ -515,7 +532,8 @@ if(plugin->runembed == 1)
         break;
 
     case effCanDo:
-     //   if (ptr && !strcmp((char *)ptr,"hasCockosExtensions"))
+        if (ptr && !strcmp((char *)ptr,"hasCockosExtensions"))
+	plugin->reaperid = 1;
       //       plugin->effVoidOp(effCanDo);
         v = 1;
         break;
