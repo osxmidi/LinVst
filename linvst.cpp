@@ -126,8 +126,8 @@ static Window ignored = 0;
       break;
 	
       case ConfigureNotify:
-      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
-      {
+//      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
+//      {
       x = 0;
       y = 0;
       ignored = 0;
@@ -145,7 +145,7 @@ static Window ignored = 0;
 //      e.xconfigure.above = None;
 //      e.xconfigure.override_redirect = False;
       XSendEvent (display, child, False, StructureNotifyMask | SubstructureRedirectMask, &e);
-      }
+//      }
       break;
 
 #ifdef EMBEDDRAG
