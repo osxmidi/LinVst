@@ -141,9 +141,9 @@ static Window ignored = 0;
       e.xconfigure.y = y;
       e.xconfigure.width = width;
       e.xconfigure.height = height;
-      e.xconfigure.border_width = 0;
-      e.xconfigure.above = None;
-      e.xconfigure.override_redirect = False;
+//      e.xconfigure.border_width = 0;
+//      e.xconfigure.above = None;
+//      e.xconfigure.override_redirect = False;
       XSendEvent (display, child, False, StructureNotifyMask | SubstructureRedirectMask, &e);
       }
       break;
