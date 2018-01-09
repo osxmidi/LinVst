@@ -121,7 +121,7 @@ static Window ignored = 0;
       {
 		      
       case EnterNotify:
-      if(reaperid)
+//      if(reaperid)
       XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
       break;
 	
@@ -448,7 +448,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
       else
       {
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);
       }
 	       
        plugin->eventrun = 1;
