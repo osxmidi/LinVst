@@ -356,6 +356,8 @@ Defining EMBEDRESIZE enables vst window resizing for the embedded window version
 
 Defining EMBEDTHREAD enables an embedded version display delay that's possibly needed for some slower systems.
 
+See Makefile comments for define options.
+
 LinVst-Linux32bit-only.zip contains makefiles for 32 bit systems and 32 bit vst's only.
 
 linvstconvertsrc.zip is for making the linvstconvert and linvstconverttree utilities.
