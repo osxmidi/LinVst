@@ -353,6 +353,7 @@ LinVst-Linux32bit-only.zip contains makefiles for Linux 32bit only systems and m
 Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
 
 Defining EMBEDRESIZE enables vst window resizing for the embedded window version (currently only working with Linux Reaper).
+
 Defining EMBEDTHREAD enables an embedded version display delay that's possibly needed for some slower systems.
 
 LinVst-Linux32bit-only.zip contains makefiles for 32 bit systems and 32 bit vst's only.
