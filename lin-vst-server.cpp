@@ -1112,7 +1112,6 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
     remoteVSTServerInstance->guiupdate = 1;
-    rv = 1;	
 	}
 #endif
 #else
@@ -1121,10 +1120,11 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);		    
 	    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
             UpdateWindow(remoteVSTServerInstance->hWnd);	      
-        rv = 1;
         }
 #endif
-}
+	
+	rv = 1;
+}	    
         break;
 
     case audioMasterGetSampleRate:
