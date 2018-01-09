@@ -12,7 +12,7 @@ BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
 BUILD_FLAGS  = -fPIC -O2 -DEMBED -DLVRT -DSEM -DEMBEDDRAG $(CXX_FLAGS)
-# add -DEMBEDTHREAD to above line display problems (older systems), add -DEMBEDRESIZE to the above line for window resizing
+# add -DEMBEDTHREAD to the above line for display problems (older systems), add -DEMBEDRESIZE to the above line for window resizing
 BUILD_FLAGS_WIN = -m64 -O2 -DEMBED -DSEM -DEMBEDDRAG -I/usr/include/wine-development/windows
 # add -DEMBEDRESIZE to the above line for window resizing
 
