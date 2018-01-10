@@ -356,6 +356,8 @@ Defining EMBEDRESIZE enables vst window resizing for the embedded window version
 
 Defining EMBEDTHREAD enables an embedded version display delay that's possibly needed for some slower systems.
 
+Some versions of Traction (some versions of Tracktion 7, maybe others) might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion plugin window and adding -DTRACKTIONWM to the makefiles BUILD_FLAGS_WIN and BUILD_FLAGS_WIN32 lines might help (for Tracktion use only).
+
 See Makefile comments for define options.
 
 LinVst-Linux32bit-only.zip contains makefiles for 32 bit systems and 32 bit vst's only.
