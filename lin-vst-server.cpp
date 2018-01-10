@@ -675,8 +675,11 @@ void RemoteVSTServer::showGUI()
     }
     else
     {
+#ifdef TRACKTIONWM
+	SetWindowPos(hWnd, HWND_TOP, 5, 30, rect->right - rect->left, rect->bottom - rect->top, 0);    
+#else
         SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
-
+#endif
         if (debugLevel > 0)
             cerr << "dssi-vst-server[1]: sized window" << endl;
 
