@@ -123,6 +123,7 @@ public:
     int                 m_syncok;
     int                 m_386run;
     AEffect             *theEffect;
+    audioMasterCallback m_audioMaster;
 
     int                 m_threadbreak;
     int                 m_threadbreakexit;
@@ -130,6 +131,9 @@ public:
     VstEvents           vstev[VSTSIZE];
     ERect               retRect = {0,0,200,500};    
     int                 reaperid;
+#ifdef     TRACKTIONWM 
+    int                 tracktionid; 
+#endif
     
 #ifdef EMBED
    Window  child;
@@ -207,7 +211,6 @@ private:
     pthread_t           m_AMThread;
     static void         *callAMThread(void *arg) { return ((RemotePluginClient*)arg)->AMThread(); }
     void                *AMThread();
-    audioMasterCallback m_audioMaster;
     int                 m_threadinit;
 
 void RemotePluginClosedException();
