@@ -252,6 +252,10 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     static XSetWindowAttributes attr = {0};
 #endif
 #endif
+	
+#ifdef TRACKTIONWM  
+static char dawbuf[512];
+#endif
 
     switch (opcode)
     {
@@ -541,8 +545,8 @@ if(plugin->runembed == 1)
         {
         if(plugin->theEffect && plugin->m_audioMaster)
         {
-        plugin->m_audioMaster(plugin->theEffect, audioMasterGetProductString, 0, 0, track, 0);
-        if(strcmp(track, "Tracktion") == 0)
+        plugin->m_audioMaster(plugin->theEffect, audioMasterGetProductString, 0, 0, dawbuf, 0);
+        if(strcmp(dawbuf, "Tracktion") == 0)
         plugin->effVoidOp(67584930);
         }
         }
