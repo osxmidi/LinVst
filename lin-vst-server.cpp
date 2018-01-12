@@ -1180,11 +1180,39 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterGetInputLatency:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetInputLatency requested" << endl;
+/*		    
+    {
+    int retval;
+
+    if (alive && !exiting && threadrun)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    }
+    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    rv = retval;
+    }
+*/
         break;
 
     case audioMasterGetOutputLatency:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetOutputLatency requested" << endl;
+/*		    
+    {
+    int retval;
+
+    if (alive && !exiting && threadrun)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    }
+    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    rv = retval;
+    }
+*/
         break;
 
     case DEPRECATED_VST_SYMBOL(audioMasterGetPreviousPlug):
@@ -1344,11 +1372,29 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterBeginEdit:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterBeginEdit requested" << endl;
+
+    if (alive && !exiting && threadrun)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+     }
+    rv = 1;
         break;
 
     case audioMasterEndEdit:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterEndEdit requested" << endl;
+
+    if (alive && !exiting && threadrun)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+     }
+    rv = 1;
         break;
 
     case audioMasterOpenFileSelector:
