@@ -46,7 +46,8 @@ void* RemotePluginClient::AMThread()
     int         opcode;
     int         val;
     int         idx;
-    float       optval;
+    float       optval; 
+    int         retval;
     int         ok = 1;
 
    int timeout = 50;
