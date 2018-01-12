@@ -1073,13 +1073,9 @@ void RemotePluginServer::dispatchParEvents()
         setChunk();
         break;
 
-/*
     case RemotePluginCanBeAutomated:
-    {
         canBeAutomated();
         break;
-    }
-*/
 
     case RemotePluginGetProgram:
         getProgram();
