@@ -33,7 +33,7 @@ enum RemotePluginOpcode
     RemotePluginProcessEvents,
     RemotePluginGetChunk,
     RemotePluginSetChunk,
-    // RemotePluginCanBeAutomated,
+    RemotePluginCanBeAutomated,
     RemotePluginGetProgram,
     RemotePluginEffectOpen,
     // RemotePluginGetUniqueID,
