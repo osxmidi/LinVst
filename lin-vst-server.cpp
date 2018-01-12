@@ -939,7 +939,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
      }
-    rv = 1;
+    rv = 0;
         break;
 
     case audioMasterVersion:
