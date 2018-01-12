@@ -196,6 +196,28 @@ else
                    retval = m_audioMaster(theEffect, audioMasterGetAutomationState, 0, 0, 0, 0);
                    memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
                    break;
+				
+                   case audioMasterBeginEdit:
+                   idx = readIntring(&m_shmControl->ringBuffer);
+                   m_audioMaster(theEffect, audioMasterBeginEdit, idx, 0, 0, 0);
+                   break;
+
+                   case audioMasterEndEdit:
+                   idx = readIntring(&m_shmControl->ringBuffer);
+                   m_audioMaster(theEffect, audioMasterEndEdit, idx, 0, 0, 0);
+                   break;
+
+                   case audioMasterGetInputLatency:
+                   retval = 0;
+                   retval = m_audioMaster(theEffect, audioMasterGetInputLatency, 0, 0, 0, 0);
+                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   break;
+
+                   case audioMasterGetOutputLatency:
+                   retval = 0;
+                   retval = m_audioMaster(theEffect, audioMasterGetOutputLatency, 0, 0, 0, 0);
+                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   break;
 
 #ifdef EMBED			
 #ifdef EMBEDRESIZE
