@@ -45,6 +45,8 @@ void* RemotePluginClient::AMThread()
 {
     int         opcode;
     int         val;
+    int         idx;
+    float       optval;
     int         ok = 1;
 
    int timeout = 50;
@@ -181,6 +183,19 @@ else
                     m_audioMaster(theEffect, audioMasterProcessEvents, 0, val, evptr, 0);
                
                     break;
+				
+                   case audioMasterAutomate:
+                   idx = readIntring(&m_shmControl->ringBuffer);
+                   optval = readFloatring(&m_shmControl->ringBuffer);
+                   m_audioMaster(theEffect, audioMasterAutomate, idx, 0, 0, optval);
+                   break;
+
+                   case audioMasterGetAutomationState:
+                   retval = 0;
+                   retval = m_audioMaster(theEffect, audioMasterGetAutomationState, 0, 0, 0, 0);
+                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   break;
+
 #ifdef EMBED			
 #ifdef EMBEDRESIZE
                     case resizegui:
@@ -1594,16 +1609,14 @@ int RemotePluginClient::setChunk(void *ptr, int sz, int bank_prg)
     return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
-/*
 int RemotePluginClient::canBeAutomated(int param)
 {
-    writeOpcodering(&m_shmControl5->ringBufferd, RemotePluginCanBeAutomated);
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginCanBeAutomated);
     writeIntring(&m_shmControl5->ringBuffer, param);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return readIntring(&m_shm[FIXED_SHM_SIZE]);
+    return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
-*/
 
 int RemotePluginClient::getProgram()
 {
