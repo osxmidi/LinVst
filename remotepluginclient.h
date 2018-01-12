@@ -79,7 +79,7 @@ public:
     int                 processVstEvents(VstEvents *);
     int                 getChunk(void **ptr, int bank_prog);
     int                 setChunk(void *ptr, int sz, int bank_prog);
-    // int                 canBeAutomated(int param);
+    int                 canBeAutomated(int param);
     int                 getProgram();
     int                 EffectOpen();
 
