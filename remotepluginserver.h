@@ -41,7 +41,7 @@ public:
     virtual int             processVstEvents() = 0;
     virtual void            getChunk() = 0;
     virtual void            setChunk() = 0;
-    // virtual void            canBeAutomated() = 0;
+    virtual void            canBeAutomated() = 0;
     virtual void            getProgram() = 0;
     virtual void            EffectOpen() = 0;
 
