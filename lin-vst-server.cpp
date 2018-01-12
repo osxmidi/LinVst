@@ -691,7 +691,20 @@ void RemoteVSTServer::showGUI()
     {
 #ifdef TRACKTIONWM
 	if(hosttracktion == 1)
-	SetWindowPos(hWnd, HWND_TOP, 5, 30, rect->right - rect->left, rect->bottom - rect->top, 0);  
+        {
+        RECT offsetcl, offsetwin;
+        POINT offset;
+
+        HWND hWnd2 = CreateWindow(APPLICATION_CLASS_NAME, "LinVst", WS_CAPTION, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+        GetClientRect(hWnd2, &offsetcl);
+        GetWindowRect(hWnd2, &offsetwin);
+        DestroyWindow(hWnd2);
+
+        offset.x = (offsetwin.right - offsetwin.left) - offsetcl.right;
+        offset.y = (offsetwin.bottom - offsetwin.top) - offsetcl.bottom;
+
+	SetWindowPos(hWnd, HWND_TOP, offset.x, offset.y, rect->right - rect->left, rect->bottom - rect->top, 0);  
+        }
 	else
 	SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);	
 #else
