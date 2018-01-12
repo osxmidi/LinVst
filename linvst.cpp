@@ -565,6 +565,10 @@ if(plugin->runembed == 1)
     case effGetProgram:
         v = plugin->getProgram();
         break;
+		    
+    case effCanBeAutomated:
+        v = plugin->canBeAutomated(index);
+        break;
 
     case effClose:
 #ifdef EMBED    
