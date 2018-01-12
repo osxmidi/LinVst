@@ -125,7 +125,7 @@ public:
     virtual int         processVstEvents();
     virtual void        getChunk();
     virtual void        setChunk();
-//    virtual void        canBeAutomated();
+    virtual void        canBeAutomated();
     virtual void        getProgram();
     virtual void        EffectOpen();
 //    virtual void        eff_mainsChanged(int v);
@@ -841,14 +841,12 @@ void RemoteVSTServer::setChunk()
     return;
 }
 
-/*
 void RemoteVSTServer::canBeAutomated()
 {
     int param = readIntring(&m_shmControl5->ringBuffer);
     int r = m_plugin->dispatcher(m_plugin, effCanBeAutomated, param, 0, 0, 0);
     writeInt(&m_shm[FIXED_SHM_SIZE], r);
 }
-*/
 
 void RemoteVSTServer::getProgram()
 {
@@ -932,7 +930,16 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     switch (opcode)
     {
     case audioMasterAutomate:
-        plugin->setParameter(plugin, index, opt);
+   //     plugin->setParameter(plugin, index, opt);
+    if (alive && !exiting && threadrun)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
+    remoteVSTServerInstance->writeFloatring(&remoteVSTServerInstance->m_shmControl->ringBuffer, opt);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+     }
+    rv = 1;
         break;
 
     case audioMasterVersion:
@@ -1210,7 +1217,19 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterGetAutomationState:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetAutomationState requested" << endl;
-        rv = 4; // read/write
+    {
+    int retval;
+
+    if (alive && !exiting && threadrun)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    }
+    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    rv = retval;
+    }
+   //     rv = 4; // read/write
         break;
 
     case audioMasterOfflineStart:
