@@ -131,9 +131,6 @@ public:
     VstEvents           vstev[VSTSIZE];
     ERect               retRect = {0,0,200,500};    
     int                 reaperid;
-#ifdef     TRACKTIONWM 
-    int                 tracktionid; 
-#endif
     
 #ifdef EMBED
    Window  child;
