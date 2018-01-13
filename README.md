@@ -358,7 +358,7 @@ Defining EMBEDTHREAD enables an embedded version display delay that's possibly n
 
 See Makefile comments for define options.
 
-Some versions of Tracktion (some versions of Tracktion 7, maybe others) might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion plugin window and adding -DTRACKTIONWM to the embedded makefiles BUILD_FLAGS,   BUILD_FLAGS_WIN and BUILD_FLAGS_WIN32 lines might help (for Tracktion use only).
+Tracktion/Waveform might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion/Waveform plugin window and adding -DTRACKTIONWM to the embedded makefiles BUILD_FLAGS, BUILD_FLAGS_WIN and BUILD_FLAGS_WIN32 lines might help (for Tracktion/Waveform use only).
 
 LinVst-Linux32bit-only.zip contains makefiles for 32 bit systems and 32 bit vst's only.
 
