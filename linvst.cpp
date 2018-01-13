@@ -252,9 +252,11 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     static XSetWindowAttributes attr = {0};
 #endif
 #endif
-	
+
+#ifdef EMBED
 #ifdef TRACKTIONWM  
 static char dawbuf[512];
+#endif
 #endif
 
     switch (opcode)
@@ -540,6 +542,7 @@ if(plugin->runembed == 1)
         if (ptr && !strcmp((char *)ptr,"hasCockosExtensions"))
 	plugin->reaperid = 1;
       //       plugin->effVoidOp(effCanDo);
+#ifdef EMBED
 #ifdef TRACKTIONWM    
         if(plugin->reaperid == 0)
         {
@@ -550,6 +553,7 @@ if(plugin->runembed == 1)
         plugin->effVoidOp(67584930);
         }
         }
+#endif
 #endif
         v = 1;
         break;
