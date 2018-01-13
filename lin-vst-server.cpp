@@ -1135,6 +1135,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             cerr << "dssi-vst-server[2]: audioMasterSizeWindow requested" << endl;
 {
 #ifdef EMBED
+#ifndef TRACKTIONWM
 #ifdef EMBEDRESIZE
    int opcodegui = 123456789;
 
@@ -1153,6 +1154,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->waitForServer();
     remoteVSTServerInstance->guiupdate = 1;
 	}
+#endif
 #endif
 #else
         if (remoteVSTServerInstance->hWnd && !exiting && guiVisible)
