@@ -549,7 +549,7 @@ if(plugin->runembed == 1)
         if(plugin->theEffect && plugin->m_audioMaster)
         {
         plugin->m_audioMaster(plugin->theEffect, audioMasterGetProductString, 0, 0, dawbuf, 0);
-        if(strcmp(dawbuf, "Tracktion") == 0)
+        if((strcmp(dawbuf, "Tracktion") == 0) || (strcmp(dawbuf, "Waveform") == 0))
         plugin->effVoidOp(67584930);
         }
         }
