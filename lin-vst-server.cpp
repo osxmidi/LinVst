@@ -164,8 +164,10 @@ public:
 
     int                 setprogrammiss;
     int                 hostreaper;
+#ifdef EMBED
 #ifdef TRACKTIONWM  
     int                 hosttracktion;
+#endif
 #endif
     AEffect             *m_plugin;
     VstEvents           vstev[VSTSIZE];
@@ -289,8 +291,10 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     m_maker(""),
     setprogrammiss(0),
     hostreaper(0),
+#ifdef EMBED
 #ifdef TRACKTIONWM  
     hosttracktion(0),
+#endif
 #endif
     haveGui(true),
     timerval(0),
@@ -460,7 +464,7 @@ void RemoteVSTServer::effDoVoid(int opcode)
          return;
     }
 */
-	
+#ifdef EMBED
 #ifdef TRACKTIONWM  
     if (opcode == 67584930)
     {
@@ -468,6 +472,7 @@ void RemoteVSTServer::effDoVoid(int opcode)
          return;
     }	
 #endif	
+#endif
 	
     if (opcode == effClose)
     {
