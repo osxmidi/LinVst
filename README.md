@@ -360,7 +360,7 @@ See Makefile comments for define options.
 
 Tracktion/Waveform might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion/Waveform plugin window and adding -DTRACKTIONWM to the embedded makefiles BUILD_FLAGS, BUILD_FLAGS_WIN and BUILD_FLAGS_WIN32 lines might help (for Tracktion/Waveform use only).
 
-LinVst-Linux32bit-only.zip contains makefiles for 32 bit systems and 32 bit vst's only.
+LinVst-32bit-only-Makefiles.zip contains makefiles for 32 bit systems and 32 bit vst's only.
 
 linvstconvertsrc.zip is for making the linvstconvert and linvstconverttree utilities.
 
