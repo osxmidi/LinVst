@@ -128,7 +128,6 @@ public:
     virtual void        canBeAutomated();
     virtual void        getProgram();
     virtual void        EffectOpen();
-    virtual void        EffectRun();
 //    virtual void        eff_mainsChanged(int v);
 
     virtual void        process(float **inputs, float **outputs, int sampleFrames);
@@ -271,7 +270,7 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
 */
     while (!exiting)
     {
-        if ((alive == true) && (plugok == true))
+        if (alive == true)
         {
                 remoteVSTServerInstance->dispatchPar(50);
         }
@@ -410,6 +409,8 @@ void RemoteVSTServer::EffectOpen()
     if (strncmp(buffer, "IK", 2) == 0)
         setprogrammiss = 1;
 */
+
+    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
 	
 #ifndef EMBED
     if (haveGui == true)
@@ -417,15 +418,9 @@ void RemoteVSTServer::EffectOpen()
     if(hWnd)
     SetWindowText(hWnd, m_name.c_str());
     }
-#endif   
+#endif   	
 
-plugok = true;	
-}
-
-void RemoteVSTServer::EffectRun()
-{
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
-    threadrun = true;
+    plugok = true;
 }
 
 RemoteVSTServer::~RemoteVSTServer()
@@ -508,6 +503,7 @@ void RemoteVSTServer::setBufferSize(int sz)
         m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, sz, NULL, 0);
         m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
         bufferSize = sz;
+        threadrun = true;
     }
    
     if (debugLevel > 0)
