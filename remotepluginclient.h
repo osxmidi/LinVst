@@ -82,9 +82,7 @@ public:
     int                 canBeAutomated(int param);
     int                 getProgram();
     int                 EffectOpen();
-    int                 EffectRun();  
-    int                 StartThreads();
-
+ 
     // void                effMainsChanged(int s);
     // int                 getUniqueID();
 
