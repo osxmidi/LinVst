@@ -270,7 +270,7 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
 */
     while (!exiting)
     {
-        if (alive == true)
+        if ((alive == true) && (plugok == true))
         {
                 remoteVSTServerInstance->dispatchPar(50);
         }
@@ -409,8 +409,6 @@ void RemoteVSTServer::EffectOpen()
     if (strncmp(buffer, "IK", 2) == 0)
         setprogrammiss = 1;
 */
-
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
 	
 #ifndef EMBED
     if (haveGui == true)
@@ -418,9 +416,15 @@ void RemoteVSTServer::EffectOpen()
     if(hWnd)
     SetWindowText(hWnd, m_name.c_str());
     }
-#endif   	
+#endif   
 
-    plugok = true;
+plugok = true;	
+}
+
+void RemoteVSTServer::EffectRun()
+{
+    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
+    threadrun = true;
 }
 
 RemoteVSTServer::~RemoteVSTServer()
@@ -503,7 +507,6 @@ void RemoteVSTServer::setBufferSize(int sz)
         m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, sz, NULL, 0);
         m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
         bufferSize = sz;
-        threadrun = true;
     }
    
     if (debugLevel > 0)
@@ -1177,24 +1180,56 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterGetSampleRate:
         //  if (debugLevel > 1)
             // cerr << "dssi-vst-server[2]: audioMasterGetSampleRate requested" << endl;
-
+/*
+        if (!exiting)
+        {
         if (!sampleRate)
         {
             //  cerr << "WARNING: Sample rate requested but not yet set" << endl;
             break;
         }
         plugin->dispatcher(plugin, effSetSampleRate, 0, 0, NULL, (float)sampleRate);
+        }
+*/
+    if (!exiting)
+    {
+    int retval;
+
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    
+    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    rv = retval;
+    }
         break;
 
     case audioMasterGetBlockSize:
+/*
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetBlockSize requested" << endl;
+
+        if (!exiting)
+        {
         if (!bufferSize)
         {
             // cerr << "WARNING: Buffer size requested but not yet set" << endl;
             break;
         }
         plugin->dispatcher(plugin, effSetBlockSize, 0, bufferSize, NULL, 0);
+        }
+*/
+    if (!exiting)
+    {
+    int retval;
+
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    
+    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    rv = retval;
+    }
         break;
 
     case audioMasterGetInputLatency:
