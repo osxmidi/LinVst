@@ -128,6 +128,7 @@ public:
     virtual void        canBeAutomated();
     virtual void        getProgram();
     virtual void        EffectOpen();
+    virtual void        EffectRun();
 //    virtual void        eff_mainsChanged(int v);
 
     virtual void        process(float **inputs, float **outputs, int sampleFrames);
