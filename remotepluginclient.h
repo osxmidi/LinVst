@@ -82,6 +82,8 @@ public:
     int                 canBeAutomated(int param);
     int                 getProgram();
     int                 EffectOpen();
+    int                 EffectRun();  
+    int                 StartThreads();
 
     // void                effMainsChanged(int s);
     // int                 getUniqueID();
@@ -162,6 +164,7 @@ public:
    int parentok;
 #endif
    int eventrun;
+   int mapped;
 #endif
 #endif
 
