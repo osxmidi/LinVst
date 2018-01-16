@@ -36,7 +36,6 @@ enum RemotePluginOpcode
     RemotePluginCanBeAutomated,
     RemotePluginGetProgram,
     RemotePluginEffectOpen,
-    RemotePluginEffectRun,
     // RemotePluginGetUniqueID,
     // RemotePluginGetInitialDelay,
 
