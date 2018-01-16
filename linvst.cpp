@@ -81,9 +81,9 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 #ifdef EMBED
 #ifndef XEMBED
 #ifdef EMBEDDRAG
-void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
+void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int mapped2, int parentok, int reaperid)
 #else
-void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
+void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int mapped2, int parentok, int reaperid)
 #endif
 {
 #ifdef EMBEDDRAG
@@ -122,6 +122,7 @@ static Window ignored = 0;
 		      
       case EnterNotify:
 //      if(reaperid)
+      if(mapped2)
       XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
       break;
 	
@@ -273,9 +274,9 @@ static char dawbuf[512];
 #ifndef XEMBED
         if(plugin->eventrun == 1)
 #ifdef EMBEDDRAG
-        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->mapped, plugin->parentok, plugin->reaperid);
 #else
-        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->mapped, plugin->parentok, plugin->reaperid);
 #endif
 #endif
 #endif
@@ -486,6 +487,7 @@ static char dawbuf[512];
  //     usleep(100000);
 
        plugin->openGUI();
+       plugin->mapped = 1;
 #endif          
        plugin->displayerr = 0;   
        }
@@ -514,6 +516,7 @@ if(plugin->runembed == 1)
 #endif	    
 #ifndef XEMBED
         plugin->eventrun = 0;
+        plugin->mapped = 0;    
 #endif
         if(plugin->displayerr == 1)
         break;
@@ -715,8 +718,18 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
         return 0;
     }
 
-    if(plugin->EffectOpen() == 1)
-        initEffect(plugin->theEffect, plugin);
+    plugin->EffectOpen();
+
+    initEffect(plugin->theEffect, plugin);
+
+    if(plugin->StartThreads() == 1)
+    {
+        if(plugin)
+        delete plugin;
+        return 0;
+    }
+
+    plugin->EffectRun();
 
 #ifdef EMBED
         XInitThreads();
