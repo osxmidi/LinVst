@@ -1175,9 +1175,9 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         break;
 
     case audioMasterGetSampleRate:
-        //  if (debugLevel > 1)
-            // cerr << "dssi-vst-server[2]: audioMasterGetSampleRate requested" << endl;
-/*
+          if (debugLevel > 1)
+           cerr << "dssi-vst-server[2]: audioMasterGetSampleRate requested" << endl;
+		    
         if (!exiting)
         {
         if (!sampleRate)
@@ -1186,9 +1186,9 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             break;
         }
         plugin->dispatcher(plugin, effSetSampleRate, 0, 0, NULL, (float)sampleRate);
-        }
-*/
-    if (!exiting)
+        }		    
+/*
+    if (alive && !exiting && threadrun)
     {
     int retval;
 
@@ -1199,10 +1199,11 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
     rv = retval;
     }
+    
+    */
         break;
 
     case audioMasterGetBlockSize:
-/*
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetBlockSize requested" << endl;
 
@@ -1215,8 +1216,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         }
         plugin->dispatcher(plugin, effSetBlockSize, 0, bufferSize, NULL, 0);
         }
-*/
-    if (!exiting)
+/*
+    if (alive && !exiting && threadrun)
     {
     int retval;
 
@@ -1227,6 +1228,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
     rv = retval;
     }
+ */
         break;
 
     case audioMasterGetInputLatency:
