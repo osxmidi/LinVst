@@ -218,7 +218,18 @@ else
                    retval = m_audioMaster(theEffect, audioMasterGetOutputLatency, 0, 0, 0, 0);
                    memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
                    break;
+				
+		   case audioMasterGetSampleRate:
+                   retval = 0;
+                   retval = m_audioMaster(theEffect, audioMasterGetSampleRate, 0, 0, 0, 0);
+                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   break;
 
+                   case audioMasterGetBlockSize:
+                   retval = 0;
+                   retval = m_audioMaster(theEffect, audioMasterGetBlockSize, 0, 0, 0, 0);
+                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   break;
 #ifdef EMBED			
 #ifdef EMBEDRESIZE
                     case resizegui:
@@ -441,6 +452,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     parentok(0),
 #endif
     eventrun(0),
+    mapped(0),
 #endif
 #endif
     theEffect(0)
