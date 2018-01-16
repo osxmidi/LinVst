@@ -1167,6 +1167,10 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginEffectOpen:
         EffectOpen();
         break;
+		    
+    case RemotePluginEffectRun:
+        EffectRun();
+        break;
 
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
