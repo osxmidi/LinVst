@@ -950,20 +950,13 @@ std::string RemotePluginClient::getMaker()
     return readString(&m_shm[FIXED_SHM_SIZE]);
 }
 
-void RemotePluginClient::setBufferSize(int s)
+int RemotePluginClient::StartThreads()
 {
-    if (s <= 0)
-        return;
-
-    if (s == m_bufferSize)
-        return;
-
-    if(m_threadinit == 0)
-    {
     if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
     {
     if(m_inexcept == 0)
     RemotePluginClosedException();
+    return 1;
     }    
 #ifdef EMBED
 #ifdef EMBEDTHREAD
@@ -971,11 +964,20 @@ void RemotePluginClient::setBufferSize(int s)
     {
     if(m_inexcept == 0)
     RemotePluginClosedException();
+    return 1;
     }
 #endif
 #endif
-    m_threadinit = 1;
-    }
+return 0;
+}
+
+void RemotePluginClient::setBufferSize(int s)
+{
+    if (s <= 0)
+        return;
+
+    if (s == m_bufferSize)
+        return;
        
     m_bufferSize = s;
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetBufferSize);
@@ -1649,6 +1651,14 @@ int RemotePluginClient::getProgram()
 int RemotePluginClient::EffectOpen()
 {
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginEffectOpen);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    return 1;
+}
+
+int RemotePluginClient::EffectRun()
+{
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginEffectRun);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
     return 1;
