@@ -44,6 +44,7 @@ public:
     virtual void            canBeAutomated() = 0;
     virtual void            getProgram() = 0;
     virtual void            EffectOpen() = 0;
+    virtual void            EffectRun() = 0;    
 
     // virtual int             getUniqueID() = 0;
     // virtual int             getVersion() = 0;
