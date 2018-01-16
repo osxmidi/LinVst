@@ -718,19 +718,9 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
         return 0;
     }
 
-    plugin->EffectOpen();
-
-    initEffect(plugin->theEffect, plugin);
-
-    if(plugin->StartThreads() == 1)
-    {
-        if(plugin)
-        delete plugin;
-        return 0;
-    }
-
-    plugin->EffectRun();
-
+    if(plugin->EffectOpen() == 1)
+        initEffect(plugin->theEffect, plugin);
+	
 #ifdef EMBED
         XInitThreads();
 #endif
