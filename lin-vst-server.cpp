@@ -161,10 +161,7 @@ public:
     int                 bufferSize;
     int                 sampleRate;
     bool                exiting;
-    bool                inProcessThread ;
-    bool                alive;
-    bool                threadrun;
-    bool                plugok;
+    bool                inProcessThread;
     bool                guiVisible;
     int                 parfin;
     int                 audfin;
@@ -184,7 +181,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
     case WM_CLOSE:
 #ifndef EMBED
-         if (!exiting && guiVisible)
+         if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
          remoteVSTServerInstance->hideGUI();
 #endif
     break;
@@ -210,16 +207,11 @@ DWORD WINAPI AudioThreadMain(LPVOID parameter)
 */
     while (!exiting)
     {
-        if ((alive == true) && (threadrun == true))
-        {
-                remoteVSTServerInstance->dispatchProcess(50);
-         }
-        else
-            usleep(10000);
+    remoteVSTServerInstance->dispatchProcess(50);
     }
     // param.sched_priority = 0;
     // (void)sched_setscheduler(0, SCHED_OTHER, &param);
-    audfin = 1;
+    remoteVSTServerInstance->audfin = 1;
     ExitThread(0);
     return 0;
 }
@@ -239,16 +231,11 @@ DWORD WINAPI GetSetThreadMain(LPVOID parameter)
 */
     while (!exiting)
     {
-        if ((alive == true) && (threadrun == true))
-        {
-                remoteVSTServerInstance->dispatchGetSet(50);
-         }
-        else
-            usleep(10000);
+    remoteVSTServerInstance->dispatchGetSet(50);
     }
     // param.sched_priority = 0;
     // (void)sched_setscheduler(0, SCHED_OTHER, &param);
-    getfin = 1;
+    remoteVSTServerInstance->getfin = 1;
     ExitThread(0);
     return 0;
 }
@@ -268,16 +255,11 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
 */
     while (!exiting)
     {
-        if (alive == true)
-        {
-                remoteVSTServerInstance->dispatchPar(50);
-        }
-        else
-            usleep(10000);
+    remoteVSTServerInstance->dispatchPar(50);
     }
     // param.sched_priority = 0;
     // (void)sched_setscheduler(0, SCHED_OTHER, &param);
-     parfin = 1;
+     remoteVSTServerInstance->parfin = 1;
      ExitThread(0);
     return 0;
 }
@@ -300,9 +282,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     timerval(0),
     exiting(false),
     inProcessThread(false),
-    alive(false),
-    threadrun(false),
-    plugok(false),
     guiVisible(false),
     parfin(0),
     audfin(0),
@@ -658,15 +637,6 @@ void RemoteVSTServer::showGUI()
         return;
     }
 
-    if(threadrun == false)
-    {
-        winm.handle = 0;
-        winm.width = 0;
-        winm.height = 0;
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
-        return;
-    }
-
    // if (hWnd)
    //     DestroyWindow(hWnd);
     hWnd = 0;
@@ -963,8 +933,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     {
     case audioMasterAutomate:
    //     plugin->setParameter(plugin, index, opt);
-    if (alive && !exiting && threadrun)
-    {
+    if(!remoteVSTServerInstance->exiting)
+    {	    
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
     remoteVSTServerInstance->writeFloatring(&remoteVSTServerInstance->m_shmControl->ringBuffer, opt);
@@ -1005,9 +975,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         break;
 
     case audioMasterGetTime:
-        if (alive && !exiting && threadrun)
+        if (!remoteVSTServerInstance->exiting)
         {
-
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
    
@@ -1035,7 +1004,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             int         sizeidx = 0;
             int         ok;
 
-            if (alive && !exiting && threadrun)
+            if (!remoteVSTServerInstance->exiting)
             {
                 evnts = (VstEvents*)ptr;
 
@@ -1113,7 +1082,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         int delay;
     } am;
 
-    if (alive && !exiting && threadrun)
+    if (!remoteVSTServerInstance->exiting)
     {
         am.flags = plugin->flags;
         am.pcount = plugin->numPrograms;
@@ -1158,7 +1127,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 #ifdef EMBEDRESIZE
    int opcodegui = 123456789;
 
-        if (remoteVSTServerInstance->hWnd && guiVisible && alive && !exiting && threadrun && (remoteVSTServerInstance->guiupdate == 0))
+        if (remoteVSTServerInstance->hWnd && remoteVSTServerInstance->guiVisible && !remoteVSTServerInstance->exiting && (remoteVSTServerInstance->guiupdate == 0))
 	{	
     remoteVSTServerInstance->guiresizewidth = index;
     remoteVSTServerInstance->guiresizeheight = value;
@@ -1176,7 +1145,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 #endif
 #endif
 #else
-        if (remoteVSTServerInstance->hWnd && !exiting && guiVisible)
+        if (remoteVSTServerInstance->hWnd && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
 	{	
             SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);		    
 	    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
@@ -1192,7 +1161,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
           if (debugLevel > 1)
            cerr << "dssi-vst-server[2]: audioMasterGetSampleRate requested" << endl;
 /*		    
-        if (!exiting)
+        if (!remoteVSTServerInstance->exiting)
         {
         if (!remoteVSTServerInstance->sampleRate)
         {
@@ -1203,7 +1172,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         }
 */	
 /*
-    if (alive && !exiting && threadrun)
+    if (!remoteVSTServerInstance->exiting)
     {
     int retval;
 
@@ -1222,7 +1191,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetBlockSize requested" << endl;
 /*
-        if (!exiting)
+        if (!remoteVSTServerInstance->exiting)
         {
         if (!remoteVSTServerInstance->bufferSize)
         {
@@ -1233,7 +1202,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         }
 */	
 /*
-    if (alive && !exiting && threadrun)
+    if (!remoteVSTServerInstance->exiting)
     {
     int retval;
 
@@ -1255,7 +1224,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     {
     int retval;
 
-    if (alive && !exiting && threadrun)
+    if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
@@ -1274,7 +1243,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     {
     int retval;
 
-    if (alive && !exiting && threadrun)
+    if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
@@ -1319,7 +1288,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     {
     int retval;
 
-    if (alive && !exiting && threadrun)
+    if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
@@ -1444,7 +1413,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterBeginEdit requested" << endl;
 
-    if (alive && !exiting && threadrun)
+    if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
@@ -1458,7 +1427,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterEndEdit requested" << endl;
 
-    if (alive && !exiting && threadrun)
+    if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
@@ -1581,6 +1550,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (!getinstance) {
        cerr << "dssi-vst-server: ERROR: VST entrypoints \"" << NEW_PLUGIN_ENTRY_POINT << "\" or \""
                 << OLD_PLUGIN_ENTRY_POINT << "\" not found in DLL \"" << libname << "\"" << endl;
+	if(libHandle)
         FreeLibrary(libHandle);
         return 1;
       }
@@ -1590,29 +1560,57 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (!plugin)
     {
         cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;
-        FreeLibrary(libHandle);
+	if(libHandle)
+	FreeLibrary(libHandle);
         return 1;
     }
 
     if (plugin->magic != kEffectMagic)
     {
         cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;
-        FreeLibrary(libHandle);
+	if(libHandle)
+	FreeLibrary(libHandle);
         return 1;
     }
 
     if (!(plugin->flags & effFlagsCanReplacing))
     {
         cerr << "dssi-vst-server: ERROR: Plugin does not support processReplacing (required)" << endl;
+        if(libHandle)    
         FreeLibrary(libHandle);
         return 1;
     }
+	
+        remoteVSTServerInstance = 0;
+	
+        remoteVSTServerInstance = new RemoteVSTServer(fileInfo, plugin, libname);
+    
+        if(!remoteVSTServerInstance)
+        {
+        cerr << "ERROR: Remote VST startup failed" << endl;
+	if(libHandle)
+        FreeLibrary(libHandle);
+        return 1; 
+        }
+
+        if(remoteVSTServerInstance->starterror == 1)
+        {
+        cerr << "ERROR: Remote VST startup failed" << endl;
+	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+	if(libHandle)
+        FreeLibrary(libHandle);
+        return 1; 
+        }
 
     DWORD threadIdp = 0;
     ThreadHandle[0] = CreateThread(0, 0, AudioThreadMain, 0, 0, &threadIdp);
     if (!ThreadHandle[0])
     {
         cerr << "Failed to create par thread!" << endl;
+  	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+	if(libHandle)
         FreeLibrary(libHandle);
         return 1;
     }
@@ -1623,6 +1621,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     {
         cerr << "Failed to create par thread!" << endl;
         TerminateThread(ThreadHandle[0], 0);
+	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+	if(libHandle)
         FreeLibrary(libHandle);
         return 1;
     }
@@ -1634,40 +1635,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         cerr << "Failed to create par thread!" << endl;
         TerminateThread(ThreadHandle[0], 0);
         TerminateThread(ThreadHandle[1], 0);
+	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+	if(libHandle)
         FreeLibrary(libHandle);
         return 1;
     }
 
-        remoteVSTServerInstance = new RemoteVSTServer(fileInfo, plugin, libname);
-    
-        if(!remoteVSTServerInstance)
-        {
-        cerr << "ERROR: Remote VST startup failed" << endl;
-        TerminateThread(ThreadHandle[0], 0);
-        TerminateThread(ThreadHandle[1], 0);
-        TerminateThread(ThreadHandle[2], 0);
-        FreeLibrary(libHandle);
-        return 1; 
-        }
-
-        if(remoteVSTServerInstance->starterror == 1)
-        {
-        cerr << "ERROR: Remote VST startup failed" << endl;
-        TerminateThread(ThreadHandle[0], 0);
-        TerminateThread(ThreadHandle[1], 0);
-        TerminateThread(ThreadHandle[2], 0);
-        FreeLibrary(libHandle);
-        return 1; 
-        }
-
-    alive = true;
-    threadrun = true; 
-
     MSG msg;
-    exiting = false;
-    while (!exiting)
+    remoteVSTServerInstance->exiting = false;
+    while (!remoteVSTServerInstance->exiting)
     {
-        while (!exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+        while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {
 	    TranslateMessage(&msg);
             DispatchMessage(&msg);
@@ -1675,7 +1654,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
             // this bit based on fst by Torben Hohn, patch worked out by Robert Jonsson - thanks!
               if (msg.message == WM_TIMER)
               {
-                if (guiVisible == true)
+                if (remoteVSTServerInstance->guiVisible == true)
                 {
                 plugin->dispatcher (plugin, effEditIdle, 0, 0, NULL, 0);
 #ifdef EMBED
@@ -1698,7 +1677,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                 }
                }
 
-        if (exiting)
+        if (remoteVSTServerInstance->exiting)
             break;
 
             remoteVSTServerInstance->dispatchControl(50);
@@ -1711,7 +1690,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     for (int i=0;i<1000;i++)
     {
         usleep(10000);
-        if (parfin && audfin && getfin)
+        if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
             break;
     }
 
@@ -1741,8 +1720,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: closed threads" << endl;
 
+    if(remoteVSTServerInstance)
     delete remoteVSTServerInstance;
-    remoteVSTServerInstance = 0;
+	
+    if(libHandle)
     FreeLibrary(libHandle);
 
     if (debugLevel > 0)
