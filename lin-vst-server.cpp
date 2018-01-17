@@ -374,7 +374,7 @@ void RemoteVSTServer::EffectOpen()
 
   //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
 
-    threadrun = true; 
+   //  threadrun = true; 
 
     if (m_plugin->dispatcher(m_plugin, effGetVstVersion, 0, 0, NULL, 0) < 2)
     {
@@ -1649,6 +1649,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         }
 
     alive = true;
+    threadrun = true; 
 
     MSG msg;
     exiting = false;
