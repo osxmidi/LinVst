@@ -67,8 +67,6 @@ bool    inProcessThread = false;
 bool    alive = false;
 bool    threadrun = false;
 bool    plugok = false;
-int     bufferSize = 0;
-int     sampleRate = 0;
 bool    guiVisible = false;
 int     parfin = 0;
 int     audfin = 0;
@@ -172,6 +170,8 @@ public:
 #endif
     AEffect             *m_plugin;
     VstEvents           vstev[VSTSIZE];
+    int                 bufferSize;
+    int                 sampleRate;
 
 private:
     std::string         m_name;
@@ -290,6 +290,8 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     m_plugin(plugin),
     m_name(fallbackName),
     m_maker(""),
+    bufferSize(0),
+    sampleRate(0),
     setprogrammiss(0),
     hostreaper(0),
 #ifdef EMBED
@@ -1183,16 +1185,17 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterGetSampleRate:
           if (debugLevel > 1)
            cerr << "dssi-vst-server[2]: audioMasterGetSampleRate requested" << endl;
-		    
+/*		    
         if (!exiting)
         {
-        if (!sampleRate)
+        if (!remoteVSTServerInstance->sampleRate)
         {
             //  cerr << "WARNING: Sample rate requested but not yet set" << endl;
             break;
         }
-        plugin->dispatcher(plugin, effSetSampleRate, 0, 0, NULL, (float)sampleRate);
-        }		    
+        plugin->dispatcher(plugin, effSetSampleRate, 0, 0, NULL, (float)remoteVSTServerInstance->sampleRate);
+        }
+*/	
 /*
     if (alive && !exiting && threadrun)
     {
@@ -1205,23 +1208,24 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
     rv = retval;
     }
-    
     */
+    rv = remoteVSTServerInstance->sampleRate;
         break;
 
     case audioMasterGetBlockSize:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetBlockSize requested" << endl;
-
+/*
         if (!exiting)
         {
-        if (!bufferSize)
+        if (!remoteVSTServerInstance->bufferSize)
         {
             // cerr << "WARNING: Buffer size requested but not yet set" << endl;
             break;
         }
-        plugin->dispatcher(plugin, effSetBlockSize, 0, bufferSize, NULL, 0);
+        plugin->dispatcher(plugin, effSetBlockSize, 0, remoteVSTServerInstance->bufferSize, NULL, 0);
         }
+*/	
 /*
     if (alive && !exiting && threadrun)
     {
@@ -1235,6 +1239,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     rv = retval;
     }
  */
+    rv = remoteVSTServerInstance->bufferSize;
         break;
 
     case audioMasterGetInputLatency:
