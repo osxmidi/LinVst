@@ -60,16 +60,6 @@
 
 typedef AEffect *(VSTCALLBACK *VstEntry)(audioMasterCallback audioMaster);
 
-bool    exiting = false;
-bool    inProcessThread = false;
-bool    alive = false;
-bool    threadrun = false;
-bool    plugok = false;
-bool    guiVisible = false;
-int     parfin = 0;
-int     audfin = 0;
-int     getfin = 0;
-
 RemotePluginDebugLevel  debugLevel = RemotePluginDebugNone;
 
 using namespace std;
@@ -170,6 +160,15 @@ public:
     VstEvents           vstev[VSTSIZE];
     int                 bufferSize;
     int                 sampleRate;
+    bool                exiting;
+    bool                inProcessThread ;
+    bool                alive;
+    bool                threadrun;
+    bool                plugok;
+    bool                guiVisible;
+    int                 parfin;
+    int                 audfin;
+    int                 getfin;
 
 private:
     std::string         m_name;
@@ -299,6 +298,15 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
 #endif
     haveGui(true),
     timerval(0),
+    exiting(false),
+    inProcessThread(false),
+    alive(false),
+    threadrun(false),
+    plugok(false),
+    guiVisible(false),
+    parfin(0),
+    audfin(0),
+    getfin(0),
 #ifdef EMBED
 #ifdef EMBEDRESIZE
     guiupdate(0),
