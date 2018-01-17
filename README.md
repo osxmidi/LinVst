@@ -119,6 +119,8 @@ Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
 
 d2d1 can be disabled in the winecfg Libraries tab.
 
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help with some plugins and d2d1.
+
 wininet is used by some vst's for net access including registration and online help etc and sometimes wines inbuilt wininet might cause a crash or have unimplemented functions.
 
 wininet can be overridden with wininet.dll and iertutil.dll and nsi.dll
@@ -281,6 +283,7 @@ Spire Synth (Disable d2d1 in the Libraries section of winecfg) (32 bit version s
 OP-X PRO-II (Disable d2d1 in the Libraries section of winecfg)
 
 MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1.
 
 Ignite Amps TPA-1 Amp Sim
 
@@ -297,6 +300,7 @@ TDR SlickEQ mixing/mastering equalizer
 Toneboosters TrackEssentials (disable d2d1 for Ferox)
 
 Serum Synth (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors.
 
 --------
 
