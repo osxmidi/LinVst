@@ -361,8 +361,6 @@ void RemoteVSTServer::EffectOpen()
 
   //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
 
-   //  threadrun = true; 
-
     if (m_plugin->dispatcher(m_plugin, effGetVstVersion, 0, 0, NULL, 0) < 2)
     {
         if (debugLevel > 0)
@@ -1274,9 +1272,9 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
     case audioMasterGetCurrentProcessLevel:
         if (debugLevel > 1)
-            cerr << "dssi-vst-server[2]: audioMasterGetCurrentProcessLevel requested (level is " << (inProcessThread ? 2 : 1) << ")" << endl;
+            cerr << "dssi-vst-server[2]: audioMasterGetCurrentProcessLevel requested (level is " << (remoteVSTServerInstance->inProcessThread ? 2 : 1) << ")" << endl;
         // 0 -> unsupported, 1 -> gui, 2 -> process, 3 -> midi/timer, 4 -> offline
-        if (inProcessThread)
+        if (remoteVSTServerInstance->inProcessThread)
             rv = 2;
         else
             rv = 1;
