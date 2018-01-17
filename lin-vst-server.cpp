@@ -117,6 +117,7 @@ public:
     virtual int         getEffInt(int opcode);
     virtual std::string getEffString(int opcode, int index);
     virtual void        effDoVoid(int opcode);
+    virtual void        effDoVoid2(int opcode, int index, int value, float opt);
 
 //    virtual int         getInitialDelay() {return m_plugin->initialDelay;}
 //    virtual int         getUniqueID() { return m_plugin->uniqueID;}
@@ -370,7 +371,10 @@ void RemoteVSTServer::EffectOpen()
         cerr << "dssi-vst-server[1]: opening plugin" << endl;
 
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+
+  //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+
+    threadrun = true; 
 
     if (m_plugin->dispatcher(m_plugin, effGetVstVersion, 0, 0, NULL, 0) < 2)
     {
@@ -410,17 +414,15 @@ void RemoteVSTServer::EffectOpen()
         setprogrammiss = 1;
 */
 
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
-	
 #ifndef EMBED
     if (haveGui == true)
     {
     if(hWnd)
     SetWindowText(hWnd, m_name.c_str());
     }
-#endif   	
+#endif   
 
-    plugok = true;
+ //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
 }
 
 RemoteVSTServer::~RemoteVSTServer()
@@ -486,6 +488,11 @@ void RemoteVSTServer::effDoVoid(int opcode)
     }
 }
 
+void RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
+{
+        m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);
+}
+
 std::string RemoteVSTServer::getEffString(int opcode, int index)
 {
     char name[512];
@@ -503,7 +510,6 @@ void RemoteVSTServer::setBufferSize(int sz)
         m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, sz, NULL, 0);
         m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
         bufferSize = sz;
-        threadrun = true;
     }
    
     if (debugLevel > 0)
