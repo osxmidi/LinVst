@@ -65,6 +65,7 @@ public:
     virtual int             getEffInt(int opcode)                   { return 0; }
     virtual std::string     getEffString(int opcode, int index)     { return ""; }
     virtual void            effDoVoid(int opcode)                   { return; }
+    virtual void            effDoVoid2(int opcode, int index, int value, float opt)           { return; }
 
     virtual void            process(float **inputs, float **outputs, int sampleFrames) = 0;
 
