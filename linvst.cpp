@@ -585,6 +585,10 @@ if(plugin->runembed == 1)
         v = plugin->canBeAutomated(index);
         break;
 
+        case effOpen:
+        plugin->EffectOpen();
+        break;
+	    
     case effClose:
 #ifdef EMBED    
 #ifndef XEMBED
