@@ -75,6 +75,7 @@ enum RemotePluginOpcode
     RemotePluginGetEffInt = 800,
     RemotePluginGetEffString,
     RemotePluginDoVoid,
+    RemotePluginDoVoid2,
 
     RemotePluginNoOpcode = 9999
 };
