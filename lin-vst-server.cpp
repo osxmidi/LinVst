@@ -60,8 +60,6 @@
 
 typedef AEffect *(VSTCALLBACK *VstEntry)(audioMasterCallback audioMaster);
 
-HANDLE  ThreadHandle[3] = {0,0,0};
-
 bool    exiting = false;
 bool    inProcessThread = false;
 bool    alive = false;
@@ -1496,6 +1494,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 {
+    HANDLE  ThreadHandle[3] = {0,0,0};
     string pathName;
     char cdpath[4096];
     char *libname = 0;
