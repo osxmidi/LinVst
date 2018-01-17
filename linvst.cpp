@@ -290,6 +290,10 @@ static char dawbuf[512];
     case effStopProcess:
         plugin->effVoidOp(effStopProcess);
         break;
+		    
+    case effMainsChanged:
+        plugin->effVoidOp2(effMainsChanged, index, value, opt);
+        break;
 
     case effGetVendorString:
         strncpy((char *) ptr, plugin->getMaker().c_str(), kVstMaxVendorStrLen);
@@ -718,8 +722,7 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
         return 0;
     }
 
-    if(plugin->EffectOpen() == 1)
-        initEffect(plugin->theEffect, plugin);
+    initEffect(plugin->theEffect, plugin);
 	
 #ifdef EMBED
         XInitThreads();
