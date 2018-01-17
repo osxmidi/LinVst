@@ -233,16 +233,17 @@ else
 #ifdef EMBED			
 #ifdef EMBEDRESIZE
                     case resizegui:
-                    if(display && child)
+                    if(display && parent && child)
+		    {	    
+	            mapped = 0;
                     XUnmapWindow(display, child);
-
+		    }
                     retRect.right = readIntring(&m_shmControl->ringBuffer);
                     retRect.bottom = readIntring(&m_shmControl->ringBuffer);
                     retRect.left = 0;
                     retRect.top = 0;
 		    width = retRect.right;
                     height = retRect.bottom;
-
                     if(display && parent && child)
                     {
                     XResizeWindow(display, parent, width, height);
@@ -250,6 +251,7 @@ else
                     XMapWindow(display, child);
                     XSync(display, false);
                     XFlush(display);
+		    mapped = 1;
                     }
                     break;
 #endif
