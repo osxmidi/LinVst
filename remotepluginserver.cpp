@@ -1163,6 +1163,16 @@ void RemotePluginServer::dispatchControlEvents()
         effDoVoid(opcode);
         break;
     }
+		    
+    case RemotePluginDoVoid2:
+    {
+        int opcode = readIntring(&m_shmControl3->ringBuffer);
+        int index = readIntring(&m_shmControl3->ringBuffer);
+        int value = readIntring(&m_shmControl3->ringBuffer);
+        float opt = readFloatring(&m_shmControl3->ringBuffer);
+        effDoVoid2(opcode, index, value, opt);
+        break;
+    }
 
     case RemotePluginEffectOpen:
         EffectOpen();
