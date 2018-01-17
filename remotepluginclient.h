@@ -114,6 +114,7 @@ public:
     int                 getEffInt(int opcode);
     void                getEffString(int opcode, int index, char *ptr, int len);
     void                effVoidOp(int opcode);
+    void                effVoidOp2(int opcode, int index, int value, float opt);
 
     int                 m_bufferSize;
     int                 m_numInputs;
