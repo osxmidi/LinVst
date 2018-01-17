@@ -1193,7 +1193,7 @@ RemotePluginClient::waitForServer2()
 
     timespec ts_timeout;
     clock_gettime(CLOCK_REALTIME, &ts_timeout);
-    ts_timeout.tv_sec += 5;
+    ts_timeout.tv_sec += 20;
     if (sem_timedwait(&m_shmControl2->runClient, &ts_timeout) != 0) {
         if(m_inexcept == 0)
 	RemotePluginClosedException();
@@ -1203,7 +1203,7 @@ RemotePluginClient::waitForServer2()
     {
     fpost(&m_shmControl2->runServer386);
 
-    if (fwait(&m_shmControl2->runClient386, 5000)) {
+    if (fwait(&m_shmControl2->runClient386, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
@@ -1219,7 +1219,7 @@ RemotePluginClient::waitForServer3()
 
     timespec ts_timeout;
     clock_gettime(CLOCK_REALTIME, &ts_timeout);
-    ts_timeout.tv_sec += 5;
+    ts_timeout.tv_sec += 20;
     if (sem_timedwait(&m_shmControl3->runClient, &ts_timeout) != 0) {
         if(m_inexcept == 0)
 	RemotePluginClosedException();
@@ -1229,7 +1229,7 @@ RemotePluginClient::waitForServer3()
     {
     fpost(&m_shmControl3->runServer386);
 
-    if (fwait(&m_shmControl3->runClient386, 5000)) {
+    if (fwait(&m_shmControl3->runClient386, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
@@ -1245,7 +1245,7 @@ RemotePluginClient::waitForServer4()
 
     timespec ts_timeout;
     clock_gettime(CLOCK_REALTIME, &ts_timeout);
-    ts_timeout.tv_sec += 5;
+    ts_timeout.tv_sec += 20;
     if (sem_timedwait(&m_shmControl4->runClient, &ts_timeout) != 0) {
         if(m_inexcept == 0)
 	RemotePluginClosedException();
@@ -1255,7 +1255,7 @@ RemotePluginClient::waitForServer4()
     {
     fpost(&m_shmControl4->runServer386);
 
-    if (fwait(&m_shmControl4->runClient386, 5000)) {
+    if (fwait(&m_shmControl4->runClient386, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
@@ -1271,7 +1271,7 @@ RemotePluginClient::waitForServer5()
 
     timespec ts_timeout;
     clock_gettime(CLOCK_REALTIME, &ts_timeout);
-    ts_timeout.tv_sec += 5;
+    ts_timeout.tv_sec += 20;
     if (sem_timedwait(&m_shmControl5->runClient, &ts_timeout) != 0) {
         if(m_inexcept == 0)
 	RemotePluginClosedException();
@@ -1281,7 +1281,7 @@ RemotePluginClient::waitForServer5()
     {
     fpost(&m_shmControl5->runServer386);
 
-    if (fwait(&m_shmControl5->runClient386, 5000)) {
+    if (fwait(&m_shmControl5->runClient386, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
@@ -1360,7 +1360,7 @@ RemotePluginClient::waitForServer2()
 {
     fpost(&m_shmControl2->runServer);
 
-    if (fwait(&m_shmControl2->runClient, 5000)) {
+    if (fwait(&m_shmControl2->runClient, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
@@ -1371,7 +1371,7 @@ RemotePluginClient::waitForServer3()
 {
     fpost(&m_shmControl3->runServer);
 
-    if (fwait(&m_shmControl3->runClient, 5000)) {
+    if (fwait(&m_shmControl3->runClient, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
@@ -1382,7 +1382,7 @@ RemotePluginClient::waitForServer4()
 {
     fpost(&m_shmControl4->runServer);
 
-    if (fwait(&m_shmControl4->runClient, 5000)) {
+    if (fwait(&m_shmControl4->runClient, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
@@ -1393,7 +1393,7 @@ RemotePluginClient::waitForServer5()
 {
     fpost(&m_shmControl5->runServer);
 
-    if (fwait(&m_shmControl5->runClient, 5000)) {
+    if (fwait(&m_shmControl5->runClient, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
