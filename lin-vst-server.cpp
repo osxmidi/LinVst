@@ -883,7 +883,7 @@ RemoteVSTServer::waitForServer()
 
     timespec ts_timeout;
     clock_gettime(CLOCK_REALTIME, &ts_timeout);
-    ts_timeout.tv_sec += 5;
+    ts_timeout.tv_sec += 20;
     if (sem_timedwait(&m_shmControl->runClient, &ts_timeout) != 0) {
          if(m_inexcept == 0)
          RemotePluginClosedException();
@@ -893,7 +893,7 @@ RemoteVSTServer::waitForServer()
     {
     fpost(&m_shmControl->runServer386);
 
-    if (fwait(&m_shmControl->runClient386, 5000)) {
+    if (fwait(&m_shmControl->runClient386, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
@@ -922,7 +922,7 @@ RemoteVSTServer::waitForServer()
 {
     fpost(&m_shmControl->runServer);
 
-    if (fwait(&m_shmControl->runClient, 5000)) {
+    if (fwait(&m_shmControl->runClient, 20000)) {
          if(m_inexcept == 0)
 	 RemotePluginClosedException();
     }
