@@ -968,25 +968,6 @@ void RemotePluginClient::setBufferSize(int s)
 
     if (s == m_bufferSize)
         return;
-
-    if(m_threadinit == 0)
-    {
-    if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
-    {
-    if(m_inexcept == 0)
-    RemotePluginClosedException();
-    }    
-#ifdef EMBED
-#ifdef EMBEDTHREAD
-    if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
-    {
-    if(m_inexcept == 0)
-    RemotePluginClosedException();
-    }
-#endif
-#endif
-    m_threadinit = 1;
-    }
        
     m_bufferSize = s;
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetBufferSize);
@@ -1604,6 +1585,17 @@ void RemotePluginClient::effVoidOp(int opcode)
     }
 }
 
+void RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
+{
+        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid2);
+        writeIntring(&m_shmControl3->ringBuffer, opcode);
+        writeIntring(&m_shmControl3->ringBuffer, index);
+        writeIntring(&m_shmControl3->ringBuffer, value);
+        writeFloatring(&m_shmControl3->ringBuffer, opt);
+        commitWrite(&m_shmControl3->ringBuffer);
+        waitForServer3();  
+}
+
 int RemotePluginClient::getChunk(void **ptr, int bank_prg)
 {
     static void *chunk_ptr = 0;
@@ -1659,6 +1651,21 @@ int RemotePluginClient::getProgram()
 
 int RemotePluginClient::EffectOpen()
 {
+    if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
+    {
+    if(m_inexcept == 0)
+    RemotePluginClosedException();
+    }    
+#ifdef EMBED
+#ifdef EMBEDTHREAD
+    if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
+    {
+    if(m_inexcept == 0)
+    RemotePluginClosedException();
+    }
+#endif
+#endif
+
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginEffectOpen);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
