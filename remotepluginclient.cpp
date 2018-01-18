@@ -1895,8 +1895,14 @@ m_inexcept = 1;
 	
     effVoidOp(effClose);
 	
+/*
+#ifdef EMBED
+#ifndef XEMBED
     if(display)
-    XCloseDisplay(display);    
+    XCloseDisplay(display);   
+#endif
+#endif
+*/
 }
 
 bool RemotePluginClient::fwait(int *futexp, int ms)
