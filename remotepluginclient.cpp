@@ -1891,7 +1891,9 @@ m_inexcept = 1;
 #endif
 #endif
 
-    effVoidOp(errorexit);
+   // effVoidOp(errorexit);
+	
+    effVoidOp(effClose);
 	
     if(display)
     XCloseDisplay(display);    
