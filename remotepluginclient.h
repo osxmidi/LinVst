@@ -168,6 +168,8 @@ public:
 #endif
 
 char *m_shm3;
+    
+int m_inexcept;
 
 protected:
     void                cleanup();
@@ -213,8 +215,6 @@ private:
     int                 m_threadinit;
 
 void RemotePluginClosedException();
-
-int m_inexcept;
 
 bool fwait(int *fcount, int ms);
 bool fpost(int *fcount);
