@@ -1892,6 +1892,9 @@ m_inexcept = 1;
 #endif
 
     effVoidOp(errorexit);
+	
+    if(display)
+    XCloseDisplay(display);    
 }
 
 bool RemotePluginClient::fwait(int *futexp, int ms)
