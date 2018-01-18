@@ -931,6 +931,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     {
     case audioMasterAutomate:
    //     plugin->setParameter(plugin, index, opt);
+    if(remoteVSTServerInstance)
+    {	    
     if(!remoteVSTServerInstance->exiting)
     {	    
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
@@ -940,6 +942,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->waitForServer();
      }
     rv = 0;
+    }
         break;
 
     case audioMasterVersion:
@@ -973,8 +976,10 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         break;
 
     case audioMasterGetTime:
-        if (!remoteVSTServerInstance->exiting)
-        {
+    if(remoteVSTServerInstance)
+    {	
+    if (!remoteVSTServerInstance->exiting)
+    {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
    
@@ -989,7 +994,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
     rv = (long)remoteVSTServerInstance->timeinfo;
     }
-        }
+    }
+    }
         break;
 
     case audioMasterProcessEvents:
@@ -1002,6 +1008,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             int         sizeidx = 0;
             int         ok;
 
+	    if(remoteVSTServerInstance)
+            {	
             if (!remoteVSTServerInstance->exiting)
             {
                 evnts = (VstEvents*)ptr;
@@ -1039,8 +1047,9 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
 
-            }
         }
+        }
+	}
         break;
 
     case DEPRECATED_VST_SYMBOL(audioMasterSetTime):
@@ -1080,6 +1089,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         int delay;
     } am;
 
+    if(remoteVSTServerInstance)
+    {		    
     if (!remoteVSTServerInstance->exiting)
     {
         am.flags = plugin->flags;
@@ -1107,6 +1118,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         update->initialDelay = am.delay;
 */
     }
+    }
         break;
 
     case DEPRECATED_VST_SYMBOL(audioMasterNeedIdle):
@@ -1124,14 +1136,16 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 #ifndef TRACKTIONWM
 #ifdef EMBEDRESIZE
    int opcodegui = 123456789;
-
-        if (remoteVSTServerInstance->hWnd && remoteVSTServerInstance->guiVisible && !remoteVSTServerInstance->exiting && (remoteVSTServerInstance->guiupdate == 0))
-	{	
+	
+    if(remoteVSTServerInstance)
+    {	
+    if (remoteVSTServerInstance->hWnd && remoteVSTServerInstance->guiVisible && !remoteVSTServerInstance->exiting && (remoteVSTServerInstance->guiupdate == 0))
+    {	
     remoteVSTServerInstance->guiresizewidth = index;
     remoteVSTServerInstance->guiresizeheight = value;
 
-   ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
-   SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP, 0, 0, remoteVSTServerInstance->guiresizewidth, remoteVSTServerInstance->guiresizeheight, 0);
+    ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
+    SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP, 0, 0, remoteVSTServerInstance->guiresizewidth, remoteVSTServerInstance->guiresizeheight, 0);
 	    
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcodegui);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
@@ -1139,26 +1153,32 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
     remoteVSTServerInstance->guiupdate = 1;
-	}
+    rv = 1;
+    }
+    }
 #endif
 #endif
 #else
+	if(remoteVSTServerInstance)
+        {	
         if (remoteVSTServerInstance->hWnd && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
 	{	
             SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);		    
 	    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-            UpdateWindow(remoteVSTServerInstance->hWnd);	      
+            UpdateWindow(remoteVSTServerInstance->hWnd);	
+	    rv = 1;
         }
+	}
 #endif
-	
-	rv = 1;
 }	    
         break;
 
     case audioMasterGetSampleRate:
           if (debugLevel > 1)
            cerr << "dssi-vst-server[2]: audioMasterGetSampleRate requested" << endl;
-/*		    
+/*		
+    if(remoteVSTServerInstance)
+    {	
         if (!remoteVSTServerInstance->exiting)
         {
         if (!remoteVSTServerInstance->sampleRate)
@@ -1168,8 +1188,11 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         }
         plugin->dispatcher(plugin, effSetSampleRate, 0, 0, NULL, (float)remoteVSTServerInstance->sampleRate);
         }
+	}
 */	
-/*
+/*    
+    if(remoteVSTServerInstance)
+    {	
     if (!remoteVSTServerInstance->exiting)
     {
     int retval;
@@ -1181,14 +1204,20 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
     rv = retval;
     }
+    }
     */
+    if(remoteVSTServerInstance)
+    {	    
     rv = remoteVSTServerInstance->sampleRate;
+    }
         break;
 
     case audioMasterGetBlockSize:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetBlockSize requested" << endl;
 /*
+    if(remoteVSTServerInstance)
+    {	
         if (!remoteVSTServerInstance->exiting)
         {
         if (!remoteVSTServerInstance->bufferSize)
@@ -1198,8 +1227,11 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         }
         plugin->dispatcher(plugin, effSetBlockSize, 0, remoteVSTServerInstance->bufferSize, NULL, 0);
         }
+	}
 */	
 /*
+    if(remoteVSTServerInstance)
+    {	
     if (!remoteVSTServerInstance->exiting)
     {
     int retval;
@@ -1211,8 +1243,12 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
     rv = retval;
     }
+    }
  */
+    if(remoteVSTServerInstance)
+    {	
     rv = remoteVSTServerInstance->bufferSize;
+    }
         break;
 
     case audioMasterGetInputLatency:
@@ -1221,7 +1257,9 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 /*		    
     {
     int retval;
-
+    
+    if(remoteVSTServerInstance)
+    {	
     if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
@@ -1230,6 +1268,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     }
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
     rv = retval;
+    }
     }
 */
         break;
@@ -1241,6 +1280,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     {
     int retval;
 
+    if(remoteVSTServerInstance)
+    {	
     if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
@@ -1249,6 +1290,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     }
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
     rv = retval;
+    }
     }
 */
         break;
@@ -1272,12 +1314,16 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 
     case audioMasterGetCurrentProcessLevel:
         if (debugLevel > 1)
-            cerr << "dssi-vst-server[2]: audioMasterGetCurrentProcessLevel requested (level is " << (remoteVSTServerInstance->inProcessThread ? 2 : 1) << ")" << endl;
+            cerr << "dssi-vst-server[2]: audioMasterGetCurrentProcessLevel requested" << endl;
         // 0 -> unsupported, 1 -> gui, 2 -> process, 3 -> midi/timer, 4 -> offline
+		    
+    if(remoteVSTServerInstance)
+    {	
         if (remoteVSTServerInstance->inProcessThread)
             rv = 2;
         else
             rv = 1;
+    }	    
         break;
 
     case audioMasterGetAutomationState:
@@ -1286,6 +1332,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     {
     int retval;
 
+    if(remoteVSTServerInstance)
+    {	
     if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
@@ -1294,6 +1342,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     }
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
     rv = retval;
+    }
     }
    //     rv = 4; // read/write
         break;
@@ -1411,6 +1460,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterBeginEdit requested" << endl;
 
+    if(remoteVSTServerInstance)
+    {	
     if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
@@ -1419,12 +1470,15 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->waitForServer();
      }
     rv = 1;
+    }	    
         break;
 
     case audioMasterEndEdit:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterEndEdit requested" << endl;
 
+    if(remoteVSTServerInstance)
+    {	
     if (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
@@ -1433,6 +1487,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->waitForServer();
      }
     rv = 1;
+    }
         break;
 
     case audioMasterOpenFileSelector:
