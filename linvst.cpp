@@ -259,6 +259,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 static char dawbuf[512];
 #endif
 #endif
+	
+    if(plugin->m_inexcept == 1)
+    return 0;
 
     switch (opcode)
     {
