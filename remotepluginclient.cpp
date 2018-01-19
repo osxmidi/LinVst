@@ -1651,6 +1651,9 @@ int RemotePluginClient::getProgram()
 
 int RemotePluginClient::EffectOpen()
 {
+    if(m_threadinit == 1)
+    return;
+	
     if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
     {
     if(m_inexcept == 0)
@@ -1669,6 +1672,9 @@ int RemotePluginClient::EffectOpen()
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginEffectOpen);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
+	
+    m_threadinit = 1;
+	
     return 1;
 }
 
