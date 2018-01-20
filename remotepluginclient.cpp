@@ -1652,7 +1652,7 @@ int RemotePluginClient::getProgram()
 int RemotePluginClient::EffectOpen()
 {
     if(m_threadinit == 1)
-    return;
+    return 0;
 	
     if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
     {
