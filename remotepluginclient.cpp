@@ -430,6 +430,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_inexcept(0),
     m_finishaudio(0),
     m_runok(0),
+    m_runok2(0),
     m_syncok(0),
     m_386run(0),
     reaperid(0),
