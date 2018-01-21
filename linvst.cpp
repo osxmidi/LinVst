@@ -721,7 +721,10 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
         delete plugin;
         return 0;
     }
-
+	
+    if(plugin->m_runok2 == 1)
+        return 0;
+	
     if(plugin->m_runok == 1)
     {
         if(plugin)
