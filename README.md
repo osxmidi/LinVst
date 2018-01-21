@@ -208,17 +208,19 @@ Upgrading to the latest wine-stable version is recommended.
 
 ------
 
-Latency
+Latency/Performance
 
 Some distros/wine can result in varying latency results.
 
-LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel and on Debian 9 with a realtime kernel (AV Linux should be similar), but not on some other distros without a low latency/real time kernel, so some distros (and their setups, wine etc) might be better than some others for latency.
+LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel and on Debian 9 with a realtime kernel (AV Linux should be similar), but not on some other distros without a low latency/real time kernel, so some distros (and their setups, wine etc) might be better than some others in terms of latency and latency also would depend on audio hardware/drivers.
 
-There is also rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian)
+There is also rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) which may have some effect.
 
 Ubuntu Studio and it's low latency kernel combined with rtirq-init, can produce reasonable latency results.
 
-Setting wineserver to a higher priority may have an effect on cpu load and system response on some systems/setups/plugins.
+LinVst is memory access intensive and having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
+
+Wineserver can be set to a higher priority may have an effect on cpu load and system response on some systems/setups/plugins.
 
 wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
 
