@@ -190,7 +190,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 
     if ((child = vfork()) < 0)
     {
-        m_runok = 1;
+        m_runok2 = 1;
         return;
     }
     else if (child == 0)
@@ -205,7 +205,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             if (execlp("/usr/bin/lin-vst-serverst32.exe", "/usr/bin/lin-vst-serverst32.exe", argStr, NULL))
             #endif
             {
-                m_runok = 1;
+                m_runok2 = 1;
                 return;
             }
         }
@@ -217,7 +217,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
             #endif
             {
-                m_runok = 1;
+                m_runok2 = 1;
                 return;
             }
         }
@@ -229,7 +229,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             if (execlp("/usr/bin/lin-vst-serverstlx32.exe", "/usr/bin/lin-vst-serverstlx32.exe", argStr, NULL))
             #endif
         {
-            m_runok = 1;
+            m_runok2 = 1;
             return;
         }
 #else
@@ -239,7 +239,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
             #endif
         {
-            m_runok = 1;
+            m_runok2 = 1;
             return;
         }
 #endif
