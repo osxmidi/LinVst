@@ -121,7 +121,6 @@ public:
     int                 m_numOutputs;
     int                 m_finishaudio;
     int                 m_runok;
-    int                 m_runok2;
     int                 m_syncok;
     int                 m_386run;
     AEffect             *theEffect;
