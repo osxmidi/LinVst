@@ -54,6 +54,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     pid_t       child;
     Dl_info     info;
     std::string dllName;
+    std::string LinVstName;
     bool        test;
 
 #ifdef VST6432
@@ -156,6 +157,53 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
 
     mfile.close();
+#endif
+    
+#ifdef EMBED
+#ifdef VST32
+
+    LinVstName = "/usr/bin/lin-vst-serverlx32.exe";
+
+    test = std::ifstream(LinVstName.c_str()).good();
+
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+#else
+    LinVstName = "/usr/bin/lin-vst-server.exe";
+
+    test = std::ifstream(LinVstName.c_str()).good();
+
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+#endif
+#else
+#ifdef VST32
+    LinVstName = "/usr/bin/lin-vst-serverstlx32.exe";
+
+    test = std::ifstream(LinVstName.c_str()).good();
+
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+#else
+    LinVstName = "/usr/bin/lin-vst-serverst.exe";
+
+    test = std::ifstream(LinVstName.c_str()).good();
+
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+#endif
 #endif
 
     hit2[0] = '\0';
