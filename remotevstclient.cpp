@@ -161,11 +161,15 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     
 #ifdef EMBED
 #ifdef VST32
-
     LinVstName = "/usr/bin/lin-vst-serverlx32.exe";
-
     test = std::ifstream(LinVstName.c_str()).good();
-
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst-serverlx32.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
     {
     m_runok = 1;
@@ -173,9 +177,14 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
 #else
     LinVstName = "/usr/bin/lin-vst-server.exe";
-
     test = std::ifstream(LinVstName.c_str()).good();
-
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst-server.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
     {
     m_runok = 1;
@@ -185,9 +194,14 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 #else
 #ifdef VST32
     LinVstName = "/usr/bin/lin-vst-serverstlx32.exe";
-
     test = std::ifstream(LinVstName.c_str()).good();
-
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst-serverstlx32.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
     {
     m_runok = 1;
@@ -195,9 +209,14 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
 #else
     LinVstName = "/usr/bin/lin-vst-serverst.exe";
-
     test = std::ifstream(LinVstName.c_str()).good();
-
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst-serverst.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
     {
     m_runok = 1;
