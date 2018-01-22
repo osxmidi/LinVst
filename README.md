@@ -151,6 +151,10 @@ For details about overriding dll's, see the next section (Wine Config).
 
 Wine Config
 
+LinVst expects wine to be found in /usr/bin.
+
+Setting WINELOADER etc to a new wine path might possibly be used for different wine paths.
+
 Keyboard input etc can be enabled for the standalone window LinVst version only, by creating a UseTakeFocus string and setting it to a value of N, in HKEY_CURRENT_USER/Software/Wine/X11 Driver (regedit).
 
 More keyboard control (not recommended) can be enabled for the standalone window LinVst version only, by unchecking the winecfg option "Allow the window manager to control the windows".
