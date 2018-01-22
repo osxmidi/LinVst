@@ -724,6 +724,7 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 		
     if(plugin->m_runok == 1)
     {
+        std::cerr << "Could not connect to Server" << std::endl;
         if(plugin)
         delete plugin;
         return 0;
