@@ -724,7 +724,7 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 		
     if(plugin->m_runok == 1)
     {
-        std::cerr << "/usr/bin/lin-vst-server.exe not found" << std::endl;
+        std::cerr << "/usr/bin/lin-vst-server.exe and/or /usr/bin/lin-vst-server.exe.so not found" << std::endl;
         if(plugin)
         delete plugin;
         return 0;
