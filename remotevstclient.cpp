@@ -176,6 +176,25 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     return;
     }
 #else
+#ifdef VST6432
+    if (dlltype == 2)
+    {
+    LinVstName = "/usr/bin/lin-vst-server32.exe";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst-server32.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+    }
+#endif
     LinVstName = "/usr/bin/lin-vst-server.exe";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
@@ -208,6 +227,25 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     return;
     }
 #else
+#ifdef VST6432
+    if (dlltype == 2)
+    {
+    LinVstName = "/usr/bin/lin-vst-serverst32.exe";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst-serverst32.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    return;
+    }
+    }
+#endif
     LinVstName = "/usr/bin/lin-vst-serverst.exe";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
