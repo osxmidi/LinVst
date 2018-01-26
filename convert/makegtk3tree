@@ -1,0 +1,1 @@
+g++ `pkg-config --cflags gtk+-3.0` linvstconvertgtktree.cpp -o linvstconverttree `pkg-config --libs gtk+-3.0`
