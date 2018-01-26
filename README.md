@@ -342,6 +342,12 @@ sudo apt-get update
 
 --------
 
+The convert folder is for making the linvstconvert and linvstconverttree utilities that name convert Windows vst dll filenames (.dll) to Linux shared library filenames (.so).
+
+A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
+
+For LinVst
+
 sudo make clean
 
 make
@@ -370,11 +376,5 @@ See Makefile comments for define options.
 
 Tracktion/Waveform might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion/Waveform plugin window and adding -DTRACKTIONWM to the embedded makefiles BUILD_FLAGS, BUILD_FLAGS_WIN and BUILD_FLAGS_WIN32 lines might help (for Tracktion/Waveform use only).
 
-LinVst-32bit-only-Makefiles.zip contains makefiles for 32 bit systems and 32 bit vst's only.
-
-linvstconvertsrc.zip is for making the linvstconvert and linvstconverttree utilities.
-
-A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
-
-
+The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only.
 
