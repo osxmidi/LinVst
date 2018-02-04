@@ -307,7 +307,8 @@ static char dawbuf[512];
         break;
 
     case effGetParamName:
-        strncpy((char *) ptr, plugin->getParameterName(index).c_str(), kVstMaxParamStrLen);
+      //  strncpy((char *) ptr, plugin->getParameterName(index).c_str(), kVstMaxParamStrLen);
+	strncpy((char *) ptr, plugin->getParameterName(index).c_str(), kVstMaxVendorStrLen);
         break;
 
     case effGetParamLabel:
