@@ -312,11 +312,13 @@ static char dawbuf[512];
         break;
 
     case effGetParamLabel:
-        plugin->getEffString(effGetParamLabel, index, (char *) ptr, kVstMaxParamStrLen);
+    //    plugin->getEffString(effGetParamLabel, index, (char *) ptr, kVstMaxParamStrLen);
+        plugin->getEffString(effGetParamLabel, index, (char *) ptr, kVstMaxVendorStrLen);
         break;
 
     case effGetParamDisplay:
-        plugin->getEffString(effGetParamDisplay, index, (char *) ptr, kVstMaxParamStrLen);
+     //   plugin->getEffString(effGetParamDisplay, index, (char *) ptr, kVstMaxParamStrLen);
+        plugin->getEffString(effGetParamDisplay, index, (char *) ptr, kVstMaxVendorStrLen);
         break;
 
     case effGetProgramNameIndexed:
