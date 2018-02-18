@@ -363,7 +363,7 @@ void RemoteVSTServer::EffectOpen()
 	
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
 
-  //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
 
     if (m_plugin->dispatcher(m_plugin, effGetVstVersion, 0, 0, NULL, 0) < 2)
     {
@@ -411,7 +411,7 @@ void RemoteVSTServer::EffectOpen()
     }
 #endif   
 
- //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
+   m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
 }
 
 RemoteVSTServer::~RemoteVSTServer()
