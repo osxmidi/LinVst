@@ -119,7 +119,7 @@ Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
 
 d2d1 can be disabled in the winecfg Libraries tab.
 
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help with some plugins and d2d1 (can also depend on hardware and drivers).
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 (MaxVersionGL is a DWORD hex value) might help with some plugins and d2d1 (can also depend on hardware and drivers).
 
 wininet is used by some vst's for net access including registration and online help etc and sometimes wines inbuilt wininet might cause a crash or have unimplemented functions.
 
@@ -262,7 +262,7 @@ IK SampleTank
 
 Addictive Drums 2 (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
 
-EZDrummer2
+EZDrummer2 (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
 
 Mercuriall Spark Amp Sim
 
