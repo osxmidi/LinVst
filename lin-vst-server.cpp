@@ -357,9 +357,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
 void RemoteVSTServer::EffectOpen()
 {
     if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: opening plugin" << endl;
-
-    effectrun = true;	
+        cerr << "dssi-vst-server[1]: opening plugin" << endl;	
 	
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
 
@@ -412,6 +410,8 @@ void RemoteVSTServer::EffectOpen()
 #endif   
 
    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
+	
+   effectrun = true;	
 }
 
 RemoteVSTServer::~RemoteVSTServer()
