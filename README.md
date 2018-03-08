@@ -27,7 +27,7 @@ Make sure you have Wine installed.
 
 1. Copy `lin-vst-server.exe` and `lin-vst-server.so` to `/usr/bin`
 2. Copy `linvst.so` to the location of the Windows VST `.dll` file that you want to run in a Linux DAW. This will be something like `~/.wine/drive_c/Program Files/VstPlugins`
-3. Rename `linvst.so` to the name of the Windows VST .dll. For `ExampleVST.dll`, rename `linvst.so` to `ExampleVST.so`
+3. Rename `linvst.so` to the name of the Windows VST `.dll`. For `ExampleVST.dll`, rename `linvst.so` to `ExampleVST.so`
 4. Set your Linux DAW to look in the folder that the Windows VST is in
 5. Load `ExampleVST.so` in the Linux DAW. `ExampleVST.so` will load and run the Windows VST with the matching name, `ExampleVST.dll`
 
