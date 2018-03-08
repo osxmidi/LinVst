@@ -116,7 +116,7 @@ For the above DLLs, you can run `winetricks vcrun2013 vcrun2015 wininet gdiplus`
 
 To enable 32-bit VSTs on a 64-bit system, a distro's multilib needs to be installed (on Ubuntu it would be `sudo apt install gcc-multilib g++-multilib`)
 
-For details about overriding DLLs, see the next section, Wine Config.
+For details about overriding DLLs, see [Wine Config](#Wine_Config).
 
 Setting `HKEY_CURRENT_USER\Software\Wine\Direct3D\MaxVersionGL` to 30002 (MaxVersionGL is a DWORD hex value) in Wine's regedit might help with some plugins and `d2d1.dll` (can also depend on hardware and drivers).
 
