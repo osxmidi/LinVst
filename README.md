@@ -34,7 +34,7 @@ The renamed `.so` file acts as a bridge to the `.dll` file, so the `.dll` and th
 ### Using the included GUI tool
 
 1. Copy `lin-vst-server.exe` and `lin-vst-server.so` to `/usr/bin`
-2. Run the linvstconvert GUI tool.
+2. Run the linvstconvert GUI tool
 
 
 ### Using the CLI tool
@@ -44,17 +44,26 @@ The renamed `.so` file acts as a bridge to the `.dll` file, so the `.dll` and th
   - This will convert all files in the specified path. `linvstconverttree` is recursive.
 3. Set your Linux DAW to look in the folder that the Windows VST is in
 4. Load `example.so` in the Linux DAW. `example.so` will load and run the Windows VST with the matching name, `example.dll`
+<!--
+## Copying, moving or symbolically linking plugins or plugin folders
+
+Not sure if these are a good idea:
+
+If you have `sudo` privileges, you can chmod the folder with the VSTs user permissions to the VST instrument
+
+Copying or moving plugins (and in some cases associated files like presets) to a folder with user permissions is possible if you want to do so, unless the VST plugin requires a fixed path.
+-->
+
+If you want, you can make a symbolic link to `~/.wine/drive_c/Program Files/VstPlugins/Delay.so` or to the whole `~/.wine/drive_c/Program Files/VstPlugins` directory from a more convenient folder, such as `/home/user/vst`. Then you can add `/home/user/vst` to the Linux DAW's plugin search paths.
 
 
 ## Included batch renaming tools
 
-The included tools `linvstconvert` and `linvstconverttree` will create renamed `linvst.so` files for each VST `.dll` in a specified folder, essentially doing the above steps for you. `linvstconvert` only processes one folder, while `linvstconverttree` recursively explores folders (i.e. explores each child of a specified parent folder). There are GUI and CLI versions.
+The included tools `linvstconvert` and `linvstconverttree` (GUI and CLI) will create renamed `linvst.so` files for each VST `.dll` in a specified folder, essentially doing the above steps for you. You may need to use `sudo` for some folders.
 
-You may need to use sudo (root privileges) for some folders.
+`linvstconvert` only processes one folder, while `linvstconverttree` recursively explores folders (i.e. explores each child of a specified parent folder).
 
-Copying or moving plugins (and in some cases associated files like presets) to a folder with user permissions is a good idea, unless the VST plugin requires a fixed path.
-
-To illustrate, this is a folder that contains some Windows VSTs:
+To illustrate what the tools do, this is a folder that contains some Windows VSTs:
 ```
 Delay.dll
 Compressor.dll
@@ -73,8 +82,6 @@ Chorus.so
 Synth.dll
 Synth.so
 ```
-
-Another way is to make a symbolic link to `~/.wine/drive_c/Program Files/VstPlugins/Delay.so` or to the whole `~/.wine/drive_c/Program Files/VstPlugins` directory from a more convenient folder, such as `/home/user/vst`. Then you can add `/home/user/vst` to the Linux DAW's plugin search paths.
 
 
 ### Setting up custom Wine prefixes (`WINEPREFIX`)
@@ -153,7 +160,11 @@ LinVst has produced reasonable latency results on Ubuntu Studio with a low laten
 
 Results can vary from system to system, so some distros, setups and Wine versions might be better than some others in terms of latency. Latency also depends on the audio hardware/drivers as well.
 
-For more information on latency on Linux, see [this page](https://wiki.linuxaudio.org/wiki/system_configuration).
+On Ubuntu or Ubuntu-based distributions (such as elementary OS), you can install the `linux-lowlatency-hwe-[version]` package for the low latency kernel.
+
+In general, setting CPU governors for all cores to "performance" can make a significant difference to performance.
+
+For more information on audio latency and performance on Linux, see [this page](https://wiki.linuxaudio.org/wiki/system_configuration).
 
 Various notes:
 - rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) may have some effect. Ubuntu Studio and it's low latency kernel combined with rtirq-init, can produce reasonable latency results.
