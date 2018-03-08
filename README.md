@@ -189,12 +189,15 @@ Various notes:
 #### Tested VSTs (with Wine 2.8, notes and requirements may not apply to newer versions of Wine)
 - Kontakt Player 5.6.8
   - May require multiprocessing to be turned off
-  - May need msvcp140.dll (provided with a Visual C++ version)
-  - May also require msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll
+  - May need `msvcp140.dll` (provided with a Visual C++ version)
+  - May also require `msvcp140.dll`, `concrt140.dll`, `api-ms-win-crt-time-l1-1-0.dll`, `api-ms-win-crt-runtime-l1-1-0.dll` and `ucrtbase.dll`
 - Guitar Rig 5 (same DLLs as Kontakt)
-- Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
+- Reaktor 6:
+  - May require `msvcp140.dll` and `concrt140.dll` overrides
 - FM8
-- Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides) (copy and paste username and password into the registration window)
+- Line 6 Helix Native:
+  - May require `msvcr120.dll` and `gdiplus.dll` overrides
+  - You may have to copy and paste username and password into the registration window
 - S-Gear Amp Sim
 - TH3 Amp Sim
 - IK Amplitube 4
@@ -254,13 +257,13 @@ sudo apt-get install gcc-multilib g++-multilib
 sudo apt-get install libwine-development-dev:i386
 ```
 
-For Debian, you'll need to enable the non-free repositories (run sudo apt update after).
+For Debian, you'll need to enable the non-free repositories (run `sudo apt update` after).
 
-The convert folder is for making the linvstconvert and linvstconverttree utilities that name convert Windows vst dll filenames (.dll) to Linux shared library filenames (.so).
+The convert folder is for making the `linvstconvert` and `linvstconverttree` utilities that batch rename Windows DLL files (`.dll`) files to Linux shared library files (`.so`).
 
-The makegtk etc files in the convert folder contain simple commands for making the convert utilities.
+`makegtk` and others in the convert folder contain simple commands for making the convert utilities.
 
-A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
+A -no-pie option might be needed on some systems for the `linvstconvert` and `linvstconverttree` utilities icons to appear.
 
 
 ### Building
@@ -271,7 +274,7 @@ make
 sudo make install
 ```
 
-This installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder (`lin-vst-serverst` for standalone window version). It also installs `lin-vst-server32.exe` and `lin-vst-server32.exe.so` to `/usr/bin` for 32-bit VST support (`lin-vst-serverst32` for standalone window version).
+This installs `lin-vst-server.exe` and `lin-vst-server.exe.so` to `/usr/bin` and installs `linvst.so` to `/vst` in the source code folder (`lin-vst-serverst` for standalone window version). It also installs `lin-vst-server32.exe` and `lin-vst-server32.exe.so` to `/usr/bin` for 32-bit VST support (`lin-vst-serverst32` for standalone window version).
 
 Repo contents:
 - `Makefile-embed-6432` and `Makefile-standalone-6432` build a LinVst version that autodetects and automatically runs both 64-bit VSTs and 32-bit VSTs.
