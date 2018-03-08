@@ -137,9 +137,9 @@ Sometimes usernames and passwords might need to be copied and pasted into the wi
 
 Sometimes a Windows VST needs the native Windows version of a DLL. Sometimes required DLLs might be missing and additional Windows redistributable packages might need to be installed.
 
-Finding out what DLLs to possibly override can be done by running `strings vstname.dll | grep -i dll`, which will display a list of DLLs from the plugins DLL file. For instance, if the dll list contains `d2d1.dll` and there are problems running the plugin, then `d2d1.dll` (Direct2D) might possibly be why the plugin isn't working.
+To find out what DLLs a VST may need, run `strings vstname.dll | grep -i dll`. This will display a list of DLLs that are listed inside the DLL file. If the DLLs list contains DLL files such as `d2d1.dll` and there are problems running the plugin, then `d2d1.dll` (Direct2D) might be why the plugin isn't working correctly.
 
-If the Wine debugger displays "unimplemented function in XXXX.dll" somewhere in it's output, then that DLL usually needs to be overridden with a Windows DLL.
+If the Wine debugger displays `unimplemented function in XXXX.dll` somewhere in it's output, then that DLL usually needs to be overridden with a Windows DLL.
 
 For instructions on overriding DLLs in Wine's winecfg, see [the Libraries section on the Wine User's Guide](https://wiki.winehq.org/Wine_User%27s_Guide#Libraries_Settings). On 64-bit Wine prefixes, 64-bit `.dll` files are located at `/home/username/.wine/drive_c/Windows/system32`, while 32-bit `.dll` files are located at `/home/username/.wine/drive_c/Windows/syswow64`. On 32-bit Wine prefixes, 32-bit `.dll` files are located at `/home/username/.wine/drive_c/Windows/system32`.
 
