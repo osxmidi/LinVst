@@ -38,16 +38,19 @@ The renamed `.so` file acts as a bridge to the `.dll` file, so the `.dll` and th
 ### Using the included GUI tool
 
 1. Copy `lin-vst-server.exe` and `lin-vst-server.so` to `/usr/bin`
-2. Run the linvstconvert GUI tool
+2. Copy `linvst.so` to the location of the Windows VST `.dll` file that you want to run in a Linux DAW.
+3. Run the `linvstconvert` or `linvstconverttree` GUI tool. These tools create `.so` equivalents of all `.dll` files in the specified folder.
+
+`linvstconvert` is for a single folder. `linvstconverttree` is recursive, in other words it goes through every folder inside a selected folder.
 
 
 ### Using the CLI tool
 
 1. Copy `lin-vst-server.exe` and `lin-vst-server.so` to `/usr/bin`
-2. Run `linvstconvert [path]` or `linvstconverttree [path]`. The path will be something like `~/.wine/drive_c/Program Files/VstPlugins`. So for example, `linvstconvert "~/.wine/drive_c/Program Files/VstPlugins"`.
-    - This will convert all files in the specified path. `linvstconverttree` is recursive.
-3. Set your Linux DAW to look in the folder that the Windows VST is in
-4. Load `example.so` in the Linux DAW. `example.so` will load and run the Windows VST with the matching name, `example.dll`
+2. Copy `linvst.so` to the location of the Windows VST `.dll` file that you want to run in a Linux DAW.
+3. Run `linvstconvert [path]`. The path will be something like `~/.wine/drive_c/Program Files/VstPlugins`. So for example, `linvstconvert "~/.wine/drive_c/Program Files/VstPlugins"`. This will create `.so` equivalents of all `.dll` files in the specified path. <!-- Currently there is no recursive option? -->
+4. Set your Linux DAW to look in the folder that the Windows VST is in
+5. Load `example.so` in the Linux DAW. `example.so` will load and run the Windows VST with the matching name, `example.dll`
 <!--
 ## Copying, moving or symbolically linking plugins or plugin folders
 
