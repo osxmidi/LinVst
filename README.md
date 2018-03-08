@@ -9,9 +9,12 @@ LinVst is a bridge between Linux DAWs and Windows VSTs. Windows VSTs are ran wit
 
 It looks like this:
 
-|  |  |  |  |
-|--|--|--|--|
-| Linux DAW | **LinVst** | Wine | Windows VST (.dll) |
+| |
+|:--:|
+| Windows VST (.dll) |
+| Wine |
+| **LinVst** |
+| Linux DAW |
 
 The included `linvst.so` is a native VST. When loaded with a Linux DAW, it looks for a Windows `.dll` with the same name, and runs it with Wine.
 
