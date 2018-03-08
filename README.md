@@ -25,7 +25,7 @@ Make sure you have Wine installed.
 
 ### Manually
 
-1. Copy `lin-vst-server.exe` and `lin-vst-server.so` to `/usr/bin`
+1. Copy `lin-vst-server.exe` and `lin-vst-server.so` (found in Releases) to `/usr/bin`
 2. Copy `linvst.so` to the location of the Windows VST `.dll` file that you want to run in a Linux DAW. This will be something like `~/.wine/drive_c/Program Files/VstPlugins`
 3. Rename `linvst.so` to the name of the Windows VST `.dll`. For `ExampleVST.dll`, rename `linvst.so` to `ExampleVST.so`
 4. Set your Linux DAW to look in the folder that the Windows VST is in
@@ -36,13 +36,13 @@ The renamed `.so` file acts as a bridge to the `.dll` file, so the `.dll` and th
 
 ### Using the included GUI tool
 
-1. Copy `lin-vst-server.exe` and `lin-vst-server.so` to `/usr/bin`
+1. Copy `lin-vst-server.exe` and `lin-vst-server.so` (found in Releases) to `/usr/bin`
 2. Run the linvstconvert GUI tool
 
 
 ### Using the CLI tool
 
-1. Copy `lin-vst-server.exe` and `lin-vst-server.so` to `/usr/bin`
+1. Copy `lin-vst-server.exe` and `lin-vst-server.so` (found in Releases) to `/usr/bin`
 2. Run `linvstconvert [path]` or `linvstconverttree [path]`. The path will be something like `~/.wine/drive_c/Program Files/VstPlugins`. So for example, `linvstconvert "~/.wine/drive_c/Program Files/VstPlugins"`.
   - This will convert all files in the specified path. `linvstconverttree` is recursive.
 3. Set your Linux DAW to look in the folder that the Windows VST is in
