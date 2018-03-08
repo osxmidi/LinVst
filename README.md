@@ -1,346 +1,245 @@
 # LinVst
 
------
+LinVst enables Windows VSTs to be used in Linux DAWs which support the VST standard.
 
-LinVst enables Windows vst's to be used as Linux vst's in Linux vst capable DAW's.
 
--------
+## What is LinVst?
 
-How to use LinVst
+LinVst is a bridge between Linux DAWs and Windows VSTs (ran with Wine).
 
-To use LinVst, the linvst.so file simply needs to be renamed to match the windows vst dll's filename.
+The included `linvst.so` is a native VST. When loaded with a Linux DAW, it looks for a Windows .dll with the same name, and runs it with Wine.
 
-(the .so and .dll extensions are left as they are and are not part of the renaming)
 
-Both the windows vst dll file and the renamed linvst.so file are then a matched pair and need to be kept together in the same directory/folder.
+## How to use LinVst
 
-For Example
+Make sure you have Wine installed.
 
-copy lin-vst-server.exe and lin-vst-server.so to /usr/bin
 
-copy linvst.so to wherever the windows vst dll file is that someone wants to run in a Linux DAW, 
-and then rename linvst.so to the windows vst dll filename 
+### Manually
 
-linvst.so gets renamed to test.so for test.dll
+1. Copy lin-vst-server.exe and lin-vst-server.so to /usr/bin
+2. Copy linvst.so to the location of the Windows VST dll file that you want to run in a Linux DAW. This will be something like `~/.wine/drive_c/Program Files/VstPlugins`
+3. Rename linvst.so to the name of the Windows VST .dll. For example, for `example.dll`, rename `linvst.so` to `example.so`
+4. Set your Linux DAW to look in the folder that the Windows VST is in
+5. Load `example.so` in the Linux DAW. `example.so` will load and run the Windows VST with the matching name, `example.dll`
 
-Use the renamed file (test.so) in a Linux VST capable DAW 
+The renamed .so file acts as a bridge to the .dll file, so the .dll and the .so files need to be kept together in the same folder.
 
-Load test.so within the Linux DAW and then test.so will load and run the (name associated) test.dll windows vst 
 
-linvstconvert (GUI or CLI) and linvstconverttree can automatically batch name convert linvst.so to mutiple windows vst dll names that are located in a folder/directory (the linvstconvert CLI version needs to be run from within the dll's folder/directory).
-linvstconverttree can automatically name convert folders and sub folders (directories and sub directories) of vst dll plugins.
+### Using the included GUI tool
 
-sudo permission might be needed for some folders/directories that don't have user permissions.
+1. Copy lin-vst-server.exe and lin-vst-server.so to /usr/bin
+2. Run the linvstconvert GUI tool.
 
-After the naming conversion, the newly created files (.so files) are ready to be used in Linux vst DAW's from the folder that was used for the naming conversion.
 
-Copying/moving plugins (and in some cases their associated presets etc) to a folder/directory with user permissions (if possible) is generally a good idea unless the vst plugin requires a fixed path.
+### Using the CLI tool
 
--------
+1. Copy lin-vst-server.exe and lin-vst-server.so to /usr/bin
+2. Run `linvstconvert [path]` or `linvstconverttree [path]`. The path will be something like `~/.wine/drive_c/Program Files/VstPlugins`. So for example, `linvstconvert "~/.wine/drive_c/Program Files/VstPlugins"`.
+This will convert all files in the specified path. `linvstconverttree` is recursive.
+3. Set your Linux DAW to look in the folder that the Windows VST is in
+4. Load `example.so` in the Linux DAW. `example.so` will load and run the Windows VST with the matching name, `example.dll`
 
-Using a folder of windows dll files as an example.
 
-Say the folder contains 
+## Included batch renaming tools
 
+The included tools `linvstconvert` and `linvstconverttree` will create renamed `linvst.so` files for each VST .dll in a specified folder, essentially doing the above steps for you. `linvstconvert` only processes one folder, while `linvstconverttree` recursively explores folders (i.e. explores each child of a specified parent folder). There are GUI and CLI versions.
+
+You may need to use sudo (root privileges) for some folders.
+
+Copying or moving plugins (and in some cases associated files like presets) to a folder with user permissions is a good idea, unless the VST plugin requires a fixed path.
+
+To illustrate, this is a folder that contains some Windows VSTs:
+```
 Delay.dll
-
 Compressor.dll
-
 Chorus.dll
-
 Synth.dll
+```
 
-then after the renaming (using the renaming utility) the folder will look like
-
+After using the renaming tools, the folder will look like:
+```
 Delay.dll
 Delay.so
-
 Compressor.dll
 Compressor.so
-
 Chorus.dll
 Chorus.so
-
 Synth.dll
 Synth.so
+```
 
-The files ending with .so can be used inside Linux Vst DAWS to load and manage the associated dll files (ie Delay.so loads and manages Delay.dll).
+Another way is to make a symbolic link to `~/.wine/drive_c/Program Files/VstPlugins/Delay.so` or to the whole `~/.wine/drive_c/Program Files/VstPlugins` directory from a more convenient folder, such as `/home/user/vst`. Then you can add `/home/user/vst` to the Linux DAW's plugin search paths.
 
-Say for instance that a windows vst installation has installed a windows vst named Delay.dll into the VstPlugins directory inside of a WINEPREFIX ie (~/.wine/drive_c/Program Files/VstPlugins), then the renaming utility needs to be run on the VstPlugins directory.
 
-After the renaming there is Delay.dll and Delay.so in the ~/.wine/drive_c/Program Files/VstPlugins directory.
+### Setting up custom Wine prefixes (`WINEPREFIX`)
 
-The Linux DAW plugin search path is then appended to include ~/.wine/drive_c/Program Files/VstPlugins and then the plugin(s) can be loaded.
+There can be multiple Wine prefix folders (the default is `~/.wine`) containing various VST .dll plugins. Each Wine prefix can have a different Wine configuration, including native Windows DLLs and DLL override settings. Individual plugins can have their own Wine prefix environment.
 
-Another way is to make a symbolic link to ~/.wine/drive_c/Program Files/VstPlugins/Delay.so or to the whole ~/.wine/drive_c/Program Files/VstPlugins directory from a more convenient folder such as /home/user/vst and then append /home/user/vst to the Linux DAW's plugin search path.
+Windows VST plugins that require a different Wine environment can be installed into different Wine prefixes by creating a new Wine prefix or using an already existing Wine prefix and then running the Windows VST installation program inside it. See [WineHQ's section on Wineprefixes](https://wiki.winehq.org/FAQ#Wineprefixes) for how to set up Wine prefixes and run programs inside them.
 
-There can be multiple WINEPREFIXES (by default there is one ~/.wine) containing various vst dll plugins and each WINEPREFIX can have a different wine setup, including dll overrides etc.
+When LinVst is loaded from within a Wine prefix, it uses the Wineprefix it's inside. So `~/.wine-hello/drive_c/Program Files/VstPlugins/Synth.so` (which uses `Synth.dll` inside the same folder) will use `~/.wine-hello` as the Wine prefix. This also works for symbolic links.
 
-Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a new WINEPREFIX (export WINEPREFIX=~/.wine-new winecfg) and then run the windows vst installation program or by setting the WINEPREFIX environmental variable to a particular pre existing WINEPREFIX and then installing the vst into it ie export WINEPREFIX=~/.wine-preexisting and then run the vst install.
+Make sure your Linux DAW is set to look for any paths inside newly created Wineprefixes.
 
-A particular WINEPREFIX can be configured by using winecfg with the WINEPREFIX environmental variable set to that particular WINEPREFIX ie export WINEPREFIX=~/.wine-new winecfg.
 
-When a plugin is loaded from within a WINEPREFIX, it picks up on that WINEPREFIXES individual setup (also works for symbolic links as discussed above).
+## Common Problems and Possible Fixes
 
-------
+LinVst looks for wine in /usr/bin. If there isn't a /usr/bin/wine then it will likely cause problems. If the VST bridged with LinVST is not loading at all and you've followed the above steps properly, check if /usr/bin/wine exists. If it doesn't you can make a symbolic link at `/usr/bin/wine` which links to `/opt/wine-staging/bin/wine` for example (for Wine staging).
 
-linvst.so needs to be renamed to the windows vst name (the .so and .dll extensions are left as they are and are not part of the renaming).
+A large number of VST plugin crashes/problems are due to VSTs that require the native Windows DLLs. Common DLLs include:
+- Visual C++ Redistributable (`msvcr120.dll`, `msvcr140.dll`, `msvcp120.dll`, `msvcp140.dll`, the DLLs depend on the version of Visual C++ required).
+- `d2d1.dll` (Direct2D).
+- `wininet.dll`, `iertutil.dll` and `nsi.dll` (used for internet access, e.g. registration and online help)
+- `gdiplus.dll`
 
-Both the windows vst dll file and the renamed linvst.so file need to be in the same folder/directory.
+This can be worked around by using the native Windows DLL versions of the required DLLs and overriding it in the `winecfg` library secton.
 
-linvst.so is a Linux vst template that loads and runs any windows vst that linvst.so is renamed to.
+However it's recommended to use (Winetricks)[https://github.com/Winetricks/winetricks] instead which does this for you. Make sure to install `cabextract` with your package manager (apt or rpm) as Winetricks often requires this to extract files from installers.
 
-linvst.so can be copied and renamed multiple times to load multiple windows vst's.
+For the above DLLs, you can run `winetricks vcrun2013 vcrun2015 wininet gdiplus` in the terminal. Winetricks also has a force flag (`winetricks --force vcrun2013`) if required.
 
-Basically, linvst.so becomes the windows vst once it's renamed to the windows vst's name and can then be used in Linux vst hosts.
+To enable 32-bit VSTs on a 64-bit system, a distro's multilib needs to be installed (on Ubuntu it would be `sudo apt-get install gcc-multilib g++-multilib`)
 
-Individual plugins can have their own WINEPREFIX environment.
+For details about overriding DLLs, see the next section, Wine Config.
 
-If a windows vst dll file and it's associated renamed linvst.so file are located within a WINEPREFIX then the plugin will use that WINEPREFIX.
+Setting `HKEY_CURRENT_USER\Software\Wine\Direct3D\MaxVersionGL` to 30002 (MaxVersionGL is a DWORD hex value) in Wine's regedit might help with some plugins and `d2d1.dll` (can also depend on hardware and drivers).
 
-Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
-------
+## Wine Config
 
-Common Problems/Possible Fixes
+LinVst expects the `wine` executable to be found in `/usr/bin`.
 
-LinVst looks for wine in /usr/bin and if there isn't a /usr/bin/wine then that will probably cause problems.
-/usr/bin/wine can be a symbolic link to /opt/wine-staging/bin/wine (for wine staging) for example.
+Setting WINELOADER etc. to a new wine path might possibly be used for different wine paths.
 
-A large number of vst plugin crashes/problems can be basically narrowed down to the following dll's and then worked around by overriding/disabling them.
 
-Quite a few vst plugins rely on the Visual C++ Redistributable dlls msvcr120.dll msvcr140.dll msvcp120.dll msvcp140.dll etc
+### Keyboard Input
 
-Some vst plugins might crash if the Visual C++ Redistributable dlls are not present in /home/username/.wine/drive_c/windows/system32 for 64 bit vst's and /home/username/.wine/drive_c/windows/syswow64 for 32 bit vst's, and then overridden in the winecfg Libraries tab
+Keyboard input etc can be enabled for the standalone window LinVst version only, by creating a UseTakeFocus string and setting it to a value of N, in `HKEY_CURRENT_USER/Software/Wine/X11 Driver` (via Wine's regedit). More keyboard control (not recommended) can be enabled for the standalone window LinVst version only, by unchecking the `winecfg` option "Allow the window manager to control the Windows". 
 
-Quite a few plugins rely on the d2d1 dll 
-
-Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
-
-d2d1 can be disabled in the winecfg Libraries tab.
-
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 (MaxVersionGL is a DWORD hex value) might help with some plugins and d2d1 (can also depend on hardware and drivers).
-
-wininet is used by some vst's for net access including registration and online help etc and sometimes wines inbuilt wininet might cause a crash or have unimplemented functions.
-
-wininet can be overridden with wininet.dll and iertutil.dll and nsi.dll
-
-Occasionally other dlls might need to be overridden such as gdiplus.dll etc
-
-Winetricks https://github.com/Winetricks/winetricks can make overriding dll's easier.
-
-For the above dll overrides
-
-winetricks vcrun2013
-
-winetricks vcrun2015
-
-winetricks wininet
-
-winetricks gdiplus
-
-Winetricks also has a force flag --force ie winetricks --force vcrun2013
-
-cabextract needs to be installed (sudo apt-get install cabextract, yum install cabextract etc)
-
-To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
-
-For details about overriding dll's, see the next section (Wine Config).
-
-------
-
-Wine Config
-
-LinVst expects wine to be found in /usr/bin.
-
-Setting WINELOADER etc to a new wine path might possibly be used for different wine paths.
-
-Keyboard input etc can be enabled for the standalone window LinVst version only, by creating a UseTakeFocus string and setting it to a value of N, in HKEY_CURRENT_USER/Software/Wine/X11 Driver (regedit).
-
-More keyboard control (not recommended) can be enabled for the standalone window LinVst version only, by unchecking the winecfg option "Allow the window manager to control the windows".
-
-Keyboard input should be ok for the embedded window version.
-
-The embedded window version needs to be run with the winecfg option "Allow the window manager to control the windows" checked (which is usually the default).
+Keyboard input should be OK for the embedded window version. The embedded window version needs to be run with the `winecfg` option "Allow the window manager to control the Windows" checked (which is usually the default).
 
 Sometimes usernames and passwords might need to be copied and pasted into the window because manual entry might not work in all cases.
 
-Sometimes a windows vst needs a Wine dll override.
 
-Finding out what dll's to possibly override can be done by running "strings vstname.dll | grep -i dll", which will display a list of dll's from the plugins dll file.
+### DLL Overrides
+
+Sometimes a Windows VST needs the native Windows version of a DLL. Sometimes required DLLs might be missing and additional Windows redistributable packages might need to be installed.
+
+Finding out what DLLs to possibly override can be done by running `strings vstname.dll | grep -i dll`, which will display a list of DLLs from the plugins DLL file. For instance, if the dll list contains `d2d1.dll` and there are problems running the plugin, then `d2d1.dll` (Direct2D) might possibly be why the plugin isn't working.
+
+If the Wine debugger displays "unimplemented function in XXXX.dll" somewhere in it's output, then that DLL usually needs to be overridden with a Windows DLL.
+
+For instructions on overriding DLLs in Wine's winecfg, see [the Libraries section on the Wine User's Guide](https://wiki.winehq.org/Wine_User%27s_Guide#Libraries_Settings). On 64-bit Wine prefixes, 64-bit .dll files are located at `/home/username/.wine/drive_c/Windows/system32`, while 32-bit .dll files are located at `/home/username/.wine/drive_c/Windows/syswow64`. On 32-bit Wine prefixes, 32-bit .dll files are located at `/home/username/.wine/drive_c/Windows/system32`.
+
+Common DLL issues:
+- Some Windows VSTs use D3D, and Wine uses Linux OpenGL to implement D3D, so a capable Linux OpenGL driver/setup might be required for some Windows VSTs
+- Some D3D .dll overrides might be needed for some Windows VSTs (D3D/OpenGL Wine advice can be found at gaming forums and other forums)
+- Disabling `d2d1.dll` in the Libraries section of winecfg might help with some Windows VSTs
+- For wininet (often used for online registration and online helps), running `winetricks wininet` and/or installing `winbind` for your distro (e.g. `sudo apt install winbind`) might help.
+
+Wine related issues:
+- Turning off the VST's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (depends on Wine version).
+- In certain cases Wine can take time to load properly if it's the first time you've used it since boot, which might cause LinVst to crash. Try initializing Wine with `wine wineboot` or running any Wine program beforehand.
+- Try upgrading to the latest Wine version (wine-devel 3.3 as of writing).
+
+
+## Latency/Performance
+
+Some Linux distributions and Wine versions can result in varying latency results.
+
+LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel, and on Debian 9 with a real time kernel (AV Linux should be similar), but not so much on some other distros without a low latency/real time kernel.
+
+Results can vary from system to system, so some distros, setups and Wine versions might be better than some others in terms of latency. Latency also depends on the audio hardware/drivers as well.
+
+For more information on latency on Linux, see [this page](https://wiki.linuxaudio.org/wiki/system_configuration).
+
+Various notes:
+- rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) may have some effect. Ubuntu Studio and it's low latency kernel combined with rtirq-init, can produce reasonable latency results.
+- LinVst is memory access intensive and having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
+- Wineserver can be set to a higher priority, which may have an effect on cpu load and system response on some systems, setups or plugins.
+- wineserver can have it's priority level changed from normal to high or very high (requires root access), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
+- The wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
+
+
+## Tested setups
+
+### Tested Linux DAWs (with Wine 2)
+- Tracktion 7
+- Ardour 5.6
+- Bitwig Studio 2
+- Reaper 5.5
+- Renoise 3.1
+
+### Tested VSTs (with Wine 2.8, notes and requirements may not apply to newer versions of Wine)
+- Kontakt Player 5.6.8
+  - May require multiprocessing to be turned off
+  - May need msvcp140.dll (provided with a Visual C++ version)
+  - May also require msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll
+- Guitar Rig 5 (same DLLs as Kontakt)
+- Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
+- FM8
+- Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides) (copy and paste username and password into the registration window)
+- S-Gear Amp Sim
+- TH3 Amp Sim
+- IK Amplitube 4
+- IK SampleTank
+- Addictive Drums 2:
+  - Requires the DLL and matching `.so` (the renamed `linvst.so`) to be loaded from the installation directory (i.e. a fixed path).
+- EZDrummer2:
+  - Choose Mixer window before quiting if drum kit is playing to avoid possible hang when quitting
+- Mercuriall Spark Amp Sim
+- Melda MXXX Multi Effects:
+  - May require GPU acceleration off
+- T-RackS
+- Nebula4
+- VUMT
+- Sforzando:
+  - Drag and drop is OK with the LinVst embedded window and standalone window drag-and-drop enabled versions
+- Groove Machine:
+  - Drag and drop is OK with the LinVst embedded window and standalone window drag-and-drop enabled versions
+- Zampler RX
+- Stillwell plugins
+- Cobalt (Sanford) Synth
+- Spire Synth:
+  - May require disabling d2d1 in the Libraries section of winecfg
+  - 32-bit version seems to work OK with the 32-bit version of `d2d1.dll` (version 6.1.7601.17514)
+- OP-X PRO-II:
+  - May require disabling d2d1 in the Libraries section of winecfg
+- MT-PowerDrumKit:
+  - May require disabling d2d1 in the Libraries section of winecfg
+  - Drag and drop is OK with the LinVst embedded window and standalone window drag-and-drop enabled versions
+  - Setting `HKEY_CURRENT_USER\Software\Wine\Direct3D\MaxVersionGL` to 30002 might help with `d2d1.dll` (can also depend on hardware and drivers)
+- Ignite Amps TPA-1 Amp Sim 
+- LePou Amp Sims
+- Nick Crow Lab Amp Sims
+- Voxengo Boogex Guitar Effects
+- Klanghelm MJUC Compressor
+- TDR SlickEQ mixing/mastering equalizer 
+- Toneboosters TrackEssentials (disable d2d1 for Ferox)
+- Serum:
+  - Can have some issues with Wine 2.8's current `d2d1.dll`, disable d2d1 or try a d2d1 override. 32-bit version seems to work better than the 64-bit version with an override of the 32-bit version of d2d1 (version 6.1.7601.17514).
+  - Setting `HKEY_CURRENT_USER\Software\Wine\Direct3D\MaxVersionGL` to 30002 might help, but there might still be some `d2d1.dll` errors (can also depend on hardware and drivers)
+
+
+## Building
 
-For instance, if the dll list contains d2d1.dll and there are problems running the plugin, then d2d1 might possibly be a candidate to override or disable.
+### Requirements
+- The `plugininterfaces` folder contained within the [VST2_SDK](https://www.steinberg.net/en/company/developers.html) folder needs to be placed in the LinVst files folder.
+- Wine libwine development files. For Ubuntu/Debian, `sudo apt install libwine-development-dev` (for Ubuntu 14.04 it's `sudo apt-get install wine1.8` and `sudo apt-get install wine1.8-dev`). wine-devel packages for other distros (sudo apt-get install wine-devel).
+- libX11 development needed for embedded version (sudo apt-get install libx11-dev)
+ - Include and Library paths might need to be changed in the Makefile for various 64-bit and 32-bit Wine development paths (otherwise 32-bit compiles might try to link with 64-bit libraries, etc.).
+- Additional 32-bit development libraries are probably needed.
 
-If the Wine debugger displays "unimplemented function in XXXX.dll" somewhere in it's output, then that dll usually needs to be overriden with a windows dll.
-
-Overriding a dll involves copying the windows dll to a wine windows directory and then running winecfg to configure wine to override the dll.
-
-64 bit .dlls are copied to /home/username/.wine/drive_c/windows/system32 
-
-32 bit .dlls are copied to /home/username/.wine/drive_c/windows/syswow64
-
-Run winecfg and select the Libraries tab and then select the dll to override from the list or type the name.
-
-After adding the dll, check with the edit option that the dll's settings are native first and then builtin.
-
-https://www.winehq.org/docs/wineusr-guide/config-wine-main
-
-Sometimes required dll's might be missing and additional windows redistributable packages might need to be installed.
-
-Some windows vst's use D3D, and Wine uses Linux OpenGL to implement D3D, so a capable Linux OpenGL driver/setup might be required for some windows vst's.
-
-Disabling d2d1 in the Libraries section of winecfg might help with some windows vst's.
-
-Some D3D dll overrides might be needed for some windows vst's.
-
-D3D/OpenGL Wine config advice can be found at gaming forums and other forums.
-
-Additional dll's (dll overrides) might have to be added to Wine for some Windows vst's to work.
-
-Winetricks might help with some plugins https://github.com/Winetricks/winetricks
-
-Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines current implementation.
-
-Running winetricks wininet and/or installing winbind for a distro (sudo apt-get install winbind) might help (wininet and it's associated dll's can also be manually installed as dll overrides).
-
-Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
-
-On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
-The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
-
-Upgrading to the latest wine-stable version is recommended.
-
-------
-
-Latency/Performance
-
-Some distros/wine can result in varying latency results.
-
-LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel and on Debian 9 with a realtime kernel (AV Linux should be similar), but not so much on some other distros without a low latency/real time kernel but results can vary from system to system, so some distros (and their setups, wine etc) might be better than some others in terms of latency and latency would also depend on the audio hardware/drivers as well.
-
-rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) may have some effect.
-
-Ubuntu Studio and it's low latency kernel combined with rtirq-init, can produce reasonable latency results.
-
-LinVst is memory access intensive and having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
-
-Wineserver can be set to a higher priority may have an effect on cpu load and system response on some systems/setups/plugins.
-
-wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
-
-The wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
-
-------
-
-LinVst tested with Wine 2 and Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Linux Renoise 3.1
-
-Tested vst's
-
-Kontakt Player 5.6.8 (turn multiprocessing off). Requires Wine 2.0 and above
-
-Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
-Kontakt and Wine 2.8 staging only need an additional msvcp140.dll override. 
-To override dll's, copy windows dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
-
-(Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
-
-Guitar Rig 5 (same dll overrides as Kontakt)
-
-Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
-
-FM8
-
-Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides) (copy and paste username and password into the registration window)
-
-S-Gear Amp Sim
-
-TH3 Amp Sim
-
-IK Amplitube 4
-
-IK SampleTank
-
-Addictive Drums 2 (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
-
-EZDrummer2 (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
-
-Mercuriall Spark Amp Sim
-
-Melda MXXX Multi Effects (turn GPU acceleration off)
-
-T-RackS
-
-Nebula4
-
-VUMT
-
-Sforzando (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
-
-Groove Machine (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
-
-Zampler RX
-
-Stillwell plugins
-
-Cobalt (Sanford) Synth
-
-Spire Synth (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
-
-OP-X PRO-II (Disable d2d1 in the Libraries section of winecfg)
-
-MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
-
-Ignite Amps TPA-1 Amp Sim 
-
-LePou Amp Sims
-
-Nick Crow Lab Amp Sims
-
-Voxengo Boogex Guitar Effects
-
-Klanghelm MJUC Compressor
-
-TDR SlickEQ mixing/mastering equalizer 
-
-Toneboosters TrackEssentials (disable d2d1 for Ferox)
-
-Serum Synth (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers) .
-
---------
-
-To make
-
-The plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder. https://www.steinberg.net/en/company/developers.html
-
-Wine libwine development files.
-
-For Ubuntu/Debian, sudo apt-get install libwine-development-dev (for Ubuntu 14.04 it's sudo apt-get install wine1.8 and sudo apt-get install wine1.8-dev)
-
-wine-devel packages for other distros (sudo apt-get install wine-devel).
-
-libX11 development needed for embedded version (sudo apt-get install libx11-dev)
- 
-Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
-
-Additional 32 bit development libraries are probably needed.
-
-On Ubuntu/Debian 64 bits 
-
+On Ubuntu/Debian, for 64-bit: 
+```
 sudo dpkg --add-architecture i386
-
 sudo apt-get install libc6-dev-i386
-
 sudo apt-get install gcc-multilib g++-multilib
-
 sudo apt-get install libwine-development-dev:i386
+```
 
-For Debian add deb http://ftp.de.debian.org/debian distro main non-free to /etc/apt/sources.list (distro gets replaced with distro ie stretch etc)
-
-sudo apt-get update
-
---------
+For Debian, you'll need to enable the non-free repositories (run sudo apt update after).
 
 The convert folder is for making the linvstconvert and linvstconverttree utilities that name convert Windows vst dll filenames (.dll) to Linux shared library filenames (.so).
 
@@ -348,37 +247,29 @@ The makegtk etc files in the convert folder contain simple commands for making t
 
 A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
 
---
 
-For LinVst
+### Building
 
+```
 sudo make clean
-
 make
-
 sudo make install
+```
 
-Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder (lin-vst-serverst for standalone window version)
+This installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder (`lin-vst-serverst` for standalone window version). It also installs `lin-vst-server32.exe` and `lin-vst-server32.exe.so` to `/usr/bin` for 32-bit VST support (`lin-vst-serverst32` for standalone window version).
 
-(also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support) (lin-vst-serverst32 for standalone window version)
-
-Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
-
-Makefile-embed-6432 (64 and 32 bit vsts) and Makefile-embed-64 (64 bit vsts only) are for the daw embedded window option.
-
-Makefile-standalone-6432 (64 and 32 bit vsts) and Makefile-standalone-64 (64 bit vsts only) are for a standalone window version that can be useful for some daw's.
-
-LinVst-Linux32bit-only.zip contains makefiles for Linux 32bit only systems and makes and installs lin-vst-serverlx32 (lin-vst-serverstlx32 for standalone window version).
-
-Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
-
-Defining EMBEDRESIZE enables vst window resizing for the embedded window version (currently only working with Linux Reaper).
-
-Defining EMBEDTHREAD enables an embedded version display delay that's possibly needed for some slower systems.
+Repo contents:
+- `Makefile-embed-6432` and `Makefile-standalone-6432` build a LinVst version that autodetects and automatically runs both 64-bit VSTs and 32-bit VSTs.
+- `Makefile-embed-6432` (64-bit and 32-bit VSTs) and `Makefile-embed-64` (64-bit VSTs only) are for the DAW embedded window option.
+- `Makefile-standalone-6432` (64-bit and 32-bit VSTs) and `Makefile-standalone-64` (64-bit VSTs only) are for a standalone window version that can be useful for some DAWs.
+- `LinVst-Linux32bit-only.zip` contains makefiles for Linux 32-bit only systems and makes and installs `lin-vst-serverlx32` (`lin-vst-serverstlx32` for standalone window version).
+- Undefining `WINONTOP` for the standalone window versions will make a standalone window version that has standard window behaviour (not an on-top window).
+- Defining `EMBEDRESIZE` enables VST window resizing for the embedded window version (currently only works with Reaper).
+- Defining `EMBEDTHREAD` enables an embedded version display delay that may be needed for slower systems.
 
 See Makefile comments for define options.
 
-Tracktion/Waveform might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion/Waveform plugin window and adding -DTRACKTIONWM to the embedded makefiles BUILD_FLAGS, BUILD_FLAGS_WIN and BUILD_FLAGS_WIN32 lines might help (for Tracktion/Waveform use only).
+Tracktion/Waveform might have an embedded window offset problem where the plugin's GUI is misaligned with the Tracktion/Waveform plugin window and adding `-DTRACKTIONWM` to the embedded Makefile's `BUILD_FLAGS`, `BUILD_FLAGS_WIN` and `BUILD_FLAGS_WIN32` lines might help (for Tracktion/Waveform use only).
 
-The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only.
+The `32bitonly` folder contains makefiles for 32-bit systems and 32-bit VSTs only.
 
