@@ -1,6 +1,6 @@
 # LinVst
 
-LinVst enables Windows VSTs to be used in Linux DAWs which support the VST standard.
+LinVst enables Windows VSTs to be used in Linux DAWs which support VSTs.
 
 
 ## What is LinVst?
