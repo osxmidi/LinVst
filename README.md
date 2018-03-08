@@ -205,7 +205,7 @@ Various notes:
 - Addictive Drums 2:
   - Requires the DLL and matching `.so` (the renamed `linvst.so`) to be loaded from the installation directory (i.e. a fixed path).
 - EZDrummer2:
-  - Choose Mixer window before quiting if drum kit is playing to avoid possible hang when quitting
+  - Choose Mixer window before quitting if drum kit is playing to avoid possible hang when quitting
 - Mercuriall Spark Amp Sim
 - Melda MXXX Multi Effects:
   - May require GPU acceleration off
