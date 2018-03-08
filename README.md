@@ -110,7 +110,7 @@ A large number of VST plugin crashes/problems are due to VSTs that require the n
 
 This can be worked around by using the native Windows DLL versions of the required DLLs and overriding it in the `winecfg` library secton.
 
-However it's recommended to use (Winetricks)[https://github.com/Winetricks/winetricks] instead which does this for you. Make sure to install `cabextract` with your package manager (apt or rpm) as Winetricks often requires this to extract files from installers.
+However it's recommended to use [Winetricks](https://github.com/Winetricks/winetricks) instead which does this for you. Make sure to install `cabextract` with your package manager (apt or rpm) as Winetricks often requires this to extract files from installers.
 
 For the above DLLs, you can run `winetricks vcrun2013 vcrun2015 wininet gdiplus` in the terminal. Winetricks also has a force flag (`winetricks --force vcrun2013`) if required.
 
@@ -170,7 +170,7 @@ In general, setting CPU governors for all cores to "performance" can make a sign
 For more information on audio latency and performance on Linux, see [this page](https://wiki.linuxaudio.org/wiki/system_configuration).
 
 Various notes:
-- rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) may have some effect. Ubuntu Studio and it's low latency kernel combined with rtirq-init, can produce reasonable latency results.
+- [rtirq](https://github.com/rncbc/rtirq) (rtirq-init for Ubuntu/Debian) may have some effect. Ubuntu Studio and it's low latency kernel combined with rtirq-init, can produce reasonable latency results.
 - LinVst is memory access intensive and having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
 - Wineserver can be set to a higher priority, which may have an effect on cpu load and system response on some systems, setups or plugins.
 - wineserver can have it's priority level changed from normal to high or very high (requires root access), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
