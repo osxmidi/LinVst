@@ -44,7 +44,7 @@ The renamed `.so` file acts as a bridge to the `.dll` file, so the `.dll` and th
 
 1. Copy `lin-vst-server.exe` and `lin-vst-server.so` (found in Releases) to `/usr/bin`
 2. Run `linvstconvert [path]` or `linvstconverttree [path]`. The path will be something like `~/.wine/drive_c/Program Files/VstPlugins`. So for example, `linvstconvert "~/.wine/drive_c/Program Files/VstPlugins"`.
-  - This will convert all files in the specified path. `linvstconverttree` is recursive.
+    - This will convert all files in the specified path. `linvstconverttree` is recursive.
 3. Set your Linux DAW to look in the folder that the Windows VST is in
 4. Load `example.so` in the Linux DAW. `example.so` will load and run the Windows VST with the matching name, `example.dll`
 <!--
