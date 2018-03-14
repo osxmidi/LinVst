@@ -151,7 +151,7 @@ Common DLL issues:
 - Some Windows VSTs use D3D, and Wine uses Linux OpenGL to implement D3D, so a capable Linux OpenGL driver/setup might be required for some Windows VSTs
 - Some D3D `.dll` overrides might be needed for some Windows VSTs (D3D/OpenGL Wine advice can be found at gaming forums and other forums)
 - Disabling `d2d1.dll` in the Libraries section of winecfg might help with some Windows VSTs
-- For wininet (often used for online registration and online helps), running `winetricks wininet` and/or installing `winbind` for your distro (e.g. `sudo apt install winbind`) might help.
+- For wininet (often used for online registration and online helps), running `winetricks wininet` and/or installing `winbind` or `libntlm0` for your distro (e.g. `sudo apt install winbind libntlm0`) might help.
 
 Wine related issues:
 - Turning off the VST's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (depends on Wine version).
