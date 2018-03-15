@@ -124,6 +124,7 @@ static Window ignored = 0;
 //      if(reaperid)
       if(mapped2)
       XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
+//    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
       break;
 	
       case ConfigureNotify:
