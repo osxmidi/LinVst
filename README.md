@@ -254,11 +254,11 @@ The Wine Native Access bug can be fixed by applying a fix to Wine's source code 
 
 in dlls kernel32 volume.c
 
-search for c = strrchrW( volumenameW, '\\' ); in the GetVolumePathNameW function
+search for c = strrchrW( volumenameW, '\\\' ); in the GetVolumePathNameW function
 
 and replace with
 
-c = strrchrW( volumenameW, '\\' );
+c = strrchrW( volumenameW, '\\\' );
 if(c == NULL)
 c = strrchrW( volumenameW, '/' );
 
