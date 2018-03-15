@@ -246,6 +246,30 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 (Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
 
+--
+
+Wine currently has a bug that prevents Native Access from running (Native Access thinks it's being run from a read only drive).
+
+The Wine Native Access bug can be fixed by applying a fix to Wine's source code and then compiling Wine
+
+in dlls kernel32 volume.c
+
+search for c = strrchrW( volumenameW, '\\' ); in the GetVolumePathNameW function
+
+and replace with
+
+c = strrchrW( volumenameW, '\\' );
+if(c == NULL)
+c = strrchrW( volumenameW, '/' );
+
+./configure (the configure process will list the dev packages that are required/missing for various Wine features and some will need to be installed before making Wine).
+
+Make sure the libgnutils dev package is enabled in Wine's configure because Native Access uses the TLS library for the net.
+
+Then make and then sudo install and then winecfg to update the wineprefix.
+
+--
+
 Guitar Rig 5 (same dll overrides as Kontakt)
 
 Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
