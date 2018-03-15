@@ -264,9 +264,11 @@ c = strrchrW( volumenameW, '/' );
 
 ./configure (the configure process will list the dev packages that are required/missing for various Wine features and some will need to be installed before making Wine).
 
-Make sure the libgnutils dev package is enabled in Wine's configure because Native Access uses the TLS library for the net.
+Make sure the libgnutils dev package (Debian sudo apt-get install libgnutls28-dev) is installed for Wine's configure process because Native Access uses the TLS library for the net.
 
 Then make and then sudo install and then winecfg to update the wineprefix.
+
+The winbind and libntlm0 packages might need to be installed for net access as well.
 
 --
 
