@@ -259,9 +259,7 @@ search for c = strrchrW( volumenameW, '\\' ); in the GetVolumePathNameW function
 and replace with
 
 c = strrchrW( volumenameW, '\\' );
-
 if(c == NULL)
-
 c = strrchrW( volumenameW, '/' );
 
 ./configure (the configure process will list the dev packages that are required/missing for various Wine features and some will need to be installed before making Wine).
