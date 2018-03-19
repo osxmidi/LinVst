@@ -1205,7 +1205,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
     
-    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
     }
     }
@@ -1247,7 +1247,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
     
-    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
     }
     }
@@ -1276,7 +1276,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
     }
-    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
     }
     }
@@ -1298,7 +1298,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
     }
-    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
     }
     }
@@ -1353,7 +1353,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
     }
-    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
     }
     }
