@@ -194,7 +194,7 @@ else
                    case audioMasterGetAutomationState:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetAutomationState, 0, 0, 0, 0);
-                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 				
                    case audioMasterBeginEdit:
@@ -210,25 +210,25 @@ else
                    case audioMasterGetInputLatency:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetInputLatency, 0, 0, 0, 0);
-                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 
                    case audioMasterGetOutputLatency:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetOutputLatency, 0, 0, 0, 0);
-                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 				
 		   case audioMasterGetSampleRate:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetSampleRate, 0, 0, 0, 0);
-                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 
                    case audioMasterGetBlockSize:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetBlockSize, 0, 0, 0, 0);
-                   memcpy(&retval, &m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 #ifdef EMBED			
 #ifdef EMBEDRESIZE
