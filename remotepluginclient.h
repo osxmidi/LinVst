@@ -66,6 +66,9 @@ public:
 
     int                 getParameterCount();
     std::string         getParameterName(int);
+#ifdef WAVES
+    int                 getShellName(char *ptr);
+#endif
     void                setParameter(int, float);
     float               getParameter(int);
     float               getParameterDefault(int);
