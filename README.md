@@ -343,9 +343,10 @@ Waves Central also needs some simple registry additions
 wine regedit
 Add the following environment string variables under HKEY_CURRENT_USER\Environment
 
-NAME DATA
 COMMONPROGRAMFILES(X86) C:\Program Files (x86)\Common Files
+
 PROGRAMFILES(X86) C:\Program Files (x86)
+
 PUBLIC C:\users\Public
 
 --------
