@@ -67,7 +67,7 @@ using namespace std;
 class RemoteVSTServer : public RemotePluginServer
 {
 public:
-                        RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, std::string fallbackName);
+                        RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName);
     virtual             ~RemoteVSTServer();
 
     virtual std::string getName() { return m_name; }
