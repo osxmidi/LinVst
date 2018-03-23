@@ -56,7 +56,9 @@ public:
     virtual float           getParameter(int)                       { return 0.0f; }
     virtual float           getParameterDefault(int)                { return 0.0f; }
     virtual void            getParameters(int p0, int pn, float *v) { for (int i = p0; i <= pn; ++i) v[i - p0] = 0.0f; }
-
+#ifdef WAVES
+    virtual int             getShellName(char *name)                { return 0; }
+#endif
     virtual int             getProgramCount()                       { return 0; }
     virtual std::string     getProgramNameIndexed(int)              { return ""; }
     virtual std::string     getProgramName()                        { return ""; }
