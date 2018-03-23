@@ -270,7 +270,7 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
 
 RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName) :
     RemotePluginServer(fileIdentifiers),
-    m_plugin(plugin),
+    m_plugin(0),
     m_name(fallbackName),
     m_maker(""),
     bufferSize(0),
