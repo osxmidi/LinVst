@@ -252,7 +252,14 @@ else
                     }
                     break;
 #endif
-#endif							
+#endif
+#ifdef WAVES
+                   case audioMasterCurrentId:
+                   retval = 0;
+                   retval = m_audioMaster(theEffect, audioMasterCurrentId, 0, 0, 0, 0);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+                   break;
+#endif
                 default:
                     break;
                 }
@@ -428,6 +435,9 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_numInputs(-1),
     m_numOutputs(-1),
     m_inexcept(0),
+#ifdef WAVES
+    wavesthread(0),
+#endif
     m_finishaudio(0),
     m_runok(0),
     m_syncok(0),
@@ -1082,6 +1092,17 @@ std::string RemotePluginClient::getParameterName(int p)
     return readString(&m_shm[FIXED_SHM_SIZE]);
 }
 
+#ifdef WAVES
+int RemotePluginClient::getShellName(char *ptr)
+{
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetShellName);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+    strcpy(ptr, readString(&m_shm[FIXED_SHM_SIZE]).c_str());
+    return readInt(&m_shm[FIXED_SHM_SIZE - 512]);
+}
+#endif
+
 void
 RemotePluginClient::setParameter(int p, float v)
 {
@@ -1529,12 +1550,30 @@ void RemotePluginClient::showGUI()
 #endif
 }
 
+#ifdef WAVES
+void RemotePluginClient::hideGUI()
+{
+    if(wavesthread == 1)
+    {
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginHideGUI);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+    }
+else
+    {
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginHideGUI);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    }
+}
+#else
 void RemotePluginClient::hideGUI()
 {
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginHideGUI);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
 }
+#endif
 
 #ifdef EMBED
 void RemotePluginClient::openGUI()
@@ -1672,6 +1711,12 @@ int RemotePluginClient::EffectOpen()
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginEffectOpen);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
+	
+#ifdef WAVES
+    wavesthread = readInt(&m_shm[FIXED_SHM_SIZE]);
+   if(wavesthread == 1)
+   theEffect->flags |= effFlagsHasEditor; 
+#endif
 	
     m_threadinit = 1;
 	
