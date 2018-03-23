@@ -1162,11 +1162,7 @@ void RemotePluginServer::dispatchParEvents()
         effDoVoid2(opcode, index, value, opt);
         break;
     }
-
-    case RemotePluginEffectOpen:
-        EffectOpen();
-        break;
-
+		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1194,6 +1190,10 @@ void RemotePluginServer::dispatchControlEvents()
         openGUI();
         break;
 #endif
+		    
+    case RemotePluginEffectOpen:
+        EffectOpen();
+        break;
 		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
