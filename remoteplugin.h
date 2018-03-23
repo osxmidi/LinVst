@@ -49,6 +49,9 @@ enum RemotePluginOpcode
 
     RemotePluginGetParameterCount = 300,
     RemotePluginGetParameterName,
+#ifdef WAVES
+    RemotePluginGetShellName,
+#endif
     RemotePluginSetParameter,
     RemotePluginGetParameter,
     RemotePluginGetParameterDefault,
