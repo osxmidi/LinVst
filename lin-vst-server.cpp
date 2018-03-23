@@ -268,7 +268,7 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
     return 0;
 }
 
-RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, std::string fallbackName) :
+RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName) :
     RemotePluginServer(fileIdentifiers),
     m_plugin(plugin),
     m_name(fallbackName),
