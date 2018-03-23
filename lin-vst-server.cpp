@@ -366,20 +366,10 @@ int wavesthread = 0;
 
     writeInt(&m_shm[FIXED_SHM_SIZE], wavesthread);
 #endif
-
 /*
     if (strncmp(buffer, "IK", 2) == 0)
         setprogrammiss = 1;
 */
-
-#ifndef EMBED
-    if (haveGui == true)
-    {
-    if(hWnd)
-    SetWindowText(hWnd, m_name.c_str());
-    }
-#endif   
-
     if (haveGui == true)
     {
 	memset(&wclass, 0, sizeof(WNDCLASSEX));
@@ -422,6 +412,14 @@ int wavesthread = 0;
     }
 #endif
 
+#ifndef EMBED
+    if (haveGui == true)
+    {
+    if(hWnd)
+    SetWindowText(hWnd, m_name.c_str());
+    }
+#endif   
+	
    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
 	
    effectrun = true;	
