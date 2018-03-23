@@ -332,7 +332,21 @@ TDR SlickEQ mixing/mastering equalizer
 Toneboosters TrackEssentials (disable d2d1 for Ferox)
 
 Serum Synth (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers) .
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
+
+Waves plugins.
+
+Waves Central currently needs Wine Staging and needs robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
+
+Waves Central also needs some simple registry additions
+
+wine regedit
+Add the following environment string variables under HKEY_CURRENT_USER\Environment
+
+NAME DATA
+COMMONPROGRAMFILES(X86) C:\Program Files (x86)\Common Files
+PROGRAMFILES(X86) C:\Program Files (x86)
+PUBLIC C:\users\Public
 
 --------
 
