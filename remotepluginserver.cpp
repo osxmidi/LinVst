@@ -996,6 +996,17 @@ void RemotePluginServer::dispatchParEvents()
     case RemotePluginGetParameterName:
         writeString(&m_shm[FIXED_SHM_SIZE], getParameterName(readIntring(&m_shmControl5->ringBuffer)));
         break;
+		    
+#ifdef WAVES
+    case RemotePluginGetShellName:
+     {
+       char name[512];
+       int retvalshell = getShellName(name);
+       writeInt(&m_shm[FIXED_SHM_SIZE - 512], retvalshell);
+       writeString(&m_shm[FIXED_SHM_SIZE], name);
+     }
+        break;
+#endif
 
     case RemotePluginGetParameterDefault:
         writeFloat(&m_shm[FIXED_SHM_SIZE], getParameterDefault(readIntring(&m_shmControl5->ringBuffer)));
@@ -1120,6 +1131,12 @@ void RemotePluginServer::dispatchParEvents()
         writeInt(&m_shm[FIXED_SHM_SIZE], m_numOutputs);
         break;
     }
+		    
+#ifdef WAVES
+    case RemotePluginHideGUI:
+        hideGUI();
+        break;
+#endif
 
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
