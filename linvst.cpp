@@ -345,7 +345,11 @@ static char dawbuf[512];
     case effGetPlugCategory:
         v = plugin->getEffInt(effGetPlugCategory);
         break;
-
+#ifdef WAVES
+    case effShellGetNextPlugin:
+        v = plugin->getShellName((char *) ptr);
+        break;
+#endif
     case effSetProgram:
         plugin->setCurrentProgram((VstInt32)value);
         break;
