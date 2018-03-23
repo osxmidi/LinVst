@@ -661,15 +661,13 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 	    
     if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
     {
-    if(m_inexcept == 0)
-    RemotePluginClosedException();
+    throw((std::string)"Failed to initialize thread");
     }    
-#ifdef EMBED
-#ifdef EMBEDTHREAD
+ #ifdef EMBED
+ #ifdef EMBEDTHREAD
     if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
     {
-    if(m_inexcept == 0)
-    RemotePluginClosedException();
+    throw((std::string)"Failed to initialize thread2");
     }
 #endif
 #endif
