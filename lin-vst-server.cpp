@@ -393,32 +393,6 @@ int wavesthread = 0;
         }
 	timerval = SetTimer(0, 0, 20, 0);
     }
-
-#ifndef EMBED
-    if (haveGui == true)
-    {
-	#ifdef DRAG
-        hWnd = CreateWindowEx(WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
-                            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);	    
-	#else    
-        hWnd = CreateWindow(APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
-                            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);
-	#endif    
-        if (!hWnd)
-        {
-            cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
-            haveGui = false;
-        }
-    }
-#endif
-
-#ifndef EMBED
-    if (haveGui == true)
-    {
-    if(hWnd)
-    SetWindowText(hWnd, m_name.c_str());
-    }
-#endif   
 	
    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
 	
@@ -739,7 +713,6 @@ void RemoteVSTServer::showGUI()
         tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
     }
 #else
-
     if (debugLevel > 0)
         cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
 
@@ -748,16 +721,29 @@ void RemoteVSTServer::showGUI()
         guiVisible = false;
         return;
     }
-
-    if (!hWnd)
-    {
-        guiVisible = false;
-        return;
-    }
-
+ 
     if (guiVisible)
     {
         return;
+    }
+
+	#ifdef DRAG
+        hWnd = CreateWindowEx(WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
+                            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);	    
+	#else    
+        hWnd = CreateWindow(APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
+                            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);
+	#endif    
+        if (!hWnd)
+        {
+            cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
+            haveGui = false;
+        }
+
+    if (haveGui == true)
+    {
+    if(hWnd)
+    SetWindowText(hWnd, m_name.c_str());
     }
 
     m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
@@ -765,7 +751,7 @@ void RemoteVSTServer::showGUI()
     m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
     if (!rect)
     {
-        // cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
+         cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
         guiVisible = false;
         return;
     }
@@ -802,6 +788,11 @@ void RemoteVSTServer::hideGUI()
     UpdateWindow(hWnd);
 #endif
     m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+	
+#ifndef EMBED
+     DestroyWindow(hWnd);
+#endif
+
     guiVisible = false;
 
     if (!exiting)
