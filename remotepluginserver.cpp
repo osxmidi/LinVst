@@ -1137,6 +1137,35 @@ void RemotePluginServer::dispatchParEvents()
         hideGUI();
         break;
 #endif
+		    
+    case RemotePluginDoVoid:
+    {
+        int opcode = readIntring(&m_shmControl5->ringBuffer);
+        if (opcode == effClose)
+	{	
+        m_threadsfinish = 1;
+	waitForClient2exit();
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
+	}	
+        effDoVoid(opcode);
+        break;
+    }
+
+    case RemotePluginDoVoid2:
+    {
+        int opcode = readIntring(&m_shmControl5->ringBuffer);
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        int value = readIntring(&m_shmControl5->ringBuffer);
+        float opt = readFloatring(&m_shmControl5->ringBuffer);
+        effDoVoid2(opcode, index, value, opt);
+        break;
+    }
+
+    case RemotePluginEffectOpen:
+        EffectOpen();
+        break;
 
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
@@ -1165,35 +1194,6 @@ void RemotePluginServer::dispatchControlEvents()
         openGUI();
         break;
 #endif
-
-    case RemotePluginDoVoid:
-    {
-        int opcode = readIntring(&m_shmControl3->ringBuffer);
-        if (opcode == effClose)
-	{	
-        m_threadsfinish = 1;
-	waitForClient2exit();
-        waitForClient3exit();
-        waitForClient4exit();
-        waitForClient5exit();
-	}	
-        effDoVoid(opcode);
-        break;
-    }
-		    
-    case RemotePluginDoVoid2:
-    {
-        int opcode = readIntring(&m_shmControl3->ringBuffer);
-        int index = readIntring(&m_shmControl3->ringBuffer);
-        int value = readIntring(&m_shmControl3->ringBuffer);
-        float opt = readFloatring(&m_shmControl3->ringBuffer);
-        effDoVoid2(opcode, index, value, opt);
-        break;
-    }
-
-    case RemotePluginEffectOpen:
-        EffectOpen();
-        break;
 		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
