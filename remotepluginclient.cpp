@@ -1708,9 +1708,9 @@ int RemotePluginClient::EffectOpen()
     if(m_threadinit == 1)
     return 0;
 	
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginEffectOpen);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5(); 
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginEffectOpen);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3(); 
 	
 #ifdef WAVES
     wavesthread = readInt(&m_shm[FIXED_SHM_SIZE]);
