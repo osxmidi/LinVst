@@ -336,6 +336,12 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might hel
 
 Waves plugins.
 
+Bitwig seems to need the Waveshell to be unpacked into individual dll's using shell2vst.
+
+The Waves plugins don't seem to work with Tracktion.
+
+Reaper and Ardour seem to work with the Waveshell dll and the individual unpacked dll's.
+
 Waves Central currently needs Wine Staging and also needs robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
 
 Waves Central also needs some simple registry additions
