@@ -91,6 +91,9 @@ public:
     virtual int         getProgramCount() { return m_plugin->numPrograms; }
     virtual std::string getProgramNameIndexed(int);
     virtual std::string getProgramName();
+#ifdef WAVES
+    virtual int         getShellName(char *name);
+#endif
     virtual void        setCurrentProgram(int);
 
     virtual void        showGUI();
@@ -584,6 +587,23 @@ RemoteVSTServer::getProgramName()
     return name;
 }
 
+#ifdef WAVES
+int
+RemoteVSTServer::getShellName(char *name)
+{
+int retval = 0;
+char nameret[512];
+
+    if (debugLevel > 1)
+        cerr << "dssi-vst-server[2]: getProgramName()" << endl;
+
+    memset(nameret, 0, sizeof(nameret));
+    retval = m_plugin->dispatcher(m_plugin, effShellGetNextPlugin, 0, 0, nameret, 0);
+    strcpy(name, nameret); 
+    return retval;
+}
+#endif
+
 void
 RemoteVSTServer::setCurrentProgram(int p)
 {
@@ -958,7 +978,23 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterCurrentId:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterCurrentId requested" << endl;
-        rv = 0;
+#ifdef WAVES
+    {
+    int retval;
+
+    if(remoteVSTServerInstance)
+    {	
+    if (!remoteVSTServerInstance->exiting)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    }
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+    rv = retval;
+    }
+    }
+#endif
         break;
 
     case audioMasterIdle:
