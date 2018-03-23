@@ -305,14 +305,80 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
     hWnd(0)
 #endif
 {   
-    if(starterror == 1)
-    return;
 
-    if (!(m_plugin->flags & effFlagsHasEditor))
+}
+
+void RemoteVSTServer::EffectOpen()
+{
+#ifdef WAVES
+int wavesthread = 0;
+#endif
+
+    if (debugLevel > 0)
+        cerr << "dssi-vst-server[1]: opening plugin" << endl;	
+	
+    m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
+
+    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+
+    if (m_plugin->dispatcher(m_plugin, effGetVstVersion, 0, 0, NULL, 0) < 2)
     {
-        cerr << "dssi-vst-server[1]: Plugin has no GUI" << endl;
-        haveGui = false;
+        if (debugLevel > 0)
+            cerr << "dssi-vst-server[1]: plugin is VST 1.x" << endl;
     }
+    else
+    {
+        if (debugLevel > 0)
+            cerr << "dssi-vst-server[1]: plugin is VST 2.0 or newer" << endl;
+    }
+
+    char buffer[512];
+    memset(buffer, 0, sizeof(buffer));
+
+    m_plugin->dispatcher(m_plugin, effGetEffectName, 0, 0, buffer, 0);
+    if (debugLevel > 0)
+        cerr << "dssi-vst-server[1]: plugin name is \"" << buffer << "\"" << endl;
+    if (buffer[0]) 
+    m_name = buffer;
+
+/*
+    if (strncmp(buffer, "Guitar Rig 5", 12) == 0)
+        setprogrammiss = 1;
+    if (strncmp(buffer, "T-Rack", 6) == 0)
+        setprogrammiss = 1;
+*/
+
+    memset(buffer, 0, sizeof(buffer));
+
+    m_plugin->dispatcher(m_plugin, effGetVendorString, 0, 0, buffer, 0);
+    if (debugLevel > 0)
+        cerr << "dssi-vst-server[1]: vendor string is \"" << buffer << "\"" << endl;
+    if (buffer[0]) 
+    m_maker = buffer;
+
+#ifdef WAVES
+    if(strcmp("Waves", buffer) == 0)
+    {
+    m_plugin->flags |= effFlagsHasEditor;
+    haveGui = true;
+    wavesthread = 1;
+    }
+
+    writeInt(&m_shm[FIXED_SHM_SIZE], wavesthread);
+#endif
+
+/*
+    if (strncmp(buffer, "IK", 2) == 0)
+        setprogrammiss = 1;
+*/
+
+#ifndef EMBED
+    if (haveGui == true)
+    {
+    if(hWnd)
+    SetWindowText(hWnd, m_name.c_str());
+    }
+#endif   
 
     if (haveGui == true)
     {
@@ -355,62 +421,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, AEffect *plugin, s
         }
     }
 #endif
-}
-
-void RemoteVSTServer::EffectOpen()
-{
-    if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: opening plugin" << endl;	
-	
-    m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
-
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
-
-    if (m_plugin->dispatcher(m_plugin, effGetVstVersion, 0, 0, NULL, 0) < 2)
-    {
-        if (debugLevel > 0)
-            cerr << "dssi-vst-server[1]: plugin is VST 1.x" << endl;
-    }
-    else
-    {
-        if (debugLevel > 0)
-            cerr << "dssi-vst-server[1]: plugin is VST 2.0 or newer" << endl;
-    }
-
-    char buffer[512];
-    memset(buffer, 0, sizeof(buffer));
-
-    m_plugin->dispatcher(m_plugin, effGetEffectName, 0, 0, buffer, 0);
-    if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: plugin name is \"" << buffer << "\"" << endl;
-    if (buffer[0]) m_name = buffer;
-
-/*
-    if (strncmp(buffer, "Guitar Rig 5", 12) == 0)
-        setprogrammiss = 1;
-    if (strncmp(buffer, "T-Rack", 6) == 0)
-        setprogrammiss = 1;
-*/
-
-    memset(buffer, 0, sizeof(buffer));
-
-    m_plugin->dispatcher(m_plugin, effGetVendorString, 0, 0, buffer, 0);
-    if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: vendor string is \"" << buffer << "\"" << endl;
-    if (buffer[0]) m_maker = buffer;
-
-/*
-    if (strncmp(buffer, "IK", 2) == 0)
-        setprogrammiss = 1;
-*/
-
-#ifndef EMBED
-    if (haveGui == true)
-    {
-    if(hWnd)
-    SetWindowText(hWnd, m_name.c_str());
-    }
-#endif   
 
    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
 	
@@ -1643,49 +1653,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         return 1;
     }
 
-    VstEntry getinstance = 0;
-
-    getinstance = (VstEntry)GetProcAddress(libHandle, NEW_PLUGIN_ENTRY_POINT);
-
-    if (!getinstance) {
-    getinstance = (VstEntry)GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
-    if (!getinstance) {
-       cerr << "dssi-vst-server: ERROR: VST entrypoints \"" << NEW_PLUGIN_ENTRY_POINT << "\" or \""
-                << OLD_PLUGIN_ENTRY_POINT << "\" not found in DLL \"" << libname << "\"" << endl;
-	if(libHandle)
-        FreeLibrary(libHandle);
-        return 1;
-      }
-    }
-
-    AEffect *plugin = getinstance(hostCallback);
-    if (!plugin)
-    {
-        cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;
-	if(libHandle)
-	FreeLibrary(libHandle);
-        return 1;
-    }
-
-    if (plugin->magic != kEffectMagic)
-    {
-        cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;
-	if(libHandle)
-	FreeLibrary(libHandle);
-        return 1;
-    }
-
-    if (!(plugin->flags & effFlagsCanReplacing))
-    {
-        cerr << "dssi-vst-server: ERROR: Plugin does not support processReplacing (required)" << endl;
-        if(libHandle)    
-        FreeLibrary(libHandle);
-        return 1;
-    }
+	remoteVSTServerInstance = 0;
 	
-        remoteVSTServerInstance = 0;
-	
-        remoteVSTServerInstance = new RemoteVSTServer(fileInfo, plugin, libname);
+        remoteVSTServerInstance = new RemoteVSTServer(fileInfo, libname);
     
         if(!remoteVSTServerInstance)
         {
@@ -1705,6 +1675,59 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         return 1; 
         }
 
+    VstEntry getinstance = 0;
+
+    getinstance = (VstEntry)GetProcAddress(libHandle, NEW_PLUGIN_ENTRY_POINT);
+
+    if (!getinstance) {
+    getinstance = (VstEntry)GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
+    if (!getinstance) {
+       cerr << "dssi-vst-server: ERROR: VST entrypoints \"" << NEW_PLUGIN_ENTRY_POINT << "\" or \""
+                << OLD_PLUGIN_ENTRY_POINT << "\" not found in DLL \"" << libname << "\"" << endl;
+	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+	if(libHandle)
+        FreeLibrary(libHandle);
+        return 1;
+      }
+    }
+
+    remoteVSTServerInstance->m_plugin = getinstance(hostCallback);
+    if (!remoteVSTServerInstance->m_plugin)
+    {
+        cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;
+	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+	if(libHandle)
+	FreeLibrary(libHandle);
+        return 1;
+    }
+
+    if (remoteVSTServerInstance->m_plugin->magic != kEffectMagic)
+    {
+        cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;
+	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+	if(libHandle)
+	FreeLibrary(libHandle);
+        return 1;
+    }
+
+    if (!(remoteVSTServerInstance->m_plugin->flags & effFlagsCanReplacing))
+    {
+        cerr << "dssi-vst-server: ERROR: Plugin does not support processReplacing (required)" << endl;
+	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+        if(libHandle)    
+        FreeLibrary(libHandle);
+        return 1;
+    }
+
+    if(remoteVSTServerInstance->m_plugin->flags & effFlagsHasEditor)
+    remoteVSTServerInstance->haveGui = true;
+    else 
+    remoteVSTServerInstance->haveGui = false;
+	
     DWORD threadIdp = 0;
     ThreadHandle[0] = CreateThread(0, 0, AudioThreadMain, 0, 0, &threadIdp);
     if (!ThreadHandle[0])
@@ -1746,6 +1769,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
     MSG msg;
     remoteVSTServerInstance->exiting = false;
+
     while (!remoteVSTServerInstance->exiting)
     {
         while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
