@@ -1466,6 +1466,10 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         if (!strcmp((char*)ptr, "sendVstEvents")
                     || !strcmp((char*)ptr, "sendVstMidiEvent")
                     || !strcmp((char*)ptr, "sendVstTimeInfo")
+#ifdef WAVES
+                    || !strcmp((char*)ptr, "shellCategory")
+                    || !strcmp((char*)ptr, "supportShell")
+#endif
 #ifdef EMBED
 #ifdef EMBEDRESIZE
                     || !strcmp((char*)ptr, "sizeWindow")
