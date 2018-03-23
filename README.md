@@ -336,7 +336,7 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might hel
 
 Waves plugins.
 
-Waves Central currently needs Wine Staging and needs robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
+Waves Central currently needs Wine Staging and also needs robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
 
 Waves Central also needs some simple registry additions
 
