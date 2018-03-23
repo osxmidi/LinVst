@@ -658,6 +658,21 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 #endif
 
     sizeShm();
+	    
+    if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
+    {
+    if(m_inexcept == 0)
+    RemotePluginClosedException();
+    }    
+#ifdef EMBED
+#ifdef EMBEDTHREAD
+    if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
+    {
+    if(m_inexcept == 0)
+    RemotePluginClosedException();
+    }
+#endif
+#endif
 }
 
 RemotePluginClient::~RemotePluginClient()
@@ -1596,17 +1611,17 @@ void RemotePluginClient::effVoidOp(int opcode)
       {  
         m_threadbreak = 1;   
         m_finishaudio = 1;
-        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl3->ringBuffer, effClose);
-        commitWrite(&m_shmControl3->ringBuffer);
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl5->ringBuffer, effClose);
+        commitWrite(&m_shmControl5->ringBuffer);
       }
       else
       {
         m_threadbreak = 1;   
         m_finishaudio = 1;
-        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl3->ringBuffer, opcode);
-        commitWrite(&m_shmControl3->ringBuffer);
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl5->ringBuffer, opcode);
+        commitWrite(&m_shmControl5->ringBuffer);
 
         waitForServer2exit(); 
         waitForServer3exit(); 
@@ -1617,22 +1632,22 @@ void RemotePluginClient::effVoidOp(int opcode)
     }
     else
     {
-        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl3->ringBuffer, opcode);
-        commitWrite(&m_shmControl3->ringBuffer);
-        waitForServer3();  
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl5->ringBuffer, opcode);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();  
     }
 }
 
 void RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
 {
-        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid2);
-        writeIntring(&m_shmControl3->ringBuffer, opcode);
-        writeIntring(&m_shmControl3->ringBuffer, index);
-        writeIntring(&m_shmControl3->ringBuffer, value);
-        writeFloatring(&m_shmControl3->ringBuffer, opt);
-        commitWrite(&m_shmControl3->ringBuffer);
-        waitForServer3();  
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid2);
+        writeIntring(&m_shmControl5->ringBuffer, opcode);
+        writeIntring(&m_shmControl5->ringBuffer, index);
+        writeIntring(&m_shmControl5->ringBuffer, value);
+        writeFloatring(&m_shmControl5->ringBuffer, opt);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();   
 }
 
 int RemotePluginClient::getChunk(void **ptr, int bank_prg)
@@ -1693,24 +1708,9 @@ int RemotePluginClient::EffectOpen()
     if(m_threadinit == 1)
     return 0;
 	
-    if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
-    {
-    if(m_inexcept == 0)
-    RemotePluginClosedException();
-    }    
-#ifdef EMBED
-#ifdef EMBEDTHREAD
-    if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
-    {
-    if(m_inexcept == 0)
-    RemotePluginClosedException();
-    }
-#endif
-#endif
-
-    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginEffectOpen);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginEffectOpen);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5(); 
 	
 #ifdef WAVES
     wavesthread = readInt(&m_shm[FIXED_SHM_SIZE]);
