@@ -1782,7 +1782,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
               {
                 if (remoteVSTServerInstance->guiVisible == true)
                 {
-                plugin->dispatcher (plugin, effEditIdle, 0, 0, NULL, 0);
+                remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
 #ifdef EMBED
 #ifdef EMBEDRESIZE
                if(remoteVSTServerInstance->guiupdate == 1)
