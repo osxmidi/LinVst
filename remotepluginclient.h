@@ -173,6 +173,10 @@ public:
 char *m_shm3;
     
 int m_inexcept;
+    
+#ifdef WAVES
+int wavesthread;
+#endif
 
 protected:
     void                cleanup();
