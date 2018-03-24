@@ -356,6 +356,8 @@ PROGRAMFILES(X86) C:\Program Files (x86)
 
 PUBLIC C:\users\Public
 
+Wine Staging is only needed for Waves Central and the Waves plugins themselves can run with any of the Wine versions, Wine-Stable, Wine-Devel or Wine Staging.
+
 --------
 
 To make
