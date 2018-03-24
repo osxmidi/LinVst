@@ -1204,7 +1204,9 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         {	
         if (remoteVSTServerInstance->hWnd && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun && remoteVSTServerInstance->guiVisible)
 	{	
-            SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);		    
+        //    SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);	
+            SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE);	
+
 	    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
             UpdateWindow(remoteVSTServerInstance->hWnd);	
 	    rv = 1;
