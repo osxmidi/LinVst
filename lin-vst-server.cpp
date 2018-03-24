@@ -391,8 +391,10 @@ int wavesthread = 0;
             cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
             haveGui = false;
         }
-	timerval = SetTimer(0, 0, 40, 0);
     }
+	
+   if (haveGui == true)
+   timerval = SetTimer(0, 0, 40, 0);
 	
    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
 	
@@ -1773,7 +1775,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
             // this bit based on fst by Torben Hohn, patch worked out by Robert Jonsson - thanks!
               if (msg.message == WM_TIMER)
               {
-                if (remoteVSTServerInstance->guiVisible == true)
+              if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
                 {
                 remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
 #ifdef EMBED
