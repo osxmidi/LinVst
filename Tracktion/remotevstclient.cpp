@@ -264,22 +264,6 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 #ifdef VST6432
     if (dlltype == 2)
     {
-#ifdef TRACKTIONWM 
-    LinVstName = "/usr/bin/lin-vst-servertrackst32.exe";
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    return;
-    }
-    LinVstName = "/usr/bin/lin-vst-servertrackst32.exe.so";
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    return;
-    }
-#else
     LinVstName = "/usr/bin/lin-vst-serverst32.exe";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
@@ -294,25 +278,8 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     m_runok = 1;
     return;
     }
-#endif
     }
 #endif
-#ifdef TRACKTIONWM 
-    LinVstName = "/usr/bin/lin-vst-servertrackst.exe";
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    return;
-    }
-    LinVstName = "/usr/bin/lin-vst-servertrackst.exe.so";
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    return;
-    }
-#else
     LinVstName = "/usr/bin/lin-vst-serverst.exe";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
@@ -327,7 +294,6 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     m_runok = 1;
     return;
     }
-#endif
 #endif
 #endif
 
@@ -376,7 +342,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #ifdef EMBED
             if (execlp("/usr/bin/lin-vst-servertrack32.exe", "/usr/bin/lin-vst-servertrack32.exe", argStr, NULL))
             #else
-            if (execlp("/usr/bin/lin-vst-servertrackst32.exe", "/usr/bin/lin-vst-servertrackst32.exe", argStr, NULL))
+            if (execlp("/usr/bin/lin-vst-servertrackst.exe", "/usr/bin/lin-vst-servertrackst.exe", argStr, NULL))
             #endif
             {
                 m_runok = 1;
@@ -388,7 +354,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #ifdef EMBED
             if (execlp("/usr/bin/lin-vst-servertrack.exe", "/usr/bin/lin-vst-servertrack.exe", argStr, NULL))
             #else
-            if (execlp("/usr/bin/lin-vst-servertrackst.exe", "/usr/bin/lin-vst-servertrackst.exe", argStr, NULL))
+            if (execlp("/usr/bin/lin-vst-servertrack.exe", "/usr/bin/lin-vst-servertrack.exe", argStr, NULL))
             #endif
             {
                 m_runok = 1;
@@ -401,7 +367,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #ifdef EMBED
             if (execlp("/usr/bin/lin-vst-servertrack32.exe", "/usr/bin/lin-vst-servertrack32.exe", argStr, NULL))
             #else
-            if (execlp("/usr/bin/lin-vst-servertrackst32.exe", "/usr/bin/lin-vst-servertrackst32.exe", argStr, NULL))
+            if (execlp("/usr/bin/lin-vst-serverst32.exe", "/usr/bin/lin-vst-serverst32.exe", argStr, NULL))
             #endif
             {
                 m_runok = 1;
@@ -413,7 +379,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #ifdef EMBED
             if (execlp("/usr/bin/lin-vst-servertrack.exe", "/usr/bin/lin-vst-servertrack.exe", argStr, NULL))
             #else
-            if (execlp("/usr/bin/lin-vst-servertrackst.exe", "/usr/bin/lin-vst-servertrackst.exe", argStr, NULL))
+            if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
             #endif
             {
                 m_runok = 1;
