@@ -679,6 +679,10 @@ RemotePluginClient::~RemotePluginClient()
     m_threadbreak = 1;
     m_threadbreakexit = 1;
  */
+	
+    waitForClientexit();    
+    m_threadbreak = 1;
+	
     if (theEffect)
     delete theEffect;
     cleanup();
