@@ -391,7 +391,7 @@ int wavesthread = 0;
             cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
             haveGui = false;
         }
-	timerval = SetTimer(0, 0, 20, 0);
+	timerval = SetTimer(0, 0, 40, 0);
     }
 	
    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
