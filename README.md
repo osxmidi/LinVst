@@ -348,6 +348,7 @@ Waves Central currently needs Wine Staging and also needs robocopy.exe to be ins
 Waves Central also needs some simple registry additions
 
 wine regedit
+
 Add the following environment string variables under HKEY_CURRENT_USER\Environment
 
 COMMONPROGRAMFILES(X86) C:\Program Files (x86)\Common Files
