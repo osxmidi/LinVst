@@ -1926,6 +1926,8 @@ void RemotePluginClient::RemotePluginClosedException()
 m_inexcept = 1;
 
  //   m_runok = 1;
+	
+    waitForClientexit();  
 
     m_threadbreak = 1;
  //   m_threadbreakexit = 1;
