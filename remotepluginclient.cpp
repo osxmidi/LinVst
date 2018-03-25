@@ -1567,30 +1567,12 @@ void RemotePluginClient::showGUI()
 #endif
 }
 
-#ifdef WAVES
-void RemotePluginClient::hideGUI()
-{
-    if(wavesthread == 1)
-    {
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginHideGUI);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
-    }
-else
-    {
-    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginHideGUI);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
-    }
-}
-#else
 void RemotePluginClient::hideGUI()
 {
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginHideGUI);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
 }
-#endif
 
 #ifdef EMBED
 void RemotePluginClient::openGUI()
