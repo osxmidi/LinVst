@@ -337,6 +337,8 @@ Serum needs Wine Staging to register.
 
 Waves plugins.
 
+Tested Waves Central and Waves C1 and C4 plugins.
+
 Bitwig seems to need the Waveshell to be unpacked into individual dll's using shell2vst.
 
 The Waves plugins don't seem to work with Tracktion.
