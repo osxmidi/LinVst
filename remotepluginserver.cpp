@@ -1131,13 +1131,7 @@ void RemotePluginServer::dispatchParEvents()
         writeInt(&m_shm[FIXED_SHM_SIZE], m_numOutputs);
         break;
     }
-		    
-#ifdef WAVES
-    case RemotePluginHideGUI:
-        hideGUI();
-        break;
-#endif
-		    
+		    		    
     case RemotePluginDoVoid:
     {
         int opcode = readIntring(&m_shmControl5->ringBuffer);
