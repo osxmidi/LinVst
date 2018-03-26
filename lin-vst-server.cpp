@@ -1789,11 +1789,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
             DispatchMessage(&msg);
 
             // this bit based on fst by Torben Hohn, patch worked out by Robert Jonsson - thanks!
-              if (msg.message == WM_TIMER)
-              {
-              if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
+               if (msg.message == WM_TIMER)
                {
-              if (msg.message == WM_TIMER && msg.wParam == remoteVSTServerInstance->timerval)
+               if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
+               {
+               if (msg.wParam == remoteVSTServerInstance->timerval)
                {
                if(tcount == 4)
                {
