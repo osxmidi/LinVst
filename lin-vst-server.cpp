@@ -1812,20 +1812,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 #endif
                  }
                 }
-#ifdef WAVES
-       if(remoteVSTServerInstance->wavesthread == 1)
-       {
-       if (msg.message == WM_PAINT)
-       break;	
-	}
-#endif
-        }
-
+               }
+	    
         if (remoteVSTServerInstance->exiting)
             break;
 
             remoteVSTServerInstance->dispatchControl(50);
-
     }
 
     // wait for audio thread to catch up
