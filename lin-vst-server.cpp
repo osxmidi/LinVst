@@ -195,6 +195,14 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	 }
 #endif
     break;
+		    
+     case WM_TIMER:
+          if(remoteVSTServerInstance)
+	  {	  
+	  if(remoteVSTServerInstance->m_plugin)
+          remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+	  }
+    break;
 	
     default:
     return DefWindowProc(hWnd, msg, wParam, lParam);		   
@@ -397,9 +405,6 @@ void RemoteVSTServer::EffectOpen()
             haveGui = false;
         }
     }
-	
-   if (haveGui == true)
-   timerval = SetTimer(0, 0, 40, 0);
 	
    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
 	
@@ -777,7 +782,9 @@ void RemoteVSTServer::showGUI()
         UpdateWindow(hWnd);
         guiVisible = true;
     }
-#endif
+#endif	
+        timerval = 678;
+        timerval = SetTimer(hWnd, timerval, 100, 0);
 }
 
 void RemoteVSTServer::hideGUI()
@@ -796,8 +803,10 @@ void RemoteVSTServer::hideGUI()
 #endif
     m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
 	
+    KillTimer(hWnd, timerval);	
+	
 #ifndef EMBED
-     DestroyWindow(hWnd);
+    DestroyWindow(hWnd);
 #endif
 
     guiVisible = false;
@@ -1783,7 +1792,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
               {
               if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
                 {
-                remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+              if (msg.message == WM_TIMER && msg.wParam == remoteVSTServerInstance->timerval)
+              remoteVSTServerInstance->dispatchControl(0);
 #ifdef EMBED
 #ifdef EMBEDRESIZE
                if(remoteVSTServerInstance->guiupdate == 1)
