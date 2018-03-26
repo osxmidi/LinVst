@@ -1793,6 +1793,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                {
                if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
                {
+	       if(remoteVSTServerInstance->wavesthread == 1)
+               {
                if (msg.wParam == remoteVSTServerInstance->timerval)
                {
                if(tcount == 4)
@@ -1802,6 +1804,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                }
                tcount++;
                }
+	       }
 #ifdef EMBED
 #ifdef EMBEDRESIZE
                if(remoteVSTServerInstance->guiupdate == 1)
