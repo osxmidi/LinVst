@@ -1778,6 +1778,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     }
 
     MSG msg;
+    int tcount = 0;
     remoteVSTServerInstance->exiting = false;
 
     while (!remoteVSTServerInstance->exiting)
@@ -1791,9 +1792,16 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
               if (msg.message == WM_TIMER)
               {
               if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
-                {
+               {
               if (msg.message == WM_TIMER && msg.wParam == remoteVSTServerInstance->timerval)
-              remoteVSTServerInstance->dispatchControl(0);
+               {
+               if(tcount == 4)
+               {
+               remoteVSTServerInstance->dispatchControl(0);
+               tcount = 0;
+               }
+               tcount++;
+               }
 #ifdef EMBED
 #ifdef EMBEDRESIZE
                if(remoteVSTServerInstance->guiupdate == 1)
