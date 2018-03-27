@@ -1158,7 +1158,7 @@ void RemotePluginServer::dispatchParEvents()
     }
 		    
     default:
-        std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
+        std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode " << opcode << std::endl;
     }
 }
 
