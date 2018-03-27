@@ -387,7 +387,8 @@ void RemoteVSTServer::EffectOpen()
     {
 	memset(&wclass, 0, sizeof(WNDCLASSEX));
         wclass.cbSize = sizeof(WNDCLASSEX);
-        wclass.style = CS_HREDRAW | CS_VREDRAW;
+        wclass.style = 0;
+	    // CS_HREDRAW | CS_VREDRAW;
         wclass.lpfnWndProc = MainProc;
         wclass.cbClsExtra = 0;
         wclass.cbWndExtra = 0;
