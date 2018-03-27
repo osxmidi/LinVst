@@ -1814,7 +1814,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                {
                remoteVSTServerInstance->guiupdatecount += 1;
 
-               if(remoteVSTServerInstance->guiupdatecount == 4)
+                if(remoteVSTServerInstance->guiupdatecount == 4)
                 {
                 ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
                 UpdateWindow(remoteVSTServerInstance->hWnd);
