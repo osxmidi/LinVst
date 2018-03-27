@@ -1785,10 +1785,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     {
         while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {
-	    TranslateMessage(&msg);
-            DispatchMessage(&msg);
+	       TranslateMessage(&msg);
+               DispatchMessage(&msg);
 
-            // this bit based on fst by Torben Hohn, patch worked out by Robert Jonsson - thanks!
                if (msg.message == WM_TIMER)
                {
                if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
@@ -1812,28 +1811,28 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                if (msg.wParam == remoteVSTServerInstance->timerval)
                {
                if(remoteVSTServerInstance->guiupdate == 1)
-                {
-                 remoteVSTServerInstance->guiupdatecount += 1;
+               {
+               remoteVSTServerInstance->guiupdatecount += 1;
 
-                 if(remoteVSTServerInstance->guiupdatecount == 4)
-                  {
-                  ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-                  UpdateWindow(remoteVSTServerInstance->hWnd);
-                  remoteVSTServerInstance->guiupdate = 0;
-                  remoteVSTServerInstance->guiupdatecount = 0;
-                   }
-                  }
-	         }      
-#endif
-#endif
-                 }
+               if(remoteVSTServerInstance->guiupdatecount == 4)
+                {
+                ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
+                UpdateWindow(remoteVSTServerInstance->hWnd);
+                remoteVSTServerInstance->guiupdate = 0;
+                remoteVSTServerInstance->guiupdatecount = 0;
                 }
                }
+	      }      
+#endif
+#endif
+             }
+            }
+           }
 	    
-        if (remoteVSTServerInstance->exiting)
-            break;
+                if (remoteVSTServerInstance->exiting)
+                break;
 
-            remoteVSTServerInstance->dispatchControl(50);
+                remoteVSTServerInstance->dispatchControl(50);
     }
 
     // wait for audio thread to catch up
