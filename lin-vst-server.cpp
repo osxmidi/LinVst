@@ -1808,11 +1808,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 #endif
 #ifdef EMBED
 #ifdef EMBEDRESIZE
-               if (msg.wParam == remoteVSTServerInstance->timerval)
-               {
-               if(remoteVSTServerInstance->guiupdate == 1)
-               {
-               remoteVSTServerInstance->guiupdatecount += 1;
+                if (msg.wParam == remoteVSTServerInstance->timerval)
+                {
+                if(remoteVSTServerInstance->guiupdate == 1)
+                {
+                remoteVSTServerInstance->guiupdatecount += 1;
 
                 if(remoteVSTServerInstance->guiupdatecount == 4)
                 {
