@@ -1793,7 +1793,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                {
                if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
                {
-#ifdef WAVES
+#ifdef WAVESLOOP
 	       if(remoteVSTServerInstance->wavesthread == 1)
                {
                if (msg.wParam == remoteVSTServerInstance->timerval)
@@ -1829,7 +1829,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
              }
             }
            }
-	    
+#ifdef WAVESLOOP
+	        tcount = 0;   
+#endif	    
                 if (remoteVSTServerInstance->exiting)
                 break;
 
