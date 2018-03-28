@@ -1891,7 +1891,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
   
                 if(tcount == 19)
                 {
-                remoteVSTServerInstance->dispatchControl(50);
+                remoteVSTServerInstance->dispatchControl(10);
                 tcount = 0;
                 }
                 }
