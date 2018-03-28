@@ -1157,6 +1157,10 @@ void RemotePluginServer::dispatchParEvents()
         break;
     }
 		    
+    case RemotePluginHideGUI:
+        hideGUI();
+        break;
+		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1174,11 +1178,7 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginShowGUI:
         showGUI();
         break;
-
-    case RemotePluginHideGUI:
-        hideGUI();
-        break;
-
+		    
 #ifdef EMBED
     case RemotePluginOpenGUI:
         openGUI();
