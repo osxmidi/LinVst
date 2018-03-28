@@ -193,15 +193,17 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
          if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
          remoteVSTServerInstance->hideGUI();
 	 }
+         return 0;
 #endif
     break;
 		    
      case WM_TIMER:
-          if(remoteVSTServerInstance)
-	  {	  
-	  if(remoteVSTServerInstance->m_plugin)
-          remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
-	  }
+         if(remoteVSTServerInstance)
+	 {	  
+	 if(remoteVSTServerInstance->m_plugin)
+         remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+	 }
+         return 0;
     break;
 	
     default:
