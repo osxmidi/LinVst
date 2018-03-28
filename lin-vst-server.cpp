@@ -98,7 +98,7 @@ public:
 
     virtual void        showGUI();
     virtual void        hideGUI();
-
+    virtual void        hideGUI2();
 #ifdef EMBED
     virtual void        openGUI();
 #endif
@@ -133,7 +133,7 @@ public:
     WNDCLASSEX          wclass;
     UINT_PTR            timerval;
     bool                haveGui;
-
+    int                 hideguival;
 #ifdef EMBED
     HANDLE handlewin;
 
@@ -307,6 +307,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     effectrun(false),
     inProcessThread(false),
     guiVisible(false),
+    hideguival(0),
     parfin(0),
     audfin(0),
     getfin(0),
@@ -790,14 +791,15 @@ void RemoteVSTServer::showGUI()
         timerval = SetTimer(hWnd, timerval, 100, 0);
 }
 
-void RemoteVSTServer::hideGUI()
+void RemoteVSTServer::hideGUI2()
 {
     // if (!hWnd)
         // return;
 
     if ((haveGui == false) || (guiVisible == false))
     {
-         return;
+    hideguival = 0;
+    return;
     }
 
 #ifndef EMBED
@@ -814,10 +816,16 @@ void RemoteVSTServer::hideGUI()
 
     guiVisible = false;
 
-    if (!exiting)
-        usleep(50000);
+    hideguival = 0;
+
+   // if (!exiting)
+    //    usleep(50000);
 }
 
+void RemoteVSTServer::hideGUI()
+{
+     hideguival = 1;
+}
 
 #ifdef EMBED
 void RemoteVSTServer::openGUI()
