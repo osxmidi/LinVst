@@ -1786,8 +1786,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
     while (!remoteVSTServerInstance->exiting)
     {
-        while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-        {
+        while (remoteVSTServerInstance->guiVisible && !remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+        {		
 	       TranslateMessage(&msg);
                DispatchMessage(&msg);
 
