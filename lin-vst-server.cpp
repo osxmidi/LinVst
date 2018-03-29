@@ -782,9 +782,9 @@ void RemoteVSTServer::showGUI()
         if (debugLevel > 0)
             cerr << "dssi-vst-server[1]: sized window" << endl;
 
+	guiVisible = true;
         ShowWindow(hWnd, SW_SHOWNORMAL);
         UpdateWindow(hWnd);
-        guiVisible = true;
     }
 #endif	
         timerval = 678;
@@ -830,10 +830,10 @@ void RemoteVSTServer::hideGUI()
 #ifdef EMBED
 void RemoteVSTServer::openGUI()
 {
+    guiVisible = true;
     ShowWindow(hWnd, SW_SHOWNORMAL);
     // ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);	
-    guiVisible = true;
 }
 #endif
 
