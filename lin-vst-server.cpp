@@ -188,8 +188,10 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
          if(remoteVSTServerInstance)
 	 {
          if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
-         remoteVSTServerInstance->hideGUI();
+	 {
+         remoteVSTServerInstance->hideGUI();	 
          return 0;
+	 }
          }
 #endif
     break;
@@ -198,8 +200,10 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
          if(remoteVSTServerInstance)
 	 {	  
 	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin)
+	 {	 
          remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
          return 0;
+	 }
 	 }
     break;
 	
