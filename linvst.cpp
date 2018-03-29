@@ -201,7 +201,7 @@ static Window ignored = 0;
       e.xclient.window = child;
       XSendEvent (display, child, False, NoEventMask, &e);
 
-      memset(&cm, sizeof(cm), 0);
+      memset(&cm, 0, sizeof(cm));
       cm.type = ClientMessage;
       cm.display = display;
       cm.window = e.xclient.data.l[0];
