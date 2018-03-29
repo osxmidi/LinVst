@@ -143,15 +143,12 @@ public:
         int width;
         int height;
     } winm;
-#ifdef EMBEDRESIZE
+#endif
     int guiupdate;
     int guiupdatecount;
     int guiresizewidth;
     int guiresizeheight;
-#endif
-#endif
     ERect               *rect;
-
     int                 setprogrammiss;
     int                 hostreaper;
 #ifdef WAVES
@@ -311,19 +308,11 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     parfin(0),
     audfin(0),
     getfin(0),
-#ifdef EMBED
-#ifdef EMBEDRESIZE
     guiupdate(0),
     guiupdatecount(0),
     guiresizewidth(500),
     guiresizeheight(200),
     hWnd(0)
-#else
-    hWnd(0)
-#endif
-#else
-    hWnd(0)
-#endif
 {   
 
 }
@@ -1225,15 +1214,20 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 #endif
 #endif
 #else
-	if(remoteVSTServerInstance)
-        {	
-        if (remoteVSTServerInstance->hWnd && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun && remoteVSTServerInstance->guiVisible)
-	{	
-        //    SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);	
-            SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE);	
-	    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-            UpdateWindow(remoteVSTServerInstance->hWnd);	
-	    rv = 1;
+     if(remoteVSTServerInstance)
+     {	
+     if (remoteVSTServerInstance->hWnd && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun && remoteVSTServerInstance->guiVisible)
+     {
+/*
+//    SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE | SWP_HIDEWINDOW);	
+    SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, index + 6, value + 25, SWP_NOMOVE);	
+    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
+    UpdateWindow(remoteVSTServerInstance->hWnd);
+*/
+    remoteVSTServerInstance->guiresizewidth = index;
+    remoteVSTServerInstance->guiresizeheight = value;
+    remoteVSTServerInstance->guiupdate = 1;	
+    rv = 1;
         }
 	}
 #endif
@@ -1878,6 +1872,16 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                 }
                 }
 #endif
+#endif
+#ifndef EMBED
+                if(remoteVSTServerInstance->guiupdate == 1)
+                {
+        //      SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE | SWP_HIDEWINDOW);	
+                SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE);	
+	        ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
+                UpdateWindow(remoteVSTServerInstance->hWnd);
+                remoteVSTServerInstance->guiupdate = 0;
+                }
 #endif
                 }
  
