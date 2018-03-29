@@ -1884,13 +1884,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                 }
 #endif
                 }
- 
+                }
+			
                 if(remoteVSTServerInstance->hideguival == 1)
                 {
                 remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
                 tcount = 0;
-                }
                 }
   
                 if(tcount == 19)
