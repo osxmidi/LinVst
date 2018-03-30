@@ -13,7 +13,7 @@ VST_DIR = ./vst
 
 BUILD_FLAGS  = -fPIC -O2 -DEMBED -DEMBEDTHREAD -DLVRT -DSEM -DVST32 -DEMBEDDRAG -DWAVES $(CXX_FLAGS)
 # add -DEMBEDRESIZE to the above line for window resizing
-BUILD_FLAGS_WIN = -m32 -O2 -DEMBED -DSEM -DEMBEDDRAG -DWAVES -I/usr/include/wine-development/windows
+BUILD_FLAGS_WIN = -m32 -O2 -DEMBED -DSEM -DEMBEDDRAG -DWAVES -DWAVESLOOP -I/usr/include/wine-development/windows
 # add -DEMBEDRESIZE to the above line for window resizing
 
 LINK_FLAGS   = $(LDFLAGS)
