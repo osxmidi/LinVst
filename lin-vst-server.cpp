@@ -1800,14 +1800,16 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 {
                 for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
                 {
+	        if(remoteVSTServerInstance->exiting)
+	        break;
+			
 	        TranslateMessage(&msg);
                 DispatchMessage(&msg);
 
                 if (msg.wParam == remoteVSTServerInstance->timerval)
                 {
                 tcount++;
-
-
+			
                 if(tcount == 6)
                 {
                 remoteVSTServerInstance->dispatchControl(10);
@@ -1860,9 +1862,16 @@ else
       if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
        {
         while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-        {		
+        {			
 	       TranslateMessage(&msg);
                DispatchMessage(&msg);
+		
+                if(remoteVSTServerInstance->hideguival == 1)
+                {
+                remoteVSTServerInstance->hideGUI2();
+//                remoteVSTServerInstance->hideguival = 0;
+		break;
+                }
 
                if (msg.message == WM_TIMER)
                {
@@ -1913,6 +1922,13 @@ else
         {		
 	       TranslateMessage(&msg);
                DispatchMessage(&msg);
+		
+                if(remoteVSTServerInstance->hideguival == 1)
+                {
+                remoteVSTServerInstance->hideGUI2();
+//                remoteVSTServerInstance->hideguival = 0;
+		break;
+                }
 
                if (msg.message == WM_TIMER)
                {
