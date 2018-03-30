@@ -1851,10 +1851,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
                 if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
                 {
-                if(PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE))
+                if(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
                 {
-                GetMessage(&msg, 0, 0, 0);
-
 	        TranslateMessage(&msg);
                 DispatchMessage(&msg);
 
@@ -1897,7 +1895,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
                 tcount = 0;
                 }
   
-                if(tcount == 19)
+                if(tcount == 6)
                 {
                 remoteVSTServerInstance->dispatchControl(10);
                 tcount = 0;
