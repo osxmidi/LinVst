@@ -246,29 +246,9 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 (Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
 
---
-
-Wine currently has a bug that prevents Native Access from running (Native Access thinks it's being run from a read only drive).
-
-The Wine Native Access bug can be fixed by applying a fix to Wine's source code and then compiling Wine
-
-in dlls kernel32 volume.c
-
-In the GetVolumePathNameW function search for c = strrchrW( volumenameW 
-and add to the next line after it
-
-if(c == NULL)
-c = strrchrW( volumenameW, '/' );
-
-./configure (the configure process will list the dev packages that are required/missing for various Wine features and some will need to be installed before making Wine).
-
-Make sure the libgnutils dev package (Debian sudo apt-get install libgnutls28-dev) is installed for Wine's configure process because Native Access uses the TLS library for the net.
-
-Then make and then sudo install and then winecfg to update the wineprefix.
+Native Access requires Wine Devel 3.5 and a msvcp140.dll override
 
 The winbind and libntlm0 packages might need to be installed for net access as well.
-
---
 
 Guitar Rig 5 (same dll overrides as Kontakt)
 
@@ -431,7 +411,7 @@ Defining EMBEDTHREAD enables an embedded version display delay that's possibly n
 
 See Makefile comments for define options.
 
-Tracktion/Waveform might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion/Waveform plugin window and adding -DTRACKTIONWM to the embedded makefiles BUILD_FLAGS, BUILD_FLAGS_WIN and BUILD_FLAGS_WIN32 lines might help (for Tracktion/Waveform use only).
+Tracktion/Waveform might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion/Waveform plugin window and requires overwriting the LinVst files with the files in the Tracktion folder.
 
 The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only.
 
