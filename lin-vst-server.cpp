@@ -746,21 +746,19 @@ void RemoteVSTServer::showGUI()
         if (!hWnd)
         {
             cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
-            haveGui = false;
+        guiVisible = false;
+        return;
         }
 
-    if (haveGui == true)
-    {
     if(hWnd)
     SetWindowText(hWnd, m_name.c_str());
-    }
 
     m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
     rect = 0;
     m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
     if (!rect)
     {
-         cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
+            cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
         guiVisible = false;
         return;
     }
@@ -788,12 +786,14 @@ void RemoteVSTServer::hideGUI2()
 {
     // if (!hWnd)
         // return;
-
+/*
     if ((haveGui == false) || (guiVisible == false))
     {
     hideguival = 0;
     return;
     }
+    
+*/    
 
 #ifndef EMBED
     ShowWindow(hWnd, SW_HIDE);
@@ -817,6 +817,7 @@ void RemoteVSTServer::hideGUI2()
 
 void RemoteVSTServer::hideGUI()
 {
+if ((haveGui == true) && (guiVisible == true))
      hideguival = 1;
 }
 
