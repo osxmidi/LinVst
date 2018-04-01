@@ -246,7 +246,7 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 (Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
 
-Native Access requires Wine Devel 3.5 and a msvcp140.dll override
+Native Access requires Wine Devel 3.5 or Wine Staging 3.5 and a msvcp140.dll override
 
 The winbind and libntlm0 packages might need to be installed for net access as well.
 
