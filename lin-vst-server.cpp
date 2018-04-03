@@ -1853,8 +1853,14 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 }
                 }
                 else
+                {
                 remoteVSTServerInstance->dispatchControl(50);
-	    
+                while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+                {			
+	        TranslateMessage(&msg);
+                DispatchMessage(&msg);
+                }
+                }
                 if (remoteVSTServerInstance->exiting)
                 break;
 }
@@ -1905,17 +1911,27 @@ else
              }
             }
            }       
-                if (remoteVSTServerInstance->exiting)
-                break;    
-
-                if(remoteVSTServerInstance->hideguival == 1)
-                {
-                remoteVSTServerInstance->hideGUI2();
-//                remoteVSTServerInstance->hideguival = 0;
-                }
-                remoteVSTServerInstance->dispatchControl(50);
-                }
-                }
+            else
+           {
+           while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+           {			
+	   TranslateMessage(&msg);
+           DispatchMessage(&msg);
+           }      
+           }
+           if (remoteVSTServerInstance->exiting)
+           break;    
+           if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
+           {
+           if(remoteVSTServerInstance->hideguival == 1)
+           {
+           remoteVSTServerInstance->hideGUI2();
+//           remoteVSTServerInstance->hideguival = 0;
+           }
+           }
+           remoteVSTServerInstance->dispatchControl(50);
+           }
+           }
 #else
       if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
        {
@@ -1962,16 +1978,26 @@ else
              }
             }
            }       
-                if (remoteVSTServerInstance->exiting)
-                break;    
-
-                if(remoteVSTServerInstance->hideguival == 1)
-                {
-                remoteVSTServerInstance->hideGUI2();
-//                remoteVSTServerInstance->hideguival = 0;
-                }
-                remoteVSTServerInstance->dispatchControl(50);
-                }
+           else
+           {
+           while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+           {			
+	   TranslateMessage(&msg);
+           DispatchMessage(&msg);
+           }      
+           }    
+           if (remoteVSTServerInstance->exiting)
+           break;    
+           if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
+           {
+           if(remoteVSTServerInstance->hideguival == 1)
+           {
+           remoteVSTServerInstance->hideGUI2();
+//           remoteVSTServerInstance->hideguival = 0;
+           }
+           }
+           remoteVSTServerInstance->dispatchControl(50);
+           }
 #endif
 
     // wait for audio thread to catch up
