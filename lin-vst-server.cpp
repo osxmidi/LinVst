@@ -134,6 +134,7 @@ public:
     UINT_PTR            timerval;
     bool                haveGui;
     int                 hideguival;
+    int                 breakloop;
 #ifdef EMBED
     HANDLE handlewin;
 
@@ -314,6 +315,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     getfin(0),
     guiupdate(0),
     guiupdatecount(0),
+    breakloop(0),
     guiresizewidth(500),
     guiresizeheight(200),
     hWnd(0)
@@ -464,6 +466,10 @@ void RemoteVSTServer::effDoVoid(int opcode)
          // usleep(500000);
         waitForServerexit();
         terminate();
+    }
+    else if (opcode == 11112222)
+    {
+    breakloop = 1;
     }
     else
     {
@@ -1917,7 +1923,12 @@ else
             else
            {
            while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-           {	
+           {
+	   if(remoteVSTServerInstance->breakloop)
+	   {
+	   remoteVSTServerInstance->breakloop = 0;		   
+	   break;
+	   }
 		   
 	   if(remoteVSTServerInstance->exiting)
 	   break;
@@ -1992,6 +2003,12 @@ else
            {
            while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
            {	
+	   if(remoteVSTServerInstance->breakloop)
+	   {
+	   remoteVSTServerInstance->breakloop = 0;		   
+	   break;
+	   }
+
 	   if(remoteVSTServerInstance->exiting)
 	   break;
  
