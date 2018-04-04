@@ -1862,12 +1862,15 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 }
                 else // guivisible
                 {
-                remoteVSTServerInstance->dispatchControl(50);
                 for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
                 {
 	        if(remoteVSTServerInstance->exiting)
 	        break;
+		
+		TranslateMessage(&msg);
+                DispatchMessage(&msg);
                 }
+		remoteVSTServerInstance->dispatchControl(50);
                 }
                 if (remoteVSTServerInstance->exiting)
                 break;
