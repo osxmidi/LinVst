@@ -1864,9 +1864,14 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 {
                 for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
                 {
-	        if(remoteVSTServerInstance->exiting)
+	        if(remoteVSTServerInstance->breakloop)
+	        {
+	         // remoteVSTServerInstance->breakloop = 0;		   
 	        break;
-		
+	        }	
+	        if(remoteVSTServerInstance->exiting)
+	        break;	
+			
 		TranslateMessage(&msg);
                 DispatchMessage(&msg);
                 }
@@ -1922,7 +1927,12 @@ else
                 }
 #endif
              }
-            }
+	    }	
+	     if(remoteVSTServerInstance->hideguival == 1)
+             {
+             remoteVSTServerInstance->hideGUI2();
+//           remoteVSTServerInstance->hideguival = 0;
+             }
            }       
             else //guivisible
            {
@@ -1942,14 +1952,7 @@ else
            }
            if (remoteVSTServerInstance->exiting)
            break;    
-           if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
-           {
-           if(remoteVSTServerInstance->hideguival == 1)
-           {
-           remoteVSTServerInstance->hideGUI2();
-//           remoteVSTServerInstance->hideguival = 0;
-           }
-           }
+
            remoteVSTServerInstance->dispatchControl(50);
            }
            }
@@ -2000,6 +2003,11 @@ else
 #endif
              }
             }
+	   if(remoteVSTServerInstance->hideguival == 1)
+           {
+           remoteVSTServerInstance->hideGUI2();
+//         remoteVSTServerInstance->hideguival = 0;
+           }     
            }       
            else // guivisible
            {
@@ -2019,14 +2027,7 @@ else
            }    
            if (remoteVSTServerInstance->exiting)
            break;    
-           if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
-           {
-           if(remoteVSTServerInstance->hideguival == 1)
-           {
-           remoteVSTServerInstance->hideGUI2();
-//           remoteVSTServerInstance->hideguival = 0;
-           }
-           }
+
            remoteVSTServerInstance->dispatchControl(50);
            }
 #endif
