@@ -628,6 +628,9 @@ bool RemoteVSTServer::warn(std::string warning)
 
 void RemoteVSTServer::showGUI()
 {
+       if(breakloop)
+       breakloop = 0;	
+	
 #ifdef EMBED
         winm.handle = 0;
         winm.width = 0;
@@ -1798,8 +1801,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->exiting = false;
 
     while (!remoteVSTServerInstance->exiting)
-    {	    
-	    
+    {	    	    
 #ifdef WAVESLOOP
 if(remoteVSTServerInstance->wavesthread == 1)
                 {
@@ -1858,7 +1860,7 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 tcount = 0;
                 }
                 }
-                else
+                else // guivisible
                 {
                 remoteVSTServerInstance->dispatchControl(50);
                 for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
@@ -1869,26 +1871,25 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 }
                 if (remoteVSTServerInstance->exiting)
                 break;
-}
+} // wavesloop
 else
 {
       if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
        {
         while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {	
+	       if(remoteVSTServerInstance->hideguival == 1)
+               {
+               remoteVSTServerInstance->hideGUI2();
+//                remoteVSTServerInstance->hideguival = 0;
+	       break;
+               }
 	       if(remoteVSTServerInstance->exiting)
 	       break;
 		
 	       TranslateMessage(&msg);
                DispatchMessage(&msg);
 				
-                if(remoteVSTServerInstance->hideguival == 1)
-                {
-                remoteVSTServerInstance->hideGUI2();
-//                remoteVSTServerInstance->hideguival = 0;
-		break;
-                }
-
                if (msg.message == WM_TIMER)
                {
 #ifdef EMBED
@@ -1920,16 +1921,15 @@ else
              }
             }
            }       
-            else
+            else //guivisible
            {
            while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
            {
 	   if(remoteVSTServerInstance->breakloop)
 	   {
-	   remoteVSTServerInstance->breakloop = 0;		   
+	  // remoteVSTServerInstance->breakloop = 0;		   
 	   break;
-	   }
-		   
+	   }		   
 	   if(remoteVSTServerInstance->exiting)
 	   break;
 		   
@@ -1955,19 +1955,18 @@ else
        {
         while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {	
+	        if(remoteVSTServerInstance->hideguival == 1)
+                {
+                remoteVSTServerInstance->hideGUI2();
+//                remoteVSTServerInstance->hideguival = 0;
+	        break;
+                }
 	        if(remoteVSTServerInstance->exiting)
 	        break;
 
 	        TranslateMessage(&msg);
                 DispatchMessage(&msg);
 		
-                if(remoteVSTServerInstance->hideguival == 1)
-                {
-                remoteVSTServerInstance->hideGUI2();
-//                remoteVSTServerInstance->hideguival = 0;
-		break;
-                }
-
                if (msg.message == WM_TIMER)
                {
 #ifdef EMBED
@@ -1999,16 +1998,15 @@ else
              }
             }
            }       
-           else
+           else // guivisible
            {
            while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
            {	
 	   if(remoteVSTServerInstance->breakloop)
 	   {
-	   remoteVSTServerInstance->breakloop = 0;		   
+	//   remoteVSTServerInstance->breakloop = 0;		   
 	   break;
 	   }
-
 	   if(remoteVSTServerInstance->exiting)
 	   break;
  
@@ -2029,7 +2027,6 @@ else
            remoteVSTServerInstance->dispatchControl(50);
            }
 #endif
-
     // wait for audio thread to catch up
     // sleep(1);
 
