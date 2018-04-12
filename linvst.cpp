@@ -128,7 +128,12 @@ static Window ignored3 = 0;
       case MapNotify:  
       if(e.xmap.window == child)
       mapped2 = 1;     
-      break;	      
+      break;	
+		      
+      case UnmapNotify:  
+      if(e.xmap.window == child)
+      mapped2 = 0;     
+      break;	    
 		      
       case EnterNotify:
 //      if(reaperid)
