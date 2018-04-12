@@ -504,7 +504,7 @@ static char dawbuf[512];
 
       if(plugin->parentok && plugin->reaperid)
       {
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
 #ifdef FOCUS
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask); 
 #else 
@@ -571,8 +571,7 @@ if(plugin->runembed == 1)
 }
 #endif	    
 #ifndef XEMBED
-        plugin->eventrun = 0;
-        plugin->mapped = 0;    
+        plugin->eventrun = 0;   
 #endif
         if(plugin->displayerr == 1)
         break;
