@@ -416,7 +416,7 @@ static char dawbuf[512];
 #ifdef EMBEDTHREAD
         plugin->runembed = 1;  
 #else
-     XReparentWindow(plugin->display, plugin->child, plugin->parent, 0, 0);
+      XReparentWindow(plugin->display, plugin->child, plugin->parent, 0, 0);
 
   //    usleep(250000);
       sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
@@ -510,6 +510,7 @@ static char dawbuf[512];
 #else 
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
 #endif
+      }
       else
       {
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
