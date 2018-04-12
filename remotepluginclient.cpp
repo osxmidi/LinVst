@@ -241,14 +241,12 @@ else
                     height = retRect.bottom;
                     if(display && parent && child)
                     {
-	            mapped = 0;
                     XUnmapWindow(display, child);
                     XResizeWindow(display, parent, width, height);
                     XMoveResizeWindow(display, child, 0, 0, width, height);
                     XMapWindow(display, child);
                     XSync(display, false);
                     XFlush(display);
-		    mapped = 1;
                     }
                     break;
 #endif
@@ -461,7 +459,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     parentok(0),
 #endif
     eventrun(0),
-    mapped(0),
 #endif
 #endif
     theEffect(0)
