@@ -81,9 +81,9 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 #ifdef EMBED
 #ifndef XEMBED
 #ifdef EMBEDDRAG
-void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int mapped2, int parentok, int reaperid)
+void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
 #else
-void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int mapped2, int parentok, int reaperid)
+void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
 #endif
 {
 #ifdef EMBEDDRAG
@@ -103,6 +103,12 @@ static  Atom XdndFinished = XInternAtom(display, "XdndFinished", False);
 static int x = 0;
 static int y = 0;
 static Window ignored = 0;
+static int mapped2 = 0;
+#ifdef FOCUS
+static int x3 = 0;
+static int y3 = 0;
+static Window ignored3 = 0;
+#endif
 
      if(eventrun2 == 1)
       {
@@ -119,6 +125,10 @@ static Window ignored = 0;
 
       switch (e.type)
       {
+      case MapNotify:  
+      if(e.xmap.window == child)
+      mapped2 = 1;     
+      break;	      
 		      
       case EnterNotify:
 //      if(reaperid)
@@ -126,6 +136,25 @@ static Window ignored = 0;
       XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
 //    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
       break;
+		      
+#ifdef FOCUS
+      case LeaveNotify:
+      x3 = 0;
+      y3 = 0;
+      ignored3 = 0;            
+      XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0, 0, &x3, &y3, &ignored3);
+  
+      if(((e.xcrossing.x_root > x3) && (e.xcrossing.x_root < x3 + width)) && ((e.xcrossing.y_root > y3) && (e.xcrossing.y_root < y3 + height)))
+      {
+      break;
+      }
+      else
+      {
+      if(mapped2)
+      XSetInputFocus(display, PointerRoot, RevertToPointerRoot, CurrentTime); 
+      }      
+      break;      
+#endif
 	
       case ConfigureNotify:
 //      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
@@ -278,9 +307,9 @@ static char dawbuf[512];
 #ifndef XEMBED
         if(plugin->eventrun == 1)
 #ifdef EMBEDDRAG
-        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->mapped, plugin->parentok, plugin->reaperid);
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
 #else
-        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->mapped, plugin->parentok, plugin->reaperid);
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
 #endif
 #endif
 #endif
@@ -470,13 +499,20 @@ static char dawbuf[512];
 
       if(plugin->parentok && plugin->reaperid)
       {
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);
-      }
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask
+#ifdef FOCUS
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask); }
+#else 
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
+#endif
       else
       {
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);
+#ifdef FOCUS
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask); }
+#else 
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
+#endif      
       }
 	       
        plugin->eventrun = 1;
@@ -502,7 +538,6 @@ static char dawbuf[512];
  //     usleep(100000);
 
        plugin->openGUI();
-       plugin->mapped = 1;
 #endif          
        plugin->displayerr = 0;   
        }
