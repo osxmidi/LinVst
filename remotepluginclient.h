@@ -166,7 +166,6 @@ public:
    int parentok;
 #endif
    int eventrun;
-   int mapped;
 #endif
 #endif
 
