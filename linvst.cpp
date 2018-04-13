@@ -147,10 +147,9 @@ static Window ignored3 = 0;
       x3 = 0;
       y3 = 0;
       ignored3 = 0;            
-      XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0, 0, &x3, &y3, &ignored3);
+      XTranslateCoordinates(display, child, XDefaultRootWindow(display), 0, 0, &x3, &y3, &ignored3);
   
-      if(((e.xcrossing.x_root > x3) && (e.xcrossing.x_root < x3 + width)) && ((e.xcrossing.y_root > y3) && (e.xcrossing.y_root < y3 + height)))
-      {
+      if(((e.xcrossing.x_root > x3) && (e.xcrossing.x_root < x3 + (width - 1))) && ((e.xcrossing.y_root > y3) && (e.xcrossing.y_root < y3 + (height - 1))))      {
       break;
       }
       else
@@ -510,8 +509,8 @@ static char dawbuf[512];
       if(plugin->parentok && plugin->reaperid)
       {
 #ifdef FOCUS
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask); 
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask); 
 #else 
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
@@ -520,8 +519,8 @@ static char dawbuf[512];
       else
       {
 #ifdef FOCUS
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask);
 #else 
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
