@@ -156,9 +156,14 @@ static Window ignored3 = 0;
       else
       {
       if(mapped2)
-      XSetInputFocus(display, PointerRoot, RevertToPointerRoot, CurrentTime); 
+      {
+      if(parentok && reaperid)
+      XSetInputFocus(display, pparent, RevertToPointerRoot, CurrentTime);
+      else
+      XSetInputFocus(display, PointerRoot, RevertToPointerRoot, CurrentTime);   
+      }
       }      
-      break;      
+      break; 
 #endif
 	
       case ConfigureNotify:
