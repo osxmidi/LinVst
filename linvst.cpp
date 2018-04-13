@@ -509,19 +509,21 @@ static char dawbuf[512];
 
       if(plugin->parentok && plugin->reaperid)
       {
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
 #ifdef FOCUS
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask); 
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask);
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask); 
 #else 
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
 #endif
       }
       else
       {
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
 #ifdef FOCUS
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask);
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask);
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
 #else 
+      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
 #endif      
       }
