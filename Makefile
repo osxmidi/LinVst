@@ -11,7 +11,7 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DEMBED -DLVRT -DSEM -DEMBEDDRAG -DFOCUS -DWAVES $(CXX_FLAGS)
+BUILD_FLAGS  = -fPIC -O2 -DEMBED -DLVRT -DSEM -DEMBEDDRAG -DWAVES $(CXX_FLAGS)
 # add -DEMBEDTHREAD to the above line for display problems (older systems), add -DEMBEDRESIZE to the above line for window resizing
 BUILD_FLAGS_WIN = -m64 -O2 -DEMBED -DSEM -DEMBEDDRAG -DWAVES -DWAVESLOOP -I/usr/include/wine-development/windows
 # add -DEMBEDRESIZE to the above line for window resizing
