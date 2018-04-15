@@ -144,36 +144,13 @@ static Window ignored3 = 0;
 		      
 #ifdef FOCUS
       case LeaveNotify:
-      x3 = 0;
-      y3 = 0;
-      ignored3 = 0;            
-      XTranslateCoordinates(display, child, XDefaultRootWindow(display), 0, 0, &x3, &y3, &ignored3);
-  
-      if(x3 < 0)
-      { 
-      width += x3;
-      x3 = 0;
-      }
-  
-      if(y3 < 0)
-      {
-      height += y3;
-      y3 = 0;;
-      }
-		      
-      if(((e.xcrossing.x_root > x3) && (e.xcrossing.x_root < x3 + (width - 1))) && ((e.xcrossing.y_root > y3) && (e.xcrossing.y_root < y3 + (height - 1))))      {
-      break;
-      }
-      else
-      {
       if(mapped2)
       {
       if(parentok && reaperid)
       XSetInputFocus(display, pparent, RevertToPointerRoot, CurrentTime);
       else
-      XSetInputFocus(display, PointerRoot, RevertToPointerRoot, CurrentTime);   
+      XSetInputFocus(display, PointerRoot, RevertToPointerRoot, CurrentTime); 
       }
-      }      
       break; 
 #endif
 	
