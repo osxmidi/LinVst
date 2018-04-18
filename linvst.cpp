@@ -166,10 +166,7 @@ static Window ignored3 = 0;
       y3 = 0;;
       }
 		      
-      if(((e.xcrossing.x_root > x3) && (e.xcrossing.x_root < x3 + (width - 1))) && ((e.xcrossing.y_root > y3) && (e.xcrossing.y_root < y3 + (height - 1))))      {
-      break;
-      }
-      else
+      if(((e.xcrossing.x_root < x3) || (e.xcrossing.x_root > x3 + (width - 1))) || ((e.xcrossing.y_root < y3) || (e.xcrossing.y_root > y3 + (height - 1))))      
       {
       if(mapped2)
       {
