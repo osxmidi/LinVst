@@ -138,8 +138,13 @@ static Window ignored3 = 0;
       case EnterNotify:
 //      if(reaperid)
       if(mapped2)
+      {     
+      if(e.xcrossing.focus == False)
+      {
       XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
 //    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
+      }
+      }
       break;
 		      
 #ifdef FOCUS
