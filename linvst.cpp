@@ -104,11 +104,6 @@ static int x = 0;
 static int y = 0;
 static Window ignored = 0;
 static int mapped2 = 0;
-#ifdef FOCUS
-static int x3 = 0;
-static int y3 = 0;
-static Window ignored3 = 0;
-#endif
 
      if(eventrun2 == 1)
       {
@@ -146,39 +141,7 @@ static Window ignored3 = 0;
       }
       }
       break;
-		      
-#ifdef FOCUS
-      case LeaveNotify:
-      x3 = 0;
-      y3 = 0;
-      ignored3 = 0;            
-      XTranslateCoordinates(display, child, XDefaultRootWindow(display), 0, 0, &x3, &y3, &ignored3);
-  
-      if(x3 < 0)
-      { 
-      width += x3;
-      x3 = 0;
-      }
-  
-      if(y3 < 0)
-      {
-      height += y3;
-      y3 = 0;;
-      }
-		      
-      if(((e.xcrossing.x_root < x3) || (e.xcrossing.x_root > x3 + (width - 1))) || ((e.xcrossing.y_root < y3) || (e.xcrossing.y_root > y3 + (height - 1))))      
-      {
-      if(mapped2)
-      {
-      if(parentok && reaperid)
-      XSetInputFocus(display, pparent, RevertToPointerRoot, CurrentTime);
-      else
-      XSetInputFocus(display, PointerRoot, RevertToPointerRoot, CurrentTime);   
-      }
-      }      
-      break; 
-#endif
-	
+		      	
       case ConfigureNotify:
 //      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
 //      {
@@ -520,26 +483,16 @@ static char dawbuf[512];
        }
        #endif
 
-      if(plugin->parentok && plugin->reaperid)
-      {
-#ifdef FOCUS
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask); 
-#else 
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
-#endif
-      }
-      else
-      {
-#ifdef FOCUS
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask);
-#else 
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
-#endif      
-      }
+       if(plugin->parentok && plugin->reaperid)
+       {
+       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	  
+       }
+       else
+       {
+       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	        
+       }
 	       
        plugin->eventrun = 1;
 
