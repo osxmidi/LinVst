@@ -248,7 +248,7 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 Native Access requires Wine Devel 3.5 or Wine Staging 3.5 and a msvcp140.dll override
 
-The winbind and libntlm0 and gnutls packages might need to be installed for net access as well.
+The winbind and libntlm0 and gnutls packages might need to be installed for net access as well and maybe winetricks winhttp.
 
 Guitar Rig 5 (same dll overrides as Kontakt)
 
