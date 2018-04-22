@@ -248,7 +248,7 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 Native Access requires Wine Devel 3.5 or Wine Staging 3.5 and a msvcp140.dll override
 
-The winbind and libntlm0 and gnutls packages might need to be installed for net access as well and maybe winetricks winhttp.
+The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
 Guitar Rig 5 (same dll overrides as Kontakt)
 
@@ -409,7 +409,7 @@ Undefining WINONTOP for the standalone window versions will make a standalone wi
 
 Defining EMBEDRESIZE enables vst window resizing for the embedded window version (currently only working with Linux Reaper).
 
-Defining EMBEDTHREAD enables an embedded version display delay that's possibly needed for some slower systems.
+Defining FOCUS enables an alternative keyboard focus operation where the plugin keyboard focus is given up when the mouse pointer leaves the plugin window.
 
 See Makefile comments for define options.
 
