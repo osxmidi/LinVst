@@ -104,13 +104,12 @@ static int x = 0;
 static int y = 0;
 static Window ignored = 0;
 static int mapped2 = 0;
-/*
 #ifdef FOCUS
 static int x3 = 0;
 static int y3 = 0;
 static Window ignored3 = 0;
 #endif
-*/
+
      if(eventrun2 == 1)
       {
       if(parent && child && display)
@@ -150,21 +149,6 @@ static Window ignored3 = 0;
 		      
 #ifdef FOCUS
       case LeaveNotify:
-      if(mapped2)
-      {
-      if((e.xcrossing.mode == NotifyNormal) && (e.xcrossing.detail == NotifyAncestor))
-      {
-      if(parentok && reaperid)
-      XSetInputFocus(display, pparent, RevertToPointerRoot, CurrentTime);
-      else
-      XSetInputFocus(display, PointerRoot, RevertToPointerRoot, CurrentTime);   
-      }
-      }   
-      break; 
-#endif
-/*
-#ifdef FOCUS
-      case LeaveNotify:
       x3 = 0;
       y3 = 0;
       ignored3 = 0;            
@@ -194,7 +178,7 @@ static Window ignored3 = 0;
       }      
       break; 
 #endif
-*/		      	
+		      	
       case ConfigureNotify:
 //      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
 //      {
