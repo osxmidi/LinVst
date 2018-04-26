@@ -1501,11 +1501,15 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             cerr << "dssi-vst-server[2]: audioMasterCanDo(" << (char *)ptr << ") requested" << endl;
         if (!strcmp((char*)ptr, "sendVstEvents")
                     || !strcmp((char*)ptr, "sendVstMidiEvent")
-                    || !strcmp((char*)ptr, "sendVstTimeInfo")
+                    || !strcmp((char*)ptr, "sendVstMidiEvent")
+                    || !strcmp((char*)ptr, "receiveVstEvents")
+                    || !strcmp((char*)ptr, "receiveVstMidiEvents")
 #ifdef WAVES
                     || !strcmp((char*)ptr, "shellCategory")
                     || !strcmp((char*)ptr, "supportShell")
 #endif
+                    || !strcmp((char*)ptr, "acceptIOChanges")
+                    || !strcmp((char*)ptr, "startStopProcess")
 #ifdef EMBED
 #ifdef EMBEDRESIZE
                     || !strcmp((char*)ptr, "sizeWindow")
