@@ -169,7 +169,7 @@ else
                     if (els > VSTSIZE)
                         els = VSTSIZE;
 
-                    evptr = &vstev2[0];
+                    evptr = &vstev[0];
                     evptr->numEvents = els;
                     evptr->reserved = 0;
 
