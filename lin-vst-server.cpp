@@ -1111,7 +1111,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
                 *ptr2 = eventnum;
 
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
-    remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
+  //  remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
    
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
