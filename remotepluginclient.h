@@ -133,7 +133,6 @@ public:
     int                 m_threadbreakexit;
     int                 m_updateio;
     VstEvents           vstev[VSTSIZE];
-    VstEvents           vstev2[VSTSIZE];
     ERect               retRect = {0,0,200,500};    
     int                 reaperid;
     
