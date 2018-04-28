@@ -1117,6 +1117,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->waitForServer();
 
         }
+        rv = 1;
         }
 	}
         break;
