@@ -160,7 +160,7 @@ else
                     break;
 
                 case audioMasterProcessEvents:
-                    val = readIntring(&m_shmControl->ringBuffer);
+                  //  val = readIntring(&m_shmControl->ringBuffer);
 
                     ptr2 = (int *)m_shm3;
                     els = *ptr2;
@@ -169,7 +169,7 @@ else
                     if (els > VSTSIZE)
                         els = VSTSIZE;
 
-                    evptr = &vstev[0];
+                    evptr = &vstev2[0];
                     evptr->numEvents = els;
                     evptr->reserved = 0;
 
@@ -181,7 +181,7 @@ else
                         sizeidx += size;
                     }
 
-                    m_audioMaster(theEffect, audioMasterProcessEvents, 0, val, evptr, 0);
+                    m_audioMaster(theEffect, audioMasterProcessEvents, 0, 0, evptr, 0);
                
                     break;
 				
