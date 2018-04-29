@@ -107,6 +107,8 @@ Common Problems/Possible Fixes
 LinVst looks for wine in /usr/bin and if there isn't a /usr/bin/wine then that will probably cause problems.
 /usr/bin/wine can be a symbolic link to /opt/wine-staging/bin/wine (for wine staging) for example.
 
+Quite a few plugins need winetricks corefonts installed for fonts.
+
 A large number of vst plugin crashes/problems can be basically narrowed down to the following dll's and then worked around by overriding/disabling them.
 
 Quite a few vst plugins rely on the Visual C++ Redistributable dlls msvcr120.dll msvcr140.dll msvcp120.dll msvcp140.dll etc
@@ -148,8 +150,6 @@ cabextract needs to be installed (sudo apt-get install cabextract, yum install c
 To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
 
 For details about overriding dll's, see the next section (Wine Config).
-
-Quite a few plugins need winetricks corefonts installed for fonts.
 
 ------
 
