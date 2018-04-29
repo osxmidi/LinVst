@@ -149,6 +149,8 @@ To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be insta
 
 For details about overriding dll's, see the next section (Wine Config).
 
+Quite a few plugins need winetricks corefonts installed for fonts.
+
 ------
 
 Wine Config
@@ -298,6 +300,8 @@ OP-X PRO-II (Disable d2d1 in the Libraries section of winecfg)
 
 MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
+
+FL Sytrus needs winetricks corefonts to be installed for fonts.
 
 Ignite Amps TPA-1 Amp Sim 
 
