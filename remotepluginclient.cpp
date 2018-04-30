@@ -143,10 +143,11 @@ else
                     case audioMasterGetTime:       
                     val = readIntring(&m_shmControl->ringBuffer);
                     timeInfo = (VstTimeInfo *) m_audioMaster(theEffect, audioMasterGetTime, 0, val, 0, 0);
-                    memcpy((VstTimeInfo*)&m_shm3[FIXED_SHM_SIZE3 - 8192], timeInfo, sizeof(VstTimeInfo));
+                    memcpy((VstTimeInfo*)&m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], timeInfo, sizeof(VstTimeInfo));
                     break;
 
                 case audioMasterIOChanged:
+                    retval = 0;
                     memcpy(&am, &m_shm3[FIXED_SHM_SIZE3], sizeof(am));
                     theEffect->flags = am.flags;
                     theEffect->numPrograms = am.pcount;
@@ -155,11 +156,12 @@ else
                     theEffect->numOutputs = am.outcount;
                     theEffect->initialDelay = am.delay;
                     // m_updateio = 1;
-                    m_audioMaster(theEffect, audioMasterIOChanged, 0, 0, 0, 0);
-
+                    retval = m_audioMaster(theEffect, audioMasterIOChanged, 0, 0, 0, 0);
+                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                     break;
 
-                case audioMasterProcessEvents:
+                case audioMasterProcessEvents:  
+                    retval = 0;
                   //  val = readIntring(&m_shmControl->ringBuffer);
 
                     ptr2 = (int *)m_shm3;
@@ -182,14 +184,15 @@ else
                     }
 
                     retval = m_audioMaster(theEffect, audioMasterProcessEvents, 0, 0, evptr, 0);
-                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
-               
+                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));               
                     break;
 				
                    case audioMasterAutomate:
+                   retval = 0;
                    idx = readIntring(&m_shmControl->ringBuffer);
                    optval = readFloatring(&m_shmControl->ringBuffer);
-                   m_audioMaster(theEffect, audioMasterAutomate, idx, 0, 0, optval);
+                   retval = m_audioMaster(theEffect, audioMasterAutomate, idx, 0, 0, optval);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 
                    case audioMasterGetAutomationState:
@@ -199,13 +202,17 @@ else
                    break;
 				
                    case audioMasterBeginEdit:
+                   retval = 0;
                    idx = readIntring(&m_shmControl->ringBuffer);
-                   m_audioMaster(theEffect, audioMasterBeginEdit, idx, 0, 0, 0);
+                   retval = m_audioMaster(theEffect, audioMasterBeginEdit, idx, 0, 0, 0);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 
                    case audioMasterEndEdit:
+                   retval = 0;
                    idx = readIntring(&m_shmControl->ringBuffer);
-                   m_audioMaster(theEffect, audioMasterEndEdit, idx, 0, 0, 0);
+                   retval = m_audioMaster(theEffect, audioMasterEndEdit, idx, 0, 0, 0);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 
                    case audioMasterGetInputLatency:
@@ -220,7 +227,7 @@ else
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 				
-		   case audioMasterGetSampleRate:
+		           case audioMasterGetSampleRate:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetSampleRate, 0, 0, 0, 0);
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
