@@ -1076,6 +1076,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
             int         *ptr2;
             int         sizeidx = 0;
             int         ok;
+            int         retval = 0;
 
 	    if(remoteVSTServerInstance)
             {	
@@ -1115,9 +1116,10 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
    
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
-
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+    rv = retval;
         }
-        rv = 1;
+        
         }
 	}
         break;
