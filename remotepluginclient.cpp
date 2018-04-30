@@ -181,7 +181,8 @@ else
                         sizeidx += size;
                     }
 
-                    m_audioMaster(theEffect, audioMasterProcessEvents, 0, 0, evptr, 0);
+                    retval = m_audioMaster(theEffect, audioMasterProcessEvents, 0, 0, evptr, 0);
+                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                
                     break;
 				
