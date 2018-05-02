@@ -684,8 +684,9 @@ void RemoteVSTServer::showGUI()
     else if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: created main window" << endl;
 
-    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
     rect = 0;
+    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
     m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
     if (!rect)
     {
@@ -762,8 +763,9 @@ void RemoteVSTServer::showGUI()
     if(hWnd)
     SetWindowText(hWnd, m_name.c_str());
 
-    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
     rect = 0;
+    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
     m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
     if (!rect)
     {
