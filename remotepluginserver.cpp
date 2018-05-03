@@ -40,6 +40,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_numInputs(-1),
     m_numOutputs(-1),
     m_flags(0),
+    m_delay(0),
     m_inexcept(0),
     m_shmFd(-1),
     m_shmFd2(-1),
