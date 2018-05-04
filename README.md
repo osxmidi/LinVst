@@ -243,7 +243,7 @@ Tested vst's
 Kontakt Player 5.6.8 (turn multiprocessing off). Requires Wine 2.0 and above
 
 Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
-Kontakt and Wine 2.8 staging only need an additional msvcp140.dll override. 
+Kontakt and Wine 2.8 staging or later only need an additional msvcp140.dll override. 
 To override dll's, copy windows dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
 
 (Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
@@ -258,7 +258,7 @@ Guitar Rig 5 (same dll overrides as Kontakt)
 
 Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
 
-FM8
+FM8 (might need the standalone FM8 to be run first so that the plugin's file browser files appear)
 
 Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides) (copy and paste username and password into the registration window)
 
@@ -301,7 +301,7 @@ OP-X PRO-II (Disable d2d1 in the Libraries section of winecfg)
 MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
 
-FL Sytrus needs winetricks corefonts to be installed for fonts.
+FL Sytrus needs winetricks corefonts to be installed for fonts. The UI might become blank after closing and reopening (minimizing).
 
 Ignite Amps TPA-1 Amp Sim 
 
