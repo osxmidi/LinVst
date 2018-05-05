@@ -236,7 +236,7 @@ The wineserver priority can be set with wine-staging by setting the STAGING_RT_P
 
 ------
 
-LinVst tested with Wine 2 and Linux Tracktion 7, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Linux Renoise 3.1
+LinVst tested with Wine 2/Wine 3 and Linux Tracktion 7/Waveform, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Linux Renoise 3.1
 
 Tested vst's
 
@@ -331,7 +331,7 @@ The Waves plugins don't seem to work with Tracktion.
 
 Reaper and Ardour seem to work with the Waveshell dll and the individual unpacked dll's.
 
-Waves Central currently needs Wine Staging and also needs robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
+Waves Central currently needs Wine Staging and also needs robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override and a mfc42.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
 
 Waves Central also needs some simple registry additions
 
