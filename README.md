@@ -357,6 +357,8 @@ The Waves plugins probably require a mfc140.dll override (for 64 bit plugins cop
 
 To make
 
+The devel branch has experimental additional changes as compared to the master branch.
+
 The plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder. https://www.steinberg.net/en/company/developers.html
 
 Wine libwine development files.
