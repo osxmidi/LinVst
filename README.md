@@ -327,7 +327,7 @@ Serum needs Wine Staging to register.
 
 Waves plugins.
 
-Tested Waves Central and Waves C1 and C4 plugins.
+Tested Waves Central and Waves C1 and C4 and C360 plugins.
 
 Bitwig seems to need the Waveshell to be unpacked into individual dll's using shell2vst.
 
