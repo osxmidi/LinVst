@@ -248,9 +248,13 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 (Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
 
-Native Access requires Wine Devel 3.5 or Wine Staging 3.5 and a msvcp140.dll override.
+Native Access requires Wine Devel/Wine Staging 3.5 or later and a msvcp140.dll override.
 
-Native Access uses a iso driver that does not work with Wine, so the app install aborts when trying to mount the app's iso file, so a manual mounting and install of the downloaded iso file in ~/.wine/drive_c/users/user/Downloads is needed.
+Native Access aborts during a download, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
+
+sudo mkdir -p /mnt/diskiso
+
+sudo mount -o loop ~/.wine/drive_c/users/user/Downloads/isoname.iso /mnt/diskiso
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
@@ -331,7 +335,7 @@ The Waves plugins don't seem to work with Tracktion.
 
 Reaper and Ardour seem to work with the Waveshell dll and the individual unpacked dll's.
 
-Waves Central currently needs Wine Staging and also needs robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override and a mfc42.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
+Waves Central requires Wine Staging 2.x/3.x and also requires robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override and a mfc42.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
 
 Waves Central also needs some simple registry additions
 
