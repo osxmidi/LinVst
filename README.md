@@ -22,9 +22,7 @@ Start up the linux DAW and point it to scan the folder containing the windows vs
 
 -------
 
-More Detail Guide
-
-How to use LinVst
+More Detailed Guide
 
 To use LinVst, the linvst.so file simply needs to be renamed to match the windows vst dll's filename.
 
