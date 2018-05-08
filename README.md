@@ -2,7 +2,7 @@
 
 -----
 
-LinVst adds support for Windows vst's to Linux vst capable DAW's.
+LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
 -----
 
