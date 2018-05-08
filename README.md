@@ -4,7 +4,9 @@
 
 LinVst adds support for Windows vst's to Linux vst capable DAW's.
 
---------Quick Start Guide-------
+-----
+
+Quick Start Guide
 
 Decide on what version to run, either the embedded window version or the standalone window version (the embedded version would probably be the default choice)
 
@@ -19,6 +21,8 @@ Point linvstconvert to the folder containing the windows vst's and hit the Start
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
 -------
+
+More Detail Guide
 
 How to use LinVst
 
