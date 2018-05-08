@@ -2,7 +2,21 @@
 
 -----
 
-LinVst enables Windows vst's to be used as Linux vst's in Linux vst capable DAW's.
+LinVst adds support for Windows vst's to Linux vst capable DAW's.
+
+--------Quick Start Guide-------
+
+Decide on what version to run, either the embedded window version or the standalone window version (the embedded version would probably be the default choice)
+
+Copy all of the lin-vst-server files (files with lin-vst-server in their names) from the version that was chosen to /usr/bin (either the embedded or standalone version folder)
+
+Make a folder and place the windows vst's in it.
+
+Start linvstconvert (in the convert folder) and then select the linvst.so from the chosen embedded or standalone window version folder.
+
+Point linvstconvert to the folder containing the windows vst's and hit the Start (Convert) button.
+
+Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
 -------
 
