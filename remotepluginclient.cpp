@@ -227,7 +227,7 @@ else
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 				
-		           case audioMasterGetSampleRate:
+		   case audioMasterGetSampleRate:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetSampleRate, 0, 0, 0, 0);
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
@@ -236,6 +236,26 @@ else
                    case audioMasterGetBlockSize:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetBlockSize, 0, 0, 0, 0);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+                   break;
+				
+                   case audioMasterGetVendorString:
+                   retstr2[0]='\0';
+                   retval = m_audioMaster(theEffect, audioMasterGetVendorString, 0, 0, (char *) retstr2, 0);                   
+                   writeString(&m_shm[FIXED_SHM_SIZE3], retstr2);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3 + 512], &retval, sizeof(int));
+                   break;
+
+                   case audioMasterGetProductString:
+                   retstr2[0]='\0';
+                   retval = m_audioMaster(theEffect, audioMasterGetProductString, 0, 0, (char *) retstr2, 0);                   
+                   writeString(&m_shm[FIXED_SHM_SIZE3], retstr2);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3 + 512], &retval, sizeof(int));
+                   break;
+
+                   case audioMasterGetVendorVersion:
+                   retval = 0;
+                   retval = m_audioMaster(theEffect, audioMasterGetVendorVersion, 0, 0, 0, 0);
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 #ifdef EMBED			
