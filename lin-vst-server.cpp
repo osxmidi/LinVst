@@ -1468,19 +1468,64 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterGetVendorString:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetVendorString requested" << endl;
-        strcpy((char *)ptr, "Chris Cannam");
+{
+    char retstr[512];
+
+    if(remoteVSTServerInstance)
+    {	
+    if (!remoteVSTServerInstance->exiting)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    strcpy(retstr, remoteVSTServerInstance->readString(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3]).c_str()); 
+    strcpy((char *)ptr, retstr);
+printf("%s\n", retstr);
+     memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 + 512], sizeof(int));
+   rv = retval;
+      }
+     }
+   }
         break;
 
     case audioMasterGetProductString:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetProductString requested" << endl;
-        strcpy((char *)ptr, "DSSI VST Wrapper Plugin");
+{
+    char retstr[512];
+
+    if(remoteVSTServerInstance)
+    {	
+    if (!remoteVSTServerInstance->exiting)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    strcpy(retstr, remoteVSTServerInstance->readString(&remoteVSTServerInstance->m_shm[FIXED_SHM_SIZE3]).c_str()); 
+    strcpy((char *)ptr, retstr);
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 + 512], sizeof(int));
+    rv = retval;
+      }
+     }
+    }
         break;
 
     case audioMasterGetVendorVersion:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterGetVendorVersion requested" << endl;
-        rv = long(RemotePluginVersion * 100);
+  
+    if(remoteVSTServerInstance)
+    {	
+    if (!remoteVSTServerInstance->exiting)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    }
+    retval = 0;
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+    rv = retval;
+    }
         break;
 
     case audioMasterVendorSpecific:
