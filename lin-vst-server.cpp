@@ -1020,10 +1020,10 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
-    }
     retval = 0;
     memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
+    }
     }
 #endif
         break;
@@ -1480,9 +1480,8 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     remoteVSTServerInstance->waitForServer();
     strcpy(retstr, remoteVSTServerInstance->readString(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3]).c_str()); 
     strcpy((char *)ptr, retstr);
-printf("%s\n", retstr);
-     memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 + 512], sizeof(int));
-   rv = retval;
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 + 512], sizeof(int));
+    rv = retval;
       }
      }
    }
@@ -1521,11 +1520,11 @@ printf("%s\n", retstr);
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
-    }
     retval = 0;
     memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
     }
+    }	    
         break;
 
     case audioMasterVendorSpecific:
