@@ -243,14 +243,14 @@ else
                    case audioMasterGetVendorString:
                    retstr2[0]='\0';
                    retval = m_audioMaster(theEffect, audioMasterGetVendorString, 0, 0, (char *) retstr2, 0);                   
-                   writeString(&m_shm[FIXED_SHM_SIZE3], retstr2);
+                   writeString(&m_shm3[FIXED_SHM_SIZE3], retstr2);
                    memcpy(&m_shm3[FIXED_SHM_SIZE3 + 512], &retval, sizeof(int));
                    break;
 
                    case audioMasterGetProductString:
                    retstr2[0]='\0';
                    retval = m_audioMaster(theEffect, audioMasterGetProductString, 0, 0, (char *) retstr2, 0);                   
-                   writeString(&m_shm[FIXED_SHM_SIZE3], retstr2);
+                   writeString(&m_shm3[FIXED_SHM_SIZE3], retstr2);
                    memcpy(&m_shm3[FIXED_SHM_SIZE3 + 512], &retval, sizeof(int));
                    break;
 
