@@ -124,7 +124,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
         return;
     }
 
-    m_shmControl = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControlFd, 0));
+    m_shmControl = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControlFd, 0));
     if (!m_shmControl) {
         starterror = 1;
         cleanup();
@@ -145,7 +145,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
         return;
     }
 
-    m_shmControl2 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControl2Fd, 0));
+    m_shmControl2 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl2Fd, 0));
     if (!m_shmControl2) {
         starterror = 1;
         cleanup();
@@ -166,7 +166,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
         return;
     }
 
-    m_shmControl3 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControl3Fd, 0));
+    m_shmControl3 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl3Fd, 0));
     if (!m_shmControl3) {
         starterror = 1;
         cleanup();
@@ -187,7 +187,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
         return;
     }
 
-    m_shmControl4 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControl4Fd, 0));
+    m_shmControl4 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl4Fd, 0));
     if (!m_shmControl4) {
         starterror = 1;
         cleanup();
@@ -208,7 +208,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
         return;
     }
 
-    m_shmControl5 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControl5Fd, 0));
+    m_shmControl5 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl5Fd, 0));
     if (!m_shmControl5) {
         starterror = 1;
         cleanup();
@@ -391,7 +391,7 @@ void RemotePluginServer::sizeShm()
     size_t sz2 = FIXED_SHM_SIZE2 + 1024;
     size_t sz3 = FIXED_SHM_SIZE3 + 1024;
 
-    m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED, m_shmFd, 0);
+    m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd, 0);
     if (!m_shm)
     {
         std::cerr << "RemotePluginServer::sizeShm: ERROR: mmap or mremap for failed for " << sz
@@ -407,7 +407,7 @@ void RemotePluginServer::sizeShm()
         perror("mlock fail1");
     }
 
-    m_shm2 = (char *)mmap(0, sz2, PROT_READ | PROT_WRITE, MAP_SHARED, m_shmFd2, 0);
+    m_shm2 = (char *)mmap(0, sz2, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd2, 0);
     if (!m_shm2)
     {
         std::cerr << "RemotePluginServer::sizeShm: ERROR: mmap or mremap for failed for " << sz2
@@ -423,7 +423,7 @@ void RemotePluginServer::sizeShm()
         perror("mlock fail1");
     }
 
-    m_shm3 = (char *)mmap(0, sz3, PROT_READ | PROT_WRITE, MAP_SHARED, m_shmFd3, 0);
+    m_shm3 = (char *)mmap(0, sz3, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd3, 0);
     if (!m_shm3)
     {
         std::cerr << "RemotePluginServer::sizeShm: ERROR: mmap or mremap for failed for " << sz3
