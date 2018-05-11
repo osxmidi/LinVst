@@ -1506,7 +1506,11 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     if(m_updateio == 1)
     {
     m_numInputs = m_updatein;
-    m_numOutputs = m_updateout;
+    m_numOutputs = m_updateout;	    
+    writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginProcess);
+    writeIntring(&m_shmControl2->ringBuffer, -1);
+    commitWrite(&m_shmControl2->ringBuffer);
+    waitForServer2();  
     m_updateio = 0;
     }
 	
