@@ -39,6 +39,9 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_bufferSize(-1),
     m_numInputs(-1),
     m_numOutputs(-1),
+    m_updateio(0),
+    m_updatein(0),
+    m_updateout(0),
     m_flags(0),
     m_delay(0),
     timeinfo(0),
@@ -620,8 +623,15 @@ void RemotePluginServer::dispatchProcessEvents()
     switch (opcode)
     {
     case RemotePluginProcess:
-    {
-         int sampleFrames(readIntring(&m_shmControl2->ringBuffer));
+    {       
+	if(m_updateio == 1)
+        {
+        m_numInputs = m_updatein;
+        m_numOutputs = m_updateout;
+        m_updateio = 0;
+        }
+    
+	int sampleFrames(readIntring(&m_shmControl2->ringBuffer));
 
         if (m_bufferSize < 0)
         {
