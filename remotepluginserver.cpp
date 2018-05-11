@@ -623,15 +623,16 @@ void RemotePluginServer::dispatchProcessEvents()
     switch (opcode)
     {
     case RemotePluginProcess:
-    {       
-	if(m_updateio == 1)
+    {     
+	int sampleFrames = readIntring(&m_shmControl2->ringBuffer);    
+//	if(m_updateio == 1)
+	if(sampleFrames == -1) 
         {
         m_numInputs = m_updatein;
         m_numOutputs = m_updateout;
         m_updateio = 0;
+	break;
         }
-    
-	int sampleFrames(readIntring(&m_shmControl2->ringBuffer));
 
         if (m_bufferSize < 0)
         {
