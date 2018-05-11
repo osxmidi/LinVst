@@ -1674,11 +1674,13 @@ int RemotePluginClient::getChunk(void **ptr, int bank_prg)
     if(sz > (FIXED_SHM_SIZE / 2))
     sz = FIXED_SHM_SIZE / 2;
 
-    if (chunk_ptr != 0)
-        free(chunk_ptr);
-    chunk_ptr = malloc(sz);
+ //   if (chunk_ptr != 0)
+   //     free(chunk_ptr);
+  //  chunk_ptr = malloc(sz);
 
-    tryRead(&m_shm[FIXED_SHM_SIZE / 2], chunk_ptr, sz);
+  //  tryRead(&m_shm[FIXED_SHM_SIZE / 2], chunk_ptr, sz);
+
+     chunk_ptr = &m_shm[FIXED_SHM_SIZE / 2];
     *ptr = chunk_ptr;
     return sz;
 }
