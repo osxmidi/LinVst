@@ -1185,7 +1185,16 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     retval = 0;
     memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
-
+	    
+    if((am.incount != remoteVSTServerInstance->m_numInputs) || (am.outcount != remoteVSTServerInstance->m_numOutputs))
+    {
+    if ((am.incount + am.outcount) * remoteVSTServerInstance->m_bufferSize * sizeof(float) <= (FIXED_SHM_SIZE / 2))
+    {
+    remoteVSTServerInstance->m_updateio = 1;
+    remoteVSTServerInstance->m_updatein = am.incount;
+    remoteVSTServerInstance->m_updateout = am.outcount;
+    }
+    }
 /*
         AEffect* update = remoteVSTServerInstance->m_plugin;
         update->flags = am.flags;
