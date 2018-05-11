@@ -131,10 +131,12 @@ public:
 
     int                 m_threadbreak;
     int                 m_threadbreakexit;
-    int                 m_updateio;
     VstEvents           vstev[VSTSIZE];
     ERect               retRect = {0,0,200,500};    
     int                 reaperid;
+    int                 m_updateio;
+    int                 m_updatein;
+    int                 m_updateout;
     
 #ifdef EMBED
    Window  child;
