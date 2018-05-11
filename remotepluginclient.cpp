@@ -442,7 +442,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_threadinit(0),
     m_threadbreak(0),
     m_threadbreakexit(0),
-    m_updateio(0),
     m_shmFileName(0),
     m_shm(0),
     m_shmSize(0),
@@ -470,6 +469,9 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_bufferSize(-1),
     m_numInputs(-1),
     m_numOutputs(-1),
+    m_updateio(0),
+    m_updatein(0),
+    m_updateout(0),
     m_inexcept(0),
 #ifdef WAVES
     wavesthread(0),
@@ -1501,6 +1503,13 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
         return;
     }
 
+    if(m_updateio == 1)
+    {
+    m_numInputs = m_updatein;
+    m_numOutputs = m_updateout;
+    m_updateio = 0;
+    }
+	
     if ((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(float) > (FIXED_SHM_SIZE / 2))
         return;
 
