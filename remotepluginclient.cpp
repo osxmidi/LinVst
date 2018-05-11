@@ -532,7 +532,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControlFileName = strdup(tmpFileBase);
     ftruncate(m_shmControlFd, sizeof(ShmControl));
-    m_shmControl = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControlFd, 0));
+    m_shmControl = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControlFd, 0));
     if (!m_shmControl) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -564,7 +564,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControl2FileName = strdup(tmpFileBase);
     ftruncate(m_shmControl2Fd, sizeof(ShmControl));
-    m_shmControl2 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControl2Fd, 0));
+    m_shmControl2 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl2Fd, 0));
     if (!m_shmControl2) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -596,7 +596,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControl3FileName = strdup(tmpFileBase);
     ftruncate(m_shmControl3Fd, sizeof(ShmControl));
-    m_shmControl3 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControl3Fd, 0));
+    m_shmControl3 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl3Fd, 0));
     if (!m_shmControl3) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -628,7 +628,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControl4FileName = strdup(tmpFileBase);
     ftruncate(m_shmControl4Fd, sizeof(ShmControl));
-    m_shmControl4 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControl4Fd, 0));
+    m_shmControl4 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl4Fd, 0));
     if (!m_shmControl4) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -660,7 +660,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControl5FileName = strdup(tmpFileBase);
     ftruncate(m_shmControl5Fd, sizeof(ShmControl));
-    m_shmControl5 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED, m_shmControl5Fd, 0));
+    m_shmControl5 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl5Fd, 0));
     if (!m_shmControl5) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -925,7 +925,7 @@ void RemotePluginClient::sizeShm()
     size_t sz3 = FIXED_SHM_SIZE3 + 1024;
 
     ftruncate(m_shmFd, sz);
-    m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED, m_shmFd, 0);
+    m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd, 0);
     if (!m_shm)
     {
         std::cerr << "RemotePluginClient::sizeShm: ERROR: mmap or mremap failed for " << sz
@@ -942,7 +942,7 @@ void RemotePluginClient::sizeShm()
     }
 
     ftruncate(m_shmFd2, sz2);
-    m_shm2 = (char *)mmap(0, sz2, PROT_READ | PROT_WRITE, MAP_SHARED, m_shmFd2, 0);
+    m_shm2 = (char *)mmap(0, sz2, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd2, 0);
     if (!m_shm2)
     {
         std::cerr << "RemotePluginClient::sizeShm: ERROR: mmap or mremap failed for " << sz2
@@ -960,7 +960,7 @@ void RemotePluginClient::sizeShm()
     }
 
     ftruncate(m_shmFd3, sz3);
-    m_shm3 = (char *)mmap(0, sz3, PROT_READ | PROT_WRITE, MAP_SHARED, m_shmFd3, 0);
+    m_shm3 = (char *)mmap(0, sz3, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd3, 0);
     if (!m_shm3)
     {
         std::cerr << "RemotePluginClient::sizeShm: ERROR: mmap or mremap failed for " << sz3
