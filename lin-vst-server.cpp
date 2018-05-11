@@ -888,10 +888,11 @@ void RemoteVSTServer::setChunk()
 {
     int sz = readIntring(&m_shmControl5->ringBuffer);
     int bnk_prg = readIntring(&m_shmControl5->ringBuffer);
-    void *ptr = malloc(sz);
-    tryRead(&m_shm[FIXED_SHM_SIZE / 2], ptr, sz);
+//    void *ptr = malloc(sz);
+//    tryRead(&m_shm[FIXED_SHM_SIZE / 2], ptr, sz);
+    void *ptr = &m_shm[FIXED_SHM_SIZE / 2];
     int r = m_plugin->dispatcher(m_plugin, effSetChunk, bnk_prg, sz, ptr, 0);
-    free(ptr);
+//    free(ptr);
     writeInt(&m_shm[FIXED_SHM_SIZE], r);
     return;
 }
