@@ -110,9 +110,6 @@ private:
     void                    dispatchGetSetEvents();
     void                    dispatchParEvents();
 
-    int                     m_bufferSize;
-    int                     m_numInputs;
-    int                     m_numOutputs;
     int                     m_flags;
     int                     m_delay;
     int                     m_shmFd;
@@ -131,6 +128,9 @@ private:
     RemotePluginDebugLevel  m_debugLevel;
 
 public:
+    int                     m_bufferSize;
+    int                     m_numInputs;
+    int                     m_numOutputs;
 
     char                    *m_shmControlFileName;
     ShmControl              *m_shmControl;
