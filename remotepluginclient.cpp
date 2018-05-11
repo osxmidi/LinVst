@@ -159,6 +159,15 @@ else
                     // m_updateio = 1;
                     retval = m_audioMaster(theEffect, audioMasterIOChanged, 0, 0, 0, 0);
                     memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+                    if((am.incount != m_numInputs) || (am.outcount != m_numOutputs))
+                    {
+                    if ((am.incount + am.outcount) * m_bufferSize * sizeof(float) <= (FIXED_SHM_SIZE / 2))
+                    {
+                    m_updateio = 1;
+                    m_updatein = am.incount;
+                    m_updateout = am.outcount;
+                    }
+                    }
                     break;
 
                 case audioMasterProcessEvents:  
