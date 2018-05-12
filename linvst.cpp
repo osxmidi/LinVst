@@ -395,6 +395,44 @@ static char dawbuf[512];
         v = plugin->setPrecision(value);
       break;  
 #endif
+
+#ifdef MIDIEFF   
+    case effGetInputProperties:    
+        v = plugin->getEffInProp(index, (char *)ptr); 
+        break;  
+        
+    case effGetOutputProperties:    
+        v = plugin->getEffOutProp(index, (char *)ptr);
+        break; 
+        
+    case effGetMidiKeyName:    
+        v = plugin->getEffMidiKey(index, (char *) ptr);
+        break;   
+        
+    case effGetMidiProgramName:    
+        v = plugin->getEffMidiProgName(index, (char *) ptr);
+        break;   
+        
+    case effGetCurrentMidiProgram:    
+        v = plugin->getEffMidiCurProg(index, (char *) ptr);
+        break; 
+        
+    case effGetMidiProgramCategory:    
+        v = plugin->getEffMidiProgCat(index, (char *) ptr);
+        break;   
+        
+    case effHasMidiProgramsChanged:    
+        v = plugin->getEffMidiProgCh(index);
+        break;   
+                 
+    case effSetSpeakerArrangement:
+        v = plugin->setEffSpeaker(value, (char *)ptr);
+      break;
+      
+    case effGetSpeakerArrangement:
+        v = plugin->getEffSpeaker(value, (char *)ptr);
+      break;  
+#endif
 		    
     case effGetVstVersion:
         v = kVstVersion;
