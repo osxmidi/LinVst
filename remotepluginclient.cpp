@@ -1653,6 +1653,153 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     return ret;
 }
 
+#ifdef MIDIEFF
+bool RemotePluginClient::getEffInProp(int index, void *ptr)
+{
+VstPinProperties ptr2;
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteInProp);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+ 
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
+    memcpy(ptr, &ptr2, sizeof(VstPinProperties));
+
+    return b;
+}
+
+bool RemotePluginClient::getEffOutProp(int index, void *ptr)
+{
+VstPinProperties ptr2;
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteOutProp);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+ 
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
+    memcpy(ptr, &ptr2, sizeof(VstPinProperties));
+
+    return b;
+}
+
+bool RemotePluginClient::getEffMidiKey(int index, void *ptr)
+{
+MidiKeyName ptr2;
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteMidiKey);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiKeyName)], &ptr2, sizeof(MidiKeyName));
+    memcpy(ptr, &ptr2, sizeof(MidiKeyName));
+
+    return b;
+}
+
+bool RemotePluginClient::getEffMidiProgName(int index, void *ptr)
+{
+MidiProgramName ptr2;
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteMidiProgName);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+  
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramName)], &ptr2, sizeof(MidiProgramName));
+    memcpy(ptr, &ptr2, sizeof(MidiProgramName));
+    
+    return b;
+}
+
+bool RemotePluginClient::getEffMidiCurProg(int index, void *ptr)
+{
+MidiProgramName ptr2;
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteMidiCurProg);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+ 
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramName)], &ptr2, sizeof(MidiProgramName));
+    memcpy(ptr, &ptr2, sizeof(MidiProgramName));
+
+    return b;
+}
+
+bool RemotePluginClient::getEffMidiProgCat(int index, void *ptr)
+{
+MidiProgramCategory ptr2;
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteMidiProgCat);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+   
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramCategory)], &ptr2, sizeof(MidiProgramCategory));
+    memcpy(ptr, &ptr2, sizeof(MidiProgramCategory));
+
+    return b;
+}
+
+bool RemotePluginClient::getEffMidiProgCh(int index)
+{
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteMidiProgCh);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+ 
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    return b;
+}
+
+bool RemotePluginClient::setEffSpeaker(VstIntPtr value, void *ptr)
+{
+bool b;
+
+    tryWrite(&m_shm2[FIXED_SHM_SIZE2 - (sizeof(VstSpeakerArrangement)*2)], ptr, sizeof(VstSpeakerArrangement));
+    tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstSpeakerArrangement)], (VstIntPtr *)value, sizeof(VstSpeakerArrangement));
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteSetSpeaker);
+    commitWrite(&m_shmControl5->ringBuffer);
+
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+
+    return b;
+}
+
+bool RemotePluginClient::getEffSpeaker(VstIntPtr value, void *ptr)
+{
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteGetSpeaker);
+    commitWrite(&m_shmControl5->ringBuffer);
+    
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - ( sizeof(VstSpeakerArrangement)*2)], ptr, sizeof(VstSpeakerArrangement));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstSpeakerArrangement)], (VstIntPtr *)value, sizeof(VstSpeakerArrangement));
+
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+
+    return b;
+}
+#endif
+
 void RemotePluginClient::setDebugLevel(RemotePluginDebugLevel level)
 {
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetDebugLevel);
