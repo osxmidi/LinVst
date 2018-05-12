@@ -125,6 +125,17 @@ public:
     virtual void        processdouble(double **inputs, double **outputs, int sampleFrames);
     virtual bool        setPrecision(int);  
 #endif
+#ifdef MIDIEFF
+    virtual bool        getOutProp(int);
+    virtual bool        getInProp(int);
+    virtual bool        getMidiKey(int);
+    virtual bool        getMidiProgName(int);
+    virtual bool        getMidiCurProg(int);
+    virtual bool        getMidiProgCat(int);
+    virtual bool        getMidiProgCh(int);
+    virtual bool        setSpeaker();
+    virtual bool        getSpeaker();
+#endif
 
     virtual void        setDebugLevel(RemotePluginDebugLevel level) { debugLevel = level; }
 
@@ -458,6 +469,115 @@ bool retval;
         return retval;       
 }    
 #endif
+
+#ifdef MIDIEFF
+bool RemoteVSTServer::getInProp(int index)
+{
+VstPinProperties ptr;
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effGetInputProperties, index, 0, &ptr, 0);
+
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
+
+        return retval;       
+}
+
+bool RemoteVSTServer::getOutProp(int index)
+{
+VstPinProperties ptr;
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effGetOutputProperties, index, 0, &ptr, 0);
+
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
+
+        return retval;         
+}
+
+bool RemoteVSTServer::getMidiKey(int index)
+{
+MidiKeyName ptr;
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effGetMidiKeyName, index, 0, &ptr, 0);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiKeyName)], &ptr, sizeof(MidiKeyName));
+
+        return retval;       
+}
+
+bool RemoteVSTServer::getMidiProgName(int index)
+{
+MidiProgramName ptr;
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effGetMidiProgramName, index, 0, &ptr, 0);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramName)], &ptr, sizeof(MidiProgramName));
+
+        return retval;       
+}
+
+bool RemoteVSTServer::getMidiCurProg(int index)
+{
+MidiProgramName ptr;
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effGetCurrentMidiProgram, index, 0, &ptr, 0);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramName)], &ptr, sizeof(MidiProgramName));
+
+        return retval;       
+}
+
+bool RemoteVSTServer::getMidiProgCat(int index)
+{
+MidiProgramCategory ptr;
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effGetMidiProgramCategory, index, 0, &ptr, 0);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramCategory)], &ptr, sizeof(MidiProgramCategory));
+
+        return retval;       
+}
+
+bool RemoteVSTServer::getMidiProgCh(int index)
+{
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effHasMidiProgramsChanged, index, 0, 0, 0);
+
+        return retval;       
+}
+
+bool RemoteVSTServer::setSpeaker() 
+{
+VstSpeakerArrangement ptr;
+VstSpeakerArrangement value;
+bool retval;
+
+       tryRead(&m_shm2[FIXED_SHM_SIZE2 - (sizeof(VstSpeakerArrangement)*2)], &ptr, sizeof(VstSpeakerArrangement));
+
+       tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstSpeakerArrangement)], &value, sizeof(VstSpeakerArrangement));
+
+       retval = m_plugin->dispatcher(m_plugin, effSetSpeakerArrangement, 0, (VstIntPtr)&value, &ptr, 0);
+
+       return retval;  
+}       
+
+bool RemoteVSTServer::getSpeaker() 
+{
+VstSpeakerArrangement ptr;
+VstSpeakerArrangement value;
+bool retval;
+
+       retval = m_plugin->dispatcher(m_plugin, effSetSpeakerArrangement, 0, (VstIntPtr)&value, &ptr, 0);
+
+       tryWrite(&m_shm2[FIXED_SHM_SIZE2 - (sizeof(VstSpeakerArrangement)*2)], &ptr, sizeof(VstSpeakerArrangement));
+
+       tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstSpeakerArrangement)], &value, sizeof(VstSpeakerArrangement));
+ 
+       return retval;  
+}     
+#endif	
 
 int RemoteVSTServer::getEffInt(int opcode)
 {
