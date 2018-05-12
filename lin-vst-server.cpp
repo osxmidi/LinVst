@@ -121,6 +121,10 @@ public:
 //    virtual void        eff_mainsChanged(int v);
 
     virtual void        process(float **inputs, float **outputs, int sampleFrames);
+#ifdef DOUBLEP
+    virtual void        processdouble(double **inputs, double **outputs, int sampleFrames);
+    virtual bool        setPrecision(int);  
+#endif
 
     virtual void        setDebugLevel(RemotePluginDebugLevel level) { debugLevel = level; }
 
@@ -436,6 +440,24 @@ void RemoteVSTServer::process(float **inputs, float **outputs, int sampleFrames)
     m_plugin->processReplacing(m_plugin, inputs, outputs, sampleFrames);
     inProcessThread = false;
 }
+
+#ifdef DOUBLEP
+void RemoteVSTServer::processdouble(double **inputs, double **outputs, int sampleFrames)
+{
+    inProcessThread = true;
+    m_plugin->processDoubleReplacing(m_plugin, inputs, outputs, sampleFrames);
+    inProcessThread = false;
+}
+
+bool RemoteVSTServer::setPrecision(int value)
+{
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effSetProcessPrecision, 0, value, 0, 0);
+
+        return retval;       
+}    
+#endif
 
 int RemoteVSTServer::getEffInt(int opcode)
 {
@@ -1174,7 +1196,9 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
         am.incount = plugin->numInputs;
         am.outcount = plugin->numOutputs;
         am.delay = plugin->initialDelay;
+#ifndef DOUBLEP
         am.flags &= ~effFlagsCanDoubleReplacing;
+#endif
 
         memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
 
