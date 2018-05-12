@@ -94,6 +94,9 @@ enum RemotePluginOpcode
     RemoteSetSpeaker,
     RemoteGetSpeaker,
 #endif
+#ifdef CANDOEFF
+    RemotePluginEffCanDo,
+#endif	
 
     RemotePluginNoOpcode = 9999
 };
