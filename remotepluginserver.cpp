@@ -391,7 +391,7 @@ void RemotePluginServer::sizeShm()
     int *ptr;
 
     size_t sz = FIXED_SHM_SIZE + 1024;
-    size_t sz2 = FIXED_SHM_SIZE2 + 1024;
+    size_t sz2 = FIXED_SHM_SIZE2 + 1024 + (2 * sizeof(float));
     size_t sz3 = FIXED_SHM_SIZE3 + 1024;
 
     m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd, 0);
@@ -628,8 +628,45 @@ void RemotePluginServer::dispatchProcessEvents()
 //	if(m_updateio == 1)
 	if(sampleFrames == -1) 
         {
+            if (m_inputs)
+            {
+                delete m_inputs;
+                m_inputs = 0;
+            }
+            if (m_updatein > 0)
+                m_inputs = new float*[m_updatein];
+
+#ifdef DOUBLEP
+            if (m_inputsdouble)
+            {
+                delete m_inputsdouble;
+                m_inputsdouble = 0;
+            }
+            if (m_updatein > 0)
+                m_inputsdouble = new double*[m_updatein];
+#endif
+
+            if (m_outputs)
+            {
+                delete m_outputs;
+                m_outputs = 0;
+            }
+            if (m_updateout > 0)
+                m_outputs = new float*[m_updateout];
+
+#ifdef DOUBLEP
+            if (m_outputsdouble)
+            {
+                delete m_outputsdouble;
+                m_outputsdouble = 0;
+            }
+            if (m_updateout > 0)
+                m_outputsdouble = new double*[m_updateout];
+#endif
+
         m_numInputs = m_updatein;
         m_numOutputs = m_updateout;
+
         m_updateio = 0;
 	break;
         }
@@ -661,6 +698,85 @@ void RemotePluginServer::dispatchProcessEvents()
         process(m_inputs, m_outputs, sampleFrames);
     }
         break;
+
+#ifdef DOUBLEP
+    case RemotePluginProcessDouble:
+    {     
+	int sampleFrames = readIntring(&m_shmControl2->ringBuffer);    
+//	if(m_updateio == 1)
+	if(sampleFrames == -1) 
+        {
+            if (m_inputs)
+            {
+                delete m_inputs;
+                m_inputs = 0;
+            }
+            if (m_updatein > 0)
+                m_inputs = new float*[m_updatein];
+
+#ifdef DOUBLEP
+            if (m_inputsdouble)
+            {
+                delete m_inputsdouble;
+                m_inputsdouble = 0;
+            }
+            if (m_updatein > 0)
+                m_inputsdouble = new double*[m_updatein];
+#endif
+
+            if (m_outputs)
+            {
+                delete m_outputs;
+                m_outputs = 0;
+            }
+            if (m_updateout > 0)
+                m_outputs = new float*[m_updateout];
+
+#ifdef DOUBLEP
+            if (m_outputsdouble)
+            {
+                delete m_outputsdouble;
+                m_outputsdouble = 0;
+            }
+            if (m_updateout > 0)
+                m_outputsdouble = new double*[m_updateout];
+#endif
+
+        m_numInputs = m_updatein;
+        m_numOutputs = m_updateout;
+
+        m_updateio = 0;
+	break;
+        }
+
+        if (m_bufferSize < 0)
+        {
+            break;
+        }
+        if (m_numInputs < 0)
+        {
+            break;
+        }
+        if (m_numOutputs < 0)
+        {
+             break;
+        }
+
+        size_t blocksz = sampleFrames * sizeof(double);
+
+        for (int i = 0; i < m_numInputs; ++i)
+        {
+            m_inputsdouble[i] = (double *)(m_shm + i * blocksz);
+        }
+        for (int i = 0; i < m_numOutputs; ++i)
+        {
+            m_outputsdouble[i] = (double *)(m_shm + i * blocksz);
+        }
+
+        processdouble(m_inputsdouble, m_outputsdouble, sampleFrames);
+    }
+        break;
+#endif
 
     case RemotePluginProcessEvents:
         processVstEvents();
@@ -772,7 +888,7 @@ void RemotePluginServer::dispatchGetSetEvents()
     {
         int intval = readIntring(&m_shmControl4->ringBuffer);
         float floatval = getParameter(intval);
-        writeFloat(&m_shm[FIXED_SHM_SIZE - 512], floatval);
+        writeFloat(&m_shm2[FIXED_SHM_SIZE2 + 1024], floatval);
         break;
     }
 
@@ -1016,7 +1132,7 @@ void RemotePluginServer::dispatchParEvents()
      {
        char name[512];
        int retvalshell = getShellName(name);
-       writeInt(&m_shm[FIXED_SHM_SIZE - 512], retvalshell);
+       writeInt(&m_shm[FIXED_SHM_SIZE + 512], retvalshell);
        writeString(&m_shm[FIXED_SHM_SIZE], name);
      }
         break;
