@@ -408,7 +408,7 @@ void RemotePluginServer::cleanup()
 int RemotePluginServer::sizeShm()
 {
     if (m_shm)
-        return;
+        return 0;
 
     int *ptr;
 
