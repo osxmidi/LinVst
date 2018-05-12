@@ -87,6 +87,9 @@ public:
     virtual bool            setSpeaker()                           {return false; }
     virtual bool            getSpeaker()                           {return false; }
 #endif
+#ifdef CANDOEFF   
+    virtual bool            getEffCanDo(std::string) = 0;
+#endif
 
     virtual void            setDebugLevel(RemotePluginDebugLevel)   { return; }
     virtual bool            warn(std::string) = 0;
