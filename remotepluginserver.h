@@ -70,6 +70,12 @@ public:
     virtual void            effDoVoid2(int opcode, int index, int value, float opt)           { return; }
 
     virtual void            process(float **inputs, float **outputs, int sampleFrames) = 0;
+#ifdef DOUBLEP
+    virtual void            processdouble(double **inputs, double **outputs, int sampleFrames) = 0;
+    virtual bool            setPrecision(int value)                {return false; }    
+    double                   **m_inputsdouble;
+    double                   **m_outputsdouble;
+#endif
 
     virtual void            setDebugLevel(RemotePluginDebugLevel)   { return; }
     virtual bool            warn(std::string) = 0;
