@@ -390,6 +390,12 @@ static char dawbuf[512];
         plugin->setBufferSize ((VstInt32)value);
         break;
 
+#ifdef DOUBLEP
+    case effSetProcessPrecision:
+        v = plugin->setPrecision(value);
+      break;  
+#endif
+		    
     case effGetVstVersion:
         v = kVstVersion;
         break;
@@ -714,6 +720,12 @@ if(plugin->runembed == 1)
 
 void processDouble(AEffect* effect, double** inputs, double** outputs, VstInt32 sampleFrames)
 {
+#ifdef DOUBLEP
+    RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
+
+    if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
+        plugin->processdouble(inputs, outputs, sampleFrames);
+#endif	
     return;
 }
 
@@ -757,8 +769,10 @@ void initEffect(AEffect *eff, RemotePluginClient *plugin)
     eff->numPrograms = plugin->getProgramCount();
     eff->numParams = plugin->getParameterCount();
     eff->flags = plugin->getFlags();
+#ifndef DOUBLEP
     eff->flags &= ~effFlagsCanDoubleReplacing;
     eff->flags |= effFlagsCanReplacing;
+#endif
     eff->resvd1 = 0;
     eff->resvd2 = 0;
     eff->initialDelay = plugin->getinitialDelay();
