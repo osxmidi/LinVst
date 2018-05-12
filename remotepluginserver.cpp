@@ -75,6 +75,10 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_shmSize3(0),
     m_inputs(0),
     m_outputs(0),
+#ifdef DOUBLEP
+    m_inputsdouble(0),
+    m_outputsdouble(0),   
+#endif
     m_threadsfinish(0),
     m_runok(0),
     m_386run(0),
@@ -260,12 +264,25 @@ RemotePluginServer::~RemotePluginServer()
 
 void RemotePluginServer::cleanup()
 {
-
+    if(m_inputs)
+    {
     delete m_inputs;
     m_inputs = 0;
+    }
 
+    if(m_outputs)
+    {
     delete m_outputs;
     m_outputs = 0;
+    }
+
+#ifdef DOUBLEP
+    if(m_inputsdouble)
+    delete m_inputsdouble;
+    
+    if(m_outputsdouble)
+    delete m_outputsdouble;
+#endif
 
     if (m_shm)
     {
@@ -1236,6 +1253,16 @@ void RemotePluginServer::dispatchParEvents()
             }
             if (numin > 0)
                 m_inputs = new float*[numin];
+
+#ifdef DOUBLEP
+            if (m_inputsdouble)
+            {
+                delete m_inputsdouble;
+                m_inputsdouble = 0;
+            }
+            if (numin > 0)
+                m_inputsdouble = new double*[numin];
+#endif
         }
         m_numInputs = numin;
         writeInt(&m_shm[FIXED_SHM_SIZE], m_numInputs);
@@ -1256,6 +1283,16 @@ void RemotePluginServer::dispatchParEvents()
             }
             if (numout > 0)
                 m_outputs = new float*[numout];
+
+#ifdef DOUBLEP
+            if (m_outputsdouble)
+            {
+                delete m_outputsdouble;
+                m_outputsdouble = 0;
+            }
+            if (numout > 0)
+                m_outputsdouble = new double*[numout];
+#endif
         }
         m_numOutputs = numout;
         writeInt(&m_shm[FIXED_SHM_SIZE], m_numOutputs);
@@ -1291,6 +1328,16 @@ void RemotePluginServer::dispatchParEvents()
         hideGUI();
         break;
 		    
+#ifdef DOUBLEP
+     case RemoteSetPrecision:
+    {   
+        int value = readIntring(&m_shmControl5->ringBuffer);
+        bool b = setPrecision(value);
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
+        break;
+    }  
+#endif
+	    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode " << opcode << std::endl;
     }
