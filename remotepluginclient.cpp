@@ -932,7 +932,7 @@ void RemotePluginClient::sizeShm()
         return;
 
     size_t sz = FIXED_SHM_SIZE + 1024;
-    size_t sz2 = FIXED_SHM_SIZE2 + 1024;
+    size_t sz2 = FIXED_SHM_SIZE2 + 1024 + (2 * sizeof(float));
     size_t sz3 = FIXED_SHM_SIZE3 + 1024;
 
     ftruncate(m_shmFd, sz);
@@ -1153,7 +1153,7 @@ int RemotePluginClient::getShellName(char *ptr)
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
     strcpy(ptr, readString(&m_shm[FIXED_SHM_SIZE]).c_str());
-    return readInt(&m_shm[FIXED_SHM_SIZE - 512]);
+    return readInt(&m_shm[FIXED_SHM_SIZE + 512]);
 }
 #endif
 
@@ -1182,7 +1182,7 @@ RemotePluginClient::getParameter(int p)
     writeIntring(&m_shmControl4->ringBuffer, p);
     commitWrite(&m_shmControl4->ringBuffer);
     waitForServer4();
-    return readFloat(&m_shm[FIXED_SHM_SIZE - 512]);
+    return readFloat(&m_shm2[FIXED_SHM_SIZE2 + 1024]);
 }
 
 float RemotePluginClient::getParameterDefault(int p)
