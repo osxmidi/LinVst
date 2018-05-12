@@ -225,7 +225,12 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     if(mlock(m_shmControl5, sizeof(ShmControl)) != 0)
     perror("mlock fail5");
 
-    sizeShm();
+    if(sizeShm())
+    {
+        starterror = 1;
+        cleanup();
+        return;        
+    }
 
     timeinfo = new VstTimeInfo;
 
@@ -400,7 +405,7 @@ void RemotePluginServer::cleanup()
     delete timeinfo;
 }
 
-void RemotePluginServer::sizeShm()
+int RemotePluginServer::sizeShm()
 {
     if (m_shm)
         return;
@@ -417,6 +422,7 @@ void RemotePluginServer::sizeShm()
         std::cerr << "RemotePluginServer::sizeShm: ERROR: mmap or mremap for failed for " << sz
                     << " bytes from fd " << m_shmFd << "!" << std::endl;
         m_shmSize = 0;
+        return 1;	    
     }
     else
     {
@@ -433,6 +439,7 @@ void RemotePluginServer::sizeShm()
         std::cerr << "RemotePluginServer::sizeShm: ERROR: mmap or mremap for failed for " << sz2
                     << " bytes from fd " << m_shmFd2 << "!" << std::endl;
         m_shmSize2 = 0;
+        return 1;	    
     }
     else
     {
@@ -449,6 +456,7 @@ void RemotePluginServer::sizeShm()
         std::cerr << "RemotePluginServer::sizeShm: ERROR: mmap or mremap for failed for " << sz3
                     << " bytes from fd " << m_shmFd3 << "!" << std::endl;
         m_shmSize3 = 0;
+        return 1;	    
     }
     else
     {
@@ -462,7 +470,8 @@ void RemotePluginServer::sizeShm()
     ptr = (int *)m_shm;
 
     *ptr = 1;
-
+	
+     return 0;	
 }
 
 #ifdef SEM
