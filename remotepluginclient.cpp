@@ -1540,6 +1540,75 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     return;
 }
 
+#ifdef DOUBLEP
+void RemotePluginClient::processdouble(double **inputs, double **outputs, int sampleFrames)
+{
+    if (m_finishaudio == 1)
+        return;
+    if ((m_bufferSize <= 0) || (sampleFrames <= 0))
+    {
+        return;
+    }
+    if (m_numInputs < 0)
+    {
+        return;
+    }
+    if (m_numOutputs < 0)
+    {
+        return;
+    }
+
+    if(m_updateio == 1)
+    {
+    m_numInputs = m_updatein;
+    m_numOutputs = m_updateout;	    
+    writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginProcessDouble);
+    writeIntring(&m_shmControl2->ringBuffer, -1);
+    commitWrite(&m_shmControl2->ringBuffer);
+    waitForServer2();  
+    m_updateio = 0;
+    }
+	
+    if ((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(double) > (FIXED_SHM_SIZE / 2))
+        return;
+
+    size_t blocksz = sampleFrames * sizeof(double);
+
+    if(m_numInputs > 0)
+    {
+    for (int i = 0; i < m_numInputs; ++i)
+    memcpy(m_shm + i * blocksz, inputs[i], blocksz);
+    }
+
+    writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginProcessDouble);
+    writeIntring(&m_shmControl2->ringBuffer, sampleFrames);
+
+    commitWrite(&m_shmControl2->ringBuffer);
+
+    waitForServer2();  
+
+    if(m_numOutputs > 0)
+    {
+    for (int i = 0; i < m_numOutputs; ++i)
+    memcpy(outputs[i], m_shm + i * blocksz, blocksz);
+    }
+    return;
+}
+
+bool RemotePluginClient::setPrecision(int value)
+{
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteSetPrecision);
+    writeIntring(&m_shmControl5->ringBuffer, value);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+ 
+    tryRead(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
+    return b;
+}
+#endif
+
 int RemotePluginClient::processVstEvents(VstEvents *evnts)
 {
     int ret;
