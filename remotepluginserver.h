@@ -76,6 +76,17 @@ public:
     double                   **m_inputsdouble;
     double                   **m_outputsdouble;
 #endif
+#ifdef MIDIEFF
+    virtual bool            getInProp(int index)                   {return false; }
+    virtual bool            getOutProp(int index)                  {return false; }
+    virtual bool            getMidiKey(int index)                  {return false; }    
+    virtual bool            getMidiProgName(int index)             {return false; }    
+    virtual bool            getMidiCurProg(int index)              {return false; }  
+    virtual bool            getMidiProgCat(int index)              {return false; }  
+    virtual bool            getMidiProgCh(int index)               {return false; }          
+    virtual bool            setSpeaker()                           {return false; }
+    virtual bool            getSpeaker()                           {return false; }
+#endif
 
     virtual void            setDebugLevel(RemotePluginDebugLevel)   { return; }
     virtual bool            warn(std::string) = 0;
