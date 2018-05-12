@@ -712,14 +712,21 @@ void RemotePluginServer::dispatchProcessEvents()
 
         size_t blocksz = sampleFrames * sizeof(float);
 
+	if(m_inputs)
+	{
         for (int i = 0; i < m_numInputs; ++i)
         {
             m_inputs[i] = (float *)(m_shm + i * blocksz);
         }
+	}
+	    
+	if(m_outputs)
+	{
         for (int i = 0; i < m_numOutputs; ++i)
         {
             m_outputs[i] = (float *)(m_shm + i * blocksz);
         }
+	}
 
         process(m_inputs, m_outputs, sampleFrames);
     }
@@ -790,14 +797,21 @@ void RemotePluginServer::dispatchProcessEvents()
 
         size_t blocksz = sampleFrames * sizeof(double);
 
+	if(m_inputsdouble) 
+	{
         for (int i = 0; i < m_numInputs; ++i)
         {
             m_inputsdouble[i] = (double *)(m_shm + i * blocksz);
         }
+	}
+	    
+	if(m_outputsdouble)
+	{
         for (int i = 0; i < m_numOutputs; ++i)
         {
             m_outputsdouble[i] = (double *)(m_shm + i * blocksz);
         }
+	}
 
         processdouble(m_inputsdouble, m_outputsdouble, sampleFrames);
     }
