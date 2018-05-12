@@ -233,7 +233,7 @@ private:
     char                *m_shmFileName3;
     size_t              m_shmSize3;
 
-    void                sizeShm();
+    int                 sizeShm();
 
     pthread_t           m_AMThread;
     static void         *callAMThread(void *arg) { return ((RemotePluginClient*)arg)->AMThread(); }
