@@ -83,7 +83,18 @@ public:
 #ifdef DOUBLEP
     void                processdouble(double **inputs, double **outputs, int sampleFrames);
     bool                setPrecision(int value);
-#endif    
+#endif 
+#ifdef MIDIEFF
+    bool                getEffInProp(int index, void *ptr);
+    bool                getEffOutProp(int index, void *ptr);
+    bool                getEffMidiKey(int index, void *ptr);
+    bool                getEffMidiProgName(int index, void *ptr);
+    bool                getEffMidiCurProg(int index, void *ptr);
+    bool                getEffMidiProgCat(int index, void *ptr);
+    bool                getEffMidiProgCh(int index);
+    bool                setEffSpeaker(VstIntPtr value, void *ptr);
+    bool                getEffSpeaker(VstIntPtr value, void *ptr);
+#endif      
     int                 getChunk(void **ptr, int bank_prog);
     int                 setChunk(void *ptr, int sz, int bank_prog);
     int                 canBeAutomated(int param);
