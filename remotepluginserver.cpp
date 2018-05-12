@@ -1337,7 +1337,79 @@ void RemotePluginServer::dispatchParEvents()
         break;
     }  
 #endif
-	    
+
+#ifdef MIDIEFF
+     case RemoteInProp:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getInProp(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }
+    
+     case RemoteOutProp:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getOutProp(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }
+    
+     case RemoteMidiKey:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getMidiKey(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }  
+    
+      case RemoteMidiProgName:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getMidiProgName(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }  
+   
+     case RemoteMidiCurProg:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getMidiCurProg(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }  
+
+     case RemoteMidiProgCat:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getMidiProgCat(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }  
+
+     case RemoteMidiProgCh:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getMidiProgCh(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }  
+
+     case RemoteSetSpeaker:
+    {   
+        bool b = setSpeaker();
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }  
+    
+     case RemoteGetSpeaker:
+    {   
+        bool b = getSpeaker();
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }  
+#endif
+		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode " << opcode << std::endl;
     }
