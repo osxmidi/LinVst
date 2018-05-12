@@ -80,6 +80,10 @@ public:
     void                setCurrentProgram(int);
 
     int                 processVstEvents(VstEvents *);
+#ifdef DOUBLEP
+    void                processdouble(double **inputs, double **outputs, int sampleFrames);
+    bool                setPrecision(int value);
+#endif    
     int                 getChunk(void **ptr, int bank_prog);
     int                 setChunk(void *ptr, int sz, int bank_prog);
     int                 canBeAutomated(int param);
