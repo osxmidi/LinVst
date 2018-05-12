@@ -83,6 +83,17 @@ enum RemotePluginOpcode
     RemotePluginProcessDouble,
     RemoteSetPrecision,
 #endif
+#ifdef MIDIEFF
+    RemoteInProp,
+    RemoteOutProp,
+    RemoteMidiKey,
+    RemoteMidiProgName,
+    RemoteMidiCurProg,
+    RemoteMidiProgCat,
+    RemoteMidiProgCh,
+    RemoteSetSpeaker,
+    RemoteGetSpeaker,
+#endif
 
     RemotePluginNoOpcode = 9999
 };
