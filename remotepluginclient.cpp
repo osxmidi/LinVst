@@ -702,7 +702,11 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     }
 #endif
 
-    sizeShm();
+    if(sizeShm())
+    {
+    cleanup();
+    throw((std::string)"Failed to mmap shared memory file");
+    }
 	    
     if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
     {
@@ -934,10 +938,10 @@ std::string RemotePluginClient::getFileIdentifiers()
     return id;
 }
 
-void RemotePluginClient::sizeShm()
+int RemotePluginClient::sizeShm()
 {
     if (m_shm)
-        return;
+        return 0;
 
     size_t sz = FIXED_SHM_SIZE + 1024;
     size_t sz2 = FIXED_SHM_SIZE2 + 1024 + (2 * sizeof(float));
@@ -950,6 +954,7 @@ void RemotePluginClient::sizeShm()
         std::cerr << "RemotePluginClient::sizeShm: ERROR: mmap or mremap failed for " << sz
                     << " bytes from fd " << m_shmFd << "!" << std::endl;
         m_shmSize = 0;
+        return 1;	    
     }
     else
     {
@@ -967,6 +972,7 @@ void RemotePluginClient::sizeShm()
         std::cerr << "RemotePluginClient::sizeShm: ERROR: mmap or mremap failed for " << sz2
                     << " bytes from fd " << m_shmFd2 << "!" << std::endl;
         m_shmSize2 = 0;
+        return 1;	    
     }
     else
     {
@@ -985,6 +991,7 @@ void RemotePluginClient::sizeShm()
         std::cerr << "RemotePluginClient::sizeShm: ERROR: mmap or mremap failed for " << sz3
                     << " bytes from fd " << m_shmFd3 << "!" << std::endl;
         m_shmSize3 = 0;
+        return 1;	    
     }
     else
     {
@@ -998,7 +1005,8 @@ void RemotePluginClient::sizeShm()
 
     m_threadbreak = 0;
     // m_threadbreakexit = 0;
-
+	
+    return 0;	
 }
 
 float   RemotePluginClient::getVersion()
