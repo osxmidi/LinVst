@@ -136,6 +136,9 @@ public:
     virtual bool        setSpeaker();
     virtual bool        getSpeaker();
 #endif
+#ifdef CANDOEFF 
+    virtual bool        getEffCanDo(std::string);
+#endif 
 
     virtual void        setDebugLevel(RemotePluginDebugLevel level) { debugLevel = level; }
 
@@ -578,6 +581,16 @@ bool retval;
        return retval;  
 }     
 #endif	
+
+#ifdef CANDOEFF
+bool RemoteVSTServer::getEffCanDo(std::string ptr)
+{
+        if(m_plugin->dispatcher(m_plugin, effCanDo, 0, 0, (char*)ptr.c_str(), 0))
+        return true;
+        else
+        return false;
+}
+#endif
 
 int RemoteVSTServer::getEffInt(int opcode)
 {
@@ -1694,6 +1707,22 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
     case audioMasterCanDo:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterCanDo(" << (char *)ptr << ") requested" << endl;
+#ifdef CANDOEFF
+    {
+    int retval;
+
+    if(remoteVSTServerInstance && !remoteVSTServerInstance->exiting)
+    {	
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance-> writeString(&remoteVSTServerInstance->m_shm[FIXED_SHM_SIZE3], (char*)ptr);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+    rv = retval;  
+    }
+    }
+#else		    
         if (!strcmp((char*)ptr, "sendVstEvents")
                     || !strcmp((char*)ptr, "sendVstMidiEvent")
                     || !strcmp((char*)ptr, "sendVstMidiEvent")
@@ -1715,6 +1744,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
                     // || !strcmp((char*)ptr, "supplyIdle")
                     )
             rv = 1;
+#endif 		    
         break;
 
     case audioMasterGetLanguage:
