@@ -677,7 +677,11 @@ if(plugin->runembed == 1)
         }
 #endif
 #endif
+#ifdef CANDOEFF
+        v = plugin->getEffCanDo((char *)ptr);     
+#else		    
         v = 1;
+#endif		    
         break;
 
     case effProcessEvents:
