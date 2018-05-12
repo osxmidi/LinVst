@@ -248,7 +248,15 @@ else
                    retval = m_audioMaster(theEffect, audioMasterGetBlockSize, 0, 0, 0, 0);
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
-				
+#ifdef CANDOEFF                   
+                   case audioMasterCanDo:    
+                   retval = 0;
+                   retstr2[0]='\0';
+                   strcpy(retstr2, readString(&m_shm[FIXED_SHM_SIZE3]).c_str());
+                   retval = m_audioMaster(theEffect, audioMasterCanDo, 0, 0, (char *) retstr2, 0);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+                   break;  
+#endif				
                    case audioMasterGetVendorString:
                    retstr2[0]='\0';
                    retval = m_audioMaster(theEffect, audioMasterGetVendorString, 0, 0, (char *) retstr2, 0);                   
@@ -1799,6 +1807,19 @@ bool b;
     return b;
 }
 #endif
+
+#ifdef CANDOEFF
+bool RemotePluginClient::getEffCanDo(char *ptr)
+{
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginEffCanDo);
+    writeStringring(&m_shmControl5->ringBuffer, ptr);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+    bool b;
+    tryRead(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
+    return b;
+}
+#endif	
 
 void RemotePluginClient::setDebugLevel(RemotePluginDebugLevel level)
 {
