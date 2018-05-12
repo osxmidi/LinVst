@@ -107,7 +107,7 @@ public:
     void                    dispatchGetSet(int timeout = -1); // may throw RemotePluginClosedException
     void                    dispatchPar(int timeout = -1); // may throw RemotePluginClosedException
 
-    void                     sizeShm();
+    int                     sizeShm();
     char                     *m_shm;
     char                     *m_shm2;
     char                     *m_shm3;
