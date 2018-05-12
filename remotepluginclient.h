@@ -94,7 +94,10 @@ public:
     bool                getEffMidiProgCh(int index);
     bool                setEffSpeaker(VstIntPtr value, void *ptr);
     bool                getEffSpeaker(VstIntPtr value, void *ptr);
-#endif      
+#endif 
+#ifdef CANDOEFF   
+    bool                getEffCanDo(char *ptr);
+#endif    
     int                 getChunk(void **ptr, int bank_prog);
     int                 setChunk(void *ptr, int sz, int bank_prog);
     int                 canBeAutomated(int param);
