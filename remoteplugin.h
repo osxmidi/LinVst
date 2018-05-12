@@ -79,6 +79,10 @@ enum RemotePluginOpcode
     RemotePluginGetEffString,
     RemotePluginDoVoid,
     RemotePluginDoVoid2,
+#ifdef DOUBLEP
+    RemotePluginProcessDouble,
+    RemoteSetPrecision,
+#endif
 
     RemotePluginNoOpcode = 9999
 };
