@@ -1410,6 +1410,15 @@ void RemotePluginServer::dispatchParEvents()
     }  
 #endif
 		    
+#ifdef CANDOEFF        
+     case RemotePluginEffCanDo:
+    {
+        bool b =  getEffCanDo(readStringring(&m_shmControl5->ringBuffer));
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
+        break;
+    }
+#endif    		    
+		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode " << opcode << std::endl;
     }
