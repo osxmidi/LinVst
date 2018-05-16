@@ -426,7 +426,8 @@ int RemotePluginServer::sizeShm()
     }
     else
     {
-        memset(m_shm, 0, sz);
+	    
+        madvise(m_shm, sz, MADV_SEQUENTIAL | MADV_WILLNEED | MADV_DONTFORK);memset(m_shm, 0, sz);
         m_shmSize = sz;
 
         if(mlock(m_shm, sz) != 0)
@@ -443,6 +444,7 @@ int RemotePluginServer::sizeShm()
     }
     else
     {
+	madvise(m_shm2, sz2, MADV_SEQUENTIAL | MADV_WILLNEED | MADV_DONTFORK);    
         memset(m_shm2, 0, sz2);
         m_shmSize2 = sz2;
 
@@ -460,6 +462,7 @@ int RemotePluginServer::sizeShm()
     }
     else
     {
+	madvise(m_shm3, sz3, MADV_SEQUENTIAL | MADV_WILLNEED | MADV_DONTFORK);    
         memset(m_shm3, 0, sz3);
         m_shmSize3 = sz3;
 
