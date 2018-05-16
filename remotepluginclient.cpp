@@ -1938,8 +1938,12 @@ int RemotePluginClient::getChunk(void **ptr, int bank_prg)
 
     int sz = readInt(&m_shm[FIXED_SHM_SIZE]);
 
-    if(sz > (FIXED_SHM_SIZE / 2))
-    sz = FIXED_SHM_SIZE / 2;
+    if(sz >= (FIXED_SHM_SIZE / 2))
+    {
+    chunk_ptr = &m_shm[FIXED_SHM_SIZE / 2];
+    *ptr = chunk_ptr;	    
+    return 0;
+    }
 
  //   if (chunk_ptr != 0)
    //     free(chunk_ptr);
@@ -1947,15 +1951,15 @@ int RemotePluginClient::getChunk(void **ptr, int bank_prg)
 
   //  tryRead(&m_shm[FIXED_SHM_SIZE / 2], chunk_ptr, sz);
 
-     chunk_ptr = &m_shm[FIXED_SHM_SIZE / 2];
+    chunk_ptr = &m_shm[FIXED_SHM_SIZE / 2];
     *ptr = chunk_ptr;
     return sz;
 }
 
 int RemotePluginClient::setChunk(void *ptr, int sz, int bank_prg)
 {
-    if(sz > (FIXED_SHM_SIZE / 2))
-    sz = FIXED_SHM_SIZE / 2;
+    if(sz >= (FIXED_SHM_SIZE / 2))
+    return 0;
 
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetChunk);
     writeIntring(&m_shmControl5->ringBuffer, sz);
