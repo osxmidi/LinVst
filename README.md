@@ -272,6 +272,10 @@ sudo mkdir -p /mnt/diskiso
 
 sudo mount -o loop ~/.wine/drive_c/users/user/Downloads/isoname.iso /mnt/diskiso
 
+For the Forms.iso and Reaktor Blocks iso and others, they need to be mounted using
+
+sudo mount -t udf Reaktor_Blocks.iso -o uid=500,gid=500,unhide /mnt
+
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
 Guitar Rig 5 (same dll overrides as Kontakt)
