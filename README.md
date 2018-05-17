@@ -278,7 +278,7 @@ sudo mount -t udf Reaktor_Blocks.iso -o uid=500,gid=500,unhide /mnt
 
 or for cd installs
 
-mount -t udf -o uid=500,gid=500,unhide /dev/sr0 /mnt
+sudo mount -t udf -o uid=500,gid=500,unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
