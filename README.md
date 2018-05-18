@@ -268,17 +268,17 @@ Native Access requires Wine Devel/Wine Staging 3.5 or later and a msvcp140.dll o
 
 Native Access aborts during a download, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
 
-sudo mkdir -p /mnt/diskiso
+For all NI iso files they need to be mounted using udf and the unhide option.
 
-sudo mount -o loop ~/.wine/drive_c/users/user/Downloads/isoname.iso /mnt/diskiso
+sudo mount -t udf file.iso -o unhide /mnt
 
-For the Form.iso and Reaktor Blocks.iso and others, they need to be mounted using
+run winecfg and check the Drives tab for a windows drive letter associated with /mnt
 
-sudo mount -t udf Reaktor_Blocks.iso -o uid=500,gid=500,unhide /mnt
+cd /mnt and run the installer (wine setup.exe)
 
 or for cd installs
 
-sudo mount -t udf -o uid=500,gid=500,unhide /dev/sr0 /mnt
+sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
