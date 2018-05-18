@@ -276,7 +276,10 @@ run winecfg and check the Drives tab for a windows drive letter associated with 
 
 cd /mnt and run the installer (wine setup.exe)
 
-or for cd installs
+To unmount the iso change to a drirectory away from /mnt and then
+sudo umount /mnt
+
+For cd installs
 
 sudo mount -t udf -o unhide /dev/sr0 /mnt
 
