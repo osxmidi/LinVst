@@ -1034,6 +1034,7 @@ void RemoteVSTServer::getChunk()
     void *ptr;
     int bnk_prg = readIntring(&m_shmControl5->ringBuffer);
     int sz = m_plugin->dispatcher(m_plugin, effGetChunk, bnk_prg, 0, &ptr, 0);
+    if(sz < FIXED_SHM_SIZE / 2)  	
     tryWrite(&m_shm[FIXED_SHM_SIZE / 2], ptr, sz);
     writeInt(&m_shm[FIXED_SHM_SIZE], sz);
     return;
