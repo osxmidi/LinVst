@@ -161,7 +161,7 @@ else
                     memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                     if((am.incount != m_numInputs) || (am.outcount != m_numOutputs))
                     {
-                    if ((am.incount + am.outcount) * m_bufferSize * sizeof(float) <= (FIXED_SHM_SIZE / 2))
+                    if ((am.incount + am.outcount) * m_bufferSize * sizeof(float) <= (FIXED_SHM_SIZECHUNKSTART))
                     {
                     m_updateio = 1;
                     m_updatein = am.incount;
@@ -1536,7 +1536,7 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     m_updateio = 0;
     }
 	
-    if ((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(float) > (FIXED_SHM_SIZE / 2))
+    if ((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(float) >  (FIXED_SHM_SIZECHUNKSTART))
         return;
 
     size_t blocksz = sampleFrames * sizeof(float);
@@ -1591,7 +1591,7 @@ void RemotePluginClient::processdouble(double **inputs, double **outputs, int sa
     m_updateio = 0;
     }
 	
-    if ((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(double) > (FIXED_SHM_SIZE / 2))
+    if ((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(double) > (FIXED_SHM_SIZECHUNKSTART))
         return;
 
     size_t blocksz = sampleFrames * sizeof(double);
