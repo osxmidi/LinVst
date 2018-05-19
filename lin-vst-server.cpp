@@ -1031,26 +1031,62 @@ int RemoteVSTServer::processVstEvents()
 
 void RemoteVSTServer::getChunk()
 {
+#ifdef CHUNKBUF
+    int bnk_prg = readIntring(&m_shmControl5->ringBuffer);
+    int sz = m_plugin->dispatcher(m_plugin, effGetChunk, bnk_prg, 0, &chunkptr, 0);
+
+if(sz >= CHUNKSIZEMAX)
+{
+    writeInt(&m_shm[FIXED_SHM_SIZE], sz);
+    return;
+}
+else
+{
+    if(sz < CHUNKSIZEMAX)    
+    tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], chunkptr, sz);
+    writeInt(&m_shm[FIXED_SHM_SIZE], sz);
+    return;
+}
+#else
     void *ptr;
     int bnk_prg = readIntring(&m_shmControl5->ringBuffer);
     int sz = m_plugin->dispatcher(m_plugin, effGetChunk, bnk_prg, 0, &ptr, 0);
-    if(sz < FIXED_SHM_SIZE / 2)  	
-    tryWrite(&m_shm[FIXED_SHM_SIZE / 2], ptr, sz);
+    if(sz < CHUNKSIZEMAX)
+    tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], ptr, sz);
     writeInt(&m_shm[FIXED_SHM_SIZE], sz);
     return;
+#endif
 }
 
 void RemoteVSTServer::setChunk()
 {
+#ifdef CHUNKBUF
     int sz = readIntring(&m_shmControl5->ringBuffer);
+    if(sz >= CHUNKSIZEMAX)
+{
     int bnk_prg = readIntring(&m_shmControl5->ringBuffer);
-//    void *ptr = malloc(sz);
-//    tryRead(&m_shm[FIXED_SHM_SIZE / 2], ptr, sz);
-    void *ptr = &m_shm[FIXED_SHM_SIZE / 2];
+    void *ptr = chunkptr2;
     int r = m_plugin->dispatcher(m_plugin, effSetChunk, bnk_prg, sz, ptr, 0);
-//    free(ptr);
+    free(chunkptr2);
     writeInt(&m_shm[FIXED_SHM_SIZE], r);
     return;
+}
+else
+{
+    int bnk_prg = readIntring(&m_shmControl5->ringBuffer);
+    void *ptr = &m_shm[FIXED_SHM_SIZECHUNKSTART];
+    int r = m_plugin->dispatcher(m_plugin, effSetChunk, bnk_prg, sz, ptr, 0);
+    writeInt(&m_shm[FIXED_SHM_SIZE], r);
+    return;
+}
+#else
+    int sz = readIntring(&m_shmControl5->ringBuffer);
+    int bnk_prg = readIntring(&m_shmControl5->ringBuffer);
+    void *ptr = &m_shm[FIXED_SHM_SIZECHUNKSTART];
+    int r = m_plugin->dispatcher(m_plugin, effSetChunk, bnk_prg, sz, ptr, 0);
+    writeInt(&m_shm[FIXED_SHM_SIZE], r);
+    return;
+#endif
 }
 
 void RemoteVSTServer::canBeAutomated()
