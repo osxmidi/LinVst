@@ -148,6 +148,10 @@ private:
     RemotePluginDebugLevel  m_debugLevel;
 
 public:
+#ifdef CHUNKBUF
+    void *chunkptr;
+    char *chunkptr2;
+#endif    
     int                     m_bufferSize;
     int                     m_numInputs;
     int                     m_numOutputs;
