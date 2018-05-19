@@ -1382,7 +1382,7 @@ long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long val
 	    
     if((am.incount != remoteVSTServerInstance->m_numInputs) || (am.outcount != remoteVSTServerInstance->m_numOutputs))
     {
-    if ((am.incount + am.outcount) * remoteVSTServerInstance->m_bufferSize * sizeof(float) <= (FIXED_SHM_SIZE / 2))
+    if ((am.incount + am.outcount) * remoteVSTServerInstance->m_bufferSize * sizeof(float) <= (FIXED_SHM_SIZECHUNKSTART))
     {
     remoteVSTServerInstance->m_updateio = 1;
     remoteVSTServerInstance->m_updatein = am.incount;
