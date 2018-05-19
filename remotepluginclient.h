@@ -155,6 +155,9 @@ public:
     int                 m_updateio;
     int                 m_updatein;
     int                 m_updateout;
+#ifdef CHUNKBUF
+    char *chunk_ptr;
+#endif
     
 #ifdef EMBED
    Window  child;
