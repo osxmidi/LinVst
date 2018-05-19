@@ -42,6 +42,10 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_updateio(0),
     m_updatein(0),
     m_updateout(0),
+#ifdef CHUNKBUF
+    chunkptr(0),
+    chunkptr2(0),
+#endif
     m_flags(0),
     m_delay(0),
     timeinfo(0),
@@ -1443,7 +1447,34 @@ void RemotePluginServer::dispatchParEvents()
         tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
         break;
     }
-#endif    		    
+#endif  
+		    
+#ifdef CHUNKBUF
+     case RemotePluginGetBuf:
+    {      
+        char *chunkbuf = (char *)chunkptr;
+        int curchunk = readIntring(&m_shmControl5->ringBuffer);
+        int idx = readIntring(&m_shmControl5->ringBuffer);
+        tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunkbuf[idx], curchunk);
+        break;
+    }  
+		    
+     case RemotePluginSetBuf:
+    {     
+        int curchunk = readIntring(&m_shmControl5->ringBuffer);
+        int idx = readIntring(&m_shmControl5->ringBuffer);
+        int sz2 = readIntring(&m_shmControl5->ringBuffer);
+
+        if(sz2 > 0)
+        chunkptr2 = (char *)malloc(sz2);
+
+        if(!chunkptr2)
+        break;
+
+        tryRead(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunkptr2[idx], curchunk);
+        break;
+    }  		    
+#endif		    
 		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode " << opcode << std::endl;
