@@ -480,6 +480,9 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_updateio(0),
     m_updatein(0),
     m_updateout(0),
+#ifdef CHUNKBUF
+    chunk_ptr(0),
+#endif
     m_inexcept(0),
 #ifdef WAVES
     wavesthread(0),
@@ -1933,44 +1936,181 @@ void RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
 
 int RemotePluginClient::getChunk(void **ptr, int bank_prg)
 {
-    static void *chunk_ptr = 0;
+#ifdef CHUNKBUF
+int chunksize;
+int chunks;
+int chunkrem;
+int sz;
+
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetChunk);
     writeIntring(&m_shmControl5->ringBuffer, bank_prg);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
 
-    int sz = readInt(&m_shm[FIXED_SHM_SIZE]);
+    sz = readInt(&m_shm[FIXED_SHM_SIZE]);
 
-    if(sz >= (FIXED_SHM_SIZE / 2))
+    if(sz <= 0)
     {
-    chunk_ptr = &m_shm[FIXED_SHM_SIZE / 2];
-    *ptr = chunk_ptr;	    
+    *ptr = &m_shm[FIXED_SHM_SIZECHUNKSTART];	 
     return 0;
     }
 
- //   if (chunk_ptr != 0)
-   //     free(chunk_ptr);
-  //  chunk_ptr = malloc(sz);
+    if(sz >= CHUNKSIZEMAX)
+    {
+        if(chunk_ptr)
+        free(chunk_ptr);
 
-  //  tryRead(&m_shm[FIXED_SHM_SIZE / 2], chunk_ptr, sz);
+        chunk_ptr = (char *) malloc(sz);
 
-    chunk_ptr = &m_shm[FIXED_SHM_SIZE / 2];
-    *ptr = chunk_ptr;
+        if(!chunk_ptr)
+        return 0;
+
+        chunksize = CHUNKSIZE;
+        chunks = sz / chunksize;
+        chunkrem = sz % chunksize;
+
+        for(int i=0;i<chunks;++i)
+        {
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetBuf);
+        writeIntring(&m_shmControl5->ringBuffer, chunksize);
+        writeIntring(&m_shmControl5->ringBuffer, i * chunksize);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();
+
+        tryRead(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunk_ptr[i * chunksize], chunksize);
+        }
+
+        if(chunkrem)
+        {
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetBuf);
+        writeIntring(&m_shmControl5->ringBuffer, chunkrem);
+        writeIntring(&m_shmControl5->ringBuffer, chunks * chunksize);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();
+
+        tryRead(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunk_ptr[chunks * chunksize], chunkrem);
+        }
+
+        *ptr = chunk_ptr;
+
     return sz;
+    }
+    else
+    {
+    if(sz >= (CHUNKSIZEMAX) || sz <= 0)
+    {
+    *ptr = &m_shm[FIXED_SHM_SIZECHUNKSTART];	    
+    return 0;
+    }
+
+    *ptr = &m_shm[FIXED_SHM_SIZECHUNKSTART];
+    return sz;
+    } 
+#else
+int sz;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetChunk);
+    writeIntring(&m_shmControl5->ringBuffer, bank_prg);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+
+    sz = readInt(&m_shm[FIXED_SHM_SIZE]);
+
+    if(sz >= (CHUNKSIZEMAX) || sz <= 0)
+    {
+    *ptr = &m_shm[FIXED_SHM_SIZECHUNKSTART];    
+    return 0;
+    }
+
+    *ptr = &m_shm[FIXED_SHM_SIZECHUNKSTART];
+    return sz;
+#endif
 }
 
 int RemotePluginClient::setChunk(void *ptr, int sz, int bank_prg)
 {
-    if(sz >= (FIXED_SHM_SIZE / 2))
+#ifdef CHUNKBUF
+char *ptridx;
+int sz2;
+int chunksize;
+int chunks;
+int chunkrem;
+
+    if(sz <= 0)
+    return 0;
+
+    if(sz >= CHUNKSIZEMAX)
+    {
+        ptridx = (char *)ptr;
+        sz2 = sz;
+
+        chunksize = CHUNKSIZE;
+        chunks = sz / chunksize;
+        chunkrem = sz % chunksize;
+
+        for(int i=0;i<chunks;++i)
+        {
+        tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], &ptridx[i * chunksize], chunksize);
+
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetBuf);
+        writeIntring(&m_shmControl5->ringBuffer, chunksize);
+        writeIntring(&m_shmControl5->ringBuffer, i * chunksize);
+        writeIntring(&m_shmControl5->ringBuffer, sz2);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();
+
+        sz2 = -1;
+        }
+
+        if(chunkrem)
+        {
+        if(!chunks)
+        sz2 = chunkrem;
+        else
+        sz2 = -1;
+
+        tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], &ptridx[chunks * chunksize], chunkrem);
+
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetBuf);
+        writeIntring(&m_shmControl5->ringBuffer, chunkrem);
+        writeIntring(&m_shmControl5->ringBuffer, chunks * chunksize);
+        writeIntring(&m_shmControl5->ringBuffer, sz2);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();
+        }
+
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetChunk);
+        writeIntring(&m_shmControl5->ringBuffer, sz);
+        writeIntring(&m_shmControl5->ringBuffer, bank_prg);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();  
+        return readInt(&m_shm[FIXED_SHM_SIZE]);
+    }
+    else
+    {
+    if(sz >= (CHUNKSIZEMAX) || sz <= 0)
     return 0;
 
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetChunk);
     writeIntring(&m_shmControl5->ringBuffer, sz);
     writeIntring(&m_shmControl5->ringBuffer, bank_prg);
-    tryWrite(&m_shm[FIXED_SHM_SIZE / 2], ptr, sz);
+    tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], ptr, sz);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
     return readInt(&m_shm[FIXED_SHM_SIZE]);
+    }
+#else
+    if(sz >= (CHUNKSIZEMAX) || sz <= 0)
+    return 0;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginSetChunk);
+    writeIntring(&m_shmControl5->ringBuffer, sz);
+    writeIntring(&m_shmControl5->ringBuffer, bank_prg);
+    tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], ptr, sz);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+    return readInt(&m_shm[FIXED_SHM_SIZE]);
+#endif
 }
 
 int RemotePluginClient::canBeAutomated(int param)
