@@ -741,6 +741,11 @@ RemotePluginClient::~RemotePluginClient()
     if (theEffect)
     delete theEffect;
     cleanup();
+	
+#ifdef CHUNKBUF
+    if (chunk_ptr)
+    free(chunk_ptr);
+#endif
 }
 
 void RemotePluginClient::syncStartup()
