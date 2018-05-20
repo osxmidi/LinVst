@@ -11,9 +11,9 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DEMBED -DSEM -DVST32 -DEMBEDDRAG -DWAVES $(CXX_FLAGS)
+BUILD_FLAGS  = -fPIC -O2 -DLVRT -DEMBED -DSEM -DVST32 -DEMBEDDRAG -DWAVES $(CXX_FLAGS)
 # -DFOCUS to the above line for alternative keyboard focus operation, add -DEMBEDRESIZE to the above line for window resizing
-BUILD_FLAGS_WIN = -m32 -O2 -DEMBED -DSEM -DEMBEDDRAG -DWAVES -DWAVESLOOP -I/usr/include/wine-development/windows
+BUILD_FLAGS_WIN = -m32 -O2 -DLVRT -DEMBED -DSEM -DEMBEDDRAG -DWAVES -DWAVESLOOP -I/usr/include/wine-development/windows
 # add -DEMBEDRESIZE to the above line for window resizing
 
 LINK_FLAGS   = $(LDFLAGS)
