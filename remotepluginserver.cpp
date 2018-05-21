@@ -646,7 +646,7 @@ void RemotePluginServer::dispatchProcess(int timeout)
 
 #endif
 	
-   #ifdef LVRT
+   #ifdef LVRTY
    sched_yield();
    #endif	
 }
@@ -917,7 +917,7 @@ void RemotePluginServer::dispatchGetSet(int timeout)
 
 #endif
 	
-   #ifdef LVRT
+   #ifdef LVRTY
    sched_yield();
    #endif	
 }
@@ -1031,7 +1031,7 @@ void RemotePluginServer::dispatchControl(int timeout)
 
 #endif
 	
-   #ifdef LVRT
+   #ifdef LVRTY
    sched_yield();
    #endif	
 }
@@ -1116,7 +1116,7 @@ void RemotePluginServer::dispatchPar(int timeout)
 
 #endif
 	
-   #ifdef LVRT
+   #ifdef LVRTY
    sched_yield();
    #endif	
 }
