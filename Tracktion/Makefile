@@ -13,7 +13,7 @@ VST_DIR = ./vst
 
 BUILD_FLAGS  = -fPIC -O2 -DLVRT -DEMBED -DSEM -DEMBEDDRAG -DTRACKTIONWM $(CXX_FLAGS)
 # add -DFOCUS to the above line for alternative keyboard focus operation, add -DEMBEDRESIZE to the above line for window resizing
-BUILD_FLAGS_WIN = -m64 -O2 -DLVRT -DEMBED -DSEM -DEMBEDDRAG -DTRACKTIONWM -I/usr/include/wine-development/windows
+BUILD_FLAGS_WIN = -m64 -O2 -DEMBED -DSEM -DEMBEDDRAG -DTRACKTIONWM -I/usr/include/wine-development/windows
 # add -DEMBEDRESIZE to the above line for window resizing
 
 LINK_FLAGS   = $(LDFLAGS)
