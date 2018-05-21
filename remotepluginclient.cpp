@@ -332,7 +332,7 @@ else
 
 #endif
 	    
-   #ifdef LVRT
+   #ifdef LVRTY
    sched_yield();
    #endif	    
     }
