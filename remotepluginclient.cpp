@@ -331,10 +331,6 @@ else
      }
 
 #endif
-	    
-   #ifdef LVRTY
-   sched_yield();
-   #endif	    
     }
      // m_threadbreakexit = 1;
     // pthread_exit(0);
