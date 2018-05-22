@@ -159,10 +159,6 @@ public:
     char *chunk_ptr;
 #endif
     
-#ifndef OLDMIDI    
-     int eventsdone;
-    #endif
-    
 #ifdef EMBED
    Window  child;
    Window  parent;
