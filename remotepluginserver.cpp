@@ -656,7 +656,21 @@ void RemotePluginServer::dispatchProcessEvents()
     switch (opcode)
     {
     case RemotePluginProcess:
-    {     
+    { 
+#ifndef OLDMIDI
+    int         els;
+    int         *ptr;
+
+    ptr = (int *) m_shm2;
+    els = *ptr;
+    
+    if(els > 0)
+    {
+    processVstEvents();
+    *ptr = 0;
+    }
+#endif
+	    
 	int sampleFrames = readIntring(&m_shmControl2->ringBuffer);    
 //	if(m_updateio == 1)
 	if(sampleFrames == -1) 
@@ -741,7 +755,21 @@ void RemotePluginServer::dispatchProcessEvents()
 
 #ifdef DOUBLEP
     case RemotePluginProcessDouble:
-    {     
+    {  
+#ifndef OLDMIDI
+    int         els;
+    int         *ptr;
+
+    ptr = (int *) m_shm2;
+    els = *ptr;
+    
+    if(els > 0)
+    {
+    processVstEvents();
+    *ptr = 0;
+    }
+#endif
+	    
 	int sampleFrames = readIntring(&m_shmControl2->ringBuffer);    
 //	if(m_updateio == 1)
 	if(sampleFrames == -1) 
