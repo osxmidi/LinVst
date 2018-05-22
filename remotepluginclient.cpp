@@ -1671,11 +1671,12 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     *ptr = eventnum;
     ret = evnts->numEvents;
 
+#ifdef OLDMIDI
     writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginProcessEvents);
     commitWrite(&m_shmControl2->ringBuffer);
-
     waitForServer2();  
-
+#endif
+	
     return ret;
 }
 
