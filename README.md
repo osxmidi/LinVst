@@ -399,6 +399,8 @@ For Ubuntu/Debian, sudo apt-get install libwine-development-dev (for Ubuntu 14.0
 wine-devel packages for other distros (sudo apt-get install wine-devel).
 
 libX11 development needed for embedded version (sudo apt-get install libx11-dev)
+
+For Fedora yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
  
 Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
 
