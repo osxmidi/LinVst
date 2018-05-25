@@ -279,7 +279,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     std::string arg = dllName + "," + getFileIdentifiers();
     const char *argStr = arg.c_str();
 
-    signal(SIGCHLD, SIG_IGN);
+  //  signal(SIGCHLD, SIG_IGN);
 
     #ifdef LVRT
     struct sched_param param;
