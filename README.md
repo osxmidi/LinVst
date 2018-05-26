@@ -242,6 +242,8 @@ rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) may have som
 
 Ubuntu Studio and it's low latency kernel combined with rtirq-init, can produce reasonable latency results.
 
+Linux Reaper has anticipative fx features which may help with latency and probably even more so if a rt or low latency kernel is also used, latencies < 5ms may be possible depending on hardware/drivers etc.
+
 LinVst is memory access intensive and having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
 
 Wineserver can be set to a higher priority may have an effect on cpu load and system response on some systems/setups/plugins.
