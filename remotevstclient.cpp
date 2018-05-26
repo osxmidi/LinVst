@@ -356,11 +356,11 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 RemoteVSTClient::~RemoteVSTClient()
 {
 /*
-    for (int i=0;i<300;i++)
+    for (int i=0;i<5000;i++)
     {
         if (waitpid(-1, NULL, WNOHANG))
         break;
-        usleep(10000);
+        usleep(100);
     }
 */
 }
