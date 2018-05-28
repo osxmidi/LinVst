@@ -167,6 +167,22 @@ To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be insta
 
 For details about overriding dll's, see the next section (Wine Config).
 
+Renoise
+
+Sometimes a synth vst doesn't declare itself as a synth and Renoise might not enable it.
+
+A workaround is to install sqlitebrowser
+
+sudo add-apt-repository ppa:linuxgndu/sqlitebrowser-testing
+
+sudo apt-get update && sudo apt-get install sqlitebrowser
+
+Add the synth vst's path to VST_PATH and start Renoise to scan it.
+
+Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedVSTs_x64.db (enable hidden folders with right click in the file browser).
+
+Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
+
 ------
 
 Wine Config
@@ -326,6 +342,8 @@ Zampler RX
 Stillwell plugins
 
 Cobalt (Sanford) Synth
+
+Synth1 needs it's presets path setup (browse and locate using the opt button).
 
 Spire Synth (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
