@@ -22,8 +22,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "pluginterfaces/vst2.x/aeffectx.h"
-
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -1166,10 +1164,10 @@ RemoteVSTServer::waitForServerexit()
 
 #endif
 
-#if VST_2_4_EXTENSIONS
-VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 index, VstIntPtr value, void *ptr, float opt)
+#ifdef VESTIGE
+VstIntPtr VESTIGECALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 index, VstIntPtr value, void *ptr, float opt)
 #else
-long VSTCALLBACK hostCallback(AEffect *plugin, long opcode, long index, long value, void *ptr, float opt)
+VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 index, VstIntPtr value, void *ptr, float opt)
 #endif
 {
     VstTimeInfo timeInfo;
