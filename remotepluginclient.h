@@ -23,7 +23,16 @@
 
 #define __cdecl
 
+#ifdef VESTIGE
+typedef int16_t VstInt16;	
+typedef int32_t VstInt32;		
+typedef int64_t VstInt64;		
+typedef intptr_t VstIntPtr;
+#define VESTIGECALLBACK __cdecl
+#include "vestige.h"
+#else
 #include "pluginterfaces/vst2.x/aeffectx.h"
+#endif
 
 #include "remoteplugin.h"
 #include "rdwrops.h"
