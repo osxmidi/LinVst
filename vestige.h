@@ -1,5 +1,5 @@
 /*
- * aeffectx.h - simple header to allow VeSTige compilation and eventually work
+ * vestige.h - simple header to allow VeSTige compilation and eventually work
  *
  * Copyright (c) 2006 Javier Serrano Polo <jasp00/at/users.sourceforge.net>
  *
@@ -22,9 +22,8 @@
  *
  */
 
-
-#ifndef _AEFFECTX_H
-#define _AEFFECTX_H
+#ifndef _VESTIGE_H
+#define _VESTIGE_H
 
 #include <stdio.h>
 #include <string.h>
