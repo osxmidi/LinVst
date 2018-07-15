@@ -410,7 +410,9 @@ The Waves plugins probably require a mfc140.dll override (for 64 bit plugins cop
 
 To make
 
-The plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder. https://www.steinberg.net/en/company/developers.html
+Remove -DVESTIGE from the makefiles to use the VST2 SDK (by default the VST2 SDK is not required).
+
+If using the VST2 SDK then the plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder. https://www.steinberg.net/en/company/developers.html
 
 Wine libwine development files.
 
