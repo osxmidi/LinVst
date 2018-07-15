@@ -56,7 +56,11 @@
 #define DEPRECATED_VST_SYMBOL(x) x
 #endif
 
+#ifdef VESTIGE
+typedef AEffect *(VESTIGECALLBACK *VstEntry)(audioMasterCallback audioMaster);
+#else
 typedef AEffect *(VSTCALLBACK *VstEntry)(audioMasterCallback audioMaster);
+#endif
 
 RemotePluginDebugLevel  debugLevel = RemotePluginDebugNone;
 
