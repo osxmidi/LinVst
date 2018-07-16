@@ -138,16 +138,14 @@ const int effBeginSetProgram = 67;
 const int effEndSetProgram = 68;
 // The next one was gleaned from http://www.asseca.org/vst-24-specs/efShellGetNextPlugin.html
 const int effShellGetNextPlugin = 70;
+// The next two were gleaned from http://www.kvraudio.com/forum/printview.php?t=143587&start=0
+const int effStartProcess = 71;
+const int effStopProcess = 72;
 // The next one was gleaned from http://www.asseca.org/vst-24-specs/efBeginLoadBank.html
 const int effBeginLoadBank = 75;
 // The next one was gleaned from http://www.asseca.org/vst-24-specs/efBeginLoadProgram.html
 const int  effBeginLoadProgram = 76;
-
 const int effSetProcessPrecision = 77;
-
-// The next two were gleaned from http://www.kvraudio.com/forum/printview.php?t=143587&start=0
-const int effStartProcess = 71;
-const int effStopProcess = 72;
 
 const int kEffectMagic = CCONST( 'V', 's', 't', 'P' );
 const int kVstLangEnglish = 1;
