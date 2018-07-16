@@ -143,6 +143,8 @@ const int effBeginLoadBank = 75;
 // The next one was gleaned from http://www.asseca.org/vst-24-specs/efBeginLoadProgram.html
 const int  effBeginLoadProgram = 76;
 
+const int effSetProcessPrecision = 77;
+
 // The next two were gleaned from http://www.kvraudio.com/forum/printview.php?t=143587&start=0
 const int effStartProcess = 71;
 const int effStopProcess = 72;
