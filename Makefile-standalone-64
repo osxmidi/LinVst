@@ -12,7 +12,7 @@ BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
 BUILD_FLAGS  = -fPIC -O2 -DLVRT -DWAVES -DVESTIGE $(CXX_FLAGS)
-BUILD_FLAGS_WIN = -m64 -O2 -DDRAG -DWINONTOP -DWAVES -DWAVESLOOP -DVESTIGE -I/usr/include/wine-development/windows -I/usr/include/wine/wine/windows
+BUILD_FLAGS_WIN = -m64 -O2 -DDRAG -DWINONTOP -DWAVES -DWAVESLOOP -DVESTIGE -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows
 
 # undefine WINONTOP for standard window behaviour
 
