@@ -406,6 +406,21 @@ The file to wrap with linvst.so is WaveShellxxxxxxxx.dll which is probably in Pr
 
 The Waves plugins probably require a mfc140.dll override (for 64 bit plugins copy mfc140.dll to windows/system32 and add mfc140 into the Libraries section of winecfg).
 
+For V10
+
+linvst.so needs to go into ~/.wine/drive_c/Program Files/VSTPlugIns and then moved to the waveshell name 
+mv linvst.so "WaveShell1-VST 10.0_x64.so"
+
+Then set the DAW to scan ~/.wine/drive_c/Program Files/VSTPlugIns and then scan, and a select folder dialog will appear.
+
+Descend into the path by double clicking on (C:)
+and then double clicking on Program Files (x86)
+and then double clicking on Waves
+and then just highlight Plug-Ins V10 with a single click (don't descend into it)
+and then finish.
+
+The DAW scan should then pick up the Waves plugins.
+
 --------
 
 To make
