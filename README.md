@@ -417,7 +417,7 @@ Descend into the path by double clicking on (C:)
 and then double clicking on Program Files (x86)
 and then double clicking on Waves
 and then just highlight Plug-Ins V10 with a single click (don't descend into it)
-and then finish.
+and then finish by clicking on open.
 
 The DAW scan should then pick up the Waves plugins.
 
