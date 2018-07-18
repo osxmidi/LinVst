@@ -411,6 +411,8 @@ For V10
 linvst.so needs to go into ~/.wine/drive_c/Program Files/VSTPlugIns and then moved to the waveshell name 
 mv linvst.so "WaveShell1-VST 10.0_x64.so"
 
+(If a dialog doesn't appear then WaveShell1-VST 10.0_x64.so needs to be deleted from ~/.wine/drive_c/Program Files/VSTPlugIns and then do the above).
+
 Then set the DAW to scan ~/.wine/drive_c/Program Files/VSTPlugIns and then scan, and a select folder dialog will appear.
 
 Descend into the path by double clicking on (C:)
