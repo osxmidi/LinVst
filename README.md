@@ -143,7 +143,7 @@ wininet is used by some vst's for net access including registration and online h
 
 wininet can be overridden with wininet.dll and iertutil.dll and nsi.dll
 
-The winbind and libntlm0 packages might need to be installed for net access.
+The winbind and libntlm0 and gnutls packages might need to be installed for net access (sudo apt-get install winbind sudo apt-get install gnutls-bin sudo apt-get install libntlm0)
 
 Occasionally other dlls might need to be overridden such as gdiplus.dll etc
 
@@ -390,7 +390,7 @@ Waves Central also requires some simple registry additions
 
 wine regedit
 
-Add the following environment string variables under HKEY_CURRENT_USER\Environment
+Add the following environment string variables under HKEY_CURRENT_USER\Environment (New String Value)
 
 COMMONPROGRAMFILES(X86) C:\Program Files (x86)\Common Files
 
