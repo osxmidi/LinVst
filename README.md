@@ -374,6 +374,8 @@ Serum needs Wine Staging to register.
 
 Waves plugins.
 
+If Waves Central has problems installing the Waves plugins using a version of Wine Staging 3.x then revert to Wine Staging 2.21 for the plugin install and then install any version of Wine 3.x afterwards.
+
 Tested Waves Central and Waves C1 and C4 and C360 plugins with Debian Stretch/Sid.
 
 Bitwig seems to need the Waveshell to be unpacked into individual dll's using shell2vst.
