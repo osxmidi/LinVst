@@ -374,7 +374,7 @@ Serum needs Wine Staging to register.
 
 Waves plugins.
 
-If Waves Central has problems installing the Waves plugins using a version of Wine Staging 3.x then revert to Wine Staging 2.21 for the plugin install and then install any version of Wine 3.x afterwards.
+If Waves Central has problems installing the Waves plugins using a version of Wine Staging 3.x then revert to Wine Staging 2.21 for the plugin install (remove any current winehq reference from sources.txt or distro equivalent and then sudo apt-get update and then try sudo apt-get install winehq-staging to get the default winehq-staging 2.21) and then install any version of Wine 3.x afterwards.
 
 Tested Waves Central and Waves C1 and C4 and C360 plugins with Debian Stretch/Sid.
 
