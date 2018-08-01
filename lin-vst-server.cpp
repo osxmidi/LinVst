@@ -425,9 +425,36 @@ void RemoteVSTServer::EffectOpen()
         }
     }
 	
-   m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
+    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
+		
+    struct amessage
+    {
+        int flags;
+        int pcount;
+        int parcount;
+        int incount;
+        int outcount;
+        int delay;
+    } am;
+
+        am.flags = m_plugin->flags;
+        am.pcount = m_plugin->numPrograms;
+        am.parcount = m_plugin->numParams;
+        am.incount = m_plugin->numInputs;
+        am.outcount = m_plugin->numOutputs;
+        am.delay = m_plugin->initialDelay;
+#ifndef DOUBLEP
+        am.flags &= ~effFlagsCanDoubleReplacing;
+#endif
+
+    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
+
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)audioMasterIOChanged);
+   
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
 	
-   effectrun = true;	
+    effectrun = true;	
 }
 
 RemoteVSTServer::~RemoteVSTServer()
