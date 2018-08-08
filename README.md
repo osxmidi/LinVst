@@ -167,6 +167,8 @@ To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be insta
 
 For details about overriding dll's, see the next section (Wine Config).
 
+Drag and Drop is enabled for Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped into the vst window and not for items dragged and dropped from the vst window to the host.
+
 Renoise
 
 Sometimes a synth vst doesn't declare itself as a synth and Renoise might not enable it.
