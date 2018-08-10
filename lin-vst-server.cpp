@@ -899,11 +899,22 @@ void RemoteVSTServer::showGUI()
         offset.x = (offsetwin.right - offsetwin.left) - offsetcl.right;
         offset.y = (offsetwin.bottom - offsetwin.top) - offsetcl.bottom;
 
+        if(GetSystemMetrics(SM_CMONITORS) > 1)	
+        SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN) + offset.x, GetSystemMetrics(SM_YVIRTUALSCREEN) + offset.y, rect->right - rect->left, rect->bottom - rect->top, 0); 
+	else
 	SetWindowPos(hWnd, HWND_TOP, offset.x, offset.y, rect->right - rect->left, rect->bottom - rect->top, 0);  
         }
 	else
-	SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);	
+	{
+        if(GetSystemMetrics(SM_CMONITORS) > 1)
+        SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left, rect->bottom - rect->top, 0);
+        else
+        SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
+	}
 #else
+        if(GetSystemMetrics(SM_CMONITORS) > 1)
+        SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left, rect->bottom - rect->top, 0);
+        else
         SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
 #endif
         if (debugLevel > 0)
