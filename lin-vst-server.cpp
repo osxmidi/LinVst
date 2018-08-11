@@ -906,16 +906,16 @@ void RemoteVSTServer::showGUI()
         }
 	else
 	{
-        if(GetSystemMetrics(SM_CMONITORS) > 1)
+        // if(GetSystemMetrics(SM_CMONITORS) > 1)
         SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left, rect->bottom - rect->top, 0);
-        else
-        SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
+        // else
+        // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
 	}
 #else
-        if(GetSystemMetrics(SM_CMONITORS) > 1)
+        // if(GetSystemMetrics(SM_CMONITORS) > 1)
         SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left, rect->bottom - rect->top, 0);
-        else
-        SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
+        // else
+        // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
 #endif
         if (debugLevel > 0)
             cerr << "dssi-vst-server[1]: sized window" << endl;
