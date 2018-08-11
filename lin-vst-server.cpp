@@ -899,10 +899,10 @@ void RemoteVSTServer::showGUI()
         offset.x = (offsetwin.right - offsetwin.left) - offsetcl.right;
         offset.y = (offsetwin.bottom - offsetwin.top) - offsetcl.bottom;
 
-        if(GetSystemMetrics(SM_CMONITORS) > 1)	
+        // if(GetSystemMetrics(SM_CMONITORS) > 1)	
         SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN) + offset.x, GetSystemMetrics(SM_YVIRTUALSCREEN) + offset.y, rect->right - rect->left, rect->bottom - rect->top, 0); 
-	else
-	SetWindowPos(hWnd, HWND_TOP, offset.x, offset.y, rect->right - rect->left, rect->bottom - rect->top, 0);  
+	// else
+	// SetWindowPos(hWnd, HWND_TOP, offset.x, offset.y, rect->right - rect->left, rect->bottom - rect->top, 0);  
         }
 	else
 	{
@@ -972,9 +972,15 @@ void RemoteVSTServer::showGUI()
     {
 	    
 #ifdef WINONTOP
-        SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
-#else	    
-        SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
+        // if(GetSystemMetrics(SM_CMONITORS) > 1)
+        SetWindowPos(hWnd, HWND_TOPMOST, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
+        // else
+        // SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
+#else	
+        // if(GetSystemMetrics(SM_CMONITORS) > 1) 
+        SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
+        // else
+        // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);        
 #endif
         if (debugLevel > 0)
             cerr << "dssi-vst-server[1]: sized window" << endl;
