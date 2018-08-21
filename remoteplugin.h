@@ -108,7 +108,10 @@ enum RemotePluginOpcode
 #ifdef CANDOEFF
     RemotePluginEffCanDo,
 #endif	
-
+#ifdef CHUNKBUF
+    RemotePluginGetBuf,
+    RemotePluginSetBuf,
+#endif
     RemotePluginNoOpcode = 9999
 };
 
