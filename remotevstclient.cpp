@@ -128,8 +128,8 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (*ptr != 0x5a4d)
     {
         mfile.close();
-        cleanup();
         m_runok = 1;
+        cleanup();
         return;
     }
 
@@ -158,8 +158,8 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (dlltype == 0)
     {
         mfile.close();
-        cleanup();
         m_runok = 1;
+        cleanup();
         return;
     }
 
