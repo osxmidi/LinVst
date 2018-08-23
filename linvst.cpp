@@ -842,13 +842,16 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
     {
         std::cerr << "Could not connect to Server" << std::endl;
         if(plugin)
+        {
+        plugin->m_runok = 1;
         delete plugin;
+        }
         return 0;
     }
 		
     if(plugin->m_runok == 1)
     {
-        std::cerr << "/usr/bin/lin-vst-server.exe and/or /usr/bin/lin-vst-server.exe.so not found" << std::endl;
+        std::cerr << "/usr/bin/lin-vst-server.exe and/or /usr/bin/lin-vst-server.exe.so not found or dll load error" << std::endl;
         if(plugin)
         delete plugin;
         return 0;
