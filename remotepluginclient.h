@@ -158,6 +158,12 @@ public:
 
     int                 m_threadbreak;
     int                 m_threadbreakexit;
+#ifdef EMBED
+#ifdef EMBEDTHREAD
+    int                 m_threadbreakembed;
+    int                 m_threadbreakexitembed;
+#endif
+#endif    
     VstEvents           vstev[VSTSIZE];
     ERect               retRect = {0,0,200,500};    
     int                 reaperid;
