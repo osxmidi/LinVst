@@ -1920,10 +1920,17 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     return rv;
 }
 
+VOID CALLBACK TimerProc(HWND hWnd, UINT message, UINT idTimer, DWORD dwTime)
+{
+   HWND hwnderr = FindWindow(NULL, "LinVst Error");
+   SendMessage(hwnderr, WM_COMMAND, IDCANCEL, 0);
+}
+
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 {
     HANDLE  ThreadHandle[3] = {0,0,0};
     string pathName;
+    string fileName;
     char cdpath[4096];
     char *libname = 0;
     char *libname2 = 0;
@@ -1978,8 +1985,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	
     strcpy(cdpath, libname);
     pathName = cdpath;
+    fileName = cdpath;
     size_t found = pathName.find_last_of("/");
     pathName = pathName.substr(0, found);
+    size_t found2 = fileName.find_last_of("/");
+    fileName = fileName.substr(found2 + 1, strlen(libname) - (found2 +1));
     SetCurrentDirectory(pathName.c_str());
 
     cout << "Loading  " << libname << endl;
@@ -1988,8 +1998,33 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     libHandle = LoadLibrary(libname);
     if (!libHandle)
     {
-        cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
+#ifdef  VST6432
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error loading plugin dll %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);    
+    cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
         return 1;
+#else
+#ifdef VST32  
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error loading plugin dll %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc); 
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);  
+    cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
+        return 1;
+#else
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error loading plugin dll %s. This LinVst version is for 64 bit vst's only", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);
+    cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << fileName << "\" This LinVst version is for 64 bit vsts only." << endl;
+        return 1;
+#endif
+#endif    
     }
 
 	remoteVSTServerInstance = 0;
