@@ -742,24 +742,20 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
 RemotePluginClient::~RemotePluginClient()
 {
-/*
-    m_threadbreak = 1;
-    m_threadbreakexit = 1;
- */
- 
  if(m_runok == 0)
- {
-	
+ {	
     waitForClientexit();    
-	
-    if (theEffect)
-    delete theEffect;
+		 
     cleanup();
-  }	
+	 
+    if (theEffect)
+    delete theEffect; 
+  	
 #ifdef CHUNKBUF
     if (chunk_ptr)
     free(chunk_ptr);
 #endif
+}
 }
 
 void RemotePluginClient::syncStartup()
