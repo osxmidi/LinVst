@@ -332,7 +332,7 @@ else
 
 #endif
     }
-     // m_threadbreakexit = 1;
+    m_threadbreakexit = 1;
     // pthread_exit(0);
     return 0;
 }
@@ -374,7 +374,7 @@ void* RemotePluginClient::EMBEDThread()
 {
      int     embedcount = 0;
 
-    while (!m_threadbreak)
+    while (!m_threadbreakembed)
     {
 
      usleep(10000);
@@ -429,6 +429,8 @@ void* RemotePluginClient::EMBEDThread()
 }
 
 }
+      m_threadbreakexitembed = 1;
+      // pthread_exit(0);
 return 0;
 }
 #endif
@@ -444,6 +446,8 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 #ifdef EMBEDTHREAD
     m_EMBEDThread(0),
     runembed(0),
+    m_threadbreakembed(0),
+    m_threadbreakexitembed(0),
 #endif
 #endif
     m_threadinit(0),
@@ -568,9 +572,11 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     if(m_386run == 0)
     {
     if (sem_init(&m_shmControl->runServer, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     if (sem_init(&m_shmControl->runClient, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     }
@@ -600,9 +606,11 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     if(m_386run == 0)
     {
     if (sem_init(&m_shmControl2->runServer, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     if (sem_init(&m_shmControl2->runClient, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     }
@@ -632,9 +640,11 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     if(m_386run == 0)
     {
     if (sem_init(&m_shmControl3->runServer, 1, 0)) {
+        cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     if (sem_init(&m_shmControl3->runClient, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     }
@@ -664,9 +674,11 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     if(m_386run == 0)
     {
     if (sem_init(&m_shmControl4->runServer, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     if (sem_init(&m_shmControl4->runClient, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     }
@@ -696,9 +708,11 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     if(m_386run == 0)
     {
     if (sem_init(&m_shmControl5->runServer, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     if (sem_init(&m_shmControl5->runClient, 1, 0)) {
+	cleanup();
         throw((std::string)"Failed to initialize shared memory semaphore");
     }
     }
@@ -712,12 +726,14 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 	    
     if(pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread, this) != 0)
     {
+    cleanup();
     throw((std::string)"Failed to initialize thread");
     }    
  #ifdef EMBED
  #ifdef EMBEDTHREAD
     if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
-    {
+    {    
+    cleanup();
     throw((std::string)"Failed to initialize thread2");
     }
 #endif
@@ -730,14 +746,16 @@ RemotePluginClient::~RemotePluginClient()
     m_threadbreak = 1;
     m_threadbreakexit = 1;
  */
+ 
+ if(m_runok == 0)
+ {
 	
     waitForClientexit();    
-    m_threadbreak = 1;
 	
     if (theEffect)
     delete theEffect;
     cleanup();
-	
+  }	
 #ifdef CHUNKBUF
     if (chunk_ptr)
     free(chunk_ptr);
@@ -766,7 +784,8 @@ ptr = (int *)m_shm;
    if(startok == 0)
    {
    cleanup();
-   throw((std::string)"Remote plugin did not start correctly");
+   m_runok = 1;
+   return;
    }
 
     if(m_386run == 1)
@@ -785,20 +804,32 @@ ptr = (int *)m_shm;
 
 void RemotePluginClient::cleanup()
 {
-
+m_threadbreak = 1;
 /*
     if (m_shm)
-        for (int i=0;i<1000;i++)
+        for (int i=0;i<100000;i++)
         {
-            usleep(10000);
+            usleep(100);
             if (m_threadbreakexit)
             break;
         }
-
 */
+#ifdef EMBED
+#ifdef EMBEDTHREAD
+m_threadbreakembed = 1;
+/*
+    if (m_shm)
+        for (int i=0;i<100000;i++)
+        {
+            usleep(100);
+            if (m_threadbreakexitembed)
+            break;
+        }
+*/
+#endif
+#endif
     if (m_AMThread)
         pthread_join(m_AMThread, NULL);
-
 #ifdef EMBED
 #ifdef EMBEDTHREAD
     if (m_EMBEDThread)
@@ -1014,7 +1045,14 @@ int RemotePluginClient::sizeShm()
     }
 
     m_threadbreak = 0;
-    // m_threadbreakexit = 0;
+    m_threadbreakexit = 0;
+
+#ifdef EMBED
+#ifdef EMBEDTHREAD    
+    m_threadbreakembed = 0;
+    m_threadbreakexitembed = 0;   
+#endif
+#endif
 	
     return 0;	
 }
@@ -1898,7 +1936,30 @@ void RemotePluginClient::effVoidOp(int opcode)
 
       if(opcode == errorexit)
       {  
-        m_threadbreak = 1;   
+        m_threadbreak = 1; 
+/*
+    if (m_shm)
+        for (int i=0;i<100000;i++)
+        {
+            usleep(100);
+            if (m_threadbreakexit)
+            break;
+        }
+*/              
+#ifdef EMBED
+#ifdef EMBEDTHREAD
+        m_threadbreakembed = 1;
+/*
+    if (m_shm)
+        for (int i=0;i<100000;i++)
+        {
+            usleep(100);
+            if (m_threadbreakexitembed)
+            break;
+        }
+*/
+#endif
+#endif 
         m_finishaudio = 1;
         writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
         writeIntring(&m_shmControl5->ringBuffer, effClose);
@@ -1906,7 +1967,30 @@ void RemotePluginClient::effVoidOp(int opcode)
       }
       else
       {
-        m_threadbreak = 1;   
+        m_threadbreak = 1; 
+/*
+    if (m_shm)
+        for (int i=0;i<100000;i++)
+        {
+            usleep(100);
+            if (m_threadbreakexit)
+            break;
+        }
+*/              
+#ifdef EMBED
+#ifdef EMBEDTHREAD
+        m_threadbreakembed = 1;
+/*
+    if (m_shm)
+        for (int i=0;i<100000;i++)
+        {
+            usleep(100);
+            if (m_threadbreakexitembed)
+            break;
+        }
+*/
+#endif
+#endif 
         m_finishaudio = 1;
         writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
         writeIntring(&m_shmControl5->ringBuffer, opcode);
@@ -2360,8 +2444,29 @@ m_inexcept = 1;
     waitForClientexit();  
 
     m_threadbreak = 1;
- //   m_threadbreakexit = 1;
-
+/*
+    if (m_shm)
+        for (int i=0;i<100000;i++)
+        {
+            usleep(100);
+            if (m_threadbreakexit)
+            break;
+        }
+*/
+#ifdef EMBED
+#ifdef EMBEDTHREAD
+m_threadbreakembed = 1;
+/*
+    if (m_shm)
+        for (int i=0;i<100000;i++)
+        {
+            usleep(100);
+            if (m_threadbreakexitembed)
+            break;
+        }
+*/
+#endif
+#endif   
     m_finishaudio = 1;
 
     sleep(5);
