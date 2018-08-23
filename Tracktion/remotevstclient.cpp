@@ -68,18 +68,21 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!dladdr((const char*) selfname, &info))
     {
         m_runok = 1;
+        cleanup();
         return;
     }
 
     if (!info.dli_fname)
     {
         m_runok = 1;
+        cleanup();
         return;
     }
 
     if (realpath(info.dli_fname, hit2) == 0)
     {
         m_runok = 1;
+        cleanup();
         return;
     }
 
@@ -103,6 +106,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         if (!test)
         {
             m_runok = 1;
+            cleanup();
             return;
         }
     }
@@ -113,6 +117,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!mfile)
     {
         m_runok = 1;
+        cleanup();
         return;
     }
 
@@ -124,6 +129,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     {
         mfile.close();
         m_runok = 1;
+        cleanup();
         return;
     }
 
@@ -153,6 +159,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     {
         mfile.close();
         m_runok = 1;
+        cleanup();
         return;
     }
 
@@ -166,6 +173,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     LinVstName = "/usr/bin/lin-vst-serverlx32.exe.so";
@@ -173,6 +181,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
 #else
@@ -185,6 +194,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     LinVstName = "/usr/bin/lin-vst-servertrack32.exe.so";
@@ -192,6 +202,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
 #else
@@ -200,6 +211,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     LinVstName = "/usr/bin/lin-vst-server32.exe.so";
@@ -207,6 +219,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
 #endif
@@ -218,6 +231,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     LinVstName = "/usr/bin/lin-vst-servertrack.exe.so";
@@ -225,6 +239,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
 #else
@@ -233,6 +248,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     LinVstName = "/usr/bin/lin-vst-server.exe.so";
@@ -240,6 +256,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
 #endif
@@ -251,6 +268,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     LinVstName = "/usr/bin/lin-vst-serverstlx32.exe.so";
@@ -258,6 +276,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
 #else
@@ -269,6 +288,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     LinVstName = "/usr/bin/lin-vst-serverst32.exe.so";
@@ -276,6 +296,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     }
@@ -285,6 +306,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
     LinVstName = "/usr/bin/lin-vst-serverst.exe.so";
@@ -292,6 +314,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if (!test)
     {
     m_runok = 1;
+    cleanup();
     return;
     }
 #endif
@@ -330,6 +353,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     if ((child = vfork()) < 0)
     {
         m_runok = 1;
+        cleanup();
         return;
     }
     else if (child == 0)
@@ -346,6 +370,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #endif
             {
                 m_runok = 1;
+                cleanup();
                 return;
             }
         }
@@ -358,6 +383,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #endif
             {
                 m_runok = 1;
+                cleanup();
                 return;
             }
         }
@@ -371,6 +397,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #endif
             {
                 m_runok = 1;
+                cleanup();
                 return;
             }
         }
@@ -383,6 +410,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #endif
             {
                 m_runok = 1;
+                cleanup();
                 return;
             }
         }
@@ -395,6 +423,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #endif
             {
                 m_runok = 1;
+                cleanup();
                 return;
             }
         }
@@ -407,6 +436,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #endif
             {
                 m_runok = 1;
+                cleanup();
                 return;
             }
         }
@@ -421,6 +451,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #endif
         {
             m_runok = 1;
+            cleanup();
             return;
         }
 #else
@@ -431,6 +462,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
             #endif
         {
             m_runok = 1;
+            cleanup();
             return;
         }
 #endif
