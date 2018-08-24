@@ -43,6 +43,47 @@
 #include <string>
 #include <fstream>
 
+void errwin(std::string dllname)
+{
+static int x = 0;
+static int y = 0;   
+static Window window = 0;
+static Window ignored = 0;
+static Display* display = 0;
+static int screen = 0;
+
+std::string filename;
+std::string filename2;
+
+  size_t found2 = dllname.find_last_of("/");
+  filename = dllname.substr(found2 + 1, strlen(dllname.c_str()) - (found2 +1));
+  filename2 = "LinVst Error: VST dll file not found:  " + filename;
+      
+  XInitThreads();
+  display = XOpenDisplay(NULL);  
+  if (!display) 
+  return;  
+  screen = DefaultScreen(display);
+  window = XCreateSimpleWindow(display, RootWindow(display, screen), 10, 10, 480, 20, 0, BlackPixel(display, screen), WhitePixel(display, screen));
+  if (!window) 
+  return;
+  XStoreName(display, window, filename2.c_str()); 
+  XMapWindow(display, window);
+  XSync (display, false);
+  XFlush(display);
+  if(XTranslateCoordinates(display, window, XDefaultRootWindow(display), 0, 0, &x, &y, &ignored) != 0)
+  {
+  XMoveWindow(display, window, x, y);
+//  XMoveResizeWindow(display, window, x, y, 480, 20);
+  }
+  XSync (display, false);
+  XFlush(display);
+  sleep(8);
+  XSync (display, false);
+  XFlush(display);
+  XDestroyWindow(display, window);
+  XCloseDisplay(display);  
+  }
 
 const char *selfname()
 {
@@ -105,6 +146,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 
         if (!test)
         {
+            errwin(dllName);
             m_runok = 1;
             cleanup();
             return;
