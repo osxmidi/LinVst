@@ -236,8 +236,6 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
         return;        
     }
 
-    timeinfo = new VstTimeInfo;
-
     startok = 0;
 
     int *ptr;
@@ -263,7 +261,8 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
 
    if(*ptr == 3)
    m_386run = 1;
-
+	    
+   timeinfo = new VstTimeInfo;
 }
 
 RemotePluginServer::~RemotePluginServer()
