@@ -85,7 +85,6 @@ std::string filename2;
   winhints.width  = winwidth;
   winhints.height = winheight;
   XSetNormalHints(display, window, &winhints);
-  XMoveWindow(display, window, 10, 10);
   XStoreName(display, window, filename2.c_str()); 
   XMapWindow(display, window);
   XSync (display, false);
