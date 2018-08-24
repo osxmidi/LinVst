@@ -43,6 +43,9 @@
 #include <string>
 #include <fstream>
 
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+
 void errwin(std::string dllname)
 {
 static int x = 0;
