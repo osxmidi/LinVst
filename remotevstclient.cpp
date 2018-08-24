@@ -71,15 +71,6 @@ std::string filename2;
   XMapWindow(display, window);
   XSync (display, false);
   XFlush(display);
-   /*
-  if(XTranslateCoordinates(display, window, XDefaultRootWindow(display), 10, 10, &x, &y, &ignored) != 0)
-  {
-    XMoveWindow(display, window, x, y);
-//  XMoveResizeWindow(display, window, x, y, 480, 20);
-    XSync (display, false);
-    XFlush(display);
-  }
-  */
   sleep(8);
   XSync (display, false);
   XFlush(display);
