@@ -269,11 +269,9 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
 RemotePluginServer::~RemotePluginServer()
 {
     if(starterror == 0)
+    {
     cleanup();
-}
-
-void RemotePluginServer::cleanup()
-{
+    
     if(m_inputs)
     {
     delete m_inputs;
@@ -288,12 +286,25 @@ void RemotePluginServer::cleanup()
 
 #ifdef DOUBLEP
     if(m_inputsdouble)
+    {
     delete m_inputsdouble;
+    m_inputsdouble = 0; 
+    }
     
     if(m_outputsdouble)
+    {
     delete m_outputsdouble;
-#endif
+    m_outputsdouble = 0;	    
+    }
+#endif    
+	    
+    if(timeinfo)
+    delete timeinfo;	    
+    }
+}
 
+void RemotePluginServer::cleanup()
+{
     if (m_shm)
     {
         munmap(m_shm, m_shmSize);
@@ -405,9 +416,6 @@ void RemotePluginServer::cleanup()
         free(m_shmControl5FileName);
         m_shmControl5FileName = 0;
     }
-
-    if(timeinfo)
-    delete timeinfo;
 }
 
 int RemotePluginServer::sizeShm()
