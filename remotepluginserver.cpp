@@ -268,6 +268,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
 
 RemotePluginServer::~RemotePluginServer()
 {
+    if(starterror == 0)
     cleanup();
 }
 
