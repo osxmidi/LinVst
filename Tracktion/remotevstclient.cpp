@@ -73,8 +73,8 @@ std::string filename2;
   XFlush(display);
   if(XTranslateCoordinates(display, window, XDefaultRootWindow(display), 0, 0, &x, &y, &ignored) != 0)
   {
-  XMoveWindow(display, window, x, y);
-//  XMoveResizeWindow(display, window, x, y, 480, 20);
+   XMoveWindow(display, window, -x + 20, -y + 20);
+//  XMoveResizeWindow(display, window, -x + 20, -y + 20, 480, 20);
   }
   XSync (display, false);
   XFlush(display);
