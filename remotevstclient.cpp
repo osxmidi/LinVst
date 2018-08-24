@@ -71,13 +71,15 @@ std::string filename2;
   XMapWindow(display, window);
   XSync (display, false);
   XFlush(display);
-  if(XTranslateCoordinates(display, window, XDefaultRootWindow(display), 0, 0, &x, &y, &ignored) != 0)
+   /*
+  if(XTranslateCoordinates(display, window, XDefaultRootWindow(display), 10, 10, &x, &y, &ignored) != 0)
   {
-    XMoveWindow(display, window, -x + 20, -y + 20);
-//  XMoveResizeWindow(display, window, -x + 20, -y + 20, 480, 20);
+    XMoveWindow(display, window, x, y);
+//  XMoveResizeWindow(display, window, x, y, 480, 20);
+    XSync (display, false);
+    XFlush(display);
   }
-  XSync (display, false);
-  XFlush(display);
+  */
   sleep(8);
   XSync (display, false);
   XFlush(display);
@@ -146,7 +148,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 
         if (!test)
         {
-            // errwin(dllName);
+            errwin(dllName);
             m_runok = 1;
             cleanup();
             return;
