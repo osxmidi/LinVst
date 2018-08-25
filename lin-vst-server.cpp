@@ -2027,6 +2027,25 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 #endif    
     }
 
+    VstEntry getinstance = 0;
+
+    getinstance = (VstEntry)GetProcAddress(libHandle, NEW_PLUGIN_ENTRY_POINT);
+
+    if (!getinstance) {
+    getinstance = (VstEntry)GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
+    if (!getinstance) {
+    cerr << "dssi-vst-server: ERROR: VST entrypoints \"" << NEW_PLUGIN_ENTRY_POINT << "\" or \""
+                << OLD_PLUGIN_ENTRY_POINT << "\" not found in DLL \"" << libname << "\"" << endl;
+                
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error loading plugin dll %s. Not a VST2 dll", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer) 
+    return 1;
+      }
+    }
+	
 	remoteVSTServerInstance = 0;
 	
         remoteVSTServerInstance = new RemoteVSTServer(fileInfo, libname);
@@ -2048,23 +2067,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         FreeLibrary(libHandle);
         return 1; 
         }
-
-    VstEntry getinstance = 0;
-
-    getinstance = (VstEntry)GetProcAddress(libHandle, NEW_PLUGIN_ENTRY_POINT);
-
-    if (!getinstance) {
-    getinstance = (VstEntry)GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
-    if (!getinstance) {
-       cerr << "dssi-vst-server: ERROR: VST entrypoints \"" << NEW_PLUGIN_ENTRY_POINT << "\" or \""
-                << OLD_PLUGIN_ENTRY_POINT << "\" not found in DLL \"" << libname << "\"" << endl;
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
-	if(libHandle)
-        FreeLibrary(libHandle);
-        return 1;
-      }
-    }
 
     remoteVSTServerInstance->m_plugin = getinstance(hostCallback);
     if (!remoteVSTServerInstance->m_plugin)
