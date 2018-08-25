@@ -45,6 +45,7 @@
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xatom.h>
 
 void errwin(std::string dllname)
 {
@@ -54,11 +55,15 @@ static Window window = 0;
 static Window ignored = 0;
 static Display* display = 0;
 static int screen = 0;
+static Atom winstate;
+static Atom winmodal;
+/*    
 static XSizeHints  winhints = {0};
 static int winxcoord = 0;
 static int winycoord = 0;
 static int winwidth = 0;
 static int winheight = 0;
+*/
     
 std::string filename;
 std::string filename2;
@@ -75,6 +80,10 @@ std::string filename2;
   window = XCreateSimpleWindow(display, RootWindow(display, screen), 10, 10, 480, 20, 0, BlackPixel(display, screen), WhitePixel(display, screen));
   if (!window) 
   return;
+  winstate = XInternAtom(display, "_NET_WM_STATE", True);
+  winmodal = XInternAtom(display, "_NET_WM_STATE_ABOVE", True);
+  XChangeProperty(display, window, winstate, XA_ATOM, 32, PropModeReplace, (unsigned char*)&winmodal, 1);
+  /*
   winxcoord = 10;
   winycoord = 10;
   winwidth = 480;
@@ -85,6 +94,7 @@ std::string filename2;
   winhints.width  = winwidth;
   winhints.height = winheight;
   XSetNormalHints(display, window, &winhints);
+  */
   XStoreName(display, window, filename2.c_str()); 
   XMapWindow(display, window);
   XSync (display, false);
