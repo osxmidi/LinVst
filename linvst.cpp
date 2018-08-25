@@ -599,8 +599,6 @@ static char dawbuf[512];
 
        XReparentWindow(plugin->display, plugin->child, plugin->parent, 0, 0);
 
- //      XMoveResizeWindow(plugin->display, plugin->child, 0, 0, plugin->width, plugin->height);
-
        XMapWindow(plugin->display, plugin->child);
        XSync(plugin->display, false);
        XFlush(plugin->display);
