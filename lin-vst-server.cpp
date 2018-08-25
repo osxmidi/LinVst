@@ -2041,7 +2041,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     wsprintf(wbuf, "Error loading plugin dll %s. Not a VST2 dll", fileName.c_str());
     UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer) 
+    KillTimer(NULL, errtimer);
     return 1;
       }
     }
