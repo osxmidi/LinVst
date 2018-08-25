@@ -49,21 +49,13 @@
 
 void errwin(std::string dllname)
 {
-static int x = 0;
-static int y = 0;   
 static Window window = 0;
 static Window ignored = 0;
 static Display* display = 0;
 static int screen = 0;
 static Atom winstate;
 static Atom winmodal;
-/*
-static XSizeHints  winhints = {0};
-static int winxcoord = 0;
-static int winycoord = 0;
-static int winwidth = 0;
-static int winheight = 0;
-*/
+
 std::string filename;
 std::string filename2;
 
@@ -82,18 +74,6 @@ std::string filename2;
   winstate = XInternAtom(display, "_NET_WM_STATE", True);
   winmodal = XInternAtom(display, "_NET_WM_STATE_ABOVE", True);
   XChangeProperty(display, window, winstate, XA_ATOM, 32, PropModeReplace, (unsigned char*)&winmodal, 1);
-  /*
-  winxcoord = 10;
-  winycoord = 10;
-  winwidth = 480;
-  winheight = 20;  
-  winhints.flags  = PPosition | PSize;    
-  winhints.x      = winxcoord;   
-  winhints.y      = winycoord;
-  winhints.width  = winwidth;
-  winhints.height = winheight;
-  XSetNormalHints(display, window, &winhints);
-  */
   XStoreName(display, window, filename2.c_str()); 
   XMapWindow(display, window);
   XSync (display, false);
