@@ -167,10 +167,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 
         if (!test)
         {
-            errwin(dllName);
-            m_runok = 1;
-            cleanup();
-            return;
+             dllName = hit2;
+             dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".dll");
+             errwin(dllName);
+             m_runok = 1;
+             cleanup();
+             return;
         }
     }
 
