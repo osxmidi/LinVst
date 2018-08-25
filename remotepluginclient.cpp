@@ -289,7 +289,7 @@ else
                     {
                     XUnmapWindow(display, child);
                     XResizeWindow(display, parent, width, height);
-                    XMoveResizeWindow(display, child, 0, 0, width, height);
+                    XResizeWindow(display, child, width, height);
                     XMapWindow(display, child);
                     XSync(display, false);
                     XFlush(display);
@@ -412,8 +412,6 @@ void* RemotePluginClient::EMBEDThread()
       display = 0;
 #else
       XReparentWindow(display, child, parent, 0, 0);
-
-      XMoveResizeWindow(display, child, 0, 0, width, height);
 
       XMapWindow(display, child);
       XSync(display, false);
