@@ -1147,7 +1147,7 @@ void RemoteVSTServer::getProgram()
 void
 RemoteVSTServer::waitForServer()
 {
-    if(remoteVSTServerInstance->m_386run == 0)
+    if(m_386run == 0)
     {
     sem_post(&m_shmControl->runServer);
 
@@ -1174,7 +1174,7 @@ RemoteVSTServer::waitForServer()
 void
 RemoteVSTServer::waitForServerexit()
 {
-    if(remoteVSTServerInstance->m_386run == 0)
+    if(m_386run == 0)
     {
     sem_post(&m_shmControl->runServer);
     }
