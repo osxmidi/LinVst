@@ -2110,7 +2110,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     ThreadHandle[0] = CreateThread(0, 0, AudioThreadMain, 0, 0, &threadIdp);
     if (!ThreadHandle[0])
     {
-        cerr << "Failed to create par thread!" << endl;
+        cerr << "Failed to create audio thread!" << endl;
   	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
 	if(libHandle)
@@ -2122,7 +2122,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     ThreadHandle[1] = CreateThread(0, 0, GetSetThreadMain, 0, 0, &threadIdp2);
     if (!ThreadHandle[1])
     {
-        cerr << "Failed to create par thread!" << endl;
+        cerr << "Failed to create getset thread!" << endl;
         TerminateThread(ThreadHandle[0], 0);
 	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
