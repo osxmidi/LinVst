@@ -1239,7 +1239,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     case audioMasterVersion:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterVersion requested" << endl;
-        rv = 2300;
+        rv = 2400;
         break;
 
     case audioMasterCurrentId:
