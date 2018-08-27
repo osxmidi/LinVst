@@ -1964,6 +1964,7 @@ void RemotePluginClient::effVoidOp(int opcode)
       }
       else
       {
+	waitForClientexit();    
         m_threadbreak = 1; 
 /*
     if (m_shm)
@@ -1997,7 +1998,6 @@ void RemotePluginClient::effVoidOp(int opcode)
         waitForServer3exit(); 
         waitForServer4exit(); 
         waitForServer5exit();  
-        waitForClientexit();    
       }
     }
     else
