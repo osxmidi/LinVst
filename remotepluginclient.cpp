@@ -742,7 +742,8 @@ RemotePluginClient::~RemotePluginClient()
 {
  if(m_runok == 0)
  {	
-    waitForClientexit();    
+    if(m_threadbreak == 0) 
+    waitForClientexit();       
 		 
     cleanup();
 	 
@@ -798,6 +799,7 @@ ptr = (int *)m_shm;
 
 void RemotePluginClient::cleanup()
 {
+if(m_threadbreak == 0) 
 m_threadbreak = 1;
 /*
     if (m_shm)
@@ -810,6 +812,7 @@ m_threadbreak = 1;
 */
 #ifdef EMBED
 #ifdef EMBEDTHREAD
+if(m_threadbreakembed == 0) 
 m_threadbreakembed = 1;
 /*
     if (m_shm)
