@@ -250,6 +250,12 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
          startok = 1;
             break;
          }
+	    
+         if (*ptr == 4)
+         {      
+         startok = 0;
+            break;
+         }
     }  
 
     if(startok == 0)
