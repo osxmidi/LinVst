@@ -64,6 +64,8 @@ typedef AEffect *(VSTCALLBACK *VstEntry)(audioMasterCallback audioMaster);
 
 RemotePluginDebugLevel  debugLevel = RemotePluginDebugNone;
 
+#define disconnectserver 32143215
+
 using namespace std;
 
 class RemoteVSTServer : public RemotePluginServer
