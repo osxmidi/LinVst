@@ -313,8 +313,13 @@ static char dawbuf[512];
 #endif
 #endif
 	
-    if(plugin->m_inexcept == 1)
+    if(!plugin)
     return 0;
+	
+    if(plugin->m_inexcept == 1)
+    {
+    return 0;
+    }
 
     switch (opcode)
     {
@@ -763,6 +768,9 @@ void processDouble(AEffect* effect, double** inputs, double** outputs, VstInt32 
 #ifdef DOUBLEP
     RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
 
+    if(!plugin)
+    return;
+    
     if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
         plugin->processdouble(inputs, outputs, sampleFrames);
 #endif	
@@ -773,6 +781,9 @@ void process(AEffect* effect, float** inputs, float** outputs, VstInt32 sampleFr
 {
     RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
 
+    if(!plugin)
+    return;
+    
     if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
         plugin->process(inputs, outputs, sampleFrames);
     return;
@@ -782,6 +793,9 @@ void setParameter(AEffect* effect, VstInt32 index, float parameter)
 {
     RemotePluginClient *plugin = (RemotePluginClient *) effect->object;
 
+    if(!plugin)
+    return;
+    
     if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
         plugin->setParameter(index, parameter);
     return;
@@ -792,6 +806,9 @@ float getParameter(AEffect* effect, VstInt32 index)
     RemotePluginClient  *plugin = (RemotePluginClient *) effect->object;
     float               retval = -1;
 
+    if(!plugin)
+    return retval;
+    
     if((plugin->m_bufferSize > 0) && (plugin->m_numInputs >= 0) && (plugin->m_numOutputs >= 0))
         retval = plugin->getParameter(index);
     return retval;
