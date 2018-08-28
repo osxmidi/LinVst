@@ -180,8 +180,8 @@ public:
     ShmControl              *m_shmControl5;
 
     void                     waitForServer();
-
     void                     waitForServerexit();
+    void                     waitForServerexcept(); 
 
 void RemotePluginClosedException();
 
