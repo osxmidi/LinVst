@@ -78,7 +78,7 @@ std::string filename2;
   XMapWindow(display, window);
   XSync (display, false);
   XFlush(display);
-  sleep(8);
+  sleep(10);
   XSync (display, false);
   XFlush(display);
   XDestroyWindow(display, window);
