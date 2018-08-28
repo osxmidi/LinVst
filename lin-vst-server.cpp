@@ -459,6 +459,8 @@ void RemoteVSTServer::EffectOpen()
 
 RemoteVSTServer::~RemoteVSTServer()
 {
+    if(effectrun == true)
+    {
     if (haveGui == true)
     {
   //  KillTimer(0, timerval);
@@ -475,6 +477,7 @@ RemoteVSTServer::~RemoteVSTServer()
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
     m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
     }
+    }    
 }
 
 void RemoteVSTServer::process(float **inputs, float **outputs, int sampleFrames)
@@ -2034,8 +2037,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (!getinstance) {
     getinstance = (VstEntry)GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
     if (!getinstance) {
-    if(libHandle)
-    FreeLibrary(libHandle);
     cerr << "dssi-vst-server: ERROR: VST entrypoints \"" << NEW_PLUGIN_ENTRY_POINT << "\" or \""
                 << OLD_PLUGIN_ENTRY_POINT << "\" not found in DLL \"" << libname << "\"" << endl;
                 
@@ -2044,6 +2045,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer);
+    if(libHandle)
+    FreeLibrary(libHandle);
     return 1;
       }
     }
@@ -2073,7 +2076,19 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->m_plugin = getinstance(hostCallback);
     if (!remoteVSTServerInstance->m_plugin)
     {
-        cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;
+    cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);    
 	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
 	if(libHandle)
@@ -2084,6 +2099,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (remoteVSTServerInstance->m_plugin->magic != kEffectMagic)
     {
         cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Not a VST2 plugin DLL %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);
 	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
 	if(libHandle)
@@ -2094,10 +2121,22 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (!(remoteVSTServerInstance->m_plugin->flags & effFlagsCanReplacing))
     {
         cerr << "dssi-vst-server: ERROR: Plugin does not support processReplacing (required)" << endl;
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "ProcessReplacing not supported %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer); 
 	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
-        if(libHandle)    
-        FreeLibrary(libHandle);
+	if(libHandle)
+	FreeLibrary(libHandle);
         return 1;
     }
 
@@ -2110,11 +2149,23 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     ThreadHandle[0] = CreateThread(0, 0, AudioThreadMain, 0, 0, &threadIdp);
     if (!ThreadHandle[0])
     {
-        cerr << "Failed to create audio thread!" << endl;
-  	if(remoteVSTServerInstance)
+    cerr << "Failed to create audio thread!" << endl;
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Thread Error audio %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer); 
+	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
 	if(libHandle)
-        FreeLibrary(libHandle);
+	FreeLibrary(libHandle);
         return 1;
     }
 
@@ -2122,12 +2173,34 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     ThreadHandle[1] = CreateThread(0, 0, GetSetThreadMain, 0, 0, &threadIdp2);
     if (!ThreadHandle[1])
     {
-        cerr << "Failed to create getset thread!" << endl;
-        TerminateThread(ThreadHandle[0], 0);
+    cerr << "Failed to create getset thread!" << endl;
+    
+    remoteVSTServerInstance->exiting = 1;    
+    sleep(1);  
+    WaitForMultipleObjects(1, ThreadHandle, TRUE, 5000);    
+    if (ThreadHandle[0])
+    {
+        // TerminateThread(ThreadHandle[0], 0);
+        CloseHandle(ThreadHandle[0]);
+    }    
+//    TerminateThread(ThreadHandle[0], 0);
+
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Thread Error getset %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);  
 	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
 	if(libHandle)
-        FreeLibrary(libHandle);
+	FreeLibrary(libHandle);
         return 1;
     }
 
@@ -2135,13 +2208,40 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     ThreadHandle[2] = CreateThread(0, 0, ParThreadMain, 0, 0, &threadIdp3);
     if (!ThreadHandle[2])
     {
-        cerr << "Failed to create par thread!" << endl;
-        TerminateThread(ThreadHandle[0], 0);
-        TerminateThread(ThreadHandle[1], 0);
+    cerr << "Failed to create par thread!" << endl;
+    
+    remoteVSTServerInstance->exiting = 1;    
+    sleep(1);  
+    WaitForMultipleObjects(2, ThreadHandle, TRUE, 5000);    
+    if (ThreadHandle[0])
+    {
+        // TerminateThread(ThreadHandle[0], 0);
+        CloseHandle(ThreadHandle[0]);
+    }
+    if (ThreadHandle[1])
+    {
+        // TerminateThread(ThreadHandle[1], 0);
+        CloseHandle(ThreadHandle[1]);
+    }    
+//    TerminateThread(ThreadHandle[0], 0);
+//    TerminateThread(ThreadHandle[1], 0);
+    
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Thread Error par %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);    
 	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
 	if(libHandle)
-        FreeLibrary(libHandle);
+	FreeLibrary(libHandle);
         return 1;
     }
 
