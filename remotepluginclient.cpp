@@ -787,7 +787,7 @@ ptr = (int *)m_shm;
     for (int i=0;i<2000;i++)
     {
         usleep(10000);
-        if (*ptr == 1)
+        if (*ptr == 231)
          {
             startok = 1;
             break;
@@ -796,6 +796,7 @@ ptr = (int *)m_shm;
 
    if(startok == 0)
    {
+   *ptr = 4;
    cleanup();
    m_runok = 1;
    return;
