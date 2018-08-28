@@ -76,6 +76,8 @@ void* RemotePluginClient::AMThread()
     #define resizegui 123456789
 #endif
 #endif
+	
+#define disconnectserver 32143215
 
     while (!m_threadbreak)
     {
