@@ -841,6 +841,40 @@ void initEffect(AEffect *eff, RemotePluginClient *plugin)
     eff->processDoubleReplacing = processDouble;
 }
 
+void errwin2()
+{
+static Window window = 0;
+static Window ignored = 0;
+static Display* display = 0;
+static int screen = 0;
+static Atom winstate;
+static Atom winmodal;
+    
+std::string filename2;
+
+  filename2 = "lin-vst-server/vst not found or LinVst version mismatch";
+      
+  XInitThreads();
+  display = XOpenDisplay(NULL);  
+  if (!display) 
+  return;  
+  screen = DefaultScreen(display);
+  window = XCreateSimpleWindow(display, RootWindow(display, screen), 10, 10, 480, 20, 0, BlackPixel(display, screen), WhitePixel(display, screen));
+  if (!window) 
+  return;
+  winstate = XInternAtom(display, "_NET_WM_STATE", True);
+  winmodal = XInternAtom(display, "_NET_WM_STATE_ABOVE", True);
+  XChangeProperty(display, window, winstate, XA_ATOM, 32, PropModeReplace, (unsigned char*)&winmodal, 1);
+  XStoreName(display, window, filename2.c_str()); 
+  XMapWindow(display, window);
+  XSync (display, false);
+  XFlush(display);
+  sleep(10);
+  XSync (display, false);
+  XFlush(display);
+  XDestroyWindow(display, window);
+  XCloseDisplay(display);  
+  }
 
 VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 {
@@ -856,6 +890,7 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
     catch (std::string e)
     {
         std::cerr << "Could not connect to Server" << std::endl;
+	errwin2();    
         if(plugin)
         {
         plugin->m_runok = 1;
@@ -866,8 +901,9 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 		
     if(plugin->m_runok == 1)
     {
-        std::cerr << "/usr/bin/lin-vst-server.exe and/or /usr/bin/lin-vst-server.exe.so not found or dll load error" << std::endl;
-        if(plugin)
+        std::cerr << "/usr/bin/lin-vst-server not found or dll load error or LinVst version mismatch" << std::endl;
+        errwin2();
+	if(plugin)
         delete plugin;
         return 0;
     }
