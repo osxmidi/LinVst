@@ -304,6 +304,22 @@ else
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 #endif
+                   case disconnectserver: 
+                   m_inexcept = 1;
+                   usleep(100000);
+                   memset (theEffect, 0, sizeof(AEffect));
+                   theEffect = 0;          
+                   waitForServer2exit(); 
+                   waitForServer3exit(); 
+                   waitForServer4exit(); 
+                   waitForServer5exit();  
+                   m_threadbreak = 1;
+#ifdef EMBED
+#ifdef EMBEDTHREAD
+                   m_threadbreakembed = 1;
+#endif
+#endif 
+                 break;
                 default:
                     break;
                 }
@@ -1064,6 +1080,10 @@ float   RemotePluginClient::getVersion()
 
 int RemotePluginClient::getUID()
 {
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginUniqueID);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
@@ -1150,6 +1170,10 @@ void RemotePluginClient::getEffString(int opcode, int index, char *ptr, int len)
 
 int RemotePluginClient::getFlags()
 {
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetFlags);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
@@ -1158,6 +1182,10 @@ int RemotePluginClient::getFlags()
 
 int RemotePluginClient::getinitialDelay()
 {
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetinitialDelay);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
@@ -1166,6 +1194,11 @@ int RemotePluginClient::getinitialDelay()
 
 int RemotePluginClient::getInputCount()
 {
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+
     // writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetInputCount);
     // m_numInputs = readInt(m_processResponseFd);
 
@@ -1179,6 +1212,11 @@ int RemotePluginClient::getInputCount()
 
 int RemotePluginClient::getOutputCount()
 {
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+
     // writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetOutputCount);
     // m_numOutputs = readInt(m_processResponseFd);
 
@@ -1192,6 +1230,11 @@ int RemotePluginClient::getOutputCount()
 
 int RemotePluginClient::getParameterCount()
 {
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetParameterCount);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
@@ -1221,9 +1264,10 @@ int RemotePluginClient::getShellName(char *ptr)
 void
 RemotePluginClient::setParameter(int p, float v)
 {
-
-    if (m_finishaudio == 1)
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
         return;
+    }
 
     writeOpcodering(&m_shmControl4->ringBuffer, RemotePluginSetParameter);
     writeIntring(&m_shmControl4->ringBuffer, p);
@@ -1235,9 +1279,10 @@ RemotePluginClient::setParameter(int p, float v)
 float
 RemotePluginClient::getParameter(int p)
 {
-
-    if (m_finishaudio == 1)
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
         return 0;
+    }
 
     writeOpcodering(&m_shmControl4->ringBuffer, RemotePluginGetParameter);
     writeIntring(&m_shmControl4->ringBuffer, p);
@@ -1267,6 +1312,10 @@ void RemotePluginClient::getParameters(int p0, int pn, float *v)
 
 int RemotePluginClient::getProgramCount()
 {
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetProgramCount);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
@@ -1549,8 +1598,10 @@ RemotePluginClient::waitForClientexit()
 
 void RemotePluginClient::process(float **inputs, float **outputs, int sampleFrames)
 {
-    if (m_finishaudio == 1)
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
         return;
+    } 
     if ((m_bufferSize <= 0) || (sampleFrames <= 0))
     {
         return;
@@ -1604,8 +1655,10 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
 #ifdef DOUBLEP
 void RemotePluginClient::processdouble(double **inputs, double **outputs, int sampleFrames)
 {
-    if (m_finishaudio == 1)
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
         return;
+    } 
     if ((m_bufferSize <= 0) || (sampleFrames <= 0))
     {
         return;
@@ -1677,8 +1730,8 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     int *ptr;
     int sizeidx = 0;
 
-    if ((evnts->numEvents <= 0) || (!evnts) || (m_finishaudio == 1) || (!m_shm))
-        return 0;    
+    if ((evnts->numEvents <= 0) || (!evnts) || (m_inexcept == 1) || (m_finishaudio == 1) || (!m_shm))
+        return 0;        
 
     ptr = (int *)m_shm2;
     eventnum = evnts->numEvents;
@@ -2490,6 +2543,16 @@ m_threadbreakembed = 1;
 #endif
 #endif
 */
+
+sleep(5);
+
+                   memset (theEffect, 0, sizeof(AEffect));
+                   theEffect = 0;          
+                   waitForServer2exit(); 
+                   waitForServer3exit(); 
+                   waitForServer4exit(); 
+                   waitForServer5exit();  
+
 }
 
 bool RemotePluginClient::fwait(int *futexp, int ms)
