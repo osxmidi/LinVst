@@ -1739,17 +1739,65 @@ f = *ptr2;
     return f;
 }
 
+#define disconnectserver 32143215
+
+#ifdef SEM
+
+void
+RemotePluginServer::waitForServerexcept()
+{
+    if(m_386run == 0)
+    {
+    sem_post(&m_shmControl->runServer);
+
+    timespec ts_timeout;
+    clock_gettime(CLOCK_REALTIME, &ts_timeout);
+    ts_timeout.tv_sec += 60;
+    if (sem_timedwait(&m_shmControl->runClient, &ts_timeout) != 0) {
+         if(m_inexcept == 0)
+         RemotePluginClosedException();
+    }
+    }
+    else
+    {
+    fpost(&m_shmControl->runServer386);
+
+    if (fwait(&m_shmControl->runClient386, 60000)) {
+         if(m_inexcept == 0)
+	 RemotePluginClosedException();
+    }
+   }
+}
+
+#else
+
+void RemotePluginServer::waitForServerexcept()
+{
+    fpost(&m_shmControl->runServer);
+
+    if (fwait(&m_shmControl->runClient, 60000)) {
+         if(m_inexcept == 0)
+	 RemotePluginClosedException();
+    }
+}
+#endif
+
 void RemotePluginServer::RemotePluginClosedException()
 {
 m_inexcept = 1;
 
 m_runok = 1;
-	
-waitForClient2exit();
-waitForClient3exit();
-waitForClient4exit();
-waitForClient5exit();
-	
+
+    writeOpcodering(&m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    commitWrite(&m_shmControl->ringBuffer);
+    waitForServerexcept();  
+    waitForClient2exit();
+    waitForClient3exit();
+    waitForClient4exit();
+    waitForClient5exit();
+    
+    sleep(5);
+    
 terminate();
 }
 
