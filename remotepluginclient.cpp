@@ -797,8 +797,8 @@ ptr = (int *)m_shm;
    if(startok == 0)
    {
    *ptr = 4;
-   cleanup();
    m_runok = 1;
+   cleanup();
    return;
    }
 
