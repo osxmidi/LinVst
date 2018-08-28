@@ -1945,6 +1945,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     cout << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
     cout << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
     cout << "Copyright (c) 2004-2006 Chris Cannam" << endl;
+    cout << "LinVst version 2.31" << endl;
 
     if (cmdline)
     {
@@ -2060,6 +2061,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         if(!remoteVSTServerInstance)
         {
         cerr << "ERROR: Remote VST startup failed" << endl;
+        TCHAR wbuf[1024];
+        wsprintf(wbuf, "Remote VST startup failed %s", fileName.c_str());
+        UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+        MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+        KillTimer(NULL, errtimer);   
 	if(libHandle)
         FreeLibrary(libHandle);
         return 1; 
@@ -2067,7 +2073,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
         if(remoteVSTServerInstance->starterror == 1)
         {
-        cerr << "ERROR: Remote VST startup failed" << endl;
+        cerr << "ERROR: Remote VST startup failed and/or mismatched LinVst versions" << endl;
+        TCHAR wbuf[1024];
+        wsprintf(wbuf, "Remote VST startup failed and/or mismatched LinVst versions %s", fileName.c_str());
+        UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+        MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+        KillTimer(NULL, errtimer);    
 	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
 	if(libHandle)
