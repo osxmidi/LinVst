@@ -26,11 +26,10 @@
 
 #include "remotevstclient.h"
 
-#ifdef EMBED
-
+// #ifdef EMBED
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
-#endif
+// #endif
 
 extern "C" {
 
