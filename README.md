@@ -20,6 +20,8 @@ Point linvstconvert to the folder containing the windows vst's and hit the Start
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
+linvstconvert needs to be run with sudo permission for folders/directories that need sudo permission.
+
 -------
 
 More Detailed Guide
@@ -46,7 +48,7 @@ Load test.so within the Linux DAW and then test.so will load and run the (name a
 linvstconvert (GUI or CLI) and linvstconverttree can automatically batch name convert linvst.so to mutiple windows vst dll names that are located in a folder/directory (the linvstconvert CLI version needs to be run from within the dll's folder/directory).
 linvstconverttree can automatically name convert folders and sub folders (directories and sub directories) of vst dll plugins.
 
-sudo permission might be needed for some folders/directories that don't have user permissions.
+linvstconvert needs to be run with sudo permission for folders/directories that need sudo permission.
 
 After the naming conversion, the newly created files (.so files) are ready to be used in Linux vst DAW's from the folder that was used for the naming conversion.
 
