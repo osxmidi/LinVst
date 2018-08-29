@@ -96,7 +96,8 @@ Another way is to make a symbolic link to ~/.wine/drive_c/Program Files/VstPlugi
 
 There can be multiple WINEPREFIXES (by default there is one ~/.wine) containing various vst dll plugins and each WINEPREFIX can have a different wine setup, including dll overrides etc.
 
-Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a new WINEPREFIX (export WINEPREFIX=~&frasl;.wine-new winecfg) and then run the windows vst installation program or by setting the WINEPREFIX environmental variable to a particular pre existing WINEPREFIX and then installing the vst into it ie export WINEPREFIX=~&frasl;.wine-preexisting and then run the vst install.
+Different windows vst plugins that might require different wine setups can be installed into different WINEPREFIXES by creating a new WINEPREFIX (export WINEPREFIX=~/.wine-new winecfg) and then run the windows vst installation program.
+Or by setting the WINEPREFIX environmental variable to a particular pre existing WINEPREFIX and then installing the vst into it ie export WINEPREFIX=~/.wine-preexisting and then run the vst install.
 
 A particular WINEPREFIX can be configured by using winecfg with the WINEPREFIX environmental variable set to that particular WINEPREFIX ie export WINEPREFIX=~/.wine-new winecfg.
 
