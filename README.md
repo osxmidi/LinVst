@@ -40,7 +40,7 @@ and then running
 
 ln -s /home/user/.wine/drive_c/"Program Files"/VSTPlugins/*.so /home/user/vst
 
-will create symbolic links in /home/user/vst to the linvst .so files in /home/user/.wine/drive_c/"Program Files"/VSTPlugins and then the DAW can be pointed to scan /home/osxuser/vst
+will create symbolic links in /home/user/vst to the linvst .so files in /home/user/.wine/drive_c/"Program Files"/VSTPlugins and then the DAW can be pointed to scan /home/user/vst
 
 -------
 
