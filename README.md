@@ -490,7 +490,7 @@ sudo apt-get update
 
 --------
 
-The convert folder is for making the linvstconvert and linvstconverttree utilities that name convert Windows vst dll filenames (.dll) to Linux shared library filenames (.so).
+The convert folder is for making the linvstconvert and linvstconverttree (navigates subfolders) utilities that name convert Windows vst dll filenames (.dll) to corresponding Linux shared library filenames (.so).
 
 The makegtk etc files in the convert folder contain simple commands for making the convert utilities.
 
