@@ -30,17 +30,19 @@ If the dll plugin files are in a sudo permission folder (or any permission folde
 
 linvstconvert can also be run with sudo permission for folders/directories that need sudo permission.
 
-If the vst dll's and correspondingly named linvst .so files are in say for example /home/user/.wine/drive_c/"Program Files"/VSTPlugins
+Another way to use symlinks is, if the vst dll's and correspondingly named linvst .so files are in say for example /home/user/.wine/drive_c/"Program Files"/VSTPlugins
 
 then setting up links in say for example /home/user/vst
 
-is done by creating and changing into the /home/user/vst directory
+by creating the /home/user/vst directory and changing into the /home/user/vst directory
 
-and then
+and then running
 
 ln -s /home/user/.wine/drive_c/"Program Files"/VSTPlugins/*.so /home/user/vst
 
-and then point the DAW to scan /home/osxuser/vst
+
+
+will create symbolic links in /home/user/vst to the linvst .so files in /home/user/.wine/drive_c/"Program Files"/VSTPlugins and then the DAW can be pointed to scan /home/osxuser/vst
 
 -------
 
