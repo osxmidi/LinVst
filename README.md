@@ -20,9 +20,27 @@ Point linvstconvert to the folder containing the windows vst's and hit the Start
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
+-------
+
+Symlinks
+
+Symlinks can be used for convenience if wanted.
+
 If the dll plugin files are in a sudo permission folder (or any permission folder) such as /usr/lib/vst, then make a user permission folder such as /home/user/vst and then make symbolic links to /usr/lib/vst in the /home/user/vst folder by changing into /home/user/vst and running&nbsp;&nbsp;ln -s /usr/lib/vst/&lowast;&nbsp;&nbsp;.&nbsp;&nbsp;and then run linvstconvert on the /home/user/vst folder and then set the DAW to search the /home/user/vst folder.
 
 linvstconvert can also be run with sudo permission for folders/directories that need sudo permission.
+
+If the vst dll's and correspondingly named linvst .so files are in say for example /home/user/.wine/drive_c/"Program Files"/VSTPlugins
+
+then setting up links in say for example /home/user/vst
+
+is done by creating and changing into the /home/user/vst directory
+
+and then
+
+ln -s /home/user/.wine/drive_c/"Program Files"/VSTPlugins/*.so /home/user/vst
+
+and then point the DAW to scan /home/osxuser/vst
 
 -------
 
