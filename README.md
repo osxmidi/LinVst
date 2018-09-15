@@ -8,7 +8,7 @@ LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
 Quick Start Guide
 
-(See the Wiki page for a visual guide)
+(See the Wiki page for a visual guide https://github.com/osxmidi/LinVst/wiki)
 
 Decide on what version to run, either the embedded window version or the standalone window version (the embedded version would probably be the default choice)
 
