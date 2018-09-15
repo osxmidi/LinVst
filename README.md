@@ -20,6 +20,8 @@ Point linvstconvert to the folder containing the windows vst's and hit the Start
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
+Also, see the wiki page for a visual guide.
+
 -------
 
 Symlinks
