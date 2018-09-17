@@ -1393,6 +1393,7 @@ void RemotePluginServer::dispatchParEvents()
         int b = effDoVoid2(opcode, index, value, opt);
         tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
         break;
+    }
 		    
     case RemotePluginHideGUI:
         hideGUI();
