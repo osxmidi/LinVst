@@ -1390,9 +1390,9 @@ void RemotePluginServer::dispatchParEvents()
         int index = readIntring(&m_shmControl5->ringBuffer);
         int value = readIntring(&m_shmControl5->ringBuffer);
         float opt = readFloatring(&m_shmControl5->ringBuffer);
-        effDoVoid2(opcode, index, value, opt);
+        int b = effDoVoid2(opcode, index, value, opt);
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
         break;
-    }
 		    
     case RemotePluginHideGUI:
         hideGUI();
