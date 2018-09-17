@@ -110,8 +110,8 @@ public:
     virtual int         getEffInt(int opcode);
     virtual std::string getEffString(int opcode, int index);
     virtual void        effDoVoid(int opcode);
-    virtual void        effDoVoid2(int opcode, int index, int value, float opt);
-
+    virtual int         effDoVoid2(int opcode, int index, int value, float opt);
+  
 //    virtual int         getInitialDelay() {return m_plugin->initialDelay;}
 //    virtual int         getUniqueID() { return m_plugin->uniqueID;}
 //    virtual int         getVersion() { return m_plugin->version;}
@@ -154,6 +154,7 @@ public:
     HWND                hWnd;
     WNDCLASSEX          wclass;
     UINT_PTR            timerval;
+    int                 timerhit;
     bool                haveGui;
     int                 hideguival;
     int                 breakloop;
@@ -224,7 +225,8 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	 {	  
 	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin)
 	 {	 
-         remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+ //        remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+      remoteVSTServerInstance->timerhit = 1;
          return 0;
 	 }
 	 }
@@ -327,6 +329,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
 #endif
     haveGui(true),
     timerval(0),
+    timerhit(0),
     exiting(false),
     effectrun(false),
     inProcessThread(false),
@@ -666,9 +669,20 @@ void RemoteVSTServer::effDoVoid(int opcode)
     }
 }
 
-void RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
+int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
 {
-        m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);
+int ret;
+
+    ret = 0;
+    if(opcode == effEditIdle)
+    {
+    if((timerhit == 1) && !exiting && guiVisible)
+    {
+    ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);
+    timerhit = 0;    
+    }
+    }
+    return ret;
 }
 
 std::string RemoteVSTServer::getEffString(int opcode, int index)
