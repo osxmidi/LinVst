@@ -339,7 +339,7 @@ static char dawbuf[512];
 #endif
 #endif
 #endif
-        // plugin->effVoidOp(effEditIdle);
+        v = plugin->effVoidOp2(effEditIdle, index, value, opt);
         break;
 
     case effStartProcess:
