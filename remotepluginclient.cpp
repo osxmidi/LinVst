@@ -2065,7 +2065,7 @@ void RemotePluginClient::effVoidOp(int opcode)
     }
 }
 
-void RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
+int RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
 {
         writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid2);
         writeIntring(&m_shmControl5->ringBuffer, opcode);
@@ -2073,7 +2073,8 @@ void RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
         writeIntring(&m_shmControl5->ringBuffer, value);
         writeFloatring(&m_shmControl5->ringBuffer, opt);
         commitWrite(&m_shmControl5->ringBuffer);
-        waitForServer5();   
+        waitForServer5();  
+        return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
 int RemotePluginClient::getChunk(void **ptr, int bank_prg)
