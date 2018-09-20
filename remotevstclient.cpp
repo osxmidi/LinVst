@@ -61,7 +61,7 @@ std::string filename2;
 
   size_t found2 = dllname.find_last_of("/");
   filename = dllname.substr(found2 + 1, strlen(dllname.c_str()) - (found2 +1));
-  filename2 = "LinVst Error: VST dll file not found:  " + filename;
+  filename2 = "VST dll file not found or timeout:  " + filename;
       
   XInitThreads();
   display = XOpenDisplay(NULL);  
