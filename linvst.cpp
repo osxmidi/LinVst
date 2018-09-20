@@ -899,7 +899,7 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
 		
     if(plugin->m_runok == 1)
     {
-        std::cerr << "/usr/bin/lin-vst-server not found or dll load error or LinVst version mismatch" << std::endl;
+        std::cerr << "LinVst Error: lin-vst-server not found or vst dll load timeout or LinVst version mismatch" << std::endl;
         errwin2();
 	if(plugin)
         delete plugin;
