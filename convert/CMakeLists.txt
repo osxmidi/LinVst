@@ -22,6 +22,7 @@ if( GTK_FOUND )
   target_link_libraries( linvstconverttree-gui ${GTK_LIBRARIES} )
   target_compile_options(linvstconverttree-gui PUBLIC ${GTK_CFLAGS_OTHER})
 
+  install( TARGETS linvstconvert-gui linvstconverttree-gui DESTINATION bin )
   
 endif()
 
@@ -29,4 +30,6 @@ message ("Compiling command line convert utilities." )
 
 set( CMAKE_CXX_STANDARD 14 )
 add_executable( linvstconvert linvstconvert.cpp )
+
+install( TARGETS linvstconvert DESTINATION bin )
 

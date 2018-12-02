@@ -11,16 +11,16 @@ message( "Configuring Project LinVst.")
 SET(STATIC_LINKING FALSE )
 
 set( CMAKE_CXX_STANDARD 14 )
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -Wall -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DWAVES -DVESTIGE ")
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -Wall -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DWAVES -DVESTIGE " )
 
 # Project Path.
 ###############
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib )
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin )
 
-link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+link_directories( ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} )
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
 # Find wineg++, use default system or look at winehq deve package installed in /opt.
 
@@ -33,12 +33,13 @@ find_program (
 if( NOT WINEGPP_BIN )
   message( "ERROR, cannot find wineg++." )
 else()
-  message( "Comiling exe with " ${WINEGPP_BIN} " compiler.")
+  message( "Comiling exe with " ${WINEGPP_BIN} " compiler." )
 endif()      
           
 set( CMAKE_CXX_COMPILER ${WINEGPP_BIN} )
 
 # Find wine windows header.
+
 find_path( WIN_INCLUDE windows.h 
   /usr/include/wine-development/windows
   /usr/include/wine-development/wine/windows
@@ -65,6 +66,7 @@ set( CMAKE_CXX_STANDARD 14 )
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE" )
 include_directories( ${WIN_INCLUDE} )
 
-add_executable( lin-vst-server ${LINVST_SVR_SRC} )
-target_link_libraries( lin-vst-server pthread rt )
+add_executable( lin-vst-server.exe ${LINVST_SVR_SRC} )
+target_link_libraries( lin-vst-server.exe pthread rt )
 
+install( TARGETS lin-vst-server.exe DESTINATION bin )

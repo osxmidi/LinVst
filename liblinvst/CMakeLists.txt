@@ -26,3 +26,4 @@ set( LINVST_SO_SRC SHARED
 
 add_library(linvst ${LINVST_SO_SRC} )
 set_target_properties(linvst PROPERTIES PREFIX "")
+install( TARGETS linvst DESTINATION share/LinVst )

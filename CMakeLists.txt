@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
+# General set up, must stay here.
+set( CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Install prefix." )
+
+# Base project setup.
 project(LinVst)
 
 INCLUDE(FindPackageHandleStandardArgs)
@@ -12,6 +16,7 @@ SET(PATCH_VERSION "0")
 
 add_subdirectory( liblinvst )
 add_subdirectory( exelinvst )
+add_subdirectory( convert )
 
 #-----------------------------------------------------------------
 # CPack configuration.
@@ -33,8 +38,7 @@ SET(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
 SET(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
 SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}.${MINOR_VERSION}.${CPACK_PACKAGE_VERSION_PATCH}")
 SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}.${MINOR_VERSION}.${CPACK_PACKAGE_VERSION_PATCH}")
-#demo dependencies
-#SET(CPACK_DEBIAN_PACKAGE_DEPENDS " kate , plasma-desktop, libc6 (>= 2.1.3) ")
+
  
 #dependencies for this service menu
 SET(CPACK_DEBIAN_PACKAGE_DEPENDS "wine-stable")
