@@ -22,7 +22,38 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set( CMAKE_CXX_COMPILER wineg++ )
+# Find wineg++, use default system or look at winehq deve package installed in /opt.
+
+find_program (
+          WINEGPP_BIN
+          NAMES wineg++
+          PATHS /usr/bin /opt/wine-stable/bin /opt/wine-devel/bin /opt/wine-staging/bin
+)
+
+if( NOT WINEGPP_BIN )
+  message( "ERROR, cannot find wineg++." )
+else()
+  message( "Comiling exe with " ${WINEGPP_BIN} " compiler.")
+endif()      
+          
+set( CMAKE_CXX_COMPILER ${WINEGPP_BIN} )
+
+# Find wine windows header.
+find_path( WIN_INCLUDE windows.h 
+  /usr/include/wine-development/windows
+  /usr/include/wine-development/wine/windows
+  /usr/include/wine/wine/windows
+  /opt/wine-stable/include/wine/windows
+  /opt/wine-devel/include/wine/windows
+  /opt/wine-staging/include/wine/windows
+)
+
+if( NOT WIN_INCLUDE )
+  message( "ERROR, cannot find wine windows include path (windows.h)." )
+else()
+  message( "Found windows headers int " ${WIN_INCLUDE} )
+endif()      
+
 
 set( LINVST_SVR_SRC
   ../lin-vst-server.cpp
@@ -31,7 +62,8 @@ set( LINVST_SVR_SRC
   )
 
 set( CMAKE_CXX_STANDARD 14 )
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows")
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE" )
+include_directories( ${WIN_INCLUDE} )
 
 add_executable( lin-vst-server ${LINVST_SVR_SRC} )
 target_link_libraries( lin-vst-server pthread rt )
