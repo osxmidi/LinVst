@@ -536,3 +536,4 @@ Tracktion/Waveform might have an embedded window offset problem where the plugin
 
 The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only.
 
+

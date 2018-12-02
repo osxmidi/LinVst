@@ -10,8 +10,6 @@ message( "Configuring Project LinVst.")
 ################
 SET(STATIC_LINKING FALSE )
 
-set( CMAKE_CXX_STANDARD 14 )
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -Wall -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DWAVES -DVESTIGE " )
 
 # Project Path.
 ###############
@@ -63,10 +61,21 @@ set( LINVST_SVR_SRC
   )
 
 set( CMAKE_CXX_STANDARD 14 )
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE" )
+
 include_directories( ${WIN_INCLUDE} )
 
 add_executable( lin-vst-server.exe ${LINVST_SVR_SRC} )
+set_target_properties(  lin-vst-server.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -m64 -pipe -Wall -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE" )
 target_link_libraries( lin-vst-server.exe pthread rt )
 
-install( TARGETS lin-vst-server.exe DESTINATION bin )
+
+#add_executable( lin-vst-server32.exe  ${LINVST_SVR_SRC} )
+#set_target_properties( lin-vst-server32.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} -m32 -pipe -Wall -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE" )
+#target_link_libraries( lin-vst-server32.exe pthread rt )
+
+install( TARGETS
+  lin-vst-server.exe  
+  #lin-vst-server32.exe
+  DESTINATION bin )
+
+install(FILES  ${CMAKE_CURRENT_BINARY_DIR}/bin/lin-vst-server.exe.so  DESTINATION bin)
