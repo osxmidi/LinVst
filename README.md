@@ -22,6 +22,8 @@ Point linvstconvert to the folder containing the windows vst's and hit the Start
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
+Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releases
+
 -------
 
 Symlinks
