@@ -332,6 +332,8 @@ sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
+DDMF Metaplugin VST3 to VST2 wrapper.
+
 Guitar Rig 5 (same dll overrides as Kontakt)
 
 Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
