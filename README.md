@@ -332,7 +332,7 @@ sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
-DDMF Metaplugin VST3 to VST2 wrapper.
+DDMF Metaplugin VST3 to VST2 wrapper (Drag and Drop VST3 files is ok).
 
 Guitar Rig 5 (same dll overrides as Kontakt)
 
