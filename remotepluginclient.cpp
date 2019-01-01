@@ -144,9 +144,13 @@ else
                 switch(opcode)
                 {
                     case audioMasterGetTime:       
-                    val = readIntring(&m_shmControl->ringBuffer);
-                    timeInfo = (VstTimeInfo *) m_audioMaster(theEffect, audioMasterGetTime, 0, val, 0, 0);
+         //           val = readIntring(&m_shmControl->ringBuffer);
+          //                   timeInfo = (VstTimeInfo *) m_audioMaster(theEffect, audioMasterGetTime, 0, val, 0, 0);
+                    timeInfo = (VstTimeInfo *) m_audioMaster(theEffect, audioMasterGetTime, 0, 0, 0, 0);
+                    if(timeInfo)
+                    {
                     memcpy((VstTimeInfo*)&m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], timeInfo, sizeof(VstTimeInfo));
+                    }
                     break;
 
                 case audioMasterIOChanged:
@@ -784,10 +788,10 @@ startok = 0;
 
 ptr = (int *)m_shm;
 
-    for (int i=0;i<2000;i++)
+    for (int i=0;i<4000;i++)
     {
         usleep(10000);
-        if (*ptr == 232)
+        if (*ptr == 24)
          {
             startok = 1;
             break;
