@@ -242,7 +242,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
 
     ptr = (int *)m_shm;
 
-    for (int i=0;i<2000;i++)
+    for (int i=0;i<4000;i++)
     {
         usleep(10000);
         if ((*ptr == 2) || (*ptr == 3))
@@ -490,7 +490,7 @@ int RemotePluginServer::sizeShm()
 
     ptr = (int *)m_shm;
 
-    *ptr = 232;
+    *ptr = 24;
 	
      return 0;	
 }
