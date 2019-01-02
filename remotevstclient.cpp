@@ -356,7 +356,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
     #endif
 
-    if ((child = vfork()) < 0)
+    if ((child = fork()) < 0)
     {
         m_runok = 1;
         cleanup();
@@ -423,6 +423,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 
 RemoteVSTClient::~RemoteVSTClient()
 {
+    while (waitpid(-1, NULL, WNOHANG) > 0) {}
 /*
     for (int i=0;i<5000;i++)
     {
