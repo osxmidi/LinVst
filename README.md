@@ -409,9 +409,9 @@ Serum needs Wine Staging to register.
 
 Waves plugins.
 
-If Waves Central has problems installing the Waves plugins using a version of Wine Staging 3.x then revert to Wine Staging 2.21 for the plugin install (remove any current winehq reference from /etc/apt/sources.list or distro equivalent and then sudo apt-get update and then try sudo apt-get install winehq-staging to get the default winehq-staging 2.21) and then install any version of Wine 3.x after the license and plugin install.
+Tested Waves Central and Waves C1 and C4 and C360 and API-560 and Abbey Road Plates plugins with Wine Staging version 3.x and 4.x and Debian Stretch/Sid (other non Debian based systems not tested).
 
-Tested Waves Central and Waves C1 and C4 and C360 plugins with Debian Stretch/Sid.
+Waves VST3 API-560 and Abbey Road Plates plugins tested with DDMF Metaplugin VST3 to VST2 wrapper and Wine Staging 4.x and Debian Stretch/Sid.
 
 Bitwig seems to need the Waveshell to be unpacked into individual dll's using shell2vst.
 
@@ -419,7 +419,7 @@ The Waves plugins don't seem to work with Tracktion.
 
 Reaper and Ardour seem to work with the Waveshell dll and the individual unpacked dll's.
 
-Waves Central requires Wine Staging 2.x/3.x and also requires robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override and a mfc42.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
+Waves Central requires Wine Staging 3.x/4.x and also requires robocopy.exe to be installed (Windows Server 2003 Resource Kit Tools) and robocopy also needs a mfc42u.dll 32 bit override and a mfc42.dll 32 bit override to be placed in /windows/syswow64 and added to the winecfg Libraries tab.
 
 Waves Central seems to require a usb stick to be inserted so that the install/license functions operate and the Windows Server 2003 Resource Kit Tools install (robocopy) seems to make a list of available drives at install time, so inserting a usb stick before installing Windows Server 2003 Resource Kit Tools would be a good idea as Waves Central uses robocopy for file transfers and Waves Central checks for usb drives and seems to require a usb stick to be present.
 
