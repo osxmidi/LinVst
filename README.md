@@ -437,9 +437,9 @@ PUBLIC C:\users\Public
 
 for 32 bit systems it's
 
-COMMONPROGRAMFILES(X86) C:\Program Files\Common Files
+COMMONPROGRAMFILES C:\Program Files\Common Files
 
-PROGRAMFILES(X86) C:\Program Files
+PROGRAMFILES C:\Program Files
 
 PUBLIC C:\users\Public
 
