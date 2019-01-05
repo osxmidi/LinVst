@@ -333,6 +333,7 @@ sudo mount -t udf -o unhide /dev/sr0 /mnt
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
 DDMF Metaplugin VST3 to VST2 wrapper (d2d1 might need to be disabled for some video cards) (Draging and Dropping VST3 files to the DDMF Metaplugin window is ok).
+DDMF Metaplugin also needs the Microsoft Visual C++ 2010 Redistributable Package which is usually installed by default but if there is a problem then it is possible to also install it by using winetricks vcrun2010.
 
 Guitar Rig 5 (same dll overrides as Kontakt)
 
