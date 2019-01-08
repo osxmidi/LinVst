@@ -287,7 +287,7 @@ The wineserver priority can be set with wine-staging by setting the STAGING_RT_P
 
 ## Tested vst's
 
->  LinVst tested with Wine 2/Wine 3 and Linux Tracktion 7/Waveform, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Linux Renoise 3.1
+>  LinVst tested with Wine2/Wine3/Wine4 and Linux Tracktion 7/Waveform, Linux Ardour 5.6, Linux Bitwig Studio 2.x, Linux Reaper 5.x, Linux Renoise 3.1
 
 **Kontakt Player 5.6.8** (turn multiprocessing off). Requires Wine 2.0 and above
 
