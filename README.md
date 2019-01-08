@@ -1,12 +1,8 @@
 # LinVst
 
------
-
 LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
------
-
-Quick Start Guide
+## Quick Start Guide
 
 (See the Wiki page for a visual guide https://github.com/osxmidi/LinVst/wiki)
 
@@ -24,9 +20,7 @@ Start up the linux DAW and point it to scan the folder containing the windows vs
 
 Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releases
 
--------
-
-Symlinks
+## Symlinks
 
 Symlinks can be used for convenience if wanted.
 
@@ -42,13 +36,13 @@ by creating the /home/user/vst directory and changing into the /home/user/vst di
 
 and then running
 
+```
 ln -s /home/user/.wine/drive_c/"Program Files"/VSTPlugins/*.so /home/user/vst
+```
 
 will create symbolic links in /home/user/vst to the linvst .so files in /home/user/.wine/drive_c/"Program Files"/VSTPlugins and then the DAW can be pointed to scan /home/user/vst
 
--------
-
-More Detailed Guide
+## More Detailed Guide
 
 To use LinVst, the linvst.so file simply needs to be renamed to match the windows vst dll's filename.
 
@@ -56,7 +50,7 @@ To use LinVst, the linvst.so file simply needs to be renamed to match the window
 
 Both the windows vst dll file and the renamed linvst.so file are then a matched pair and need to be kept together in the same directory/folder.
 
-For Example
+**For Example**
 
 copy lin-vst-server.exe and lin-vst-server.so to /usr/bin
 
@@ -78,33 +72,34 @@ After the naming conversion, the newly created files (.so files) are ready to be
 
 Copying/moving plugins (and in some cases their associated presets etc) to a folder/directory with user permissions (if possible) is generally a good idea unless the vst plugin requires a fixed path.
 
--------
-
-Using a folder of windows dll files as an example.
+### Using a folder of windows dll files as an example.
 
 Say the folder contains 
 
-Delay.dll
-
-Compressor.dll
-
-Chorus.dll
-
-Synth.dll
+- Delay.dll
+- Compressor.dll
+- Chorus.dll
+- Synth.dll
 
 then after the renaming (using the renaming utility) the folder will look like
 
-Delay.dll
-Delay.so
+- Delay.dll
+- Delay.so
 
-Compressor.dll
-Compressor.so
 
-Chorus.dll
-Chorus.so
 
-Synth.dll
-Synth.so
+- Compressor.dll
+- Compressor.so
+
+
+
+- Chorus.dll
+- Chorus.so
+
+
+
+- Synth.dll
+- Synth.so
 
 The files ending with .so can be used inside Linux Vst DAWS to load and manage the associated dll files (ie Delay.so loads and manages Delay.dll).
 
@@ -143,9 +138,7 @@ If a windows vst dll file and it's associated renamed linvst.so file are located
 
 Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
-------
-
-Common Problems/Possible Fixes
+## Common Problems/Possible Fixes
 
 LinVst looks for wine in /usr/bin and if there isn't a /usr/bin/wine then that will probably cause problems.
 /usr/bin/wine can be a symbolic link to /opt/wine-staging/bin/wine (for wine staging) for example.
@@ -176,15 +169,14 @@ Occasionally other dlls might need to be overridden such as gdiplus.dll etc
 
 Winetricks https://github.com/Winetricks/winetricks can make overriding dll's easier.
 
-For the above dll overrides
+**For the above dll overrides**
 
+```
 winetricks vcrun2013
-
 winetricks vcrun2015
-
 winetricks wininet
-
 winetricks gdiplus
+```
 
 Winetricks also has a force flag --force ie winetricks --force vcrun2013
 
@@ -196,7 +188,7 @@ For details about overriding dll's, see the next section (Wine Config).
 
 Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped into the vst window and not for items dragged and dropped from the vst window to the DAW/host window.
 
-Renoise
+**Renoise**
 
 Sometimes a synth vst doesn't declare itself as a synth and Renoise might not enable it.
 
@@ -212,9 +204,7 @@ Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedV
 
 Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
 
-------
-
-Wine Config
+## Wine Config
 
 LinVst expects wine to be found in /usr/bin.
 
@@ -275,9 +265,7 @@ The solution is to initialise Wine first by running winecfg or any other Wine ba
 
 Upgrading to the latest wine-stable version is recommended.
 
-------
-
-Latency/Performance
+## Latency/Performance
 
 Some distros/wine can result in varying latency results.
 
@@ -297,13 +285,11 @@ wineserver can have it's priority level changed from normal to high or very high
 
 The wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
 
-------
+## Tested vst's
 
-LinVst tested with Wine 2/Wine 3 and Linux Tracktion 7/Waveform, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Linux Renoise 3.1
+>  LinVst tested with Wine 2/Wine 3 and Linux Tracktion 7/Waveform, Linux Ardour 5.6, Linux Bitwig Studio 2, Linux Reaper 5.5, Linux Renoise 3.1
 
-Tested vst's
-
-Kontakt Player 5.6.8 (turn multiprocessing off). Requires Wine 2.0 and above
+**Kontakt Player 5.6.8** (turn multiprocessing off). Requires Wine 2.0 and above
 
 Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
 Kontakt and Wine 2.8 staging or later only need an additional msvcp140.dll override. 
@@ -332,83 +318,83 @@ sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
-DDMF Metaplugin VST3 to VST2 wrapper (d2d1 might need to be disabled for some video cards) (Draging and Dropping VST3 files to the DDMF Metaplugin window is ok).
+**DDMF** Metaplugin VST3 to VST2 wrapper (d2d1 might need to be disabled for some video cards) (Draging and Dropping VST3 files to the DDMF Metaplugin window is ok).
 DDMF Metaplugin also needs the Microsoft Visual C++ 2010 Redistributable Package which is usually installed by default but if there is a problem then it is possible to also install it by using winetricks vcrun2010.
 
-Guitar Rig 5 (same dll overrides as Kontakt)
+**Guitar Rig 5** (same dll overrides as Kontakt)
 
-Reaktor 6 (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
+**Reaktor 6** (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
 
-FM8 (might need the standalone FM8 to be run first so that the plugin's file browser files appear)
+**FM8** (might need the standalone FM8 to be run first so that the plugin's file browser files appear)
 
-Line 6 Helix Native (msvcr120.dll and gdiplus.dll overrides) (copy and paste username and password into the registration window)
+**Line 6 Helix Native** (msvcr120.dll and gdiplus.dll overrides) (copy and paste username and password into the registration window)
 
-S-Gear Amp Sim
+**S-Gear Amp Sim**
 
-TH3 Amp Sim
+**TH3 Amp Sim**
 
-IK Amplitube 4
+**IK Amplitube 4**
 
-IK SampleTank
+**IK SampleTank**
 
-Addictive Drums 2 (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
+**Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
 
-EZDrummer2 (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
+**EZDrummer2** (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
 
-Mercuriall Spark Amp Sim
+**Mercuriall Spark Amp Sim**
 
-Melda MXXX Multi Effects (turn GPU acceleration off)
+**Melda MXXX Multi Effects** (turn GPU acceleration off)
 
-Izotope Ozone has multiple dlls and only the main dll (which is a vst dll) needs to have a linvst .so file associated with it. For instance, the Ozone 8.dll would have an associated Ozone 8.so file and none of the other dlls would have associated .so files (otherwise the DAW will try and load the other dlls which are not vst dlls and then produce errors).
+**Izotope Ozone** has multiple dlls and only the main dll (which is a vst dll) needs to have a linvst .so file associated with it. For instance, the Ozone 8.dll would have an associated Ozone 8.so file and none of the other dlls would have associated .so files (otherwise the DAW will try and load the other dlls which are not vst dlls and then produce errors).
 
-T-RackS
+**T-RackS**
 
-Nebula4
+**Nebula4**
 
-VUMT
+**VUMT**
 
-Sforzando (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+**Sforzando** (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 
-BassMidi sf2 and sfz.
+**BassMidi** sf2 and sfz.
 
-Groove Machine (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+**Groove Machine** (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 
-Zampler RX
+**Zampler RX**
 
-Stillwell plugins
+**Stillwell plugins**
 
-Cobalt (Sanford) Synth
+**Cobalt (Sanford) Synth**
 
-Synth1 needs it's presets path setup (browse and locate using the opt button).
+**Synth1** needs it's presets path setup (browse and locate using the opt button).
 
-Spire Synth (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
+**Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
-OP-X PRO-II (Disable d2d1 in the Libraries section of winecfg)
+**OP-X PRO-II** (Disable d2d1 in the Libraries section of winecfg)
 
-MT-PowerDrumKit (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+**MT-PowerDrumKit** (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
 
-FL Sytrus needs winetricks corefonts to be installed for fonts. The UI might become blank after closing and reopening (minimizing).
+**FL Sytrus** needs winetricks corefonts to be installed for fonts. The UI might become blank after closing and reopening (minimizing).
 
-Ignite Amps TPA-1 Amp Sim 
+**Ignite Amps TPA-1 Amp Sim** 
 
-LePou Amp Sims
+**LePou Amp Sims**
 
-Nick Crow Lab Amp Sims
+**Nick Crow Lab Amp Sims**
 
-Voxengo Boogex Guitar Effects
+**Voxengo Boogex Guitar Effects**
 
-Klanghelm MJUC Compressor
+**Klanghelm MJUC Compressor**
 
-TDR SlickEQ mixing/mastering equalizer 
+**TDR SlickEQ mixing/mastering equalizer** 
 
-Toneboosters TrackEssentials (disable d2d1 for Ferox)
+**Toneboosters TrackEssentials** (disable d2d1 for Ferox)
 
-Serum Synth (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
+**Serum Synth** (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
 Serum needs Wine Staging to register.
 
-Waves plugins.
+**Waves plugins**.
 
 Tested Waves Central and Waves C1 and C4 and C360 and API-560 and Abbey Road Plates plugins with Wine Staging version 3.x and 4.x and Debian Stretch/Sid (other non Debian based systems not tested).
 
@@ -469,9 +455,7 @@ and then finish by clicking on open.
 
 The DAW scan should then pick up the Waves plugins.
 
---------
-
-To make
+## To make
 
 Remove -DVESTIGE from the makefiles to use the VST2 SDK (by default the VST2 SDK is not required).
 
