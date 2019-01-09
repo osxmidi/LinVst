@@ -295,7 +295,7 @@ d2d1.dll can cause errors because Wine's current d2d1 support is not complete an
 
 Some plugins need d2d1 to be disabled in the winecfg Libraries tab (add a d2d1 entry and then edit it and select disable).
 
-To find out if a plugin depends on d2d1 a scan of the plugin dll file can be done
+A scan of the plugin dll file can be done to find out if the plugin depends on d2d1 
 
 "strings vstname.dll | grep -i d2d1"
 
