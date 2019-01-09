@@ -289,6 +289,30 @@ The wineserver priority can be set with wine-staging by setting the STAGING_RT_P
 
 >  LinVst tested with Wine2/Wine3/Wine4 and Linux Tracktion 7/Waveform, Linux Ardour 5.6, Linux Bitwig Studio 2.x, Linux Reaper 5.x, Linux Renoise 3.1
 
+d2d1 based plugins
+
+d2d1.dll can cause errors because Wine's current d2d1 support is not complete and using a d2d1.dll override might produce a black (blank) display.
+
+Some plugins need d2d1 to be disabled in the winecfg Libraries tab (add a d2d1 entry and then edit it and select disable).
+
+To find out if a plugin depends on d2d1 a scan of the plugin dll file can be done
+
+"strings vstname.dll | grep -i d2d1"
+
+
+**Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
+
+**OP-X PRO-II** (Disable d2d1 in the Libraries section of winecfg)
+
+**MT-PowerDrumKit** (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
+
+**Toneboosters TrackEssentials** (disable d2d1 for Ferox)
+
+**Serum Synth** (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
+Serum needs Wine Staging to register.
+
 **Kontakt Player 5.6.8** (turn multiprocessing off). Requires Wine 2.0 and above
 
 Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
@@ -367,13 +391,6 @@ DDMF Metaplugin also needs the Microsoft Visual C++ 2010 Redistributable Package
 
 **Synth1** needs it's presets path setup (browse and locate using the opt button).
 
-**Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
-
-**OP-X PRO-II** (Disable d2d1 in the Libraries section of winecfg)
-
-**MT-PowerDrumKit** (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
-
 **FL Sytrus** needs winetricks corefonts to be installed for fonts. The UI might become blank after closing and reopening (minimizing).
 
 **Ignite Amps TPA-1 Amp Sim** 
@@ -387,12 +404,6 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help w
 **Klanghelm MJUC Compressor**
 
 **TDR SlickEQ mixing/mastering equalizer** 
-
-**Toneboosters TrackEssentials** (disable d2d1 for Ferox)
-
-**Serum Synth** (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
-Serum needs Wine Staging to register.
 
 **Waves plugins**.
 
