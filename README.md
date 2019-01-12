@@ -537,3 +537,37 @@ Tracktion/Waveform might have an embedded window offset problem where the plugin
 The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only.
 
 
+--
+
+# Building Deb package.
+
+## Building the deb package.
+
+This has been developped and tested on an ubuntu 18.04. It should work on other releases.
+
+int the LinVst directory:
+
+mkdir build
+cd build
+cmake ..
+make
+cpack
+
+This should create a LinVst-x.y.z.deb file ready to install.
+
+## How to use.
+
+The package install the following files:
+
+
+/usr/bin/lin-vst-server.exe
+./usr/bin/lin-vst-server.exe.so
+./usr/bin/linvstconvert
+./usr/bin/pylinvstconvert
+./usr/share/LinVst/linvst.so
+
+You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
+
+pylinvstconvert path/to/the/vst.dll
+
+It will create the appropriate .so file along your DLL.
