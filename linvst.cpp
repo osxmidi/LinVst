@@ -67,6 +67,10 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     {
     case effEditGetRect:
     {
+#ifdef STANDALONE
+        rp = &plugin->retRect;
+        *((struct ERect **)ptr) = rp;
+#else
         plugin->GetRect();
 
         rp = &plugin->retRect;
@@ -77,6 +81,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         rp->left = 0;
 
         *((struct ERect **)ptr) = rp;
+#endif
     }
         break;
 
@@ -198,7 +203,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
     case effEditOpen:               
-
+#ifdef STANDALONE
+        plugin->showGUI();
+#else
         plugin->winm.width = 0;
         plugin->winm.height = 0;
         plugin->winm.handle = (long int)ptr;
@@ -211,6 +218,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         rp->top = 0;
         rp->right = plugin->winm.width;
         rp->left = 0;
+#endif
         break;
 
     case effEditClose:

@@ -695,17 +695,135 @@ bool RemoteVSTServer::warn(std::string warning)
 
 void RemoteVSTServer::GetRect()
 {
+#ifdef EMBED
         m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
 
         winm.width = rect->right - rect->left;
         winm.height = rect->bottom - rect->top;
         winm.handle = 0;  
         tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+#endif
 }
 
 void RemoteVSTServer::showGUI()
 {
-#ifdef EMBED
+#ifdef STANDALONE
+    Atom dmessage;
+    Atom winstate;
+    Atom winmodal;
+    ERect *eRect;
+    int height = 0;
+    int width = 0;
+    int ret = 0;
+
+    if (debugLevel > 0) {
+	cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
+    }
+
+    if(haveGui == false)
+    {
+    ret = 1;
+    tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));
+    return;
+    }
+
+    if (guiVisible)
+    {
+    ret = 1;
+    tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));
+    return;
+    }
+
+    x11_dpy = 0;
+
+    x11_dpy = XOpenDisplay(0);
+
+    if(x11_dpy == 0)
+    {
+    ret = 1;
+    tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));
+    return;       
+    }
+
+    x11_win = 0;
+
+    x11_win = XCreateSimpleWindow(x11_dpy, DefaultRootWindow(x11_dpy), 0, 0, 300, 300, 0, 0, 0);
+
+     if(x11_win == 0)
+     {
+    
+    XCloseDisplay(x11_dpy);
+
+    ret = 1;
+    tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));
+    return;       
+     }
+
+    winstate = XInternAtom(x11_dpy, "_NET_WM_STATE", True);
+    winmodal = XInternAtom(x11_dpy, "_NET_WM_STATE_ABOVE", True);
+    XChangeProperty(x11_dpy, x11_win, winstate, XA_ATOM, 32, PropModeReplace, (unsigned char*)&winmodal, 1);
+
+    XMapWindow(x11_dpy, x11_win);
+
+    XFlush(x11_dpy);
+ 
+    XSelectInput(x11_dpy, x11_win, SubstructureNotifyMask | ButtonPressMask | ButtonReleaseMask
+                 | ButtonMotionMask | ExposureMask | KeyPressMask);
+
+    dmessage = XInternAtom(x11_dpy, "WM_DELETE_WINDOW", false);
+     
+    XSetWMProtocols(x11_dpy, x11_win, &dmessage, 1);
+
+    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &eRect, 0);
+
+    m_plugin->dispatcher(m_plugin, effEditOpen, 0, (VstIntPtr) x11_dpy, (void *) x11_win, 0);
+ 
+    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &eRect, 0);
+ 
+    if (eRect) {
+        width = eRect->right - eRect->left;
+        height = eRect->bottom - eRect->top;
+        
+        if((width == 0) || (height == 0))
+        {
+        
+        XDestroyWindow (x11_dpy, x11_win);
+        XCloseDisplay(x11_dpy);
+
+        x11_dpy = NULL;
+
+        ret = 1;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));   
+        return;
+        }
+        
+        XResizeWindow(x11_dpy, x11_win, width, height);
+        
+        }
+        else
+        {       
+        XDestroyWindow (x11_dpy, x11_win);
+        XCloseDisplay(x11_dpy);
+  
+        ret = 1;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));        
+        return;
+          
+        }
+
+   XStoreName(x11_dpy, x11_win, "LinVst-Linux");
+
+   XFlush(x11_dpy);
+
+   XSync(x11_dpy, false);
+
+   guiVisible = true;
+
+
+// usleep(100000);
+
+    tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));
+#else
         winm.handle = 0;
         winm.width = 0;
         winm.height = 0;
@@ -807,6 +925,35 @@ void RemoteVSTServer::showGUI()
 
 void RemoteVSTServer::hideGUI2()
 {
+#ifdef STANDALONE
+int ret;
+
+    if(haveGui == false)
+    {
+    ret = 1;
+    tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));  
+    return;
+    }
+
+    if (guiVisible == false)
+    {
+    ret = 1;
+    tryWrite(&m_shm[FIXED_SHM_SIZE], &ret, sizeof(int));  
+    return;
+    }
+
+if(x11_dpy)
+{
+m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+
+XDestroyWindow (x11_dpy, x11_win);
+
+XCloseDisplay(x11_dpy);
+
+x11_dpy = NULL;
+
+}
+#else
     // if (!hWnd)
         // return;
 /*
@@ -818,7 +965,6 @@ void RemoteVSTServer::hideGUI2()
     
 */   
  
-#ifdef EMBED
 if(x11_dpy && guiVisible && hideguival)
 {
 XCloseDisplay(x11_dpy);
@@ -1257,14 +1403,12 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     case audioMasterSizeWindow:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterSizeWindow requested" << endl;
-/*
 
        XResizeWindow(remoteVSTServerInstance->x11_dpy, remoteVSTServerInstance->x11_win, index, value);
        XFlush(remoteVSTServerInstance->x11_dpy);
        XSync(remoteVSTServerInstance->x11_dpy, false);
 
        rv = 1;   
-*/
        break;
 
     case audioMasterGetSampleRate:

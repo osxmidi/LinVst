@@ -1747,15 +1747,22 @@ bool RemotePluginClient::warn(std::string str)
 
 void RemotePluginClient::GetRect()
 {
+#ifdef EMBED
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetRect);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
 
     tryRead(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+#endif
 }
 
 void RemotePluginClient::showGUI()
 {
+#ifdef STANDALONE
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginShowGUI);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+#else
     tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
 
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginShowGUI);
@@ -1763,6 +1770,7 @@ void RemotePluginClient::showGUI()
     waitForServer3();  
 
     tryRead(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+#endif
 }
 
 void RemotePluginClient::hideGUI()
