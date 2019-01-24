@@ -1,1 +1,0 @@
-g++ `pkg-config --cflags gtk+-2.0` linvstconvertgtk.cpp -o linvstconvert `pkg-config --libs gtk+-2.0`
