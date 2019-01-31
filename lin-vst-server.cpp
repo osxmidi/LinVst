@@ -2344,9 +2344,9 @@ if(remoteVSTServerInstance->wavesthread == 1)
     DestroyWindow(remoteVSTServerInstance->hWnd);
 #endif
 
-    guiVisible = false;
+    remoteVSTServerInstance->guiVisible = false;
 
-    hideguival = 0;
+    remoteVSTServerInstance->hideguival = 0;
     
  //               remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
@@ -2381,7 +2381,23 @@ else
         {	
 	       if(remoteVSTServerInstance->hideguival == 1)
                {
-               remoteVSTServerInstance->hideGUI2();
+#ifndef EMBED
+    ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
+    UpdateWindow(remoteVSTServerInstance->hWnd);
+#endif
+    remoteVSTServerInstance->m_plugin->dispatcher(remoteVSTServerInstance->m_plugin, effEditClose, 0, 0, 0, 0);
+	
+    KillTimer(remoteVSTServerInstance->hWnd, remoteVSTServerInstance->timerval);	
+	
+#ifndef EMBED
+    DestroyWindow(remoteVSTServerInstance->hWnd);
+#endif
+
+    remoteVSTServerInstance->guiVisible = false;
+
+    remoteVSTServerInstance->hideguival = 0;
+    		       
+//              remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
 	       break;
                }
@@ -2423,7 +2439,23 @@ else
 	    }	
 	     if(remoteVSTServerInstance->hideguival == 1)
              {
-             remoteVSTServerInstance->hideGUI2();
+#ifndef EMBED
+    ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
+    UpdateWindow(remoteVSTServerInstance->hWnd);
+#endif
+    remoteVSTServerInstance->m_plugin->dispatcher(remoteVSTServerInstance->m_plugin, effEditClose, 0, 0, 0, 0);
+	
+    KillTimer(remoteVSTServerInstance->hWnd, remoteVSTServerInstance->timerval);	
+	
+#ifndef EMBED
+    DestroyWindow(remoteVSTServerInstance->hWnd);
+#endif
+
+    remoteVSTServerInstance->guiVisible = false;
+
+    remoteVSTServerInstance->hideguival = 0;
+    		     		     
+//             remoteVSTServerInstance->hideGUI2();
 //           remoteVSTServerInstance->hideguival = 0;
              }
            }       
@@ -2456,7 +2488,23 @@ else
         {	
 	        if(remoteVSTServerInstance->hideguival == 1)
                 {
-                remoteVSTServerInstance->hideGUI2();
+#ifndef EMBED
+    ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
+    UpdateWindow(remoteVSTServerInstance->hWnd);
+#endif
+    remoteVSTServerInstance->m_plugin->dispatcher(remoteVSTServerInstance->m_plugin, effEditClose, 0, 0, 0, 0);
+	
+    KillTimer(remoteVSTServerInstance->hWnd, remoteVSTServerInstance->timerval);	
+	
+#ifndef EMBED
+    DestroyWindow(remoteVSTServerInstance->hWnd);
+#endif
+
+    remoteVSTServerInstance->guiVisible = false;
+
+    remoteVSTServerInstance->hideguival = 0;
+    			
+//                remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
 	        break;
                 }
@@ -2498,7 +2546,23 @@ else
             }
 	   if(remoteVSTServerInstance->hideguival == 1)
            {
-           remoteVSTServerInstance->hideGUI2();
+#ifndef EMBED
+    ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
+    UpdateWindow(remoteVSTServerInstance->hWnd);
+#endif
+    remoteVSTServerInstance->m_plugin->dispatcher(remoteVSTServerInstance->m_plugin, effEditClose, 0, 0, 0, 0);
+	
+    KillTimer(remoteVSTServerInstance->hWnd, remoteVSTServerInstance->timerval);	
+	
+#ifndef EMBED
+    DestroyWindow(remoteVSTServerInstance->hWnd);
+#endif
+
+    remoteVSTServerInstance->guiVisible = false;
+
+    remoteVSTServerInstance->hideguival = 0;
+    		   
+//           remoteVSTServerInstance->hideGUI2();
 //         remoteVSTServerInstance->hideguival = 0;
            }     
            }       
