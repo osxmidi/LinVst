@@ -102,7 +102,7 @@ public:
 
     virtual void        showGUI();
     virtual void        hideGUI();
-    virtual void        hideGUI2();
+//    virtual void        hideGUI2();
 #ifdef EMBED
     virtual void        openGUI();
 #endif
@@ -1007,18 +1007,17 @@ void RemoteVSTServer::showGUI()
         timerval = SetTimer(hWnd, timerval, 80, 0);
 }
 
+/*
 void RemoteVSTServer::hideGUI2()
 {
     // if (!hWnd)
         // return;
-/*
-    if ((haveGui == false) || (guiVisible == false))
-    {
-    hideguival = 0;
-    return;
-    }
-    
-*/    
+
+ //   if ((haveGui == false) || (guiVisible == false))
+ //   {
+ //   hideguival = 0;
+ //   return;
+ //   }  
 
 #ifndef EMBED
     ShowWindow(hWnd, SW_HIDE);
@@ -1039,7 +1038,8 @@ void RemoteVSTServer::hideGUI2()
    // if (!exiting)
     //    usleep(50000);
 }
-
+*/
+	
 void RemoteVSTServer::hideGUI()
 {
 if ((haveGui == true) && (guiVisible == true))
@@ -2332,7 +2332,23 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 }			
                 if(remoteVSTServerInstance->hideguival == 1)
                 {
-                remoteVSTServerInstance->hideGUI2();
+#ifndef EMBED
+    ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
+    UpdateWindow(remoteVSTServerInstance->hWnd);
+#endif
+    remoteVSTServerInstance->m_plugin->dispatcher(remoteVSTServerInstance->m_plugin, effEditClose, 0, 0, 0, 0);
+	
+    KillTimer(remoteVSTServerInstance->hWnd, remoteVSTServerInstance->timerval);	
+	
+#ifndef EMBED
+    DestroyWindow(remoteVSTServerInstance->hWnd);
+#endif
+
+    guiVisible = false;
+
+    hideguival = 0;
+    
+ //               remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
                 tcount = 0;
                 }
