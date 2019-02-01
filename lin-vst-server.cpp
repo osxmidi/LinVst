@@ -480,7 +480,7 @@ RemoteVSTServer::~RemoteVSTServer()
     if(m_plugin)
     {
     if(melda == 0)
-    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, hWnd, 0);
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
     }
     }
     }
@@ -1037,7 +1037,7 @@ void RemoteVSTServer::hideGUI2()
 #endif
 	
     if(melda == 0)
-    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, hWnd, 0);
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
 	
     KillTimer(hWnd, timerval);	
 	
