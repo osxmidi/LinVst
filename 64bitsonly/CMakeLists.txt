@@ -16,7 +16,11 @@ SET(PATCH_VERSION "0")
 
 add_subdirectory( liblinvst )
 add_subdirectory( exelinvst )
-add_subdirectory( convert )
+
+install(FILES ../convert/pylinvstconvert DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+      PERMISSIONS OWNER_EXECUTE OWNER_READ
+      GROUP_EXECUTE GROUP_READ
+      WORLD_EXECUTE WORLD_READ )		  
 
 #-----------------------------------------------------------------
 # CPack configuration.

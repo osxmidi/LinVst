@@ -18,10 +18,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set( CMAKE_CXX_COMPILER /usr/bin/c++ )
 
 set( LINVST_SO_SRC SHARED
-  ../linvst.cpp
-  ../remotevstclient.cpp
-  ../remotepluginclient.cpp
-  ../paths.cpp
+  ../../linvst.cpp
+  ../../remotevstclient.cpp
+  ../../remotepluginclient.cpp
+  ../../paths.cpp
   )
 
 add_library(linvst ${LINVST_SO_SRC} )
