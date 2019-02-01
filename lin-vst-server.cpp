@@ -839,6 +839,11 @@ bool RemoteVSTServer::warn(std::string warning)
 
 void RemoteVSTServer::showGUI()
 {
+#ifndef EMBED
+    if(melda == 1)
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+#endif    
+	
        if(breakloop)
        breakloop = 0;	
 	
@@ -869,11 +874,6 @@ void RemoteVSTServer::showGUI()
         tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
         return;
     }
-	
-#ifndef EMBED
-    if(melda == 1)
-    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
-#endif    
 
    // if (hWnd)
    //     DestroyWindow(hWnd);
