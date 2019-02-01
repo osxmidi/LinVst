@@ -175,6 +175,7 @@ public:
     ERect               *rect;
     int                 setprogrammiss;
     int                 hostreaper;
+    int                 melda;    
 #ifdef WAVES
     int                 wavesthread;
 #endif
@@ -343,6 +344,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     breakloop(0),
     guiresizewidth(500),
     guiresizeheight(200),
+    melda(0),
     hWnd(0)
 {   
 
@@ -391,6 +393,9 @@ void RemoteVSTServer::EffectOpen()
         cerr << "dssi-vst-server[1]: vendor string is \"" << buffer << "\"" << endl;
     if (buffer[0]) 
     m_maker = buffer;
+	
+    if(strcmp("MeldaProduction", buffer) == 0)
+    melda = 1;	
 
 #ifdef WAVES
     if(strcmp("Waves", buffer) == 0)
@@ -473,7 +478,10 @@ RemoteVSTServer::~RemoteVSTServer()
     if (guiVisible)
     {
     if(m_plugin)
+    {
+    if(melda == 0)
     m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+    }
     }
     }
 	
@@ -1024,6 +1032,8 @@ void RemoteVSTServer::hideGUI2()
     ShowWindow(hWnd, SW_HIDE);
     UpdateWindow(hWnd);
 #endif
+	
+    if(melda == 0)
     m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
 	
     KillTimer(hWnd, timerval);	
