@@ -968,12 +968,6 @@ void RemoteVSTServer::showGUI()
         return;
     }
 	
-    if(melda == 1)
-    {
-    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, hWnd, 0);
-    DestroyWindow(hWnd);
-    }
-
 	#ifdef DRAG
         hWnd = CreateWindowEx(WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
                             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);	    
@@ -990,6 +984,9 @@ void RemoteVSTServer::showGUI()
 
     if(hWnd)
     SetWindowText(hWnd, m_name.c_str());
+	
+    if(melda == 1)
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, hWnd, 0);
 
     rect = 0;
     m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
@@ -1045,7 +1042,6 @@ void RemoteVSTServer::hideGUI2()
     KillTimer(hWnd, timerval);	
 	
 #ifndef EMBED
-    if(melda == 0)
     DestroyWindow(hWnd);
 #endif
 
