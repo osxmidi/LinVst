@@ -33,4 +33,7 @@ add_executable( linvstconvert linvstconvert.cpp )
 
 install( TARGETS linvstconvert DESTINATION bin )
 
-install(FILES pylinvstconvert DESTINATION ${SCRIPT1_INSTALL_PATH} bin)
+install(FILES pylinvstconvert DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+      PERMISSIONS OWNER_EXECUTE OWNER_READ 
+      GROUP_EXECUTE GROUP_READ
+      WORLD_EXECUTE WORLD_READ )
