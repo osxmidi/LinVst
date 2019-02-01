@@ -479,11 +479,8 @@ RemoteVSTServer::~RemoteVSTServer()
     {
     if(m_plugin)
     {
-    if(melda == 1)
-    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
-    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
-    if(melda == 1)
-    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+    if(melda == 0)
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, hWnd, 0);
     }
     }
     }
@@ -1036,11 +1033,8 @@ void RemoteVSTServer::hideGUI2()
     UpdateWindow(hWnd);
 #endif
 	
-    if(melda == 1)
-    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
-    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
-    if(melda == 1)
-    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+    if(melda == 0)
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, hWnd, 0);
 	
     KillTimer(hWnd, timerval);	
 	
