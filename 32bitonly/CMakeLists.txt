@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 set( CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Install prefix." )
 
 # Base project setup.
-project(LinVst)
+project(LinVst-i386)
 
 INCLUDE(FindPackageHandleStandardArgs)
 
@@ -16,7 +16,11 @@ SET(PATCH_VERSION "0")
 
 add_subdirectory( liblinvst )
 add_subdirectory( exelinvst )
-add_subdirectory( convert )
+
+install(FILES ../convert/pylinvstconvert-386 DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+      PERMISSIONS OWNER_EXECUTE OWNER_READ
+      GROUP_EXECUTE GROUP_READ
+      WORLD_EXECUTE WORLD_READ )		  
 
 #-----------------------------------------------------------------
 # CPack configuration.
@@ -29,7 +33,7 @@ SET(CPACK_SET_DESTDIR "on")
 SET(CPACK_PACKAGING_INSTALL_PREFIX "/tmp")
 SET(CPACK_GENERATOR "DEB")
  
-SET(CPACK_PACKAGE_DESCRIPTION "LinVst windows->linux vst bridge.")
+SET(CPACK_PACKAGE_DESCRIPTION "LinVst windows->linux vst bridge for 32 bits vsts.")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Wrapper for windows VST plugins to make them available on Linux.")
 SET(CPACK_PACKAGE_VENDOR "osxmidi")
 SET(CPACK_PACKAGE_CONTACT "abc@def.com")
@@ -38,7 +42,7 @@ SET(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
 SET(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
 SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}.${MINOR_VERSION}.${CPACK_PACKAGE_VERSION_PATCH}")
 SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}.${MINOR_VERSION}.${CPACK_PACKAGE_VERSION_PATCH}")
-
+set( CPACK_DEBIAN_PACKAGE_ARCHITECTURE "i386" )
  
 #dependencies for this service menu
 #SET(CPACK_DEBIAN_PACKAGE_DEPENDS "wine-stable")
