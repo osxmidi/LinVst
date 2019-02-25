@@ -74,10 +74,10 @@ public:
                         RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName);
     virtual             ~RemoteVSTServer();
 
-    // virtual std::string getName() { return m_name; }
-    // virtual std::string getMaker() { return m_maker; }
-    virtual std::string getName();
-    virtual std::string getMaker();
+     virtual std::string getName() { return m_name; }
+     virtual std::string getMaker() { return m_maker; }
+    // virtual std::string getName();
+    // virtual std::string getMaker();
     
     virtual void        setBufferSize(int);
     virtual void        setSampleRate(int);
@@ -193,7 +193,7 @@ public:
     int                 sampleRate;
     bool                exiting;
     bool                effectrun;
-    bool                effectopen;
+    // bool                effectopen;
     bool                inProcessThread;
     bool                guiVisible;
     int                 parfin;
@@ -337,7 +337,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     timerhit(0),
     exiting(false),
     effectrun(false),
-    effectopen(false),
+    // effectopen(false),
     inProcessThread(false),
     guiVisible(false),
     hideguival(0),
@@ -355,6 +355,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
 
 }
 
+/*
 std::string RemoteVSTServer::getName()
 {
     if(!effectrun && m_plugin)
@@ -394,13 +395,14 @@ std::string RemoteVSTServer::getMaker()
     }
     return m_maker;
 }
+*/
 
 void RemoteVSTServer::EffectOpen()
 {
     if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: opening plugin" << endl;	
 	
-    if(!effectopen)	
+  //  if(!effectopen)	
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
@@ -509,6 +511,8 @@ void RemoteVSTServer::EffectOpen()
    
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
+	
+//    effectopen = true;
 	
     effectrun = true;	
 }
