@@ -74,10 +74,10 @@ public:
                         RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName);
     virtual             ~RemoteVSTServer();
 
-     virtual std::string getName() { return m_name; }
-     virtual std::string getMaker() { return m_maker; }
-    // virtual std::string getName();
-    // virtual std::string getMaker();
+     // virtual std::string getName() { return m_name; }
+     // virtual std::string getMaker() { return m_maker; }
+    virtual std::string getName();
+    virtual std::string getMaker();
     
     virtual void        setBufferSize(int);
     virtual void        setSampleRate(int);
@@ -193,7 +193,6 @@ public:
     int                 sampleRate;
     bool                exiting;
     bool                effectrun;
-    // bool                effectopen;
     bool                inProcessThread;
     bool                guiVisible;
     int                 parfin;
@@ -337,7 +336,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     timerhit(0),
     exiting(false),
     effectrun(false),
-    // effectopen(false),
     inProcessThread(false),
     guiVisible(false),
     hideguival(0),
@@ -355,54 +353,37 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
 
 }
 
-/*
 std::string RemoteVSTServer::getName()
 {
-    if(!effectrun && m_plugin)
+    if(effectrun && m_plugin)
     {
-    if(!effectopen)
-    {
-    m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
-    }
     char buffer[512];
     memset(buffer, 0, sizeof(buffer));
     m_plugin->dispatcher(m_plugin, effGetEffectName, 0, 0, buffer, 0);
     if (buffer[0])
     m_name = buffer;
-
-    effectopen = true;
     }
     return m_name;
 }
 
 std::string RemoteVSTServer::getMaker()
 {
-    if(!effectrun && m_plugin)
+    if(effectrun && m_plugin)
     {
-    if(!effectopen)
-    {
-    m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
-    }
     char buffer[512];
     memset(buffer, 0, sizeof(buffer));
     m_plugin->dispatcher(m_plugin, effGetVendorString, 0, 0, buffer, 0);
     if (buffer[0])
     m_maker = buffer;
-
-    effectopen = true;
     }
     return m_maker;
 }
-*/
 
 void RemoteVSTServer::EffectOpen()
 {
     if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: opening plugin" << endl;	
 	
-  //  if(!effectopen)	
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
@@ -511,8 +492,6 @@ void RemoteVSTServer::EffectOpen()
    
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
-	
-//    effectopen = true;
 	
     effectrun = true;	
 }
