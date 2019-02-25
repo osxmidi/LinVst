@@ -2084,7 +2084,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	
 	remoteVSTServerInstance = 0;
 	
-        remoteVSTServerInstance = new RemoteVSTServer(fileInfo, libname);
+        string deviceName = fileName;
+        size_t foundext = deviceName.find_last_of(".");
+        deviceName = deviceName.substr(0, foundext);
+        remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName);
+	
+        // remoteVSTServerInstance = new RemoteVSTServer(fileInfo, libname);
     
         if(!remoteVSTServerInstance)
         {
