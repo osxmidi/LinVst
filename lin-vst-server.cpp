@@ -385,7 +385,7 @@ void RemoteVSTServer::EffectOpen()
     char buffer[512];
     memset(buffer, 0, sizeof(buffer));
 	
-    string buffer2 = getName();
+    string buffer2 = getMaker();
     strcpy(buffer, buffer2.c_str());
 
 /*
