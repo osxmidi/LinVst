@@ -355,28 +355,22 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
 
 std::string RemoteVSTServer::getName()
 {
-    if(effectrun && m_plugin)
-    {
-    char buffer[512];
-    memset(buffer, 0, sizeof(buffer));
-    m_plugin->dispatcher(m_plugin, effGetEffectName, 0, 0, buffer, 0);
-    if (buffer[0])
-    m_name = buffer;
-    }
-    return m_name;
+      char buffer[512];
+      memset(buffer, 0, sizeof(buffer));
+      m_plugin->dispatcher(m_plugin, effGetEffectName, 0, 0, buffer, 0);
+      if (buffer[0])
+      m_name = buffer;
+      return m_name;
 }
-
+  
 std::string RemoteVSTServer::getMaker()
 {
-    if(effectrun && m_plugin)
-    {
-    char buffer[512];
-    memset(buffer, 0, sizeof(buffer));
-    m_plugin->dispatcher(m_plugin, effGetVendorString, 0, 0, buffer, 0);
-    if (buffer[0])
-    m_maker = buffer;
-    }
-    return m_maker;
+      char buffer[512];
+      memset(buffer, 0, sizeof(buffer));
+      m_plugin->dispatcher(m_plugin, effGetVendorString, 0, 0, buffer, 0);
+      if (buffer[0])
+      m_maker = buffer;
+      return m_maker;
 }
 
 void RemoteVSTServer::EffectOpen()
@@ -388,25 +382,10 @@ void RemoteVSTServer::EffectOpen()
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
 
-    if (m_plugin->dispatcher(m_plugin, effGetVstVersion, 0, 0, NULL, 0) < 2)
-    {
-        if (debugLevel > 0)
-            cerr << "dssi-vst-server[1]: plugin is VST 1.x" << endl;
-    }
-    else
-    {
-        if (debugLevel > 0)
-            cerr << "dssi-vst-server[1]: plugin is VST 2.0 or newer" << endl;
-    }
-
     char buffer[512];
     memset(buffer, 0, sizeof(buffer));
-
-    m_plugin->dispatcher(m_plugin, effGetEffectName, 0, 0, buffer, 0);
-    if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: plugin name is \"" << buffer << "\"" << endl;
-    if (buffer[0]) 
-    m_name = buffer;
+	
+    buffer = getName();
 
 /*
     if (strncmp(buffer, "Guitar Rig 5", 12) == 0)
@@ -414,14 +393,6 @@ void RemoteVSTServer::EffectOpen()
     if (strncmp(buffer, "T-Rack", 6) == 0)
         setprogrammiss = 1;
 */
-
-    memset(buffer, 0, sizeof(buffer));
-
-    m_plugin->dispatcher(m_plugin, effGetVendorString, 0, 0, buffer, 0);
-    if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: vendor string is \"" << buffer << "\"" << endl;
-    if (buffer[0]) 
-    m_maker = buffer;
 	
     if(strcmp("MeldaProduction", buffer) == 0)
     melda = 1;	
@@ -463,9 +434,7 @@ void RemoteVSTServer::EffectOpen()
             haveGui = false;
         }
     }
-	
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);	
-		
+			
     struct amessage
     {
         int flags;
@@ -492,6 +461,8 @@ void RemoteVSTServer::EffectOpen()
    
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
+	
+    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);		
 	
     effectrun = true;	
 }
