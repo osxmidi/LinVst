@@ -790,7 +790,7 @@ ptr = (int *)m_shm;
     for (int i=0;i<4000;i++)
     {
         usleep(10000);
-        if (*ptr == 241)
+        if (*ptr == 243)
          {
             startok = 1;
             break;
