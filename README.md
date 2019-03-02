@@ -445,7 +445,7 @@ Wine Staging is only needed for Waves Central and the Waves plugins themselves c
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access as well.
 
-The file to wrap with linvst.so is WaveShellxxxxxxxx.dll which is probably in Program Files/VstPlugIns for 64 bit systems.
+The file to wrap with linvst.so is WaveShellxxxxxxxx.dll which is probably in Program Files/VSTPlugIns for 64 bit systems.
 
 The Waves plugins probably require a mfc140.dll override (for 64 bit plugins copy mfc140.dll to windows/system32 and add mfc140 into the Libraries section of winecfg).
 
