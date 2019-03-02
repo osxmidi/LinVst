@@ -23,11 +23,11 @@ Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releas
 ## Symlinks
 
 Symlinks can be used for convenience if wanted.
-One reason to use symlinks would be to be able to group plugins together outside of their Wine install paths and reference them from a common folder.
+One reason to use symlinks would be to be able to group plugins together outside of their Wine install paths and reference them from a common folder via symlinks.
 
 For a quick simple example, say that the plugin dll file is in ~/.wine/drive_c/Program Files/Vstplugins and is called plugin.dll.
 Then just open that folder using the file manager and drag linvst.so to it and rename linvst.so to whatever the dll name is (plugin.so for plugin.dll).
-Then create a symlink to plugin.so using a right click and selecting create symlink from the option menu, them make sure the symlink ends in a .so extension (might need to edit the symlinks name) and then drag that symlink to anywhere the DAW searches (say ~/vst for example) and then plugin.so should load (via the symlink) within the DAW.
+Then create a symlink to plugin.so using a right click and selecting create symlink from the option menu, the make sure the symlink ends in a .so extension (might need to edit the symlinks name) and then drag that symlink to anywhere the DAW searches (say ~/vst for example) and then plugin.so should load (via the symlink) within the DAW.
 
 If the dll plugin files are in a sudo permission folder (or any permission folder) such as /usr/lib/vst, then make a user permission folder such as /home/user/vst and then make symbolic links to /usr/lib/vst in the /home/user/vst folder by changing into /home/user/vst and running&nbsp;&nbsp;ln -s /usr/lib/vst/&lowast;&nbsp;&nbsp;.&nbsp;&nbsp;and then run linvstconvert on the /home/user/vst folder and then set the DAW to search the /home/user/vst folder.
 
