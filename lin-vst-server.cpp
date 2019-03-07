@@ -1303,7 +1303,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     case audioMasterIdle:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterIdle requested " << endl;
-        plugin->dispatcher(plugin, effEditIdle, 0, 0, 0, 0);
+        // plugin->dispatcher(plugin, effEditIdle, 0, 0, 0, 0);
         break;
 
     case DEPRECATED_VST_SYMBOL(audioMasterPinConnected):
@@ -1858,7 +1858,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 #else
                     || !strcmp((char*)ptr, "sizeWindow")
 #endif
-                    || !strcmp((char*)ptr, "supplyIdle")
+                  //  || !strcmp((char*)ptr, "supplyIdle")
                     )
             rv = 1;
 #endif 		    
