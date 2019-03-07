@@ -179,7 +179,6 @@ public:
     int                 setprogrammiss;
     int                 hostreaper;
     int                 melda;    
-    int                 vember;
 #ifdef WAVES
     int                 wavesthread;
 #endif
@@ -349,7 +348,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     guiresizewidth(500),
     guiresizeheight(200),
     melda(0),
-    vember(0),
     hWnd(0)
 {   
 
@@ -396,10 +394,7 @@ void RemoteVSTServer::EffectOpen()
     if (strncmp(buffer, "T-Rack", 6) == 0)
         setprogrammiss = 1;
 */
-	
-    if(strcmp("vember|audio", buffer) == 0)
-    vember = 1;
-	
+		
     if(strcmp("MeldaProduction", buffer) == 0)
     melda = 1;	
 
@@ -692,7 +687,6 @@ int ret;
     {
     if((timerhit == 1) && !exiting && guiVisible)
     {
-    if(vember == 0)
     ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);
     timerhit = 0;    
     }
@@ -1303,7 +1297,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     case audioMasterIdle:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterIdle requested " << endl;
-        plugin->dispatcher(plugin, effEditIdle, 0, 0, 0, 0);
+        // plugin->dispatcher(plugin, effEditIdle, 0, 0, 0, 0);
         break;
 
     case DEPRECATED_VST_SYMBOL(audioMasterPinConnected):
@@ -1858,7 +1852,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 #else
                     || !strcmp((char*)ptr, "sizeWindow")
 #endif
-                    || !strcmp((char*)ptr, "supplyIdle")
+                    // || !strcmp((char*)ptr, "supplyIdle")
                     )
             rv = 1;
 #endif 		    
