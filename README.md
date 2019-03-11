@@ -414,7 +414,7 @@ DDMF Metaplugin also needs the Microsoft Visual C++ 2010 Redistributable Package
 
 **Waves plugins**.
 
-Tested Waves Central and Waves C1 and C4 and C360 and API-560 and Abbey Road Plates plugins with Wine Staging version 3.x and 4.x and Debian Stretch/Sid (other non Debian based systems not tested).
+Tested Waves Central and Waves C1 and C4 and C360 and API-560 and Abbey Road Plates and Bass Slapper(1GB samples) plugins with Wine Staging version 3.x and 4.x and Debian Stretch/Sid (other non Debian based systems not tested).
 
 Waves VST3 API-560 and Abbey Road Plates plugins tested with DDMF Metaplugin VST3 to VST2 wrapper and Wine Staging 4.x and Debian Stretch/Sid.
 
@@ -466,7 +466,7 @@ mv linvst.so "WaveShell1-VST 10.0_x64.so"
 Then set the DAW to scan ~/.wine/drive_c/Program Files/VSTPlugIns and then scan, and a select folder dialog will appear.
 
 Descend into the path by double clicking on (C:)
-and then double clicking on Program Files (x86)
+and then double clicking on Program Files (x86) (or Program Files if Plug-Ins V10 can't be found)
 and then double clicking on Waves
 and then just highlight Plug-Ins V10 with a single click (don't descend into it)
 and then finish by clicking on open.
