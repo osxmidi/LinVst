@@ -179,6 +179,7 @@ public:
     int                 setprogrammiss;
     int                 hostreaper;
     int                 melda;    
+    int                 vember;    
 #ifdef WAVES
     int                 wavesthread;
 #endif
@@ -225,7 +226,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     break;
 		    
      case WM_TIMER:
-         if(remoteVSTServerInstance)
+     if(remoteVSTServerInstance && !remoteVSTServerInstance->vember)
 	 {	  
 	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin)
 	 {	 
@@ -235,6 +236,15 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	 }
 	 }
     break;
+       
+     case WM_PARENTNOTIFY:
+	 if(remoteVSTServerInstance && remoteVSTServerInstance->m_plugin && remoteVSTServerInstance->vember)
+	 {
+	 if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
+	 {
+	 remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+	 }
+	 }
 	
     default:
     return DefWindowProc(hWnd, msg, wParam, lParam);		   
@@ -348,6 +358,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     guiresizewidth(500),
     guiresizeheight(200),
     melda(0),
+    vember(0),
     hWnd(0)
 {   
 
@@ -397,6 +408,9 @@ void RemoteVSTServer::EffectOpen()
 		
     if(strcmp("MeldaProduction", buffer) == 0)
     melda = 1;	
+	
+    if(strcmp("vember|audio", buffer) == 0)
+    vember = 1;	
 
 #ifdef WAVES
     if(strcmp("Waves", buffer) == 0)
@@ -1037,6 +1051,10 @@ void RemoteVSTServer::hideGUI2()
     UpdateWindow(hWnd);
 #endif
 	
+    guiVisible = false;
+
+    hideguival = 0;
+		
     if(melda == 0)
     m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
 	
@@ -1046,18 +1064,15 @@ void RemoteVSTServer::hideGUI2()
     DestroyWindow(hWnd);
 #endif
 
-    guiVisible = false;
-
-    hideguival = 0;
-
    // if (!exiting)
     //    usleep(50000);
 }
 	
 void RemoteVSTServer::hideGUI()
 {
-if ((haveGui == true) && (guiVisible == true))
-     hideguival = 1;
+// if ((haveGui == true) && (guiVisible == true))
+//     hideguival = 1;
+	hideGUI2();
 }
 
 #ifdef EMBED
