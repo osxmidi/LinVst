@@ -238,17 +238,19 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     break;
        
      case WM_PARENTNOTIFY: 
+     	 if(remoteVSTServerInstance && remoteVSTServerInstance->m_plugin && remoteVSTServerInstance->vember)
+     	 {
          if(LOWORD(wParam) == WM_DESTROY)
          {
          remoteVSTServerInstance->guiVisible = 0;
          }		    
-	 if(remoteVSTServerInstance && remoteVSTServerInstance->m_plugin && remoteVSTServerInstance->vember)
-	 {
+     else
 	 if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
 	 {
 	 remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
 	 }
 	 }
+	 break;
 	
     default:
     return DefWindowProc(hWnd, msg, wParam, lParam);		   
