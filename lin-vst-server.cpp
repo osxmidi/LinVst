@@ -1053,11 +1053,7 @@ void RemoteVSTServer::hideGUI2()
     ShowWindow(hWnd, SW_HIDE);
     UpdateWindow(hWnd);
 #endif
-	
-    guiVisible = false;
-
-    hideguival = 0;
-		
+			
     if(melda == 0)
     m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
 	
@@ -1066,6 +1062,10 @@ void RemoteVSTServer::hideGUI2()
 #ifndef EMBED
     DestroyWindow(hWnd);
 #endif
+    
+    guiVisible = false;
+
+    hideguival = 0;
 
    // if (!exiting)
     //    usleep(50000);
@@ -2332,7 +2332,7 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 {
                 tcount++;
 			
-                if(tcount == 6)
+                if(tcount == 8)
                 {
                 remoteVSTServerInstance->dispatchControl(10);
                 tcount = 0;
