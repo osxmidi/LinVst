@@ -477,7 +477,7 @@ The DAW scan should then pick up the Waves plugins.
 
 Remove -DVESTIGE from the makefiles to use the VST2 SDK (by default the VST2 SDK is not required).
 
-If using the VST2 SDK then the plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder. https://www.steinberg.net/en/company/developers.html
+If using the VST2 SDK then the plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder.
 
 Wine libwine development files.
 
