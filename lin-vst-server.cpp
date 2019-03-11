@@ -755,9 +755,12 @@ void RemoteVSTServer::reset()
 
 void RemoteVSTServer::terminate()
 {
-    cerr << "RemoteVSTServer::terminate: setting exiting flag" << endl;
+   if(guiVisible && hideguival)
+    hideGUI2();
 
-    exiting = true;
+    exiting = true;	
+	
+    cerr << "RemoteVSTServer::terminate: setting exiting flag" << endl;
 }
 
 std::string RemoteVSTServer::getParameterName(int p)
@@ -1070,14 +1073,8 @@ void RemoteVSTServer::hideGUI2()
 	
 void RemoteVSTServer::hideGUI()
 {
-#ifdef WAVESLOOP
-    if ((haveGui == true) && (guiVisible == true) && wavesthread)
+    if ((haveGui == true) && (guiVisible == true))
     hideguival = 1;
-    else
-    hideGUI2();
-#else
-    hideGUI2();
-#endif 
 }
 
 #ifdef EMBED
@@ -2369,7 +2366,7 @@ if(remoteVSTServerInstance->wavesthread == 1)
 #endif
                 }
                 }			
-                if(remoteVSTServerInstance->hideguival == 1)
+                if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
                 {
                 remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
@@ -2402,7 +2399,7 @@ else
        {
         while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {	
-	       if(remoteVSTServerInstance->hideguival == 1)
+	       if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
                {
                remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
@@ -2444,7 +2441,7 @@ else
 #endif
              }
 	    }	
-	     if(remoteVSTServerInstance->hideguival == 1)
+             if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
              {
              remoteVSTServerInstance->hideGUI2();
 //           remoteVSTServerInstance->hideguival = 0;
@@ -2477,7 +2474,7 @@ else
        {
         while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {	
-	        if(remoteVSTServerInstance->hideguival == 1)
+                if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
                 {
                 remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
@@ -2519,7 +2516,7 @@ else
 #endif
              }
             }
-	   if(remoteVSTServerInstance->hideguival == 1)
+           if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
            {
            remoteVSTServerInstance->hideGUI2();
 //         remoteVSTServerInstance->hideguival = 0;
