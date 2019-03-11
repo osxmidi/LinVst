@@ -1070,9 +1070,14 @@ void RemoteVSTServer::hideGUI2()
 	
 void RemoteVSTServer::hideGUI()
 {
-// if ((haveGui == true) && (guiVisible == true))
-//     hideguival = 1;
-	hideGUI2();
+#ifdef WAVESLOOP
+    if ((haveGui == true) && (guiVisible == true) && wavesthread)
+    hideguival = 1;
+    else
+    hideGUI2();
+#else
+    hideGUI2();
+#endif 
 }
 
 #ifdef EMBED
