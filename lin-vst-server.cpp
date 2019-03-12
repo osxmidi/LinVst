@@ -242,7 +242,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
      	 {
          if(LOWORD(wParam) == WM_DESTROY)
          {
-         remoteVSTServerInstance->guiVisible = 0;
+       //  remoteVSTServerInstance->guiVisible = 0;
          }		    
      else
 	 if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
@@ -761,9 +761,6 @@ void RemoteVSTServer::reset()
 
 void RemoteVSTServer::terminate()
 {
-   if(guiVisible && hideguival)
-    hideGUI2();
-
     exiting = true;	
 	
     cerr << "RemoteVSTServer::terminate: setting exiting flag" << endl;
@@ -2317,9 +2314,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
     MSG msg;
     int tcount = 0;
-    remoteVSTServerInstance->exiting = false;
 
-    while (!remoteVSTServerInstance->exiting)
+    while (1)
     {	    	    
 #ifdef WAVESLOOP
 if(remoteVSTServerInstance->wavesthread == 1)
@@ -2328,7 +2324,7 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 {
                 for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
                 {
-	        if(remoteVSTServerInstance->exiting)
+	        if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
 	        break;
 			
 	        TranslateMessage(&msg);
@@ -2372,7 +2368,7 @@ if(remoteVSTServerInstance->wavesthread == 1)
 #endif
                 }
                 }			
-                if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
+	        if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)   
                 {
                 remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
@@ -2388,7 +2384,7 @@ if(remoteVSTServerInstance->wavesthread == 1)
 	         // remoteVSTServerInstance->breakloop = 0;		   
 	        break;
 	        }	
-	        if(remoteVSTServerInstance->exiting)
+	 	if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
 	        break;	
 			
 		TranslateMessage(&msg);
@@ -2396,22 +2392,22 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 }
 		remoteVSTServerInstance->dispatchControl(50);
                 }
-                if (remoteVSTServerInstance->exiting)
+	        if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
                 break;
 } // wavesloop
 else
 {
       if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
        {
-        while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+        while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {	
-	       if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
+	       if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)
                {
                remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
 	       break;
                }
-	       if(remoteVSTServerInstance->exiting)
+	       if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
 	       break;
 		
 	       TranslateMessage(&msg);
@@ -2447,7 +2443,7 @@ else
 #endif
              }
 	    }	
-             if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
+  	     if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)  
              {
              remoteVSTServerInstance->hideGUI2();
 //           remoteVSTServerInstance->hideguival = 0;
@@ -2455,21 +2451,21 @@ else
            }       
             else //guivisible
            {
-           while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+           while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
            {
 	   if(remoteVSTServerInstance->breakloop)
 	   {
 	  // remoteVSTServerInstance->breakloop = 0;		   
 	   break;
 	   }		   
-	   if(remoteVSTServerInstance->exiting)
+	   if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
 	   break;
 		   
 	   TranslateMessage(&msg);
            DispatchMessage(&msg);
            }      
            }
-           if (remoteVSTServerInstance->exiting)
+	   if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
            break;    
 
            remoteVSTServerInstance->dispatchControl(50);
@@ -2478,15 +2474,15 @@ else
 #else
       if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
        {
-        while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+        while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {	
-                if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
+	        if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)
                 {
                 remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
 	        break;
                 }
-	        if(remoteVSTServerInstance->exiting)
+	 	if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
 	        break;
 
 	        TranslateMessage(&msg);
@@ -2522,7 +2518,7 @@ else
 #endif
              }
             }
-           if((remoteVSTServerInstance->hideguival == 1) && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
+	   if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)      
            {
            remoteVSTServerInstance->hideGUI2();
 //         remoteVSTServerInstance->hideguival = 0;
@@ -2530,21 +2526,21 @@ else
            }       
            else // guivisible
            {
-           while (!remoteVSTServerInstance->exiting && PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+           while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
            {	
 	   if(remoteVSTServerInstance->breakloop)
 	   {
 	//   remoteVSTServerInstance->breakloop = 0;		   
 	   break;
 	   }
-	   if(remoteVSTServerInstance->exiting)
+	   if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
 	   break;
  
 	   TranslateMessage(&msg);
            DispatchMessage(&msg);
            }      
            }    
-           if (remoteVSTServerInstance->exiting)
+	   if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
            break;    
 
            remoteVSTServerInstance->dispatchControl(50);
