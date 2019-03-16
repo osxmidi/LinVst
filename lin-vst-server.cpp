@@ -245,7 +245,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
        //  remoteVSTServerInstance->guiVisible = 0;
          }		    
      else
-	 if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
+	 if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && !remoteVSTServerInstance->hideguival)
 	 {
 	 remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
 	 }
