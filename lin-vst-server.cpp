@@ -496,13 +496,9 @@ RemoteVSTServer::~RemoteVSTServer()
     {
   //  KillTimer(0, timerval);
    
-    if (guiVisible)
+    if(guiVisible && m_plugin)
     {
-    if(m_plugin)
-    {
-    if(melda == 0)
-    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
-    }
+    hideGUI2();
     }
     }
 	
@@ -1056,17 +1052,17 @@ void RemoteVSTServer::hideGUI2()
     ShowWindow(hWnd, SW_HIDE);
     UpdateWindow(hWnd);
 #endif
+
+ guiVisible = false;
+ 
+ KillTimer(hWnd, timerval);
 			
     if(melda == 0)
-    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
-	
-    KillTimer(hWnd, timerval);	
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
 	
 #ifndef EMBED
     DestroyWindow(hWnd);
 #endif
-    
-    guiVisible = false;
 
     hideguival = 0;
 
@@ -2549,15 +2545,18 @@ else
     // wait for audio thread to catch up
     // sleep(1);
 
+/*
     for (int i=0;i<1000;i++)
     {
         usleep(10000);
         if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
             break;
     }
+*/
 
     WaitForMultipleObjects(3, ThreadHandle, TRUE, 5000);
 
+/*
     if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: cleaning up" << endl;
 
@@ -2578,6 +2577,7 @@ else
         // TerminateThread(ThreadHandle[2], 0);
         CloseHandle(ThreadHandle[2]);
     }
+*/
 
     if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: closed threads" << endl;
