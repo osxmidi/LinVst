@@ -228,7 +228,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_TIMER:
      if(remoteVSTServerInstance && !remoteVSTServerInstance->vember)
 	 {	  
-	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin)
+	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin && !remoteVSTServerInstance->hideguival)
 	 {	 
  //        remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
       remoteVSTServerInstance->timerhit = 1;
@@ -701,7 +701,7 @@ int ret;
     ret = 0;
     if(opcode == effEditIdle)
     {
-    if((timerhit == 1) && !exiting && guiVisible)
+    if((timerhit == 1) && !exiting && guiVisible && !hideguival)
     {
     ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);
     timerhit = 0;    
