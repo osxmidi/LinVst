@@ -292,7 +292,8 @@ The wineserver priority can be set with wine-staging by setting the STAGING_RT_P
 
 ## Tested vst's
 
->  LinVst tested with Wine4 and Linux Tracktion 7/Waveform, Linux Ardour 5.x, Linux Reaper 5.x, Linux Renoise 3.1, Linux Bitwig Studio 2.5 (For Bitwig 2.5, In Settings->Plug-ins choose individually plugin setting and check all of the LinVst plugins).
+>  LinVst tested with Wine4 and Linux Tracktion 7/Waveform, Linux Ardour 5.x, Linux Reaper 5.x, Linux Renoise 3.1, Linux Bitwig Studio 2.5 (For Bitwig 2.5, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
+For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins).
 
 d2d1 based plugins
 
