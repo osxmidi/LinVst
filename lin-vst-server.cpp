@@ -1032,7 +1032,7 @@ void RemoteVSTServer::showGUI()
     }
 #endif	
         timerval = 678;
-        timerval = SetTimer(hWnd, timerval, 80, 0);
+        timerval = SetTimer(hWnd, timerval, 50, 0);
 }
 
 void RemoteVSTServer::hideGUI2()
@@ -2333,7 +2333,7 @@ if(remoteVSTServerInstance->wavesthread == 1)
                 {
                 tcount++;
 			
-                if(tcount == 8)
+                if(tcount == 5)
                 {
                 remoteVSTServerInstance->dispatchControl(50);
                 tcount = 0;
