@@ -273,7 +273,7 @@ DWORD WINAPI AudioThreadMain(LPVOID parameter)
 */
     while (!remoteVSTServerInstance->exiting)
     {
-    remoteVSTServerInstance->dispatchProcess(200);
+    remoteVSTServerInstance->dispatchProcess(50);
     }
     // param.sched_priority = 0;
     // (void)sched_setscheduler(0, SCHED_OTHER, &param);
@@ -2335,7 +2335,7 @@ if(remoteVSTServerInstance->wavesthread == 1)
 			
                 if(tcount == 8)
                 {
-                remoteVSTServerInstance->dispatchControl(10);
+                remoteVSTServerInstance->dispatchControl(50);
                 tcount = 0;
                 break;
                 }
