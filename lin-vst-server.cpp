@@ -1968,6 +1968,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     default:
         if (debugLevel > 0)
             cerr << "dssi-vst-server[0]: unsupported audioMaster callback opcode " << opcode << endl;
+	break;	    
     }
     return rv;
 }
