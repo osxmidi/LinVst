@@ -2593,7 +2593,7 @@ else
 
     if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: freed dll" << endl;
-    if (debugLevel > 0)
+ //   if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: exiting" << endl;
     return 0;
 }
