@@ -413,6 +413,8 @@ DDMF Metaplugin also needs the Microsoft Visual C++ 2010 Redistributable Package
 
 **TDR SlickEQ mixing/mastering equalizer** 
 
+**iLOK Licence Manager** needs winetricks msxml3
+
 **Waves plugins**.
 
 Tested Waves Central and Waves C1 and C4 and C360 and API-560 and Abbey Road Plates and Bass Slapper(1GB samples) plugins with Wine Staging version 3.x and 4.x and Debian Stretch/Sid (other non Debian based systems not tested).
