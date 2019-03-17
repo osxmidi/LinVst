@@ -759,7 +759,7 @@ void RemoteVSTServer::terminate()
 {
     exiting = true;	
 	
-    cerr << "RemoteVSTServer::terminate: setting exiting flag" << endl;
+  //  cerr << "RemoteVSTServer::terminate: setting exiting flag" << endl;
 }
 
 std::string RemoteVSTServer::getParameterName(int p)
