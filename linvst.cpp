@@ -30,8 +30,6 @@
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 
-#include <sys/wait.h>
-
 extern "C" {
 
 #define VST_EXPORT   __attribute__ ((visibility ("default")))
@@ -502,11 +500,6 @@ static char dawbuf[512];
        
       plugin->openGUI();
 		
-      XUnmapWindow(plugin->display, plugin->child);
-      XMapWindow(plugin->display, plugin->child);		
-      XSync(plugin->display, false);
-      XFlush(plugin->display);		
-
       XCloseDisplay(plugin->display);
       plugin->display = 0;
 #endif            
@@ -751,8 +744,7 @@ if(plugin->runembed == 1)
         usleep(500000);
 #endif
 */
-        delete plugin;
-        while (waitpid(-1, NULL, WNOHANG) > 0) {}		    
+        delete plugin;		    
         break;
 
     default:
