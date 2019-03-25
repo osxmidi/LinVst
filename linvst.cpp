@@ -30,6 +30,8 @@
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 
+#include <sys/wait.h>
+
 extern "C" {
 
 #define VST_EXPORT   __attribute__ ((visibility ("default")))
@@ -81,7 +83,7 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 #ifdef EMBEDDRAG
 void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
 #else
-void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
+void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int reaperid)
 #endif
 {
 #ifdef EMBEDDRAG
@@ -318,6 +320,11 @@ static char dawbuf[512];
     {
     return 0;
     }
+	
+    if(plugin->m_threadbreak == 1)
+    {
+    return 0;
+    }    	
 
     switch (opcode)
     {
@@ -335,7 +342,7 @@ static char dawbuf[512];
 #ifdef EMBEDDRAG
         eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
 #else
-        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid);
 #endif
 #endif
 #endif
@@ -566,9 +573,7 @@ static char dawbuf[512];
        XChangeProperty(plugin->display, plugin->x11_win, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char*)&plugin->x11_win, 1);
        }
        #endif
-
-      if(plugin->parentok && plugin->reaperid)
-      {
+	       
 #ifdef FOCUS
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask); 
@@ -576,17 +581,6 @@ static char dawbuf[512];
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
 #endif
-      }
-      else
-      {
-#ifdef FOCUS
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask);
-#else 
-      XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
-#endif      
-      }
 	       
        plugin->eventrun = 1;
 
@@ -753,6 +747,7 @@ if(plugin->runembed == 1)
 #endif
 */
         delete plugin;
+        while (waitpid(-1, NULL, WNOHANG) > 0) {}		    
         break;
 
     default:
