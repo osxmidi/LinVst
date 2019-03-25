@@ -501,6 +501,11 @@ static char dawbuf[512];
       usleep(250000);
        
       plugin->openGUI();
+		
+      XUnmapWindow(plugin->display, plugin->child);
+      XMapWindow(plugin->display, plugin->child);		
+      XSync(plugin->display, false);
+      XFlush(plugin->display);		
 
       XCloseDisplay(plugin->display);
       plugin->display = 0;
