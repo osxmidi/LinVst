@@ -18,7 +18,7 @@ BUILD_FLAGS_WIN = -m64 -O2 -DDRAG -DWINONTOP -DWAVES -DWAVESLOOP -DVESTIGE -I/us
 
 LINK_FLAGS   = $(LDFLAGS)
 
-LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
+LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lX11 -lrt $(LINK_FLAGS)
 LINK_WINE   = -lpthread -lrt $(LINK_FLAGS)
 
 TARGETS     = linvst.so lin-vst-serverst.exe
