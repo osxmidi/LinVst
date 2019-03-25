@@ -29,6 +29,7 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/poll.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <time.h>
 #include <iostream>
