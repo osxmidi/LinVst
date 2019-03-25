@@ -1053,20 +1053,23 @@ void RemoteVSTServer::hideGUI2()
     UpdateWindow(hWnd);
 #endif
 
- guiVisible = false;
- 
- KillTimer(hWnd, timerval);
-	
- timerhit = 0;
-			
  if(melda == 0)
  m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
-	
-#ifndef EMBED
+		
+  if(hWnd)
+  {	
+  KillTimer(hWnd, timerval);
+  #ifdef XEMBED
   DestroyWindow(hWnd);
-#endif
+  #endif
+  #ifndef EMBED
+  DestroyWindow(hWnd);
+  #endif 
+  }
 
-  hideguival = 0;
+   guiVisible = false;
+   timerhit = 0;
+   hideguival = 0;
 
    // if (!exiting)
     //    usleep(50000);
