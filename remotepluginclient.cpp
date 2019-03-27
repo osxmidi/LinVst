@@ -399,7 +399,7 @@ void* RemotePluginClient::EMBEDThread()
     while (!m_threadbreakembed)
     {
 
-     usleep(10000);
+     usleep(1000);
 
      if(runembed == 1)
      {
@@ -407,9 +407,9 @@ void* RemotePluginClient::EMBEDThread()
      }
 
 #ifdef XEMBED
-     if((runembed == 1) && (embedcount == 40))
+     if((runembed == 1) && (embedcount == 200))
 #else
-     if((runembed == 1) && (embedcount == 20))
+     if((runembed == 1) && (embedcount == 200))
 #endif
      {
 #ifdef XEMBED
