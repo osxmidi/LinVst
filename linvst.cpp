@@ -481,7 +481,7 @@ static char dawbuf[512];
 
         if(plugin->display && plugin->handle)
         {	    
-        XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
+     //   XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
 
 #ifdef EMBEDTHREAD
         plugin->runembed = 1;  
@@ -585,7 +585,7 @@ static char dawbuf[512];
        XSync(plugin->display, false);
        XFlush(plugin->display);
 
-       XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
+  //     XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
 
 #ifdef EMBEDTHREAD
         plugin->runembed = 1;  
