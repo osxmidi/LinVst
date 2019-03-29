@@ -517,7 +517,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
 
 RemoteVSTClient::~RemoteVSTClient()
 {
-      wait(NULL);
+//     wait(NULL);
 //    while (waitpid(-1, NULL, WNOHANG) > 0) {}
 /*
     for (int i=0;i<5000;i++)
