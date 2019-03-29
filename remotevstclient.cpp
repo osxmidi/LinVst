@@ -410,7 +410,11 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         {
             m_386run = 1;
             #ifdef EMBED
+            #ifdef XEMBED
+            if (execlp("/usr/bin/lin-vst-serverxe32.exe", "/usr/bin/lin-vst-serverxe32.exe", argStr, NULL))            
+            #else
             if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL))
+            #endif
             #else
             if (execlp("/usr/bin/lin-vst-serverst32.exe", "/usr/bin/lin-vst-serverst32.exe", argStr, NULL))
             #endif
@@ -423,7 +427,11 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         else
         {
             #ifdef EMBED
+            #ifdef XEMBED
+            if (execlp("/usr/bin/lin-vst-serverxe.exe", "/usr/bin/lin-vst-serverxe.exe", argStr, NULL))            
+            #else            
             if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL))
+            #endif
             #else
             if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
             #endif
