@@ -718,13 +718,11 @@ int RemoteVSTServer::getEffInt(int opcode)
 
 void RemoteVSTServer::effDoVoid(int opcode)
 {
-/*
-    if (opcode == effCanDo)
+    if (opcode == 78345432)
     {
         hostreaper = 1;
          return;
     }
-*/
 #ifdef EMBED
 #ifdef TRACKTIONWM  
     if (opcode == 67584930)
@@ -953,6 +951,7 @@ void RemoteVSTServer::showGUI()
     if(winit == 0)	
     {
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+    if(hostreaper == 1)
     winit = 1;
     }
 #endif
@@ -960,6 +959,7 @@ void RemoteVSTServer::showGUI()
     if(winit == 0)
     {	
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+    if(hostreaper == 1)
     winit = 1;
     }
 #endif
@@ -1129,6 +1129,8 @@ void RemoteVSTServer::hideGUI2()
   #else
   if(chWnd)
   DestroyWindow(chWnd);  
+  if(hostreaper == 0)
+  DestroyWindow(hWnd);  
   #endif	  
   #else
   DestroyWindow(hWnd);
