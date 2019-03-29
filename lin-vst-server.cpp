@@ -944,19 +944,24 @@ void RemoteVSTServer::showGUI()
         return;
     }
 
-   // if (hWnd)
+    // if (hWnd)
    //     DestroyWindow(hWnd);
-    hWnd = 0;
-
+ //   hWnd = 0;
 
 #ifdef EMBEDDRAG
 #ifndef XEMBED
     if(winit == 0)	
+    {
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+    winit = 1;
+    }
 #endif
 #else
-    if(winit == 0)	
+    if(winit == 0)
+    {	
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+    winit = 1;
+    }
 #endif
     if (!hWnd)
     {
