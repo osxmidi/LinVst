@@ -973,9 +973,7 @@ void RemoteVSTServer::showGUI()
         tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
         return;
     }
-    else if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: created main window" << endl;
-
+	
     rect = 0;
     m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
     m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
@@ -991,8 +989,6 @@ void RemoteVSTServer::showGUI()
         tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
         return;
     }
-    else
-    {
 #ifdef TRACKTIONWM
 	if(hosttracktion == 1)
         {
