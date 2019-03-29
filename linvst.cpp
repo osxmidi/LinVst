@@ -656,7 +656,7 @@ if(plugin->runembed == 1)
     case effCanDo:
         if (ptr && !strcmp((char *)ptr,"hasCockosExtensions"))
 	plugin->reaperid = 1;
-      //       plugin->effVoidOp(effCanDo);
+        plugin->effVoidOp(78345432);
 #ifdef EMBED
 #ifdef TRACKTIONWM    
         if(plugin->reaperid == 0)
