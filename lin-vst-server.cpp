@@ -1049,12 +1049,12 @@ void RemoteVSTServer::hideGUI2()
 */    
 
 #ifndef EMBED
-    ShowWindow(hWnd, SW_HIDE);
-    UpdateWindow(hWnd);
+  ShowWindow(hWnd, SW_HIDE);
+  UpdateWindow(hWnd);
 #endif
 
- if(melda == 0)
- m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
+  if(melda == 0)
+  m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
 		
   if(hWnd)
   {	
@@ -1063,9 +1063,6 @@ void RemoteVSTServer::hideGUI2()
   #ifdef XEMBED
   DestroyWindow(hWnd);
   #else
-  HWND parent = GetAncestor(hWnd, GA_PARENT);	 
-  if(parent)
-  DestroyWindow(parent);  
   #endif	  
   #else
   DestroyWindow(hWnd);
