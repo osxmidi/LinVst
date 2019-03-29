@@ -47,6 +47,9 @@
 #include "paths.h"
 
 #define APPLICATION_CLASS_NAME "dssi_vst"
+#ifdef TRACKTIONWM 
+#define APPLICATION_CLASS_NAME2 "dssi_vst2"
+#endif
 #define OLD_PLUGIN_ENTRY_POINT "main"
 #define NEW_PLUGIN_ENTRY_POINT "VSTPluginMain"
 
@@ -155,7 +158,12 @@ public:
     virtual void        waitForServerexit();
 
     HWND                hWnd;
+    HWND                chWnd;
     WNDCLASSEX          wclass;
+#ifdef TRACKTIONWM  
+    WNDCLASSEX          wclass2;
+#endif    
+    int                 winit;
     UINT_PTR            timerval;
     int                 timerhit;
     bool                haveGui;
@@ -238,6 +246,10 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     break;
        
      case WM_PARENTNOTIFY: 
+         if(LOWORD(wParam) == WM_CREATE)
+         {
+         remoteVSTServerInstance->chWnd = reinterpret_cast<HWND>(lParam);
+         }		    
      	 if(remoteVSTServerInstance && remoteVSTServerInstance->m_plugin && remoteVSTServerInstance->vember)
      	 {
          if(LOWORD(wParam) == WM_DESTROY)
@@ -257,6 +269,27 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
  return 0;
 }
+
+#ifdef TRACKTIONWM 
+LRESULT WINAPI MainProc2(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    switch (msg)
+    {
+    case WM_CLOSE:
+    break;
+		    
+    case WM_TIMER:
+    break;
+       
+    case WM_PARENTNOTIFY: 
+	break;
+	
+    default:
+    return DefWindowProc(hWnd, msg, wParam, lParam);		   
+    }
+ return 0;
+}
+#endif
 
 DWORD WINAPI AudioThreadMain(LPVOID parameter)
 {
@@ -365,6 +398,12 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     guiresizeheight(200),
     melda(0),
     vember(0),
+    winit(0),
+    wclass(0),
+#ifdef TRACKTIONWM
+    wclass2(0),
+#endif
+    chWnd(0),
     hWnd(0)
 {   
 
@@ -454,6 +493,28 @@ void RemoteVSTServer::EffectOpen()
             cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
             haveGui = false;
         }
+#ifdef TRACKTIONWM       
+    	memset(&wclass2, 0, sizeof(WNDCLASSEX));
+        wclass2.cbSize = sizeof(WNDCLASSEX);
+        wclass2.style = 0;
+	    // CS_HREDRAW | CS_VREDRAW;
+        wclass2.lpfnWndProc = MainProc2;
+        wclass2.cbClsExtra = 0;
+        wclass2.cbWndExtra = 0;
+        wclass2.hInstance = GetModuleHandle(0);
+        wclass2.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME2);
+        wclass2.hCursor = LoadCursor(0, IDI_APPLICATION);
+        // wclass2.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+        wclass2.lpszMenuName = "MENU_DSSI_VST";
+        wclass2.lpszClassName = APPLICATION_CLASS_NAME2;
+        wclass2.hIconSm = 0;
+
+        if (!RegisterClassEx(&wclass2))
+        {
+            cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
+            haveGui = false;
+        }
+#endif        
     }
 			
     struct amessage
@@ -894,9 +955,11 @@ void RemoteVSTServer::showGUI()
 
 #ifdef EMBEDDRAG
 #ifndef XEMBED
+    if(winit == 0)	
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
 #endif
 #else
+    if(winit == 0)	
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
 #endif
     if (!hWnd)
@@ -935,7 +998,7 @@ void RemoteVSTServer::showGUI()
         RECT offsetcl, offsetwin;
         POINT offset;
 
-        HWND hWnd2 = CreateWindow(APPLICATION_CLASS_NAME, "LinVst", WS_CAPTION, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+        HWND hWnd2 = CreateWindow(APPLICATION_CLASS_NAME2, "LinVst", WS_CAPTION, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
         GetClientRect(hWnd2, &offsetcl);
         GetWindowRect(hWnd2, &offsetwin);
         DestroyWindow(hWnd2);
@@ -1063,6 +1126,7 @@ void RemoteVSTServer::hideGUI2()
   #ifdef XEMBED
   DestroyWindow(hWnd);
   #else
+  DestroyWindow(chWnd);  
   #endif	  
   #else
   DestroyWindow(hWnd);
