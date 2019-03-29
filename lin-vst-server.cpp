@@ -248,7 +248,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_PARENTNOTIFY: 
          if(LOWORD(wParam) == WM_CREATE)
          {
-         remoteVSTServerInstance->chWnd = reinterpret_cast<HWND>(lParam);
+         remoteVSTServerInstance->chWnd = (HWND)lParam;
          }		    
      	 if(remoteVSTServerInstance && remoteVSTServerInstance->m_plugin && remoteVSTServerInstance->vember)
      	 {
@@ -399,10 +399,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     melda(0),
     vember(0),
     winit(0),
-    wclass(0),
-#ifdef TRACKTIONWM
-    wclass2(0),
-#endif
     chWnd(0),
     hWnd(0)
 {   
