@@ -230,6 +230,27 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
 #else
 #ifdef VST6432
+#ifdef XEMBED
+    if (dlltype == 2)
+    {
+    LinVstName = "/usr/bin/lin-vst-serverxe32.exe";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    cleanup();
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst-serverxe32.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    cleanup();
+    return;
+    }
+    }
+#else
     if (dlltype == 2)
     {
     LinVstName = "/usr/bin/lin-vst-server32.exe";
@@ -249,7 +270,26 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     return;
     }
     }
+#endif    
 #endif
+#ifdef XEMBED
+    LinVstName = "/usr/bin/lin-vst-serverxe.exe";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    cleanup();
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst-serverxe.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    cleanup();
+    return;
+    }
+#else
     LinVstName = "/usr/bin/lin-vst-server.exe";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
@@ -266,6 +306,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     cleanup();
     return;
     }
+#endif    
 #endif
 #else
 #ifdef VST32
