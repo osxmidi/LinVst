@@ -1127,10 +1127,10 @@ void RemoteVSTServer::hideGUI2()
   #ifdef XEMBED
   DestroyWindow(hWnd);
   #else
-  if(chWnd)
-  DestroyWindow(chWnd);  
-  if(hostreaper == 0)
-  DestroyWindow(hWnd);  
+  // if(chWnd)
+  // DestroyWindow(chWnd);  
+  // if(hostreaper == 0)
+  // DestroyWindow(hWnd);  
   #endif	  
   #else
   DestroyWindow(hWnd);
