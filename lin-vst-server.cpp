@@ -1059,10 +1059,15 @@ void RemoteVSTServer::hideGUI2()
   if(hWnd)
   {	
   KillTimer(hWnd, timerval);
+  #ifdef EMBED
   #ifdef XEMBED
   DestroyWindow(hWnd);
-  #endif
-  #ifndef EMBED
+  #else
+  HWND parent = GetAncestor(hWnd, GA_PARENT);	 
+  if(parent)
+  DestroyWindow(parent);  
+  #endif	  
+  #else
   DestroyWindow(hWnd);
   #endif 
   }
