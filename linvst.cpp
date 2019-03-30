@@ -72,7 +72,11 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 //	XSync(display, false);
 }
 
+#ifdef EMBEDDRAG
 void eventloopx(Display *display, Window parent, Window child, Window pparent, int eventrun2, int width, int height, int parentok, int reaperid, RemotePluginClient  *plugin)
+#else
+void eventloopx(Display *display, Window parent, Window child, int eventrun2, int width, int height, int reaperid, RemotePluginClient  *plugin)
+#endif
 {
 #ifdef EMBEDDRAG
 static  XEvent xevent;
@@ -500,8 +504,13 @@ static char dawbuf[512];
     case effEditIdle:
 #ifdef EMBED
 #ifdef XEMBED
+#ifdef EMBEDDRAG
        if(plugin->eventrun == 1)
        eventloopx(plugin->display, plugin->parent, plugin->child, plugin->pparent, plugin->eventrun, plugin->width, plugin->height, plugin->parentok, plugin->reaperid, plugin);
+#else
+       if(plugin->eventrun == 1)
+       eventloopx(plugin->display, plugin->parent, plugin->child, plugin->eventrun, plugin->width, plugin->height, plugin->reaperid, plugin);       
+#endif
 #else
 #ifdef EMBEDDRAG
         if(plugin->eventrun == 1)
