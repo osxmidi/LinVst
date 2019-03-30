@@ -501,7 +501,7 @@ void RemoteVSTServer::EffectOpen()
         wclass2.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME2);
         wclass2.hCursor = LoadCursor(0, IDI_APPLICATION);
         // wclass2.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wclass2.lpszMenuName = "MENU_DSSI_VST";
+        wclass2.lpszMenuName = "MENU_DSSI_VST2";
         wclass2.lpszClassName = APPLICATION_CLASS_NAME2;
         wclass2.hIconSm = 0;
 
