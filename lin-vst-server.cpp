@@ -112,7 +112,8 @@ public:
 #ifdef EMBED
     virtual void        openGUI();
 #endif
-
+    virtual void        guiUpdate();
+    
     virtual int         getEffInt(int opcode);
     virtual std::string getEffString(int opcode, int index);
     virtual void        effDoVoid(int opcode);
@@ -2049,6 +2050,30 @@ VOID CALLBACK TimerProc(HWND hWnd, UINT message, UINT idTimer, DWORD dwTime)
    SendMessage(hwnderr, WM_COMMAND, IDCANCEL, 0);
 }
 
+void RemoteVSTServer::guiUpdate()
+{
+#ifdef EMBED
+#ifdef EMBEDRESIZE
+   remoteVSTServerInstance->guiupdatecount += 1;
+	
+   if(remoteVSTServerInstance->guiupdatecount == 2)
+   {
+   ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
+   UpdateWindow(remoteVSTServerInstance->hWnd);
+   remoteVSTServerInstance->guiupdate = 0;
+   remoteVSTServerInstance->guiupdatecount = 0;
+   }
+#endif
+#endif
+#ifndef EMBED
+//      SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE | SWP_HIDEWINDOW);	
+    SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE);	
+    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
+    UpdateWindow(remoteVSTServerInstance->hWnd);
+    remoteVSTServerInstance->guiupdate = 0;
+#endif
+}
+
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmdshow)
 {
     HANDLE  ThreadHandle[3] = {0,0,0};
@@ -2385,236 +2410,65 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     int tcount = 0;
 
     while (1)
-    {	    	    
-#ifdef WAVESLOOP
-if(remoteVSTServerInstance->wavesthread == 1)
-                {
-                if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
-                {
-                for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
-                {
-	        if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-	        break;
+    {	
+#ifdef WAVES        
+    if(remoteVSTServerInstance->wavesthread == 1)
+    {
+    for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
+    {	
+	if(remoteVSTServerInstance->breakloop)
+    break;
+	        	    		
+	TranslateMessage(&msg);
+    DispatchMessage(&msg);
+
+    if (msg.wParam == remoteVSTServerInstance->timerval)
+    {
+    tcount++;
 			
-	        TranslateMessage(&msg);
-                DispatchMessage(&msg);
-
-                if (msg.wParam == remoteVSTServerInstance->timerval)
-                {
-                tcount++;
-			
-                if(tcount == 5)
-                {
-                remoteVSTServerInstance->dispatchControl(50);
-                tcount = 0;
-                break;
-                }
-#ifdef EMBED
-#ifdef EMBEDRESIZE
-                if(remoteVSTServerInstance->guiupdate == 1)
-                {
-                remoteVSTServerInstance->guiupdatecount += 1;
-
-                if(remoteVSTServerInstance->guiupdatecount == 2)
-                {
-                ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-                UpdateWindow(remoteVSTServerInstance->hWnd);
-                remoteVSTServerInstance->guiupdate = 0;
-                remoteVSTServerInstance->guiupdatecount = 0;
-                }
-                }
-#endif
-#endif
-#ifndef EMBED
-                if(remoteVSTServerInstance->guiupdate == 1)
-                {
-        //      SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE | SWP_HIDEWINDOW);	
-                SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE);	
-	        ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-                UpdateWindow(remoteVSTServerInstance->hWnd);
-                remoteVSTServerInstance->guiupdate = 0;
-                }
-#endif
-                }
-                }			
-	        if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)   
-                {
-                remoteVSTServerInstance->hideGUI2();
+    if(tcount == 10)
+    {
+    remoteVSTServerInstance->dispatchControl(50);
+    tcount = 0;
+    break;
+    }                
+    } 
+                
+    if(msg.message == WM_TIMER && remoteVSTServerInstance->guiupdate && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible)
+    remoteVSTServerInstance->guiUpdate();                   
+    }   
+    } 
+    else
+    {
+#endif    
+    while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+    {
+ 	if(remoteVSTServerInstance->breakloop)
+    break;
+       	
+	TranslateMessage(&msg);
+    DispatchMessage(&msg);
+            
+    if (msg.message == WM_TIMER && remoteVSTServerInstance->guiupdate && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible)
+    remoteVSTServerInstance->guiUpdate();      
+    }   
+            
+    remoteVSTServerInstance->dispatchControl(50);
+#ifdef WAVES    
+    }
+#endif    
+            
+    if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
+    break;
+	        
+	if(remoteVSTServerInstance->hideguival && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->haveGui)   
+    {
+    remoteVSTServerInstance->hideGUI2();
 //                remoteVSTServerInstance->hideguival = 0;
-                tcount = 0;
-                }
-                }
-                else // guivisible
-                {
-                for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
-                {
-	        if(remoteVSTServerInstance->breakloop)
-	        {
-	         // remoteVSTServerInstance->breakloop = 0;		   
-	        break;
-	        }	
-	 	if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-	        break;	
-			
-		TranslateMessage(&msg);
-                DispatchMessage(&msg);
-                }
-		remoteVSTServerInstance->dispatchControl(50);
-                }
-	        if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-                break;
-} // wavesloop
-else
-{
-      if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
-       {
-        while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-        {	
-	       if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)
-               {
-               remoteVSTServerInstance->hideGUI2();
-//                remoteVSTServerInstance->hideguival = 0;
-	       break;
-               }
-	       if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-	       break;
-		
-	       TranslateMessage(&msg);
-               DispatchMessage(&msg);
-				
-               if (msg.message == WM_TIMER)
-               {
-#ifdef EMBED
-#ifdef EMBEDRESIZE
-                if(remoteVSTServerInstance->guiupdate == 1)
-                {
-                remoteVSTServerInstance->guiupdatecount += 1;
-
-                if(remoteVSTServerInstance->guiupdatecount == 2)
-                {
-                ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-                UpdateWindow(remoteVSTServerInstance->hWnd);
-                remoteVSTServerInstance->guiupdate = 0;
-                remoteVSTServerInstance->guiupdatecount = 0;
-                }
-                }
-#endif
-#endif
-#ifndef EMBED
-                if(remoteVSTServerInstance->guiupdate == 1)
-                {
-        //      SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE | SWP_HIDEWINDOW);	
-                SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE);	
-	        ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-                UpdateWindow(remoteVSTServerInstance->hWnd);
-                remoteVSTServerInstance->guiupdate = 0;
-                }
-#endif
-             }
-	    }	
-  	     if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)  
-             {
-             remoteVSTServerInstance->hideGUI2();
-//           remoteVSTServerInstance->hideguival = 0;
-             }
-           }       
-            else //guivisible
-           {
-           while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-           {
-	   if(remoteVSTServerInstance->breakloop)
-	   {
-	  // remoteVSTServerInstance->breakloop = 0;		   
-	   break;
-	   }		   
-	   if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-	   break;
-		   
-	   TranslateMessage(&msg);
-           DispatchMessage(&msg);
-           }      
-           }
-	   if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-           break;    
-
-           remoteVSTServerInstance->dispatchControl(50);
-           }
-           }
-#else
-      if (remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
-       {
-        while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-        {	
-	        if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)
-                {
-                remoteVSTServerInstance->hideGUI2();
-//                remoteVSTServerInstance->hideguival = 0;
-	        break;
-                }
-	 	if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-	        break;
-
-	        TranslateMessage(&msg);
-                DispatchMessage(&msg);
-		
-               if (msg.message == WM_TIMER)
-               {
-#ifdef EMBED
-#ifdef EMBEDRESIZE
-                if(remoteVSTServerInstance->guiupdate == 1)
-                {
-                remoteVSTServerInstance->guiupdatecount += 1;
-
-                if(remoteVSTServerInstance->guiupdatecount == 2)
-                {
-                ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-                UpdateWindow(remoteVSTServerInstance->hWnd);
-                remoteVSTServerInstance->guiupdate = 0;
-                remoteVSTServerInstance->guiupdatecount = 0;
-                }
-                }
-#endif
-#endif
-#ifndef EMBED
-                if(remoteVSTServerInstance->guiupdate == 1)
-                {
-        //      SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE | SWP_HIDEWINDOW);	
-                SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0, remoteVSTServerInstance->guiresizewidth + 6, remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE);	
-	        ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-                UpdateWindow(remoteVSTServerInstance->hWnd);
-                remoteVSTServerInstance->guiupdate = 0;
-                }
-#endif
-             }
-            }
-	   if((remoteVSTServerInstance->hideguival == 1) &&remoteVSTServerInstance->guiVisible)      
-           {
-           remoteVSTServerInstance->hideGUI2();
-//         remoteVSTServerInstance->hideguival = 0;
-           }     
-           }       
-           else // guivisible
-           {
-           while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-           {	
-	   if(remoteVSTServerInstance->breakloop)
-	   {
-	//   remoteVSTServerInstance->breakloop = 0;		   
-	   break;
-	   }
-	   if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-	   break;
- 
-	   TranslateMessage(&msg);
-           DispatchMessage(&msg);
-           }      
-           }    
-	   if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-           break;    
-
-           remoteVSTServerInstance->dispatchControl(50);
-           }
-#endif
+    tcount = 0;
+    }
+    }
+	
     // wait for audio thread to catch up
     // sleep(1);
 
