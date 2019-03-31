@@ -2410,8 +2410,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     int tcount = 0;
 
     while (1)
-    {	
-#ifdef WAVES        
+    {	        
     if(remoteVSTServerInstance->wavesthread == 1)
     {
     for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
@@ -2439,8 +2438,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     }   
     } 
     else
-    {
-#endif    
+    {  
     while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
     {
  	if(remoteVSTServerInstance->breakloop)
@@ -2453,10 +2451,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->guiUpdate();      
     }   
             
-    remoteVSTServerInstance->dispatchControl(50);
-#ifdef WAVES    
+    remoteVSTServerInstance->dispatchControl(50);    
     }
-#endif    
             
     if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
     break;
