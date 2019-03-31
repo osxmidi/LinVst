@@ -2415,10 +2415,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     {
     for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
     {	
-	if(remoteVSTServerInstance->breakloop)
-    break;
+    // if(remoteVSTServerInstance->breakloop)
+    // break;
 	        	    		
-	TranslateMessage(&msg);
+    TranslateMessage(&msg);
     DispatchMessage(&msg);
 
     if (msg.wParam == remoteVSTServerInstance->timerval)
@@ -2441,10 +2441,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     {  
     while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
     {
- 	if(remoteVSTServerInstance->breakloop)
-    break;
+    // if(remoteVSTServerInstance->breakloop)
+    // break;
        	
-	TranslateMessage(&msg);
+    TranslateMessage(&msg);
     DispatchMessage(&msg);
             
     if (msg.message == WM_TIMER && remoteVSTServerInstance->guiupdate && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible)
