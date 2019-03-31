@@ -1971,8 +1971,7 @@ void RemotePluginClient::hideGUI()
 #ifdef EMBED
 void RemotePluginClient::openGUI()
 {
-    effVoidOp(11112222);
-	
+   // effVoidOp(11112222);	
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginOpenGUI);    
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
