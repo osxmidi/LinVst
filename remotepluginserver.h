@@ -108,7 +108,8 @@ public:
 #ifdef EMBED
     virtual void            openGUI()                               { }
 #endif
-
+    virtual void            guiUpdate()                             { }
+    
     void                    dispatch(int timeout = -1); // may throw RemotePluginClosedException
     void                    dispatchControl(int timeout = -1); // may throw RemotePluginClosedException
     void                    dispatchProcess(int timeout = -1); // may throw RemotePluginClosedException
