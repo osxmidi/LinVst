@@ -1368,33 +1368,7 @@ void RemotePluginServer::dispatchParEvents()
         writeInt(&m_shm[FIXED_SHM_SIZE], m_numOutputs);
         break;
     }
-		    		    
-    case RemotePluginDoVoid:
-    {
-        int opcode = readIntring(&m_shmControl5->ringBuffer);
-        if (opcode == effClose)
-	{	
-        m_threadsfinish = 1;
-	waitForClient2exit();
-        waitForClient3exit();
-        waitForClient4exit();
-        waitForClient5exit();
-	}	
-        effDoVoid(opcode);
-        break;
-    }
-
-    case RemotePluginDoVoid2:
-    {
-        int opcode = readIntring(&m_shmControl5->ringBuffer);
-        int index = readIntring(&m_shmControl5->ringBuffer);
-        int value = readIntring(&m_shmControl5->ringBuffer);
-        float opt = readFloatring(&m_shmControl5->ringBuffer);
-        int b = effDoVoid2(opcode, index, value, opt);
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
-        break;
-    }
-		   		    
+		    		    		   		    
 #ifdef DOUBLEP
      case RemoteSetPrecision:
     {   
@@ -1544,6 +1518,32 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginEffectOpen:
         EffectOpen();
         break;
+		    
+    case RemotePluginDoVoid:
+    {
+        int opcode = readIntring(&m_shmControl3->ringBuffer);
+        if (opcode == effClose)
+	{	
+        m_threadsfinish = 1;
+	waitForClient2exit();
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
+	}	
+        effDoVoid(opcode);
+        break;
+    }
+
+    case RemotePluginDoVoid2:
+    {
+        int opcode = readIntring(&m_shmControl3->ringBuffer);
+        int index = readIntring(&m_shmControl3->ringBuffer);
+        int value = readIntring(&m_shmControl3->ringBuffer);
+        float opt = readFloatring(&m_shmControl3->ringBuffer);
+        int b = effDoVoid2(opcode, index, value, opt);
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
+        break;
+    }		    
 		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
