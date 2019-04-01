@@ -1394,11 +1394,7 @@ void RemotePluginServer::dispatchParEvents()
         tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
         break;
     }
-		    
-    case RemotePluginHideGUI:
-        hideGUI();
-        break;
-		    
+		   		    
 #ifdef DOUBLEP
      case RemoteSetPrecision:
     {   
@@ -1534,6 +1530,10 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginShowGUI:
         showGUI();
         break;
+		    
+   case RemotePluginHideGUI:
+        hideGUI();
+        break;		    
 		    
 #ifdef EMBED
     case RemotePluginOpenGUI:
