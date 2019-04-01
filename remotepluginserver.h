@@ -104,7 +104,6 @@ public:
 
     virtual void            showGUI()                               { }
     virtual void            hideGUI()                               { }
-    virtual void            hideGUI2()                              { }
 #ifdef EMBED
     virtual void            openGUI()                               { }
 #endif
