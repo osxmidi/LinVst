@@ -108,7 +108,6 @@ public:
 
     virtual void        showGUI();
     virtual void        hideGUI();
-    virtual void        hideGUI2();
 #ifdef EMBED
     virtual void        openGUI();
 #endif
@@ -235,7 +234,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_TIMER:
      if(remoteVSTServerInstance && !remoteVSTServerInstance->vember)
 	 {	  
-	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin && !remoteVSTServerInstance->hideguival)
+	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin)
 	 {	 
  //        remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
       remoteVSTServerInstance->timerhit = 1;
@@ -256,7 +255,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
        //  remoteVSTServerInstance->guiVisible = 0;
          }		    
      else
-	 if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && !remoteVSTServerInstance->hideguival)
+	 if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
 	 {
 	 remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
 	 }
@@ -384,7 +383,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     effectrun(false),
     inProcessThread(false),
     guiVisible(false),
-    hideguival(0),
     parfin(0),
     audfin(0),
     getfin(0),
@@ -753,7 +751,7 @@ int ret;
     ret = 0;
     if(opcode == effEditIdle)
     {
-    if((timerhit == 1) && !exiting && guiVisible && !hideguival)
+    if((timerhit == 1) && !exiting && guiVisible)
     {
     ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);
     timerhit = 0;    
@@ -1092,8 +1090,8 @@ void RemoteVSTServer::showGUI()
         timerval = 678;
         timerval = SetTimer(hWnd, timerval, 50, 0);
 }
-
-void RemoteVSTServer::hideGUI2()
+	
+void RemoteVSTServer::hideGUI()
 {
     // if (!hWnd)
         // return;
@@ -1133,16 +1131,9 @@ void RemoteVSTServer::hideGUI2()
 
    guiVisible = false;
    timerhit = 0;
-   hideguival = 0;
 
    // if (!exiting)
     //    usleep(50000);
-}
-	
-void RemoteVSTServer::hideGUI()
-{
-    if ((haveGui == true) && (guiVisible == true))
-    hideguival = 1;
 }
 
 #ifdef EMBED
@@ -2450,15 +2441,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->dispatchControl(50);    
     }
             
-    if(remoteVSTServerInstance->exiting && !remoteVSTServerInstance->hideguival)
-    break;
-	        
-	if(remoteVSTServerInstance->hideguival && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->haveGui)   
-    {
-    remoteVSTServerInstance->hideGUI2();
-//                remoteVSTServerInstance->hideguival = 0;
-    tcount = 0;
-    }
+    if(remoteVSTServerInstance->exiting)
+    break;	      
     }
 	
     // wait for audio thread to catch up
