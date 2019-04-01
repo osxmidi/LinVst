@@ -542,17 +542,7 @@ void RemoteVSTServer::EffectOpen()
 RemoteVSTServer::~RemoteVSTServer()
 {
     if(effectrun == true)
-    {
-    if (haveGui == true)
-    {
-  //  KillTimer(0, timerval);
-   
-    if(guiVisible && m_plugin)
-    {
-    hideGUI2();
-    }
-    }
-	
+    {	
     if(m_plugin)
     {
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
