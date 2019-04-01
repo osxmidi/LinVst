@@ -189,9 +189,7 @@ public:
     int                 hostreaper;
     int                 melda;    
     int                 vember;    
-#ifdef WAVES
     int                 wavesthread;
-#endif
 #ifdef EMBED
 #ifdef TRACKTIONWM  
     int                 hosttracktion;
@@ -373,9 +371,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     sampleRate(0),
     setprogrammiss(0),
     hostreaper(0),
-#ifdef WAVES
     wavesthread(0),
-#endif
 #ifdef EMBED
 #ifdef TRACKTIONWM  
     hosttracktion(0),
