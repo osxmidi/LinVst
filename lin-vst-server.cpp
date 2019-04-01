@@ -167,8 +167,6 @@ public:
     UINT_PTR            timerval;
     int                 timerhit;
     bool                haveGui;
-    int                 hideguival;
-    int                 breakloop;
 #ifdef EMBED
     HANDLE handlewin;
 
@@ -232,15 +230,17 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     break;
 		    
      case WM_TIMER:
+/*		    
      if(remoteVSTServerInstance && !remoteVSTServerInstance->vember)
 	 {	  
 	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin)
 	 {	 
  //        remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
-      remoteVSTServerInstance->timerhit = 1;
+ //     remoteVSTServerInstance->timerhit = 1;
          return 0;
 	 }
 	 }
+*/	 
     break;
        
      case WM_PARENTNOTIFY: 
@@ -388,7 +388,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     getfin(0),
     guiupdate(0),
     guiupdatecount(0),
-    breakloop(0),
     guiresizewidth(500),
     guiresizeheight(200),
     melda(0),
@@ -733,15 +732,10 @@ void RemoteVSTServer::effDoVoid(int opcode)
          // usleep(500000);
         waitForServerexit();
         terminate();
+	return;    
     }
-    else if (opcode == 11112222)
-    {
-    breakloop = 1;
-    }
-    else
-    {
+  
         m_plugin->dispatcher(m_plugin, opcode, 0, 0, NULL, 0);
-    }
 }
 
 int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
@@ -749,6 +743,7 @@ int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
 int ret;
 
     ret = 0;
+/*	
     if(opcode == effEditIdle)
     {
     if((timerhit == 1) && !exiting && guiVisible)
@@ -756,7 +751,12 @@ int ret;
     ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);
     timerhit = 0;    
     }
-    }
+    }  
+    else
+    {
+ */   
+    ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);    
+//    }
     return ret;
 }
 
@@ -905,10 +905,7 @@ bool RemoteVSTServer::warn(std::string warning)
 }
 
 void RemoteVSTServer::showGUI()
-{	
-       if(breakloop)
-       breakloop = 0;	
-	
+{		
 #ifdef EMBED
         winm.handle = 0;
         winm.width = 0;
@@ -1088,7 +1085,7 @@ void RemoteVSTServer::showGUI()
     }
 #endif	
         timerval = 678;
-        timerval = SetTimer(hWnd, timerval, 50, 0);
+        timerval = SetTimer(hWnd, timerval, 80, 0);
 }
 	
 void RemoteVSTServer::hideGUI()
@@ -2401,10 +2398,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance->wavesthread == 1)
     {
     for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
-    {	
-    // if(remoteVSTServerInstance->breakloop)
-    // break;
-	        	    		
+    {		        	    		
     TranslateMessage(&msg);
     DispatchMessage(&msg);
 
@@ -2419,7 +2413,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     break;
     }                
     } 
-                
+    if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin) 
+    remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
     if(msg.message == WM_TIMER && remoteVSTServerInstance->guiupdate && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible)
     remoteVSTServerInstance->guiUpdate();                   
     }   
@@ -2427,13 +2422,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     else
     {  
     while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-    {
-    // if(remoteVSTServerInstance->breakloop)
-    // break;
-       	
+    {   	
     TranslateMessage(&msg);
     DispatchMessage(&msg);
-            
+      
+    if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin) 
+    remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+    
     if (msg.message == WM_TIMER && remoteVSTServerInstance->guiupdate && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible)
     remoteVSTServerInstance->guiUpdate();      
     }   
