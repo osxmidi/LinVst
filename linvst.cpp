@@ -47,15 +47,39 @@ extern "C" {
 }
 
 #ifdef EMBED
-#ifdef XEMBED
-
+#ifdef XECLOSE
 #define XEMBED_EMBEDDED_NOTIFY	0
 #define XEMBED_FOCUS_OUT 5
 
-void sendXembedMessage(Display* display, Window window, long message, long detail,
-		long data1, long data2)
+void sendXembedMessage(Display* display, Window window, long message, long detail, long data1, long data2)
 {
 	XEvent event;
+
+	memset(&event, 0, sizeof(event));
+	event.xclient.type = ClientMessage;
+	event.xclient.window = window;
+	event.xclient.message_type = XInternAtom(display, "_XEMBED", false);
+	event.xclient.format = 32;
+	event.xclient.data.l[0] = CurrentTime;
+	event.xclient.data.l[1] = message;
+	event.xclient.data.l[2] = detail;
+	event.xclient.data.l[3] = data1;
+	event.xclient.data.l[4] = data2;
+
+	XSendEvent(display, window, false, NoEventMask, &event);
+	XSync(display, false);
+}
+#endif
+#endif
+
+#ifdef EMBED
+#ifdef XEMBED
+#define XEMBED_EMBEDDED_NOTIFY	0
+#define XEMBED_FOCUS_OUT 5
+
+void sendXembedMessage(Display* display, Window window, long message, long detail, long data1, long data2)
+{
+	XEvent even t;
 
 	memset(&event, 0, sizeof(event));
 	event.xclient.type = ClientMessage;
@@ -466,17 +490,17 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     static Atom version;
     static XSetWindowAttributes attr = {0};
 #endif
-#endif
-
-#ifdef EMBED
 #ifdef TRACKTIONWM  
 static char dawbuf[512];
 #endif
-#endif
-   
-#ifdef XEMBED
+   #ifdef XEMBED
     static Atom xembedatom;
     static   unsigned long data[2];
+#endif
+#ifdef XECLOSE
+    static Atom xembedatom;
+    static   unsigned long data[2];
+#endif
 #endif
 	
     if(!plugin)
@@ -766,6 +790,12 @@ static char dawbuf[512];
 
        if(plugin->display && plugin->handle)
        {
+#ifdef XECLOSE
+       data[0] = 0;
+       data[1] = 1;
+       xembedatom = XInternAtom(plugin->display, "_XEMBED_INFO", False);
+       XChangeProperty(plugin->display, plugin->child, xembedatom, XA_CARDINAL, 32, PropModeReplace, (unsigned char *) data, 2); 
+#endif       	       
 #ifdef EMBEDDRAG
        plugin->root = 0;
        plugin->children = 0;
@@ -868,8 +898,16 @@ if(plugin->runembed == 1)
         if(plugin->displayerr == 1)
         break;
 
-        plugin->hideGUI();  
-
+#ifdef XECLOSE
+        plugin->xeclose = 1;
+        sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
+        for(int i=0;i<5000;i++)
+        {
+        usleep(1000);
+        if(plugin->xeclose == 0)
+        break;
+        }
+#endif                
         if(plugin->display)
         {
 #ifdef EMBEDDRAG
@@ -881,6 +919,8 @@ if(plugin->runembed == 1)
         XCloseDisplay(plugin->display);
         plugin->display = 0;
         }   
+		    
+        plugin->hideGUI();		    
 #else            
         plugin->hideGUI();
 #endif            
