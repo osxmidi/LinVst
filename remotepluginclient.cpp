@@ -394,6 +394,47 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 */
 
 #ifdef EMBED
+#ifdef XECLOSE
+void* RemotePluginClient::XEMBEDThread()
+{
+XEvent e;
+Atom xembedatom;
+
+     while (!m_threadbreakxembed)
+     {  
+     usleep(1000);
+
+     if(xeclose == 1)
+     {
+     if(parent && child && display)
+     {
+     xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
+      
+     int pending = XPending(display);
+
+     for (int i=0; i<pending; i++)
+     {
+     XNextEvent(display, &e);
+
+     switch(e.type)
+     {     
+     case PropertyNotify:
+     if (e.xproperty.atom == xembedatom) 
+     {
+     xeclose = 0;
+     }
+     break;
+      
+     default:
+     break;
+     }
+     }
+     }    
+     }
+     }     
+     }
+#endif
+
 #ifdef EMBEDTHREAD
 void* RemotePluginClient::EMBEDThread()
 {
@@ -453,6 +494,11 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_shmFd3(-1),
     m_AMThread(0),
 #ifdef EMBED
+#ifdef XECLOSE
+    m_XEMBEDThread(0),
+    m_threadbreakxembed(0),
+    xeclose(0),
+#endif
 #ifdef EMBEDTHREAD
     m_EMBEDThread(0),
     runembed(0),
@@ -742,7 +788,14 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     cleanup();
     throw((std::string)"Failed to initialize thread");
     }    
- #ifdef EMBED
+#ifdef EMBED
+#ifdef XECLOSE
+    if(pthread_create(&m_XEMBEDThread, NULL, RemotePluginClient::callXEMBEDThread, this) != 0)
+    {    
+    cleanup();
+    throw((std::string)"Failed to initialize thread2");
+    }
+#endif 	    
  #ifdef EMBEDTHREAD
     if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
     {    
@@ -827,6 +880,10 @@ m_threadbreak = 1;
         }
 */
 #ifdef EMBED
+#ifdef XECLOSE
+if(m_threadbreakxembed == 0) 
+m_threadbreakxembed = 1;
+#endif	
 #ifdef EMBEDTHREAD
 if(m_threadbreakembed == 0) 
 m_threadbreakembed = 1;
@@ -844,6 +901,10 @@ m_threadbreakembed = 1;
     if (m_AMThread)
         pthread_join(m_AMThread, NULL);
 #ifdef EMBED
+#ifdef XECLOSE
+     if (m_XEMBEDThread)
+         pthread_join(m_XEMBEDThread, NULL);
+#endif	
 #ifdef EMBEDTHREAD
     if (m_EMBEDThread)
         pthread_join(m_EMBEDThread, NULL);
@@ -1063,6 +1124,9 @@ int RemotePluginClient::sizeShm()
     m_threadbreakexit = 0;
 
 #ifdef EMBED
+#ifdef XECLOSE
+    m_threadbreakxembed = 0;
+#endif	
 #ifdef EMBEDTHREAD    
     m_threadbreakembed = 0;
     m_threadbreakexitembed = 0;   
@@ -1997,6 +2061,9 @@ void RemotePluginClient::effVoidOp(int opcode)
         }
 */              
 #ifdef EMBED
+#ifdef XECLOSE
+        m_threadbreakxembed = 1;
+#endif	      
 #ifdef EMBEDTHREAD
         m_threadbreakembed = 1;
 /*
@@ -2029,6 +2096,9 @@ void RemotePluginClient::effVoidOp(int opcode)
         }
 */              
 #ifdef EMBED
+#ifdef XECLOSE 
+        m_threadbreakxembed = 1;
+#endif	      
 #ifdef EMBEDTHREAD
         m_threadbreakembed = 1;
 /*
@@ -2505,6 +2575,9 @@ m_inexcept = 1;
         }
 */
 #ifdef EMBED
+#ifdef XECLOSE 
+       m_threadbreakxembed = 1;
+#endif	
 #ifdef EMBEDTHREAD
 m_threadbreakembed = 1;
 /*
@@ -2526,6 +2599,10 @@ m_threadbreakembed = 1;
         pthread_join(m_AMThread, NULL);
 
 #ifdef EMBED
+#ifdef XECLOSE
+     if (m_XEMBEDThread)
+         pthread_join(m_XEMBEDThread, NULL);
+#endif	
 #ifdef EMBEDTHREAD
     if (m_EMBEDThread)
         pthread_join(m_EMBEDThread, NULL);
