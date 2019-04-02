@@ -460,53 +460,7 @@ void RemoteVSTServer::EffectOpen()
 /*
     if (strncmp(buffer, "IK", 2) == 0)
         setprogrammiss = 1;
-*/
-    if (haveGui == true)
-    {
-	memset(&wclass, 0, sizeof(WNDCLASSEX));
-        wclass.cbSize = sizeof(WNDCLASSEX);
-        wclass.style = 0;
-	    // CS_HREDRAW | CS_VREDRAW;
-        wclass.lpfnWndProc = MainProc;
-        wclass.cbClsExtra = 0;
-        wclass.cbWndExtra = 0;
-        wclass.hInstance = GetModuleHandle(0);
-        wclass.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME);
-        wclass.hCursor = LoadCursor(0, IDI_APPLICATION);
-        // wclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wclass.lpszMenuName = "MENU_DSSI_VST";
-        wclass.lpszClassName = APPLICATION_CLASS_NAME;
-        wclass.hIconSm = 0;
-
-        if (!RegisterClassEx(&wclass))
-        {
-            cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
-            haveGui = false;
-        }
-#ifdef TRACKTIONWM       
-    	memset(&wclass2, 0, sizeof(WNDCLASSEX));
-        wclass2.cbSize = sizeof(WNDCLASSEX);
-        wclass2.style = 0;
-	    // CS_HREDRAW | CS_VREDRAW;
-        wclass2.lpfnWndProc = MainProc2;
-        wclass2.cbClsExtra = 0;
-        wclass2.cbWndExtra = 0;
-        wclass2.hInstance = GetModuleHandle(0);
-        wclass2.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME2);
-        wclass2.hCursor = LoadCursor(0, IDI_APPLICATION);
-        // wclass2.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wclass2.lpszMenuName = "MENU_DSSI_VST2";
-        wclass2.lpszClassName = APPLICATION_CLASS_NAME2;
-        wclass2.hIconSm = 0;
-
-        if (!RegisterClassEx(&wclass2))
-        {
-            cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
-            haveGui = false;
-        }
-#endif        
-    }
-			
+*/			
     struct amessage
     {
         int flags;
@@ -895,7 +849,63 @@ bool RemoteVSTServer::warn(std::string warning)
 }
 
 void RemoteVSTServer::showGUI()
-{		
+{	
+        memset(&wclass, 0, sizeof(WNDCLASSEX));
+        wclass.cbSize = sizeof(WNDCLASSEX);
+        wclass.style = 0;
+	    // CS_HREDRAW | CS_VREDRAW;
+        wclass.lpfnWndProc = MainProc;
+        wclass.cbClsExtra = 0;
+        wclass.cbWndExtra = 0;
+        wclass.hInstance = GetModuleHandle(0);
+        wclass.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME);
+        wclass.hCursor = LoadCursor(0, IDI_APPLICATION);
+        // wclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+        wclass.lpszMenuName = "MENU_DSSI_VST";
+        wclass.lpszClassName = APPLICATION_CLASS_NAME;
+        wclass.hIconSm = 0;
+
+        if (!RegisterClassEx(&wclass))
+        {
+        guiVisible = false;
+#ifdef EMBED        
+        winm.handle = 0;
+        winm.width = 0;
+        winm.height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+#endif        
+        return;
+        }
+#ifdef EMBED         
+#ifdef TRACKTIONWM       
+    	memset(&wclass2, 0, sizeof(WNDCLASSEX));
+        wclass2.cbSize = sizeof(WNDCLASSEX);
+        wclass2.style = 0;
+	    // CS_HREDRAW | CS_VREDRAW;
+        wclass2.lpfnWndProc = MainProc2;
+        wclass2.cbClsExtra = 0;
+        wclass2.cbWndExtra = 0;
+        wclass2.hInstance = GetModuleHandle(0);
+        wclass2.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME2);
+        wclass2.hCursor = LoadCursor(0, IDI_APPLICATION);
+        // wclass2.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+        wclass2.lpszMenuName = "MENU_DSSI_VST2";
+        wclass2.lpszClassName = APPLICATION_CLASS_NAME2;
+        wclass2.hIconSm = 0;
+
+        if (!RegisterClassEx(&wclass2))
+        {
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
+        guiVisible = false;        
+        winm.handle = 0;
+        winm.width = 0;
+        winm.height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));       
+        return;
+        }
+#endif 
+#endif       
+	
 #ifdef EMBED
         winm.handle = 0;
         winm.width = 0;
@@ -927,33 +937,33 @@ void RemoteVSTServer::showGUI()
     // if (hWnd)
    //     DestroyWindow(hWnd);
  //   hWnd = 0;
-
+ 
 #ifdef EMBEDDRAG
     if(winit == 0)	
     {
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
-#ifndef XEMBED 
-#ifndef XECLOSE
+#ifndef XEMBED
     if(hostreaper == 1)
     winit = 1;
-    #endif
 #endif
     }
 #else
     if(winit == 0)
     {	
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
-#ifndef XEMBED 
-#ifndef XECLOSE
+#ifndef XEMBED
     if(hostreaper == 1)
     winit = 1;
-#endif    
 #endif	    
     }
 #endif
     if (!hWnd)
     {
         // cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
+#ifdef TRACKTIONWM   
+        UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
+#endif        
         guiVisible = false;
         winm.handle = 0;
         winm.width = 0;
@@ -970,6 +980,10 @@ void RemoteVSTServer::showGUI()
     {
         // cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
         DestroyWindow(hWnd);
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
+#ifdef TRACKTIONWM   
+        UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
+#endif              
         guiVisible = false;
         winm.handle = 0;
         winm.width = 0;
@@ -1023,12 +1037,20 @@ void RemoteVSTServer::showGUI()
 
     if (haveGui == false)
     {
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
+#ifdef TRACKTIONWM   
+        UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
+#endif          
         guiVisible = false;
         return;
     }
  
     if (guiVisible)
     {
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
+#ifdef TRACKTIONWM   
+        UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
+#endif          
         return;
     }
 	
@@ -1039,12 +1061,13 @@ void RemoteVSTServer::showGUI()
         hWnd = CreateWindow(APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
                             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);
 	#endif    
-        if (!hWnd)
-        {
-            cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
-        guiVisible = false;
-        return;
-        }
+    if (!hWnd)
+    {
+    UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));             
+    cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
+    guiVisible = false;
+    return;
+    }
 
     if(hWnd)
     SetWindowText(hWnd, m_name.c_str());
@@ -1058,13 +1081,13 @@ void RemoteVSTServer::showGUI()
     m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
     if (!rect)
     {
-            cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
-        guiVisible = false;
-        return;
+    UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));     
+    cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
+    guiVisible = false;
+    return;
     }
     else
-    {
-	    
+    {	    
 #ifdef WINONTOP
         SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
 #else	
@@ -1113,15 +1136,21 @@ void RemoteVSTServer::hideGUI()
   // if(chWnd)
   // DestroyWindow(chWnd);  
   // if(hostreaper == 0)
-  // DestroyWindow(hWnd); 
-  #ifdef XECLOSE  
-  DestroyWindow(hWnd);  
-  #endif    
+  #ifdef XECLOSE	  
+  DestroyWindow(hWnd); 
+  #endif	  
   #endif	  
   #else
   DestroyWindow(hWnd);
   #endif 
   }
+ 
+  UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
+#ifdef EMBED        
+#ifdef TRACKTIONWM   
+  UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
+#endif  
+#endif          
 
    guiVisible = false;
    timerhit = 0;
