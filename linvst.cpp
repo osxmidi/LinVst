@@ -69,7 +69,7 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 	event.xclient.data.l[4] = data2;
 
 	XSendEvent(display, window, false, NoEventMask, &event);
-//	XSync(display, false);
+	XSync(display, false);
 }
 
 #ifdef EMBEDDRAG
