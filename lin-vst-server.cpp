@@ -1113,7 +1113,10 @@ void RemoteVSTServer::hideGUI()
   // if(chWnd)
   // DestroyWindow(chWnd);  
   // if(hostreaper == 0)
-  // DestroyWindow(hWnd);  
+  // DestroyWindow(hWnd); 
+  #ifdef XECLOSE  
+  DestroyWindow(hWnd);  
+  #endif    
   #endif	  
   #else
   DestroyWindow(hWnd);
