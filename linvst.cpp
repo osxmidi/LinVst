@@ -30,6 +30,8 @@
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 
+#include <sys/wait.h>
+
 extern "C" {
 
 #define VST_EXPORT   __attribute__ ((visibility ("default")))
@@ -854,7 +856,7 @@ static char dawbuf[512];
 #ifdef EMBEDTHREAD
         plugin->runembed = 1;  
 #else
-       usleep(100000);
+  //     usleep(100000);
 
        XReparentWindow(plugin->display, plugin->child, plugin->parent, 0, 0);
 
@@ -1015,7 +1017,8 @@ if(plugin->runembed == 1)
         usleep(500000);
 #endif
 */
-        delete plugin;		    
+        delete plugin;	
+        while (waitpid(-1, NULL, WNOHANG) > 0) {}			    
         break;
 
     default:
