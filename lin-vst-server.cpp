@@ -932,18 +932,22 @@ void RemoteVSTServer::showGUI()
     if(winit == 0)	
     {
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
-#ifndef XEMBED
+#ifndef XEMBED 
+#ifndef XECLOSE
     if(hostreaper == 1)
     winit = 1;
+    #endif
 #endif
     }
 #else
     if(winit == 0)
     {	
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
-#ifndef XEMBED
+#ifndef XEMBED 
+#ifndef XECLOSE
     if(hostreaper == 1)
     winit = 1;
+#endif    
 #endif	    
     }
 #endif
