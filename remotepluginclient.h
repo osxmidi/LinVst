@@ -159,6 +159,13 @@ public:
     int                 m_threadbreak;
     int                 m_threadbreakexit;
 #ifdef EMBED
+#ifdef XECLOSE
+    int                 m_threadbreakxembed;
+    int                 xeclose;
+    pthread_t           m_XEMBEDThread;
+    static void         *callXEMBEDThread(void *arg) { return ((RemotePluginClient*)arg)->XEMBEDThread(); }
+    void                *XEMBEDThread();    
+#endif    
 #ifdef EMBEDTHREAD
     int                 m_threadbreakembed;
     int                 m_threadbreakexitembed;
