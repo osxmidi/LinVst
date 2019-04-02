@@ -838,10 +838,10 @@ static char dawbuf[512];
 	       
 #ifdef FOCUS
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask); 
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask | PropertyChangeMask); 
 #else 
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask);	   
+      XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | PropertyChangeMask );	   
 #endif
 	       
        plugin->eventrun = 1;
