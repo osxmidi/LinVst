@@ -133,7 +133,7 @@ else
 
 #endif
 
-    while (dataAvailable(&m_shmControl->ringBuffer)) {
+    while (dataAvailable(&m_shmControl->ringBuffer) && theEffect) {
 
     if(m_threadbreak)
     break;
