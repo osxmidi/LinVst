@@ -460,7 +460,55 @@ void RemoteVSTServer::EffectOpen()
 /*
     if (strncmp(buffer, "IK", 2) == 0)
         setprogrammiss = 1;
-*/			
+*/	
+#ifndef WCLASS
+	    if (haveGui == true)
+    {
+	memset(&wclass, 0, sizeof(WNDCLASSEX));
+        wclass.cbSize = sizeof(WNDCLASSEX);
+        wclass.style = 0;
+	    // CS_HREDRAW | CS_VREDRAW;
+        wclass.lpfnWndProc = MainProc;
+        wclass.cbClsExtra = 0;
+        wclass.cbWndExtra = 0;
+        wclass.hInstance = GetModuleHandle(0);
+        wclass.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME);
+        wclass.hCursor = LoadCursor(0, IDI_APPLICATION);
+        // wclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+        wclass.lpszMenuName = "MENU_DSSI_VST";
+        wclass.lpszClassName = APPLICATION_CLASS_NAME;
+        wclass.hIconSm = 0;
+
+        if (!RegisterClassEx(&wclass))
+        {
+            cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
+            haveGui = false;
+        }
+#ifdef TRACKTIONWM       
+    	memset(&wclass2, 0, sizeof(WNDCLASSEX));
+        wclass2.cbSize = sizeof(WNDCLASSEX);
+        wclass2.style = 0;
+	    // CS_HREDRAW | CS_VREDRAW;
+        wclass2.lpfnWndProc = MainProc2;
+        wclass2.cbClsExtra = 0;
+        wclass2.cbWndExtra = 0;
+        wclass2.hInstance = GetModuleHandle(0);
+        wclass2.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME2);
+        wclass2.hCursor = LoadCursor(0, IDI_APPLICATION);
+        // wclass2.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+        wclass2.lpszMenuName = "MENU_DSSI_VST2";
+        wclass2.lpszClassName = APPLICATION_CLASS_NAME2;
+        wclass2.hIconSm = 0;
+
+        if (!RegisterClassEx(&wclass2))
+        {
+            cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
+            haveGui = false;
+        }
+#endif        
+    }
+#endif
+	
     struct amessage
     {
         int flags;
@@ -848,6 +896,252 @@ bool RemoteVSTServer::warn(std::string warning)
     return true;
 }
 
+#ifndef WCLASS
+void RemoteVSTServer::showGUI()
+{		
+#ifdef EMBED
+        winm.handle = 0;
+        winm.width = 0;
+        winm.height = 0;
+
+        handlewin = 0; 
+
+    if (debugLevel > 0)
+        cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
+
+    if (haveGui == false)
+    {
+        winm.handle = 0;
+        winm.width = 0;
+        winm.height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+        return;
+    }
+
+    if (guiVisible)
+    {
+        winm.handle = 0;
+        winm.width = 0;
+        winm.height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+        return;
+    }
+
+    // if (hWnd)
+   //     DestroyWindow(hWnd);
+ //   hWnd = 0;
+
+#ifdef EMBEDDRAG
+    if(winit == 0)	
+    {
+    hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+#ifndef XEMBED 
+#ifndef XECLOSE
+    if(hostreaper == 1)
+    winit = 1;
+    #endif
+#endif
+    }
+#else
+    if(winit == 0)
+    {	
+    hWnd = CreateWindowEx(WS_EX_TOOLWINDOW, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+#ifndef XEMBED 
+#ifndef XECLOSE
+    if(hostreaper == 1)
+    winit = 1;
+#endif    
+#endif	    
+    }
+#endif
+    if (!hWnd)
+    {
+        // cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
+        guiVisible = false;
+        winm.handle = 0;
+        winm.width = 0;
+        winm.height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+        return;
+    }
+	
+    rect = 0;
+    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
+    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+    if (!rect)
+    {
+        // cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
+        DestroyWindow(hWnd);
+        guiVisible = false;
+        winm.handle = 0;
+        winm.width = 0;
+        winm.height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+        return;
+    }
+#ifdef TRACKTIONWM
+	if(hosttracktion == 1)
+        {
+        RECT offsetcl, offsetwin;
+        POINT offset;
+
+        HWND hWnd2 = CreateWindow(APPLICATION_CLASS_NAME2, "LinVst", WS_CAPTION, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
+        GetClientRect(hWnd2, &offsetcl);
+        GetWindowRect(hWnd2, &offsetwin);
+        DestroyWindow(hWnd2);
+
+        offset.x = (offsetwin.right - offsetwin.left) - offsetcl.right;
+        offset.y = (offsetwin.bottom - offsetwin.top) - offsetcl.bottom;
+
+        // if(GetSystemMetrics(SM_CMONITORS) > 1)	
+        SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN) + offset.x, GetSystemMetrics(SM_YVIRTUALSCREEN) + offset.y, rect->right - rect->left, rect->bottom - rect->top, 0); 
+	// else
+	// SetWindowPos(hWnd, HWND_TOP, offset.x, offset.y, rect->right - rect->left, rect->bottom - rect->top, 0);  
+        }
+	else
+	{
+        // if(GetSystemMetrics(SM_CMONITORS) > 1)
+        SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left, rect->bottom - rect->top, 0);
+        // else
+        // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
+	}
+#else
+        // if(GetSystemMetrics(SM_CMONITORS) > 1)
+        SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left, rect->bottom - rect->top, 0);
+        // else
+        // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom - rect->top, 0);
+#endif
+        if (debugLevel > 0)
+            cerr << "dssi-vst-server[1]: sized window" << endl;
+
+        winm.width = rect->right - rect->left;
+        winm.height = rect->bottom - rect->top;
+        handlewin = GetPropA(hWnd, "__wine_x11_whole_window");
+        winm.handle = (long int) handlewin;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+#else
+    if (debugLevel > 0)
+        cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
+
+    if (haveGui == false)
+    {
+        guiVisible = false;
+        return;
+    }
+ 
+    if (guiVisible)
+    {
+        return;
+    }
+	
+	#ifdef DRAG
+        hWnd = CreateWindowEx(WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
+                            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);	    
+	#else    
+        hWnd = CreateWindow(APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
+                            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);
+	#endif    
+        if (!hWnd)
+        {
+            cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
+        guiVisible = false;
+        return;
+        }
+
+    if(hWnd)
+    SetWindowText(hWnd, m_name.c_str());
+	
+    if(melda == 1)
+    m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
+
+    rect = 0;
+    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
+    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+    if (!rect)
+    {
+            cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
+        guiVisible = false;
+        return;
+    }
+    else
+    {
+	    
+#ifdef WINONTOP
+        SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);
+#else	
+        SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);        
+#endif
+        if (debugLevel > 0)
+            cerr << "dssi-vst-server[1]: sized window" << endl;
+
+	guiVisible = true;
+        ShowWindow(hWnd, SW_SHOWNORMAL);
+        UpdateWindow(hWnd);
+    }
+#endif	
+        timerval = 678;
+        timerval = SetTimer(hWnd, timerval, 80, 0);
+}
+	
+void RemoteVSTServer::hideGUI()
+{
+    // if (!hWnd)
+        // return;
+/*
+    if ((haveGui == false) || (guiVisible == false))
+    {
+    hideguival = 0;
+    return;
+    }
+    
+*/    
+
+#ifndef EMBED
+  ShowWindow(hWnd, SW_HIDE);
+  UpdateWindow(hWnd);
+#endif
+
+  if(melda == 0)
+  m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
+		
+  if(hWnd)
+  {	
+  KillTimer(hWnd, timerval);
+  #ifdef EMBED
+  #ifdef XEMBED
+  DestroyWindow(hWnd);
+  #else
+  // if(chWnd)
+  // DestroyWindow(chWnd);  
+  // if(hostreaper == 0)
+#ifdef XECLOSE  
+  DestroyWindow(hWnd);  
+#endif  
+  #endif	  
+  #else
+  DestroyWindow(hWnd);
+  #endif 
+  }
+
+   guiVisible = false;
+   timerhit = 0;
+
+   // if (!exiting)
+    //    usleep(50000);
+}
+
+#ifdef EMBED
+void RemoteVSTServer::openGUI()
+{
+    guiVisible = true;
+    ShowWindow(hWnd, SW_SHOWNORMAL);
+    // ShowWindow(hWnd, SW_SHOW);
+    UpdateWindow(hWnd);	
+}
+#endif
+#else
 void RemoteVSTServer::showGUI()
 {	
         memset(&wclass, 0, sizeof(WNDCLASSEX));
@@ -1167,6 +1461,7 @@ void RemoteVSTServer::openGUI()
     // ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);	
 }
+#endif
 #endif
 
 int RemoteVSTServer::processVstEvents()
