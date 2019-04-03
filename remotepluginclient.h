@@ -213,6 +213,7 @@ public:
    int parentok;
    int eventrun;
 #endif
+#endif    
 
 char *m_shm3;
     
