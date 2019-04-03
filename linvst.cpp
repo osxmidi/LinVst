@@ -898,9 +898,17 @@ if(plugin->runembed == 1)
         plugin->eventrun = 0;   
         
         if(plugin->displayerr == 1)
+	{
+        if(plugin->display)
+	{
+        XSync(plugin->display, true);
+        XCloseDisplay(plugin->display);
+	}	
         break;
+	}	
 
 #ifdef XECLOSE
+	XSync(display, true);	    
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
         for(int i=0;i<5000;i++)
@@ -917,7 +925,7 @@ if(plugin->runembed == 1)
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
 #endif        
-        XSync(plugin->display, false);
+        XSync(plugin->display, true);
         XCloseDisplay(plugin->display);
         plugin->display = 0;
         }   
@@ -982,7 +990,6 @@ if(plugin->runembed == 1)
 #ifdef EMBED    
         plugin->eventrun = 0;
 #endif
-        plugin->effVoidOp(effClose);
 
 #ifdef EMBED
         if(plugin->display)
@@ -992,11 +999,13 @@ if(plugin->runembed == 1)
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
 #endif        
-        XSync(plugin->display, false);
+        XSync(plugin->display, true);
         XCloseDisplay(plugin->display);
         plugin->display = 0;
         }
 #endif
+		    
+	plugin->effVoidOp(effClose);	    
 
 /*
 #ifdef AMT
