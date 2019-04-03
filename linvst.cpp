@@ -920,7 +920,10 @@ if(plugin->runembed == 1)
         break;
         }
 	}
-#endif                
+#endif    
+
+        plugin->hideGUI();	 
+           
         if(plugin->display)
         {
 #ifdef EMBEDDRAG
@@ -931,9 +934,7 @@ if(plugin->runembed == 1)
         XSync(plugin->display, true);
         XCloseDisplay(plugin->display);
         plugin->display = 0;
-        }   
-		    
-        plugin->hideGUI();		    
+        }  		    
 #else            
         plugin->hideGUI();
 #endif            
