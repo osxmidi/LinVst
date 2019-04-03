@@ -211,16 +211,6 @@ public:
    Window *children;
    unsigned int numchildren;
    int parentok;
-#else 
-#ifdef EMBEDDRAGX
-   Window x11_win;
-   Window pparent;
-   Window root;
-   Window *children;
-   unsigned int numchildren;
-   int parentok;
-#endif
-#endif
    int eventrun;
 #endif
 
