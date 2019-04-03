@@ -908,7 +908,7 @@ if(plugin->runembed == 1)
 	}	
 
 #ifdef XECLOSE
-	XSync(display, true);	    
+	XSync(plugin->display, true);	    
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
         for(int i=0;i<5000;i++)
