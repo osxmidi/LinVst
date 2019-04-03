@@ -295,8 +295,7 @@ static int mapped2 = 0;
 static int x3 = 0;
 static int y3 = 0;
 static Window ignored3 = 0;
-#endif
-static int editopen = 0;	
+#endif	
 
      if(eventrun2 == 1)
       {
@@ -505,6 +504,8 @@ static char dawbuf[512];
     static   unsigned long data[2];
 #endif
 #endif
+	
+    static int editopen = 0;
 	
     if(!plugin)
     return 0;
