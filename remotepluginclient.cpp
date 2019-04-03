@@ -562,7 +562,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     width(0),
     height(0),
     displayerr(0),
-#ifndef XEMBED
 #ifdef EMBEDDRAG
     x11_win(0),
     pparent(0),
@@ -572,7 +571,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     parentok(0),
 #endif
     eventrun(0),
-#endif
 #endif
     theEffect(0)
 {
