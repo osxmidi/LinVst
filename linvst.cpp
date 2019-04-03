@@ -296,6 +296,7 @@ static int x3 = 0;
 static int y3 = 0;
 static Window ignored3 = 0;
 #endif
+static int editopen = 0;	
 
      if(eventrun2 == 1)
       {
@@ -881,6 +882,7 @@ static char dawbuf[512];
 #else
         plugin->showGUI();
 #endif
+	editopen = 1;	    
         break;
 
     case effEditClose:
@@ -937,7 +939,8 @@ if(plugin->runembed == 1)
         }  		    
 #else            
         plugin->hideGUI();
-#endif            
+#endif  
+	editopen = 0;	    
         break;
 
     case effCanDo:
@@ -994,7 +997,26 @@ if(plugin->runembed == 1)
 #ifdef EMBED    
         plugin->eventrun = 0;
 #endif
-
+		    
+	if(editopen == 1)
+	{
+#ifdef XECLOSE
+	if(plugin->display)
+	{	    
+	XSync(plugin->display, true);	    
+        plugin->xeclose = 1;
+        sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
+        for(int i=0;i<5000;i++)
+        {
+        usleep(1000);
+        if(plugin->xeclose == 0)
+        break;
+        }
+	}
+#endif    		
+        plugin->hideGUI();
+	}
+		
 #ifdef EMBED
         if(plugin->display)
         {
