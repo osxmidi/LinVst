@@ -908,6 +908,8 @@ if(plugin->runembed == 1)
 	}	
 
 #ifdef XECLOSE
+	if(plugin->display)
+	{	    
 	XSync(plugin->display, true);	    
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
@@ -917,6 +919,7 @@ if(plugin->runembed == 1)
         if(plugin->xeclose == 0)
         break;
         }
+	}
 #endif                
         if(plugin->display)
         {
