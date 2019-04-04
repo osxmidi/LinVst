@@ -87,18 +87,18 @@ public:
     virtual void        reset();
     virtual void        terminate();
 
-    virtual int         getInputCount() { return m_plugin->numInputs; }
-    virtual int         getOutputCount() { return m_plugin->numOutputs; }
-    virtual int         getFlags() { return m_plugin->flags; }
-    virtual int         getinitialDelay() { return m_plugin->initialDelay; }
-    virtual int         getUID() { return m_plugin->uniqueID; }
-    virtual int         getParameterCount() { return m_plugin->numParams; }
+    virtual int         getInputCount() { if(m_plugin) return m_plugin->numInputs; }
+    virtual int         getOutputCount() { if(m_plugin) return m_plugin->numOutputs; }
+    virtual int         getFlags() { if(m_plugin) return m_plugin->flags; }
+    virtual int         getinitialDelay() { if(m_plugin) return m_plugin->initialDelay; }
+    virtual int         getUID() { if(m_plugin) return m_plugin->uniqueID; }
+    virtual int         getParameterCount() { if(m_plugin) return m_plugin->numParams; }
     virtual std::string getParameterName(int);
     virtual void        setParameter(int, float);
     virtual float       getParameter(int);
     virtual void        getParameters(int, int, float *);
 
-    virtual int         getProgramCount() { return m_plugin->numPrograms; }
+    virtual int         getProgramCount() { if(m_plugin) return m_plugin->numPrograms; }
     virtual std::string getProgramNameIndexed(int);
     virtual std::string getProgramName();
 #ifdef WAVES
