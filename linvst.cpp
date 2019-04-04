@@ -127,7 +127,7 @@ static int x3 = 0;
 static int y3 = 0;
 static Window ignored3 = 0;
 #endif
-static Atom xembedatom = XInternAtom(plugin->display, "_XEMBED_INFO", False);
+static Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 
      if((eventrun2 == 1) && parent && child && display)
       {
