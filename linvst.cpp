@@ -770,7 +770,7 @@ static char dawbuf[512];
        else
        {
        plugin->displayerr = 1;
-       plugin->display = 0;
+       plugin->eventrun = 0;       
        }
      }   
 #else
@@ -875,7 +875,6 @@ static char dawbuf[512];
        else
        {
        plugin->displayerr = 1;
-       plugin->display = 0;
        plugin->eventrun = 0;
        }
      }
