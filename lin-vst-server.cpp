@@ -1215,15 +1215,15 @@ void RemoteVSTServer::hideGUI()
   #else
   DestroyWindow(hWnd);
   #endif 
-  }
-#ifdef WCLASS  
+  #ifdef WCLASS  
   UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
-#ifdef EMBED        
-#ifdef TRACKTIONWM   
+  #ifdef EMBED        
+  #ifdef TRACKTIONWM   
   UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
-#endif  
-#endif 
-#endif         
+  #endif  
+  #endif 
+  #endif         	  
+  }
 
    guiVisible = false;
    timerhit = 0;
