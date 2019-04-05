@@ -929,9 +929,9 @@ if(plugin->runembed == 1)
         plugin->x11_win = 0;
 #endif        
         XSync(plugin->display, true);
+        plugin->eventrun = 0; 		
         XCloseDisplay(plugin->display);
         plugin->display = 0;
-        plugin->eventrun = 0; 
         }  		    
 #else            
         plugin->hideGUI();
@@ -1018,9 +1018,9 @@ if(plugin->runembed == 1)
         plugin->x11_win = 0;
 #endif        
         XSync(plugin->display, true);
+        plugin->eventrun = 0; 		
         XCloseDisplay(plugin->display);
         plugin->display = 0;
-        plugin->eventrun = 0; 
         }
 #endif
 		    
