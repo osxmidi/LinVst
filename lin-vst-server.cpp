@@ -158,14 +158,12 @@ public:
     virtual void        waitForServerexit();
 
     HWND                hWnd;
-    HWND                chWnd;
     WNDCLASSEX          wclass;
 #ifdef TRACKTIONWM  
     WNDCLASSEX          wclass2;
 #endif    
     int                 winit;
     UINT_PTR            timerval;
-    int                 timerhit;
     bool                haveGui;
 #ifdef EMBED
     HANDLE handlewin;
@@ -184,8 +182,7 @@ public:
     ERect               *rect;
     int                 setprogrammiss;
     int                 hostreaper;
-    int                 melda;    
-    int                 vember;    
+    int                 melda;      
     int                 wavesthread;
 #ifdef EMBED
 #ifdef TRACKTIONWM  
@@ -230,38 +227,8 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     break;
 		    
      case WM_TIMER:
-/*		    
-     if(remoteVSTServerInstance && !remoteVSTServerInstance->vember)
-	 {	  
-	 if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin)
-	 {	 
- //        remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
- //     remoteVSTServerInstance->timerhit = 1;
-         return 0;
-	 }
-	 }
-*/	 
-    break;
-       
-     case WM_PARENTNOTIFY: 
-         if(LOWORD(wParam) == WM_CREATE)
-         {
-         remoteVSTServerInstance->chWnd = (HWND)lParam;
-         }		    
-     	 if(remoteVSTServerInstance && remoteVSTServerInstance->m_plugin && remoteVSTServerInstance->vember)
-     	 {
-         if(LOWORD(wParam) == WM_DESTROY)
-         {
-       //  remoteVSTServerInstance->guiVisible = 0;
-         }		    
-     else
-	 if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
-	 {
-	 remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
-	 }
-	 }
-	 break;
-	
+     break;
+       	
     default:
     return DefWindowProc(hWnd, msg, wParam, lParam);		   
     }
@@ -278,10 +245,7 @@ LRESULT WINAPI MainProc2(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		    
     case WM_TIMER:
     break;
-       
-    case WM_PARENTNOTIFY: 
-	break;
-	
+       	
     default:
     return DefWindowProc(hWnd, msg, wParam, lParam);		   
     }
@@ -378,7 +342,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
 #endif
     haveGui(true),
     timerval(0),
-    timerhit(0),
     exiting(false),
     effectrun(false),
     inProcessThread(false),
@@ -391,9 +354,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     guiresizewidth(500),
     guiresizeheight(200),
     melda(0),
-    vember(0),
     winit(0),
-    chWnd(0),
     hWnd(0)
 {   
 
@@ -444,9 +405,6 @@ void RemoteVSTServer::EffectOpen()
     if(strcmp("MeldaProduction", buffer) == 0)
     melda = 1;	
 	
-    if(strcmp("vember|audio", buffer) == 0)
-    vember = 1;	
-
 #ifdef WAVES
     if(strcmp("Waves", buffer) == 0)
     {
@@ -735,20 +693,7 @@ int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
 int ret;
 
     ret = 0;
-/*	
-    if(opcode == effEditIdle)
-    {
-    if((timerhit == 1) && !exiting && guiVisible)
-    {
-    ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);
-    timerhit = 0;    
-    }
-    }  
-    else
-    {
- */   
     ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);    
-//    }
     return ret;
 }
 
@@ -1226,7 +1171,6 @@ void RemoteVSTServer::hideGUI()
   }
 
    guiVisible = false;
-   timerhit = 0;
 
    // if (!exiting)
     //    usleep(50000);
