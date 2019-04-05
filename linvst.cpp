@@ -172,7 +172,6 @@ static Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       XMapWindow(display, child);
       plugin->openGUI();
       XSync(display, false);
-      XFlush(display);
 #endif      
       }
       break;
@@ -685,7 +684,9 @@ static char dawbuf[512];
         plugin->display = XOpenDisplay(0);
 
         if(plugin->display && plugin->handle)
-        {	    
+        {	        
+        plugin->eventrun = 1; 
+             
      //   XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
      
        xembedatom = XInternAtom(plugin->display, "_XEMBED_INFO", False);
@@ -742,9 +743,7 @@ static char dawbuf[512];
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | PropertyChangeMask);	   
 #endif
-	       
-       plugin->eventrun = 1;   
-       
+	            
       XReparentWindow(plugin->display, plugin->child, plugin->parent, 0, 0);
       
      sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);      
@@ -759,7 +758,6 @@ static char dawbuf[512];
 
    //   XMapWindow(plugin->display, plugin->child);
   //    XSync(plugin->display, false);
-   //   XFlush(plugin->display);
          
    //  usleep(250000);
        
@@ -794,6 +792,8 @@ static char dawbuf[512];
 
        if(plugin->display && plugin->handle)
        {
+       plugin->eventrun = 1;  
+            
 #ifdef XECLOSE
        data[0] = 0;
        data[1] = 1;
@@ -847,11 +847,8 @@ static char dawbuf[512];
       XSelectInput(plugin->display, plugin->parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(plugin->display, plugin->child, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | EnterWindowMask | PropertyChangeMask );	   
 #endif
-	       
-       plugin->eventrun = 1;
 
        XSync(plugin->display, false);
-       XFlush(plugin->display);
 
   //     XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
 
@@ -864,7 +861,6 @@ static char dawbuf[512];
 
        XMapWindow(plugin->display, plugin->child);
        XSync(plugin->display, false);
-       XFlush(plugin->display);
 
  //     usleep(100000);
 
@@ -896,8 +892,7 @@ if(plugin->runembed == 1)
     usleep(50000);
 }
 #endif
-*/	    
-        plugin->eventrun = 0;   
+*/	      
         
         if(plugin->displayerr == 1)
 	{
@@ -936,6 +931,7 @@ if(plugin->runembed == 1)
         XSync(plugin->display, true);
         XCloseDisplay(plugin->display);
         plugin->display = 0;
+        plugin->eventrun = 0; 
         }  		    
 #else            
         plugin->hideGUI();
@@ -994,10 +990,6 @@ if(plugin->runembed == 1)
         break;
 	    
     case effClose:
-#ifdef EMBED    
-        plugin->eventrun = 0;
-#endif
-		    
 	if(editopen == 1)
 	{
 #ifdef XECLOSE
@@ -1028,6 +1020,7 @@ if(plugin->runembed == 1)
         XSync(plugin->display, true);
         XCloseDisplay(plugin->display);
         plugin->display = 0;
+        plugin->eventrun = 0; 
         }
 #endif
 		    
@@ -1167,10 +1160,8 @@ std::string filename2;
   XStoreName(display, window, filename2.c_str()); 
   XMapWindow(display, window);
   XSync (display, false);
-  XFlush(display);
   sleep(10);
   XSync (display, false);
-  XFlush(display);
   XDestroyWindow(display, window);
   XCloseDisplay(display);  
   }
