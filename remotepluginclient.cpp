@@ -614,7 +614,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControlFileName = strdup(tmpFileBase);
     ftruncate(m_shmControlFd, sizeof(ShmControl));
-    m_shmControl = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControlFd, 0));
+    m_shmControl = (ShmControl *)mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControlFd, 0);
     if (!m_shmControl) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -648,7 +648,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControl2FileName = strdup(tmpFileBase);
     ftruncate(m_shmControl2Fd, sizeof(ShmControl));
-    m_shmControl2 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl2Fd, 0));
+    m_shmControl2 = (ShmControl *)mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl2Fd, 0);
     if (!m_shmControl2) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -682,7 +682,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControl3FileName = strdup(tmpFileBase);
     ftruncate(m_shmControl3Fd, sizeof(ShmControl));
-    m_shmControl3 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl3Fd, 0));
+    m_shmControl3 = (ShmControl *)mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl3Fd, 0);
     if (!m_shmControl3) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -716,7 +716,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControl4FileName = strdup(tmpFileBase);
     ftruncate(m_shmControl4Fd, sizeof(ShmControl));
-    m_shmControl4 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl4Fd, 0));
+    m_shmControl4 = (ShmControl *)mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl4Fd, 0);
     if (!m_shmControl4) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -750,7 +750,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 
     m_shmControl5FileName = strdup(tmpFileBase);
     ftruncate(m_shmControl5Fd, sizeof(ShmControl));
-    m_shmControl5 = static_cast<ShmControl *>(mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl5Fd, 0));
+    m_shmControl5 = (ShmControl *)mmap(0, sizeof(ShmControl), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmControl5Fd, 0);
     if (!m_shmControl5) {
         cleanup();
         throw((std::string)"Failed to mmap shared memory file");
@@ -2360,7 +2360,7 @@ int RemotePluginClient::EffectOpen()
 
 void RemotePluginClient::rdwr_tryReadring(RingBuffer *ringbuf, void *buf, size_t count, const char *file, int line)
 {
-    char *charbuf = static_cast<char *>(buf);
+    char *charbuf = (char *)buf;
     size_t tail = ringbuf->tail;
     size_t head = ringbuf->head;
     size_t wrap = 0;
@@ -2389,7 +2389,7 @@ void RemotePluginClient::rdwr_tryReadring(RingBuffer *ringbuf, void *buf, size_t
 
 void RemotePluginClient::rdwr_tryWritering(RingBuffer *ringbuf, const void *buf, size_t count, const char *file, int line)
 {
-    const char *charbuf = static_cast<const char *>(buf);
+    const char *charbuf = (const char *)buf;
     size_t written = ringbuf->written;
     size_t tail = ringbuf->tail;
     size_t wrap = 0;
@@ -2457,8 +2457,8 @@ void RemotePluginClient::rdwr_writeStringring(RingBuffer *ringbuf, const std::st
 std::string RemotePluginClient::rdwr_readStringring(RingBuffer *ringbuf, const char *file, int line)
 {
     int len;
-    static char *buf = 0;
-    static int bufLen = 0;
+    char *buf = 0;
+    int bufLen = 0;
     rdwr_tryReadring(ringbuf, &len, sizeof(int), file, line);
     if (len + 1 > bufLen) {
 	delete buf;
@@ -2507,7 +2507,7 @@ strcpy(ptr, str.c_str());
 
 std::string RemotePluginClient::rdwr_readString(char *ptr, const char *file, int line)
 {
-static char buf[534];
+char buf[534];
 strcpy(buf, ptr);   
 return std::string(buf);
 }
@@ -2523,7 +2523,7 @@ ptr2 = (int *)ptr;
 
 int RemotePluginClient::rdwr_readInt(char *ptr, const char *file, int line)
 {
-static int i = 0;
+int i = 0;
 int *ptr2;
 ptr2 = (int *)ptr;
 i = *ptr2;
@@ -2544,7 +2544,7 @@ ptr2 = (float *)ptr;
 
 float RemotePluginClient::rdwr_readFloat(char *ptr, const char *file, int line)
 {
-static float f = 0;
+float f = 0;
 float *ptr2;
 ptr2 = (float *)ptr;
 f = *ptr2;
