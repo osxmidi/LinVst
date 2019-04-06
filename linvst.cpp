@@ -105,29 +105,29 @@ void eventloopx(Display *display, Window parent, Window child, int eventrun2, in
 #endif
 {
 #ifdef EMBEDDRAG
-static  XEvent xevent;
-static  XClientMessageEvent cm;
-static  int accept = 0;
-static int x2 = 0;
-static int y2 = 0;
-static	Atom XdndPosition = XInternAtom(display, "XdndPosition", False);
-static	Atom XdndStatus = XInternAtom(display, "XdndStatus", False);
-static	Atom XdndActionCopy = XInternAtom(display, "XdndActionCopy", False);
-static	Atom XdndEnter = XInternAtom(display, "XdndEnter", False);
-static	Atom XdndDrop = XInternAtom(display, "XdndDrop", False);
-static	Atom XdndLeave = XInternAtom(display, "XdndLeave", False);
-static  Atom XdndFinished = XInternAtom(display, "XdndFinished", False);
+XEvent xevent;
+XClientMessageEvent cm;
+int accept = 0;
+int x2 = 0;
+int y2 = 0;
+Atom XdndPosition = XInternAtom(display, "XdndPosition", False);
+Atom XdndStatus = XInternAtom(display, "XdndStatus", False);
+Atom XdndActionCopy = XInternAtom(display, "XdndActionCopy", False);
+Atom XdndEnter = XInternAtom(display, "XdndEnter", False);
+Atom XdndDrop = XInternAtom(display, "XdndDrop", False);
+Atom XdndLeave = XInternAtom(display, "XdndLeave", False);
+Atom XdndFinished = XInternAtom(display, "XdndFinished", False);
 #endif
-static int x = 0;
-static int y = 0;
-static Window ignored = 0;
-static int mapped2 = 0;
+int x = 0;
+int y = 0;
+Window ignored = 0;
+int mapped2 = 0;
 #ifdef FOCUS
-static int x3 = 0;
-static int y3 = 0;
-static Window ignored3 = 0;
+int x3 = 0;
+int y3 = 0;
+Window ignored3 = 0;
 #endif
-static Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
+Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 
      if((eventrun2 == 1) && parent && child && display)
       {
@@ -482,29 +482,29 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 {
     RemotePluginClient  *plugin = (RemotePluginClient *) effect->object;
     VstIntPtr           v = 0;
-    static ERect        *rp;
+    ERect        *rp;
 
 #ifdef EMBED
 #ifdef EMBEDDRAG
-    static Atom XdndProxy;
-    static Atom XdndAware;
-    static Atom version;
-    static XSetWindowAttributes attr = {0};
+    Atom XdndProxy;
+    Atom XdndAware;
+    Atom version;
+    XSetWindowAttributes attr = {0};
 #endif
 #ifdef TRACKTIONWM  
-static char dawbuf[512];
+    char dawbuf[512];
 #endif
    #ifdef XEMBED
-    static Atom xembedatom;
-    static   unsigned long data[2];
+    Atom xembedatom;
+    unsigned long data[2];
 #endif
 #ifdef XECLOSE
-    static Atom xembedatom;
-    static   unsigned long data[2];
+    Atom xembedatom;
+    unsigned long data[2];
 #endif
 #endif
 	
-    static int editopen = 0;
+    int editopen = 0;
 	
     if(!plugin)
     return 0;
@@ -1135,12 +1135,12 @@ void initEffect(AEffect *eff, RemotePluginClient *plugin)
 
 void errwin2()
 {
-static Window window = 0;
-static Window ignored = 0;
-static Display* display = 0;
-static int screen = 0;
-static Atom winstate;
-static Atom winmodal;
+Window window = 0;
+Window ignored = 0;
+Display* display = 0;
+int screen = 0;
+Atom winstate;
+Atom winmodal;
     
 std::string filename2;
 
