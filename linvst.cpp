@@ -504,8 +504,6 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #endif
 #endif
 	
-    int editopen = 0;
-	
     if(!plugin)
     return 0;
 	
@@ -878,7 +876,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #else
         plugin->showGUI();
 #endif
-	editopen = 1;	    
+	plugin->editopen = 1;	    
         break;
 
     case effEditClose:
@@ -936,7 +934,7 @@ if(plugin->runembed == 1)
 #else            
         plugin->hideGUI();
 #endif  
-	editopen = 0;	    
+	plugin->editopen = 0;	    
         break;
 
     case effCanDo:
@@ -990,7 +988,7 @@ if(plugin->runembed == 1)
         break;
 	    
     case effClose:
-	if(editopen == 1)
+	if(plugin->editopen == 1)
 	{
 #ifdef XECLOSE
 	if(plugin->display)
