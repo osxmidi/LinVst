@@ -832,14 +832,14 @@ startok = 0;
 
 ptr = (int *)m_shm;
 
-    for (int i=0;i<4000;i++)
+    for (int i=0;i<40000;i++)
     {
-        usleep(10000);
         if (*ptr == 25)
          {
             startok = 1;
             break;
          }
+         usleep(1000);	    
     }  
 
    if(startok == 0)
