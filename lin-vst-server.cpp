@@ -2509,9 +2509,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
     for (int i=0;i<10000;i++)
     {
-        usleep(1000);
         if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
             break;
+	usleep(1000);    
     }
 
     WaitForMultipleObjects(3, ThreadHandle, TRUE, 5000);
