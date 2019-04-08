@@ -2440,8 +2440,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
     {    
     for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
-    {		
-    
+    {		   
     if(remoteVSTServerInstance->exiting)
     break;
     	        	    		
@@ -2470,7 +2469,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     else
     {
     for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
-    {		        	    		
+    {		
+    if(remoteVSTServerInstance->exiting)
+    break;    
+	    
     TranslateMessage(&msg);
     DispatchMessage(&msg);
     }
