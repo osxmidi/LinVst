@@ -912,9 +912,9 @@ if(plugin->runembed == 1)
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
         for(int i=0;i<5000;i++)
         {
-        usleep(1000);
         if(plugin->xeclose == 0)
         break;
+	usleep(1000);	
         }
 	}
 #endif    
@@ -1000,9 +1000,9 @@ if(plugin->runembed == 1)
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
         for(int i=0;i<5000;i++)
         {
-        usleep(1000);
         if(plugin->xeclose == 0)
         break;
+	usleep(1000);	
         }
 	}
 #endif    		
@@ -1030,11 +1030,11 @@ if(plugin->runembed == 1)
 #ifdef AMT
         if(plugin->m_shm3)
         {
-            for(int i=0;i<500;i++)
+            for(int i=0;i<5000;i++)
             {
-                usleep(10000);
                 if(plugin->m_threadbreakexit)
                 break;
+		usleep(1000);
             }
         }
         else
