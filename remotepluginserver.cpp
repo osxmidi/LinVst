@@ -275,8 +275,6 @@ RemotePluginServer::~RemotePluginServer()
 {
     if(starterror == 0)
     {
-    cleanup();
-    
     if(m_inputs)
     {
     delete m_inputs;
@@ -304,7 +302,9 @@ RemotePluginServer::~RemotePluginServer()
 #endif    
 	    
     if(timeinfo)
-    delete timeinfo;	    
+    delete timeinfo;	
+	    
+    cleanup();	    
     }
 }
 
