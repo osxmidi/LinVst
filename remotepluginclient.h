@@ -158,6 +158,8 @@ public:
 
     int                 m_threadbreak;
     int                 m_threadbreakexit;
+    
+    int                 editopen;
 #ifdef EMBED
 #ifdef XECLOSE
     int                 m_threadbreakxembed;
