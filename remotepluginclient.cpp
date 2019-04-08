@@ -512,6 +512,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_threadinit(0),
     m_threadbreak(0),
     m_threadbreakexit(0),
+    editopen(0),
     m_shmFileName(0),
     m_shm(0),
     m_shmSize(0),
