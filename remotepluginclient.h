@@ -212,9 +212,10 @@ public:
    Window root;
    Window *children;
    unsigned int numchildren;
-   int parentok;
-   int eventrun;
+   int parentok;    
 #endif
+   int eventrun;    
+   int eventfinish;    
 #endif    
 
 char *m_shm3;
