@@ -572,6 +572,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     parentok(0),
 #endif
     eventrun(0),
+    eventfinish(0),
 #endif
     theEffect(0)
 {
