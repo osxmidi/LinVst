@@ -273,27 +273,27 @@ void eventloop(Display *display, Window parent, Window child, int width, int hei
 #endif
 {
 #ifdef EMBEDDRAG
-static  XEvent xevent;
-static  XClientMessageEvent cm;
-static  int accept = 0;
-static int x2 = 0;
-static int y2 = 0;
-static	Atom XdndPosition = XInternAtom(display, "XdndPosition", False);
-static	Atom XdndStatus = XInternAtom(display, "XdndStatus", False);
-static	Atom XdndActionCopy = XInternAtom(display, "XdndActionCopy", False);
-static	Atom XdndEnter = XInternAtom(display, "XdndEnter", False);
-static	Atom XdndDrop = XInternAtom(display, "XdndDrop", False);
-static	Atom XdndLeave = XInternAtom(display, "XdndLeave", False);
-static  Atom XdndFinished = XInternAtom(display, "XdndFinished", False);
+XEvent xevent;
+XClientMessageEvent cm;
+int accept = 0;
+int x2 = 0;
+int y2 = 0;
+Atom XdndPosition = XInternAtom(display, "XdndPosition", False);
+Atom XdndStatus = XInternAtom(display, "XdndStatus", False);
+Atom XdndActionCopy = XInternAtom(display, "XdndActionCopy", False);
+Atom XdndEnter = XInternAtom(display, "XdndEnter", False);
+Atom XdndDrop = XInternAtom(display, "XdndDrop", False);
+Atom XdndLeave = XInternAtom(display, "XdndLeave", False);
+Atom XdndFinished = XInternAtom(display, "XdndFinished", False);
 #endif
-static int x = 0;
-static int y = 0;
-static Window ignored = 0;
-static int mapped2 = 0;
+int x = 0;
+int y = 0;
+Window ignored = 0;
+int mapped2 = 0;
 #ifdef FOCUS
-static int x3 = 0;
-static int y3 = 0;
-static Window ignored3 = 0;
+int x3 = 0;
+int y3 = 0;
+Window ignored3 = 0;
 #endif	
 
      if(eventrun2 == 1)
