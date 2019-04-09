@@ -267,9 +267,9 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 #ifdef EMBED
 #ifndef XEMBED
 #ifdef EMBEDDRAG
-void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid)
+void eventloop(Display *display, Window pparent, Window parent, Window child, int width, int height, int eventrun2, int parentok, int reaperid, RemotePluginClient *plugin)
 #else
-void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int reaperid)
+void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int reaperid, RemotePluginClient *plugin)
 #endif
 {
 #ifdef EMBEDDRAG
@@ -296,8 +296,9 @@ int y3 = 0;
 Window ignored3 = 0;
 #endif	
 
-     if(eventrun2 == 1)
+      if(eventrun2 == 1)
       {
+      plugin->eventfinish = 0;	      
       if(parent && child && display)
       {
 
@@ -473,6 +474,7 @@ Window ignored3 = 0;
          }
         }
       }
+      plugin->eventfinish = 1;	      
      }
     }
 #endif
@@ -539,10 +541,10 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #else
 #ifdef EMBEDDRAG
         if(plugin->eventrun == 1)
-        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid);
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid, plugin);
 #else
         if(plugin->eventrun == 1)
-        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid);
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid, plugin);
 #endif
 #endif
 #endif
@@ -879,7 +881,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 	plugin->editopen = 1;	    
         break;
 
-    case effEditClose:
+       case effEditClose:
 #ifdef EMBED
 /*
 #ifdef EMBEDTHREAD
@@ -890,33 +892,43 @@ if(plugin->runembed == 1)
     usleep(50000);
 }
 #endif
-*/	      
-        
+*/	             
         if(plugin->displayerr == 1)
-	{
+	    {
         if(plugin->display)
-	{
+	    {
         XSync(plugin->display, true);
         XCloseDisplay(plugin->display);
-	}	
+	    }	
         break;
-	}	
+	    }	
 
 #ifdef XECLOSE
 	if(plugin->display)
-	{	    
-	XSync(plugin->display, true);	    
+        {	    
+	XSync(plugin->display, true);	  
+	plugin->eventrun = 0;
+		
+	for(int i2=0;i2<5000;i2++)
+        {
+        if(plugin->eventfinish == 1)
+        break;
+	usleep(1000);	
+        }
+	  
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
-        for(int i=0;i<5000;i++)
+        for(int i3=0;i3<5000;i3++)
         {
         if(plugin->xeclose == 0)
         break;
 	usleep(1000);	
         }
 	}
+	
+	XSync(plugin->display, true);	  
+	plugin->eventrun = 1;
 #endif    
-
         plugin->hideGUI();	 
            
         if(plugin->display)
@@ -927,7 +939,14 @@ if(plugin->runembed == 1)
         plugin->x11_win = 0;
 #endif        
         XSync(plugin->display, true);
-        plugin->eventrun = 0; 		
+        plugin->eventrun = 0; 
+        
+        for(int i4=0;i4<5000;i4++)
+        {
+        if(plugin->eventfinish == 1)
+        break;
+	usleep(1000);	
+        }		
         XCloseDisplay(plugin->display);
         plugin->display = 0;
         }  		    
@@ -936,7 +955,7 @@ if(plugin->runembed == 1)
 #endif  
 	plugin->editopen = 0;	    
         break;
-
+		    
     case effCanDo:
         if (ptr && !strcmp((char *)ptr,"hasCockosExtensions"))
 	{
@@ -987,27 +1006,38 @@ if(plugin->runembed == 1)
         plugin->EffectOpen();
         break;
 	    
-    case effClose:
-	if(plugin->editopen == 1)
-	{
+        case effClose:
+    	if(plugin->editopen == 1)
+        {
 #ifdef XECLOSE
-	if(plugin->display)
+        if(plugin->display)
 	{	    
-	XSync(plugin->display, true);	    
+	XSync(plugin->display, true);	  
+	plugin->eventrun = 0;
+		
+        for(int i5=0;i5<5000;i5++)
+        {
+        if(plugin->eventfinish == 1)
+        break;
+	usleep(1000);	
+        }
+	  
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
-        for(int i=0;i<5000;i++)
+        for(int i6=0;i6<5000;i6++)
         {
         if(plugin->xeclose == 0)
         break;
 	usleep(1000);	
         }
 	}
-#endif    		
+	
+        XSync(plugin->display, true);	  
+	plugin->eventrun = 1;
+#endif    
         plugin->hideGUI();
-	}
-		
-#ifdef EMBED
+        }	
+#ifdef EMBED		
         if(plugin->display)
         {
 #ifdef EMBEDDRAG
@@ -1016,12 +1046,18 @@ if(plugin->runembed == 1)
         plugin->x11_win = 0;
 #endif        
         XSync(plugin->display, true);
-        plugin->eventrun = 0; 		
+        plugin->eventrun = 0; 
+        
+        for(int i7=0;i7<5000;i7++)
+        {
+        if(plugin->eventfinish == 1)
+        break;
+	usleep(1000);	
+        }		
         XCloseDisplay(plugin->display);
         plugin->display = 0;
-        }
-#endif
-		    
+        }  		    
+#endif            		    
 	plugin->effVoidOp(effClose);	    
 
 /*
