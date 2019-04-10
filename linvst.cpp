@@ -508,6 +508,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #endif
 #endif
 	
+    if(!effect)
+    return 0;	
+	
     if(!plugin)
     return 0;
 	
