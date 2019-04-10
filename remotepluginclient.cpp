@@ -1035,9 +1035,7 @@ m_threadbreakembed = 1;
         shm_unlink(m_shmControl5FileName);
         free(m_shmControl5FileName);
         m_shmControl5FileName = 0;
-    }
-	
- //       while (waitpid(-1, NULL, WNOHANG) > 0) {}		
+    }		
 }
 
 std::string RemotePluginClient::getFileIdentifiers()
