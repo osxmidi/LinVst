@@ -399,10 +399,12 @@ void* RemotePluginClient::XEMBEDThread()
 {
 XEvent e;
 Atom xembedatom;
+	
+     usleep(10000);
 
      while (!m_threadbreakxembed)
      {  
-     usleep(1000);
+     usleep(10000);
 
      if(xeclose == 1)
      {
@@ -431,7 +433,9 @@ Atom xembedatom;
      }
      }    
      }
-     }     
+     }   
+     pthread_exit(0);
+     return 0;	
      }
 #endif
 
@@ -439,11 +443,12 @@ Atom xembedatom;
 void* RemotePluginClient::EMBEDThread()
 {
      int     embedcount = 0;
+	
+     usleep(10000);	
 
-    while (!m_threadbreakembed)
-    {
-
-     usleep(1000);
+     while (!m_threadbreakembed)
+     {
+     usleep(10000);
 
      if(runembed == 1)
      {
@@ -481,8 +486,8 @@ void* RemotePluginClient::EMBEDThread()
 
 }
       m_threadbreakexitembed = 1;
-      // pthread_exit(0);
-return 0;
+      pthread_exit(0);
+      return 0;
 }
 #endif
 #endif
