@@ -1079,7 +1079,7 @@ if(plugin->runembed == 1)
         usleep(500000);
 #endif
 */
-        while (waitpid(-1, NULL, WNOHANG) > 0) {}		    
+        wait(NULL);			    
         delete plugin;				    
         break;
 
