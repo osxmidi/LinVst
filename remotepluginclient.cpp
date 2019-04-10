@@ -355,7 +355,7 @@ else
 #endif
     }
     m_threadbreakexit = 1;
-    // pthread_exit(0);
+    pthread_exit(0);
     return 0;
 }
 
