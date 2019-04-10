@@ -2506,16 +2506,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     break;	      
     }
 	
-    // wait for audio thread to catch up
-    // sleep(1);
-
+/*
     for (int i=0;i<10000;i++)
     {
         if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
             break;
 	usleep(1000);    
     }
-
+*/
+	
     WaitForMultipleObjects(3, ThreadHandle, TRUE, 5000);
 
     if (debugLevel > 0)
