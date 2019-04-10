@@ -81,7 +81,7 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 
 void sendXembedMessage(Display* display, Window window, long message, long detail, long data1, long data2)
 {
-	XEvent even t;
+	XEvent event;
 
 	memset(&event, 0, sizeof(event));
 	event.xclient.type = ClientMessage;
