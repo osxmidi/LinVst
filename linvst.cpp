@@ -131,6 +131,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 
      if((eventrun2 == 1) && parent && child && display)
       {
+      plugin->eventfinish = 0;	     
       int pending = XPending(display);
 
       for (int i=0; i<pending; i++)
@@ -259,6 +260,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       break;                
         }
        }
+      plugin->eventfinish = 0;	     
       }
      }
 #endif
