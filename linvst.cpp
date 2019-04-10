@@ -260,7 +260,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       break;                
         }
        }
-      plugin->eventfinish = 0;	     
+      plugin->eventfinish = 1;	     
       }
      }
 #endif
