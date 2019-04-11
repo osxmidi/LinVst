@@ -166,11 +166,13 @@ public:
     int                 xeclose;
     pthread_t           m_XEMBEDThread;
     static void         *callXEMBEDThread(void *arg) { return ((RemotePluginClient*)arg)->XEMBEDThread(); }
-    void                *XEMBEDThread();    
+    void                *XEMBEDThread();   
+    pthread_mutex_t     mutex;
 #endif    
 #ifdef EMBEDTHREAD
     int                 m_threadbreakembed;
     int                 m_threadbreakexitembed;
+    pthread_mutex_t     mutex2;
 #ifdef XEMBED
     int                 mapok;
 #endif    
