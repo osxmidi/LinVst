@@ -168,6 +168,7 @@ public:
     static void         *callXEMBEDThread(void *arg) { return ((RemotePluginClient*)arg)->XEMBEDThread(); }
     void                *XEMBEDThread();   
     pthread_mutex_t     mutex;
+    pthread_cond_t      condition;    
 #endif    
 #ifdef EMBEDTHREAD
     int                 m_threadbreakembed;
