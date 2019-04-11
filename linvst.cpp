@@ -921,11 +921,10 @@ if(plugin->runembed == 1)
 	usleep(1000);	
         }
 	  
-        // plugin->xeclose = 1;
+        plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
 
         pthread_mutex_lock(&plugin->mutex);
-        plugin->xeclose = 1;
         pthread_cond_wait(&plugin->condition, &plugin->mutex);        
         pthread_mutex_unlock(&plugin->mutex);
 		
