@@ -404,11 +404,9 @@ struct sched_param param;
      param.sched_priority = 0;
      sched_setscheduler(0, SCHED_OTHER, &param);
 	
-     usleep(10000);
-
      while (!m_threadbreakxembed)
      {  
-     usleep(10000);
+     pthread_mutex_lock(&mutex);	     
 
      if(xeclose == 1)
      {
@@ -437,6 +435,7 @@ struct sched_param param;
      }
      }    
      }
+     pthread_mutex_unlock(&mutex);	     
      }   
      pthread_exit(0);
      return 0;	
@@ -452,12 +451,10 @@ int     embedcount = 0;
      param.sched_priority = 0;
      sched_setscheduler(0, SCHED_OTHER, &param);
 	
-     usleep(10000);	
-
      while (!m_threadbreakembed)
      {
-     usleep(10000);
-
+     pthread_mutex_lock(&mutex2);
+	     
      if(runembed == 1)
      {
      embedcount++;
@@ -491,8 +488,8 @@ int     embedcount = 0;
       embedcount = 0;
 #endif
 }
-
-}
+     pthread_mutex_unlock(&mutex2);
+}    
       m_threadbreakexitembed = 1;
       pthread_exit(0);
       return 0;
@@ -590,6 +587,15 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     theEffect(0)
 {
     char tmpFileBase[60];
+	    
+#ifdef EMBED
+#ifdef XECLOSE   
+    mutex = PTHREAD_MUTEX_INITIALIZER;
+#endif
+#ifdef EMBEDTHREAD
+    mutex2 = PTHREAD_MUTEX_INITIALIZER;	    
+#endif	    
+#endif        
 
     srand(time(NULL));
     
