@@ -426,6 +426,7 @@ struct sched_param param;
      if (e.xproperty.atom == xembedatom) 
      {
      xeclose = 0;
+     pthread_cond_signal(&condition);	     
      }
      break;
       
@@ -591,12 +592,13 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 #ifdef EMBED
 #ifdef XECLOSE   
     mutex = PTHREAD_MUTEX_INITIALIZER;
+    condition = PTHREAD_COND_INITIALIZER;
 #endif
 #ifdef EMBEDTHREAD
     mutex2 = PTHREAD_MUTEX_INITIALIZER;	    
 #endif	    
 #endif        
-
+	    
     srand(time(NULL));
     
     sprintf(tmpFileBase, "/vstrplugin_shm_XXXXXX");
