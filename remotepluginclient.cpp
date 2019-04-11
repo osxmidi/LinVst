@@ -425,8 +425,11 @@ struct sched_param param;
      case PropertyNotify:
      if (e.xproperty.atom == xembedatom) 
      {
+     if(xeclose == 1)
+     {
      xeclose = 0;
-     pthread_cond_signal(&condition);	     
+     pthread_cond_signal(&condition);
+     }	     
      }
      break;
       
