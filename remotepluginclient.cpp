@@ -399,6 +399,10 @@ void* RemotePluginClient::XEMBEDThread()
 {
 XEvent e;
 Atom xembedatom;
+struct sched_param param;
+    
+     param.sched_priority = 0;
+     sched_setscheduler(0, SCHED_OTHER, &param);
 	
      usleep(10000);
 
@@ -442,7 +446,11 @@ Atom xembedatom;
 #ifdef EMBEDTHREAD
 void* RemotePluginClient::EMBEDThread()
 {
-     int     embedcount = 0;
+struct sched_param param;
+int     embedcount = 0;   
+	
+     param.sched_priority = 0;
+     sched_setscheduler(0, SCHED_OTHER, &param);
 	
      usleep(10000);	
 
@@ -792,7 +800,8 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     {
     cleanup();
     throw((std::string)"Failed to initialize thread");
-    }    
+    }   
+/*	    
 #ifdef EMBED
 #ifdef XECLOSE
     if(pthread_create(&m_XEMBEDThread, NULL, RemotePluginClient::callXEMBEDThread, this) != 0)
@@ -809,6 +818,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     }
 #endif
 #endif
+*/
 }
 
 RemotePluginClient::~RemotePluginClient()
@@ -865,6 +875,25 @@ ptr = (int *)m_shm;
     {
     *ptr = 2;
     }
+	
+#ifdef EMBED
+#ifdef XECLOSE
+    if(pthread_create(&m_XEMBEDThread, NULL, RemotePluginClient::callXEMBEDThread, this) != 0)
+    { 
+    *ptr = 4;
+    m_runok = 1;   
+    cleanup();
+    }
+#endif 	    
+ #ifdef EMBEDTHREAD
+    if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
+    {    
+    *ptr = 4;
+    m_runok = 1;   
+    cleanup();
+    }
+#endif
+#endif
 
     theEffect = new AEffect;
 
