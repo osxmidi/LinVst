@@ -297,6 +297,9 @@ int x3 = 0;
 int y3 = 0;
 Window ignored3 = 0;
 #endif	
+#ifdef XECLOSE
+Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
+#endif	
 
       if(eventrun2 == 1)
       {
@@ -314,6 +317,14 @@ Window ignored3 = 0;
 
       switch (e.type)
       {
+#ifdef XECLOSE   
+      case PropertyNotify:
+      if (e.xproperty.atom == xembedatom) 
+      {
+      plugin->xeclose = 2; 
+      }
+      break;            
+#endif		      
       case MapNotify:  
       if(e.xmap.window == child)
       mapped2 = 1;     
@@ -907,39 +918,22 @@ if(plugin->runembed == 1)
 	    }	
         break;
 	    }	
-
 #ifdef XECLOSE
-	if(plugin->display)
-        {	    
-	XSync(plugin->display, true);	  
-	plugin->eventrun = 0;
-		
-	for(int i2=0;i2<5000;i2++)
-        {
-        if(plugin->eventfinish == 1)
-        break;
-	usleep(1000);	
-        }
-	  
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
 
-        pthread_mutex_lock(&plugin->mutex);
-        pthread_cond_wait(&plugin->condition, &plugin->mutex);        
-        pthread_mutex_unlock(&plugin->mutex);
-		
-/*		
-        for(int i3=0;i3<5000;i3++)
+        for(int i2=0;i2<5000;i2++)
         {
-        if(plugin->xeclose == 0)
+#ifdef EMBEDDRAG
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid, plugin);
+#else
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid, plugin);
+#endif
+
+        if(plugin->xeclose == 2)
         break;
-	usleep(1000);	
+	    usleep(1000);	
         }
-*/	
-	}
-	
-	XSync(plugin->display, true);	  
-	plugin->eventrun = 1;
 #endif    
         plugin->hideGUI();	 
            
@@ -1024,28 +1018,21 @@ if(plugin->runembed == 1)
 #ifdef XECLOSE
         if(plugin->display)
 	{	    
-	XSync(plugin->display, true);	  
-	plugin->eventrun = 0;
-		
+        plugin->xeclose = 1;
+        sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
+
         for(int i5=0;i5<5000;i5++)
         {
-        if(plugin->eventfinish == 1)
+#ifdef EMBEDDRAG
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid, plugin);
+#else
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid, plugin);
+#endif
+
+        if(plugin->xeclose == 2)
         break;
 	usleep(1000);	
         }
-	  
-        plugin->xeclose = 1;
-        sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0); 
-        for(int i6=0;i6<5000;i6++)
-        {
-        if(plugin->xeclose == 0)
-        break;
-	usleep(1000);	
-        }
-	}
-	
-        XSync(plugin->display, true);	  
-	plugin->eventrun = 1;
 #endif    
         plugin->hideGUI();
         }	
