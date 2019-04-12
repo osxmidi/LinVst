@@ -104,6 +104,9 @@ void eventloopx(Display *display, Window parent, Window child, Window pparent, i
 void eventloopx(Display *display, Window parent, Window child, int eventrun2, int width, int height, int reaperid, RemotePluginClient  *plugin)
 #endif
 {
+   if(!display)
+   return;	
+	
 #ifdef EMBEDDRAG
 XEvent xevent;
 XClientMessageEvent cm;
@@ -129,7 +132,7 @@ Window ignored3 = 0;
 #endif
 Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 
-     if((eventrun2 == 1) && parent && child && display)
+     if((eventrun2 == 1) && parent && child)
       {
       plugin->eventfinish = 0;	     
       int pending = XPending(display);
@@ -274,6 +277,9 @@ void eventloop(Display *display, Window pparent, Window parent, Window child, in
 void eventloop(Display *display, Window parent, Window child, int width, int height, int eventrun2, int reaperid, RemotePluginClient *plugin)
 #endif
 {
+   if(!display)
+   return;	
+	
 #ifdef EMBEDDRAG
 XEvent xevent;
 XClientMessageEvent cm;
@@ -304,7 +310,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       if(eventrun2 == 1)
       {
       plugin->eventfinish = 0;	      
-      if(parent && child && display)
+      if(parent && child)
       {
 
       int pending = XPending(display);
