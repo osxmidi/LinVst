@@ -898,17 +898,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
        case effEditClose:
-#ifdef EMBED
-/*
-#ifdef EMBEDTHREAD
-if(plugin->runembed == 1)
-{
-    while(plugin->runembed == 1)
-    usleep(1000);
-    usleep(50000);
-}
-#endif
-*/	             
+     
         if(plugin->displayerr == 1)
 	    {
         if(plugin->display)
@@ -932,8 +922,9 @@ if(plugin->runembed == 1)
 
         if(plugin->xeclose == 2)
         break;
-	    usleep(1000);	
+	usleep(1000);	
         }
+	plugin->xeclose = 0;	    
 #endif    
         plugin->hideGUI();	 
            
