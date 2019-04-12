@@ -916,22 +916,35 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 	    }	
 #ifdef EMBED		    
 #ifdef XECLOSE
+	XSync(plugin->display, true);	  
+	plugin->eventrun = 0;
+		
+	for(int i2=0;i2<5000;i2++)
+        {
+        if(plugin->eventfinish == 1)
+        break;
+	    usleep(1000);	
+        }
+        
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
 
         for(int i2=0;i2<5000;i2++)
         {
 #ifdef EMBEDDRAG
-        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid, plugin);
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, 1, plugin->parentok, plugin->reaperid, plugin);
 #else
-        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid, plugin);
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, 1, plugin->reaperid, plugin);
 #endif
 
         if(plugin->xeclose == 2)
         break;
 	usleep(1000);	
         }
-	plugin->xeclose = 0;	    
+	plugin->xeclose = 0;
+	
+		XSync(plugin->display, true);	  
+	plugin->eventrun = 1;	    
 #endif    
         plugin->hideGUI();	 
            
@@ -1013,25 +1026,37 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         case effClose:
     	if(plugin->editopen == 1)
         {
+#ifdef EMBED		    
 #ifdef XECLOSE
-        if(plugin->display)
-	{	    
+	XSync(plugin->display, true);	  
+	plugin->eventrun = 0;
+		
+	for(int i2=0;i2<5000;i2++)
+        {
+        if(plugin->eventfinish == 1)
+        break;
+	    usleep(1000);	
+        }
+        
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
 
-        for(int i5=0;i5<5000;i5++)
+        for(int i2=0;i2<5000;i2++)
         {
 #ifdef EMBEDDRAG
-        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->parentok, plugin->reaperid, plugin);
+        eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child, plugin->width, plugin->height, 1, plugin->parentok, plugin->reaperid, plugin);
 #else
-        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, plugin->eventrun, plugin->reaperid, plugin);
+        eventloop(plugin->display, plugin->parent, plugin->child, plugin->width, plugin->height, 1, plugin->reaperid, plugin);
 #endif
 
         if(plugin->xeclose == 2)
         break;
 	usleep(1000);	
         }
-	}
+	plugin->xeclose = 0;
+	
+		XSync(plugin->display, true);	  
+	plugin->eventrun = 1;	    
 #endif    
         plugin->hideGUI();
         }	
