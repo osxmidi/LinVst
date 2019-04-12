@@ -904,7 +904,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
        case effEditClose:
-     
+              
         if(plugin->displayerr == 1)
 	    {
         if(plugin->display)
@@ -946,7 +946,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 		XSync(plugin->display, true);	  
 	plugin->eventrun = 1;	    
 #endif   
-#endif		    
+    
         plugin->hideGUI();	 
            
         if(plugin->display)
@@ -971,7 +971,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #else            
         plugin->hideGUI();
 #endif  
-	plugin->editopen = 0;	    
+	plugin->editopen = 0;	          
         break;
 		    
     case effCanDo:
@@ -1025,7 +1025,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 	    
         case effClose:
-    	if(plugin->editopen == 1)
+     	if(plugin->editopen == 1)
         {
 #ifdef EMBED		    
 #ifdef XECLOSE
@@ -1105,7 +1105,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #endif
 */
         wait(NULL);			    
-        delete plugin;				    
+        delete plugin;				          
         break;
 
     default:
