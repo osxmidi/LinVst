@@ -908,6 +908,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 	    }	
         break;
 	    }	
+#ifdef XEMBED		    
 #ifdef XECLOSE
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
