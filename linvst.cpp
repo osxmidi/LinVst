@@ -772,18 +772,6 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
               
 #ifdef EMBEDTHREAD
         plugin->runembed = 1;  
-#else
-
-  //    usleep(250000);
- 
-    //  usleep(250000);
-
-   //   XMapWindow(plugin->display, plugin->child);
-  //    XSync(plugin->display, false);
-         
-   //  usleep(250000);
-       
-    //  plugin->openGUI();
 #endif            
         plugin->displayerr = 0;
         }
@@ -903,8 +891,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 	plugin->editopen = 1;	    
         break;
 
-       case effEditClose:
-              
+        case effEditClose:
+                      
         if(plugin->displayerr == 1)
 	    {
         if(plugin->display)
@@ -916,10 +904,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 	    }	
 #ifdef EMBED		    
 #ifdef XECLOSE
-	XSync(plugin->display, true);	  
-	plugin->eventrun = 0;
+	    XSync(plugin->display, false);	  
 		
-	for(int i2=0;i2<5000;i2++)
+	    for(int i2=0;i2<5000;i2++)
         {
         if(plugin->eventfinish == 1)
         break;
@@ -939,14 +926,12 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
         if(plugin->xeclose == 2)
         break;
-	usleep(1000);	
+	    usleep(1000);	
         }
-	plugin->xeclose = 0;
+	    plugin->xeclose = 0;
 	
-		XSync(plugin->display, true);	  
-	plugin->eventrun = 1;	    
-#endif   
-    
+		XSync(plugin->display, false);	  	    
+#endif       
         plugin->hideGUI();	 
            
         if(plugin->display)
@@ -956,14 +941,14 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
 #endif        
-        XSync(plugin->display, true);
+        XSync(plugin->display, false);
         plugin->eventrun = 0; 
         
         for(int i4=0;i4<5000;i4++)
         {
         if(plugin->eventfinish == 1)
         break;
-	usleep(1000);	
+	    usleep(1000);	
         }		
         XCloseDisplay(plugin->display);
         plugin->display = 0;
@@ -1024,15 +1009,14 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         plugin->EffectOpen();
         break;
 	    
-        case effClose:
+        case effClose:         
      	if(plugin->editopen == 1)
         {
 #ifdef EMBED		    
 #ifdef XECLOSE
-	XSync(plugin->display, true);	  
-	plugin->eventrun = 0;
+	    XSync(plugin->display, false);	  
 		
-	for(int i2=0;i2<5000;i2++)
+	    for(int i2=0;i2<5000;i2++)
         {
         if(plugin->eventfinish == 1)
         break;
@@ -1052,12 +1036,11 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
         if(plugin->xeclose == 2)
         break;
-	usleep(1000);	
+	    usleep(1000);	
         }
-	plugin->xeclose = 0;
+	    plugin->xeclose = 0;
 	
-		XSync(plugin->display, true);	  
-	plugin->eventrun = 1;	    
+		XSync(plugin->display, false);	  	    
 #endif  
 #endif		
         plugin->hideGUI();
@@ -1070,14 +1053,14 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
 #endif        
-        XSync(plugin->display, true);
+        XSync(plugin->display, false);
         plugin->eventrun = 0; 
         
         for(int i7=0;i7<5000;i7++)
         {
         if(plugin->eventfinish == 1)
         break;
-	usleep(1000);	
+	    usleep(1000);	
         }		
         XCloseDisplay(plugin->display);
         plugin->display = 0;
@@ -1104,7 +1087,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         usleep(500000);
 #endif
 */
-        wait(NULL);			    
+        wait(NULL);	        	    
         delete plugin;				          
         break;
 
