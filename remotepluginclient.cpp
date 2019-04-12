@@ -394,55 +394,6 @@ void sendXembedMessage(Display* display, Window window, long message, long detai
 */
 
 #ifdef EMBED
-#ifdef XECLOSE
-void* RemotePluginClient::XEMBEDThread()
-{
-XEvent e;
-Atom xembedatom;
-struct sched_param param;
-    
-     param.sched_priority = 0;
-     sched_setscheduler(0, SCHED_OTHER, &param);
-	
-     while (!m_threadbreakxembed)
-     {  
-     pthread_mutex_lock(&mutex);	     
-
-     if(xeclose == 1)
-     {
-     if(parent && child && display)
-     {
-     xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
-      
-     int pending = XPending(display);
-
-     for (int i=0; i<pending; i++)
-     {
-     XNextEvent(display, &e);
-
-     switch(e.type)
-     {     
-     case PropertyNotify:
-     if (e.xproperty.atom == xembedatom) 
-     {
-     xeclose = 0;
-     pthread_cond_signal(&condition);     
-     }
-     break;
-      
-     default:
-     break;
-     }
-     }
-     }    
-     }
-     pthread_mutex_unlock(&mutex);	     
-     }   
-     pthread_exit(0);
-     return 0;	
-     }
-#endif
-
 #ifdef EMBEDTHREAD
 void* RemotePluginClient::EMBEDThread()
 {
@@ -506,8 +457,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_AMThread(0),
 #ifdef EMBED
 #ifdef XECLOSE
-    m_XEMBEDThread(0),
-    m_threadbreakxembed(0),
     xeclose(0),
 #endif
 #ifdef EMBEDTHREAD
@@ -590,10 +539,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     char tmpFileBase[60];
 	    
 #ifdef EMBED
-#ifdef XECLOSE   
-    mutex = PTHREAD_MUTEX_INITIALIZER;
-    condition = PTHREAD_COND_INITIALIZER;
-#endif
 #ifdef EMBEDTHREAD
     mutex2 = PTHREAD_MUTEX_INITIALIZER;	    
 #endif	    
@@ -811,13 +756,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     }   
 /*	    
 #ifdef EMBED
-#ifdef XECLOSE
-    if(pthread_create(&m_XEMBEDThread, NULL, RemotePluginClient::callXEMBEDThread, this) != 0)
-    {    
-    cleanup();
-    throw((std::string)"Failed to initialize thread2");
-    }
-#endif 	    
  #ifdef EMBEDTHREAD
     if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
     {    
@@ -885,15 +823,7 @@ ptr = (int *)m_shm;
     }
 	
 #ifdef EMBED
-#ifdef XECLOSE
-    if(pthread_create(&m_XEMBEDThread, NULL, RemotePluginClient::callXEMBEDThread, this) != 0)
-    { 
-    *ptr = 4;
-    m_runok = 1;   
-    cleanup();
-    }
-#endif 	    
- #ifdef EMBEDTHREAD
+#ifdef EMBEDTHREAD
     if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
     {    
     *ptr = 4;
@@ -922,10 +852,6 @@ m_threadbreak = 1;
         }
 */
 #ifdef EMBED
-#ifdef XECLOSE
-if(m_threadbreakxembed == 0) 
-m_threadbreakxembed = 1;
-#endif	
 #ifdef EMBEDTHREAD
 if(m_threadbreakembed == 0) 
 m_threadbreakembed = 1;
@@ -943,10 +869,6 @@ m_threadbreakembed = 1;
     if (m_AMThread)
         pthread_join(m_AMThread, NULL);
 #ifdef EMBED
-#ifdef XECLOSE
-     if (m_XEMBEDThread)
-         pthread_join(m_XEMBEDThread, NULL);
-#endif	
 #ifdef EMBEDTHREAD
     if (m_EMBEDThread)
         pthread_join(m_EMBEDThread, NULL);
@@ -1164,9 +1086,6 @@ int RemotePluginClient::sizeShm()
     m_threadbreakexit = 0;
 
 #ifdef EMBED
-#ifdef XECLOSE
-    m_threadbreakxembed = 0;
-#endif	
 #ifdef EMBEDTHREAD    
     m_threadbreakembed = 0;
     m_threadbreakexitembed = 0;   
@@ -2101,9 +2020,6 @@ void RemotePluginClient::effVoidOp(int opcode)
         }
 */              
 #ifdef EMBED
-#ifdef XECLOSE
-        m_threadbreakxembed = 1;
-#endif	      
 #ifdef EMBEDTHREAD
         m_threadbreakembed = 1;
 /*
@@ -2135,10 +2051,7 @@ void RemotePluginClient::effVoidOp(int opcode)
             break;
         }
 */              
-#ifdef EMBED
-#ifdef XECLOSE 
-        m_threadbreakxembed = 1;
-#endif	      
+#ifdef EMBED  
 #ifdef EMBEDTHREAD
         m_threadbreakembed = 1;
 /*
@@ -2615,9 +2528,6 @@ m_inexcept = 1;
         }
 */
 #ifdef EMBED
-#ifdef XECLOSE 
-       m_threadbreakxembed = 1;
-#endif	
 #ifdef EMBEDTHREAD
 m_threadbreakembed = 1;
 /*
@@ -2639,10 +2549,6 @@ m_threadbreakembed = 1;
         pthread_join(m_AMThread, NULL);
 
 #ifdef EMBED
-#ifdef XECLOSE
-     if (m_XEMBEDThread)
-         pthread_join(m_XEMBEDThread, NULL);
-#endif	
 #ifdef EMBEDTHREAD
     if (m_EMBEDThread)
         pthread_join(m_EMBEDThread, NULL);
