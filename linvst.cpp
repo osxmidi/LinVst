@@ -1033,6 +1033,7 @@ if(plugin->runembed == 1)
         break;
 	usleep(1000);	
         }
+	}
 #endif    
         plugin->hideGUI();
         }	
