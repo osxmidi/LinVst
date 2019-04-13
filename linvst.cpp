@@ -903,16 +903,10 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 	    }	
 #ifdef EMBED		    
-#ifdef XECLOSE
-	    XSync(plugin->display, false);	  
-		
-	    for(int i2=0;i2<5000;i2++)
-        {
-        if(plugin->eventfinish == 1)
-        break;
-	    usleep(1000);	
-        }
-        
+#ifdef XECLOSE 
+        plugin->eventrun = 0;  
+	XSync(plugin->display, true);	
+		 
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
 
@@ -926,11 +920,11 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
         if(plugin->xeclose == 2)
         break;
-	    usleep(1000);	
+	usleep(1000);	
         }
-	    plugin->xeclose = 0;
+	plugin->xeclose = 0;
 	
-		XSync(plugin->display, false);	  	    
+	XSync(plugin->display, false);	  	    
 #endif       
         plugin->hideGUI();	 
            
@@ -940,18 +934,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         if(plugin->x11_win)
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
-#endif        
-        XSync(plugin->display, false);
-        plugin->eventrun = 0; 
-        
-        for(int i4=0;i4<5000;i4++)
-        {
-        if(plugin->eventfinish == 1)
-        break;
-	    usleep(1000);	
-        }		
+#endif      	  	 
         XCloseDisplay(plugin->display);
-        plugin->display = 0;
+        plugin->display = 0; 
         }  		    
 #else            
         plugin->hideGUI();
@@ -1014,15 +999,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         {
 #ifdef EMBED		    
 #ifdef XECLOSE
-	    XSync(plugin->display, false);	  
-		
-	    for(int i2=0;i2<5000;i2++)
-        {
-        if(plugin->eventfinish == 1)
-        break;
-	    usleep(1000);	
-        }
-        
+        plugin->eventrun = 0;  
+        XSync(plugin->display, true);	
+		 
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
 
@@ -1036,11 +1015,11 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
         if(plugin->xeclose == 2)
         break;
-	    usleep(1000);	
+	usleep(1000);	
         }
-	    plugin->xeclose = 0;
+	plugin->xeclose = 0;
 	
-		XSync(plugin->display, false);	  	    
+	XSync(plugin->display, false);	  	    
 #endif  
 #endif		
         plugin->hideGUI();
@@ -1052,19 +1031,10 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         if(plugin->x11_win)
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
-#endif        
-        XSync(plugin->display, false);
-        plugin->eventrun = 0; 
-        
-        for(int i7=0;i7<5000;i7++)
-        {
-        if(plugin->eventfinish == 1)
-        break;
-	    usleep(1000);	
-        }		
+#endif      	  	 
         XCloseDisplay(plugin->display);
-        plugin->display = 0;
-        }  		    
+        plugin->display = 0; 
+        }  		       
 #endif            		    
 	plugin->effVoidOp(effClose);	    
 
