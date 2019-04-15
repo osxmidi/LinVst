@@ -68,7 +68,7 @@ public:
     virtual int             getShellName(char *name)                { return 0; }
 #endif
     virtual int             getProgramCount()                       { return 0; }
-    virtual std::string     getProgramNameIndexed(int)              { return ""; }
+    virtual int             getProgramNameIndexed(int, char *name)  { return 0; }
     virtual std::string     getProgramName()                        { return ""; }
     virtual void            setCurrentProgram(int)                  { return; }
 

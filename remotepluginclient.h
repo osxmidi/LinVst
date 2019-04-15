@@ -84,7 +84,7 @@ public:
     void                getParameters(int, int, float *);
 
     int                 getProgramCount();
-    std::string         getProgramNameIndexed(int);
+    int                 getProgramNameIndexed(int, char *ptr);
     std::string         getProgramName();
     void                setCurrentProgram(int);
 

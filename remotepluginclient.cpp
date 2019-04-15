@@ -1347,13 +1347,14 @@ int RemotePluginClient::getProgramCount()
     return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
-std::string RemotePluginClient::getProgramNameIndexed(int n)
+int RemotePluginClient::getProgramNameIndexed(int n, char *ptr)
 {
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetProgramNameIndexed);
     writeIntring(&m_shmControl5->ringBuffer, n);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return readString(&m_shm[FIXED_SHM_SIZE]);
+    strcpy(ptr, readString(&m_shm[FIXED_SHM_SIZE]).c_str());
+    return readInt(&m_shm[FIXED_SHM_SIZE + 512]);
 }
 
 std::string RemotePluginClient::getProgramName()

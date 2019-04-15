@@ -99,7 +99,7 @@ public:
     virtual void        getParameters(int, int, float *);
 
     virtual int         getProgramCount() { if(m_plugin) return m_plugin->numPrograms; }
-    virtual std::string getProgramNameIndexed(int);
+    virtual int         getProgramNameIndexed(int, char *name);
     virtual std::string getProgramName();
 #ifdef WAVES
     virtual int         getShellName(char *name);
@@ -774,16 +774,18 @@ void RemoteVSTServer::getParameters(int p0, int pn, float *v)
         v[i - p0] = m_plugin->getParameter(m_plugin, i);
 }
 
-std::string RemoteVSTServer::getProgramNameIndexed(int p)
+int RemoteVSTServer::getProgramNameIndexed(int p, char *name)
 {
     if (debugLevel > 1)
         cerr << "dssi-vst-server[2]: getProgramName(" << p << ")" << endl;
 
-    char name[512];
-    memset(name, 0, sizeof(name));
+    int retval = 0;
+    char nameret[512];
+    memset(nameret, 0, sizeof(nameret));
 
-    m_plugin->dispatcher(m_plugin, effGetProgramNameIndexed, p, 0, name, 0);
-    return name;
+    retval = m_plugin->dispatcher(m_plugin, effGetProgramNameIndexed, p, 0, nameret, 0);
+    strcpy(name, nameret); 
+    return retval;
 }
 
 std::string

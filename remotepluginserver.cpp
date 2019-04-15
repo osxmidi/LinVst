@@ -1245,8 +1245,13 @@ void RemotePluginServer::dispatchParEvents()
         break;
 
     case RemotePluginGetProgramNameIndexed:
-        writeString(&m_shm[FIXED_SHM_SIZE], getProgramNameIndexed(readIntring(&m_shmControl5->ringBuffer)));
+    {
+        char name[512];
+        int retvalprogramname = getProgramNameIndexed(readIntring(&m_shmControl5->ringBuffer), name);
+        writeInt(&m_shm[FIXED_SHM_SIZE + 512], retvalprogramname);
+        writeString(&m_shm[FIXED_SHM_SIZE], name);
         break;
+    }
 
     case RemotePluginGetProgramName:
         writeString(&m_shm[FIXED_SHM_SIZE], getProgramName());
