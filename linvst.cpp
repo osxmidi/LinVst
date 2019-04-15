@@ -609,7 +609,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
     case effGetProgramNameIndexed:
-        strncpy((char *) ptr, plugin->getProgramNameIndexed(index).c_str(), kVstMaxProgNameLen);
+        v = plugin->getProgramNameIndexed(index, (char *) ptr);
         break;
 
     case effGetProgramName:
