@@ -1,0 +1,540 @@
+#!/usr/bin/env python3
+'''
+--------------------------------------------------------------------------------
+---- linvstmanage --------------------------------------------------------------
+--------------------------------------------------------------------------------
+'''
+
+import configparser
+import os
+import sys
+import shutil
+import re
+import subprocess
+from enum import Enum
+import logging as log
+
+try:
+    from termcolor import colored as colo
+    colorSupport = True
+except ImportError:
+    colorSupport = False
+    pass # module doesn't exist, deal with it.
+
+# Set log level
+# log.basicConfig(level=log.DEBUG)
+log.basicConfig(level=log.ERROR)
+
+class Status(Enum):
+    ENABLED = 1     # VST is enabled via active softlink
+    DISABLED = 2    # VST is disabled due to missing softlink
+    MISMATCH = 3    # Mismatch between linvst.so and *.so file associated with VST-dll
+    NO_SO = 4       # VST-dll has no associated VST-so file
+    NOTFOUND = 5    # VST-dll can't be found using the specified config path
+    ERROR = 6       # Specified plugin in config file is not of type 'dll'
+    NA = 7          # Initial state
+
+class VstBucket:
+    def __init__(self, vendor, path, dll):
+        self.vendor = vendor
+        self.path = path
+        self.dll = dll
+        self.status = Status.NA
+
+class GenSet:
+    def __init__(self):
+        self.path_link_folder = "" 
+        self.orphan_detection = False
+        self.path_linvst_so = ""
+
+class VstBucketChange:
+    def __init__(self, index, result):
+        self.index = index
+        self.result = result
+
+
+# Extract data from respective config file 'linvstmanage.ini'
+def readConfig(genSet, vstList):
+    possibleConfigPaths = ("~/.config/linvst/manage/linvstmanage.ini", 
+                           "./linvstmanage.ini")
+
+    resStr = ""
+    configPath = ""
+    for path in possibleConfigPaths:
+        path = os.path.expanduser(path)
+        if os.path.isfile(path):
+            configPath = path
+            resStr += ("|{0:78}|\n".format(" - Using config file: {0}".format(configPath)))
+            if os.path.islink(path):
+                resStr += ("|{0:78}|\n".format(" -> Links to: {0}".format(os.path.realpath(configPath))))
+            break
+        else:
+            resStr += ("|{0:78}|\n".format(" - Error: No config file at: {0}".format(path)))
+
+    if configPath != "":
+        try:
+            config = configparser.ConfigParser()
+            config.read(configPath)
+        except configparser.DuplicateSectionError:
+            resStr += ("|{0:78}|\n".format(" - Config error: Duplicate section"))
+            pass
+            return False, resStr[:-1]
+        except configparser.DuplicateOptionError:
+            resStr += ("|{0:78}|\n".format(" - Config error: Duplicate option"))
+            pass
+            return False, resStr[:-1]
+        except configparser.NoOptionError:
+            resStr += ("|{0:78}|\n".format(" - Config error: Missing option"))
+            pass
+            return False, resStr[:-1]
+        except configparser.Error:
+            resStr += ("|{0:78}|\n".format(" - Some error during config file parsing:", sys.exc_info()[0]))
+            pass
+            return False, resStr[:-1]
+    else:
+        return False, resStr[:-1]
+
+    # Parse section 'GenericSettings'
+    # path_link_folder
+    if config.has_option('GeneralSettings', 'path_link_folder'):
+        genSet.path_link_folder = os.path.expanduser(config['GeneralSettings']['path_link_folder'].replace('\\', ''))
+    else:
+        resStr += ("|{0:78}|\n".format(" - Error: 'path_link_folder' option isn't set"))
+        return False, resStr[:-1]
+
+    # orphan_detection
+    genSet.orphan_detection = False
+    if config.has_option('GeneralSettings', 'orphan_detection'):
+        if config['GeneralSettings']['orphan_detection'] == 'on':
+            genSet.orphan_detection = True
+    else:
+        resStr += ("|{0:78}|\n".format(" - Error: 'orphan_detection' option isn't set"))
+        return False, resStr[:-1]
+
+    # path_linvst_so
+    if config.has_option('GeneralSettings', 'path_linvst_so'):
+        genSet.path_linvst_so = os.path.expanduser(config['GeneralSettings']['path_linvst_so'].replace('\\', ''))
+    else:
+        genSet.path_linvst_so = '/usr/share/LinVst/linvst.so'
+
+    # Check if linvst.so actually exists under the specified path
+    if os.path.isfile(genSet.path_linvst_so):
+        resStr += ("|{0:78}|\n".format(" - Using linvst.so: {0}".format(genSet.path_linvst_so)))
+    else:
+        resStr += ("|{0:78}|\n".format(" - Error: No linvst.so at: {0}".format(genSet.path_linvst_so)))
+        return False, resStr[:-1]
+    
+    # Parse VST sections
+    for section in config.sections()[1:]:
+        try:
+            path = os.path.expanduser(config[section]['path'].replace('\\', ''))
+            dll_names = config[section]['dll_names']
+        except:
+            # log.debug(sys.exc_info()[0])
+            print(sys.exc_info()[0])
+        # Extract all comma separated dll names
+        dlls = dll_names.split(',')
+        for dll in dlls:
+            vstList.append(VstBucket(section.replace(' ', '_'), path, dll.replace('\\', '').strip()))
+
+    return True, resStr[:-1]
+
+
+def uiReadConfig(resStr):
+    print(resStr)
+    print("|{0:78}|".format("-" * 78))
+
+
+def refreshVstStatus(genSet, vstBuckets):
+    for vstBucket in vstBuckets:
+        dllPath = vstBucket.path + vstBucket.dll
+        linkPath = genSet.path_link_folder + vstBucket.vendor + '/' + vstBucket.dll[0:-4] + '.so'
+
+        log.debug("dllPath; %s", dllPath)
+        log.debug("linkPath: %s", linkPath)
+
+        
+        if (vstBucket.dll.endswith( ".dll" ) or 
+            vstBucket.dll.endswith( ".DLL" ) or 
+            vstBucket.dll.endswith( ".Dll" )):
+            if os.path.isfile(dllPath):
+                log.debug("  -->> dll: exists")
+                pathVstSo = dllPath[0:-4] + '.so'
+                if os.path.isfile(pathVstSo):
+                    log.debug("  -->> so: exists")
+                    if checkSoFileMatch(genSet.path_linvst_so, pathVstSo):
+                        log.debug("  -->> so: matches")
+                        if os.path.isfile(linkPath):
+                            log.debug("  -->> link: exists")
+                            vstBucket.status = Status.ENABLED
+                        else:
+                            log.debug("  -->> link: not there")
+                            vstBucket.status = Status.DISABLED
+                    else:
+                        log.debug("  -->> so: mismatch")
+                        vstBucket.status = Status.MISMATCH
+                else:
+                    log.debug("  -->> so: not there")
+                    vstBucket.status = Status.NO_SO
+            else:
+                log.debug("  -->> dll: not there")
+                vstBucket.status = Status.NOTFOUND
+        else:
+            vstBucket.status = Status.ERROR
+            log.debug("Not a dll file.")
+
+def checkForOrphans(genSet, vstBuckets):
+    # Get a list of all softlinks in link-folder
+    soLinks = []
+    orphans = []
+
+    linkFolder = genSet.path_link_folder
+    with os.scandir(linkFolder) as topLevel:
+        for entry in topLevel:
+            if entry.is_file() and entry.name.endswith('.so'):
+                # Found a top level so-link
+                # Add to orphans right away as such links aren't created by this script
+                orphans.append(entry.name)
+            elif entry.is_dir():
+                # Found a vendor folder
+                vendor = entry.name
+                with os.scandir(linkFolder + vendor) as vendorLevel:
+                    for entry in vendorLevel:
+                        if entry.is_file() and entry.name.endswith('.so'):
+                            # Found a vendor so-link
+                            # Cross check with list of managed vsts to determine if orphan
+                            for vstBucket in vstBuckets:
+                                isOrphan = True
+                                if ((vstBucket.vendor == vendor) and 
+                                    ((vstBucket.dll[0:-4] + ".so") == entry.name)):
+                                    isOrphan = False
+                                    break
+
+                            if isOrphan:
+                                # Add to orphans
+                                orphans.append(vendor + '/' + entry.name)
+    return orphans
+    
+
+def removeOrphans(genSet, orphans):
+    linkFolder = genSet.path_link_folder
+    # Clean up orphaned softlinks
+    for orphan in orphans:
+        try:
+            os.remove(linkFolder + orphan)
+        except:
+            log.Debug(sys.exc_info()[0])
+
+    # Try to remove potentially empty vendor directories
+    with os.scandir(linkFolder) as topLevel:
+        for entry in topLevel:
+            try:
+                os.rmdir(linkFolder + entry.name)
+            except OSError:
+                # Apparently not an empty directory
+                pass
+
+
+def checkSoFileMatch(pathTemplateSo, pathVstSo):
+    try:
+        subprocess.check_output(['diff', pathTemplateSo, pathVstSo])
+        # 'diff' returned nothing (by means of no exception); binary files are the same
+        isMatch = True
+    except subprocess.CalledProcessError as e:
+        # raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        # 'diff' returned error code; binary files differ
+        isMatch = False
+
+    return isMatch
+
+
+def uiHelp(genSet):
+    print("==== Help ======================================================================")
+    print("| - h: This help message                                                       |")
+    print("| - q: Quit                                                                    |")
+    print("| - s: Print status                                                            |")
+    print("| - u: Update/Create *.so files for all existing VST-dlls                      |")
+    if genSet.orphan_detection:
+        print("| - r: Remove orphaned so-links (if any) from link-folder                      |")
+    else:
+        print("| - r: (Disabled) Remove orphaned so-links (if any) from link-folder           |")
+    print("| ---------------------------------------------------------------------------- |")
+    print("| - e: Enable specified VSTs                                                   |")
+    print("| - d: Disable specified VSTs                                                  |\n" +
+          "|   (i.e. 'e a': enable all disabled VSTs                                      |\n" +
+          "|         'd 3': disable VST with index 3                                      |\n" +
+          "|         'e 4,5,7': enable VSTs with index 4,5 and 7)                         |")
+    print("================================================================================")
+
+
+# Convert internal VST status to printable one
+def formatStatus(enumStatus):
+    # Note: colorSupport with package 'colored' seems to ignore width formatting later on.
+    #       Therefore padding is added manually here as a workaround.
+    if enumStatus == Status.ENABLED:
+        if colorSupport:
+            st = colo('Enabled  ', 'green')
+        else:
+            st = 'Enabled'
+    elif enumStatus == Status.DISABLED:
+        if colorSupport:
+            st = colo('Disabled ', 'yellow')
+        else:
+            st = 'Disabled'
+    elif enumStatus == Status.MISMATCH:
+        if colorSupport:
+            st = colo('Mismatch ', 'blue')
+        else:
+            st = 'Mismatch'
+    elif enumStatus == Status.NO_SO:
+        if colorSupport:
+            st = colo('No *.so  ', 'blue')
+        else:
+            st = 'No *.so'
+    elif enumStatus == Status.NOTFOUND:
+        if colorSupport:
+            st = colo('NotFound ', 'red')
+        else:
+            st = 'NotFound'
+    else:
+        if colorSupport:
+            st = colo('Error    ', 'red')
+        else:
+            st = 'Error'
+    return st
+
+
+def uiStatus(vstBuckets):
+    os.system('clear')
+    print("==== Status ====================================================================")
+    print("|  # |  Status    |  Name                           |  Vendor                  |")
+    print("| -- | ---------- | ------------------------------- | ------------------------ |")
+    for index, vstBucket in enumerate(vstBuckets):
+        status = formatStatus(vstBucket.status)
+        print("| {0:2} |  {1:9} |  {2:30} |  {3:23} |".format( 
+                index + 1, status, vstBucket.dll, vstBucket.vendor))
+    print("================================================================================")
+
+
+def uiOrphans(orphans):
+    print("|{0:78}|".format(" Orphaned so-links/files found within link-folder (remove with 'r'):"))
+    for orphan in orphans:
+        print("|{0:78}|".format("   - {0} ".format(orphan)))
+    print("================================================================================")
+    
+
+# Update all *.so files associated with enabled or disabled VSTs
+def vstUpdate(genSet, vstBuckets):
+    for vstBucket in vstBuckets:
+        log.debug("vstBucket.status: %s", vstBucket.status)
+        if ((vstBucket.status == Status.NO_SO) or 
+            (vstBucket.status == Status.MISMATCH) or 
+            (vstBucket.status == Status.DISABLED) or 
+            (vstBucket.status == Status.ENABLED)):
+            sofile = ((vstBucket.path + vstBucket.dll)[0:-4] + ".so")
+            log.debug("sofile: %s", sofile)
+            log.debug("genSet.path_linvst_so: %s", genSet.path_linvst_so)
+            shutil.copyfile(genSet.path_linvst_so, sofile)
+
+def uiVstUpdate():
+    print("|{0:78}|".format("   Update performed. (refresh status to see changes)"))
+    print("-" * 80)
+
+def vstEnable(genSet, vstBuckets, args):
+    log.debug("vstEnable")
+    if args[0] == 'a':
+        # Add all VSTs to selection
+        args = range(0, len(vstBuckets))
+    else:
+        # Compensate for index offset
+        for i, arg in enumerate(args):
+            args[i] = int(arg) - 1
+
+    vstBucketChanges = []
+    # Enable all selected, currently disabled VSTs
+    for arg in args:
+        if vstBuckets[arg].status == Status.DISABLED:
+            src = (vstBuckets[arg].path + vstBuckets[arg].dll)[0:-4] + ".so"
+
+            path_link_folder_vendor = genSet.path_link_folder + vstBuckets[arg].vendor
+            dest = (path_link_folder_vendor + '/' + vstBuckets[arg].dll)[0:-4] + ".so"
+
+            log.debug("src: %s", src)
+            log.debug("dest: %s", dest)
+            
+            # Create directories as needed
+            if not os.path.exists(path_link_folder_vendor):
+                try:
+                    os.makedirs(path_link_folder_vendor)
+                except FileExistsError:
+                    # directory already exists
+                    pass
+
+            if not os.path.islink(dest):
+                try:
+                    os.symlink(src, dest)
+                except FileExistsError:
+                    # link already exists
+                    pass
+            vstBuckets[arg].status = Status.ENABLED
+            tmpRes = '{:10}'.format('Enabled')
+            if colorSupport:
+                result = colo(tmpRes, 'green')
+            else:
+                result = tmpRes
+        else:
+            tmpRes = '{:10}'.format('Unchanged')
+            if colorSupport:
+                result = colo(tmpRes, 'blue')
+            else:
+                result = tmpRes
+        vstBucketChanges.append(VstBucketChange(arg, result))
+
+    log.debug("args: %s", args)
+
+    return vstBucketChanges
+
+
+def vstDisable(genSet, vstBuckets, args):
+    log.debug("vstDisable")
+    if args[0] == 'a':
+        # Add all VSTs to selection
+        args = range(0, len(vstBuckets))
+    else:
+        # Compensate for index offset
+        for i, arg in enumerate(args):
+            args[i] = int(arg) - 1
+
+    vstBucketChanges = []
+    # Disable all selected, currently enabled VSTs
+    for arg in args:
+        if vstBuckets[arg].status == Status.ENABLED:
+            path_link_folder_vendor = genSet.path_link_folder + vstBuckets[arg].vendor
+            link = (path_link_folder_vendor + '/' + vstBuckets[arg].dll)[0:-4] + ".so"
+
+            log.debug("link: %s", link)
+            
+            if os.path.islink(link):
+                try:
+                    os.remove(link)
+                except FileNotFoundError:
+                    # link doesn't exists after all
+                    pass
+
+            vstBuckets[arg].status = Status.DISABLED
+            tmpRes = '{:10}'.format('Disabled')
+            if colorSupport:
+                result = colo(tmpRes, 'yellow')
+            else:
+                result = tmpRes
+        else:
+            tmpRes = '{:10}'.format('Unchanged')
+            if colorSupport:
+                result = colo(tmpRes, 'blue')
+            else:
+                result = tmpRes
+        vstBucketChanges.append(VstBucketChange(arg, result))
+
+    log.debug("args: %s", args)
+    log.debug("len(vstBuckets): %s", len(vstBuckets))
+
+    return vstBucketChanges
+
+
+def uiVstChange(vstBuckets, vstBucketChanges):
+    for vstBC in vstBucketChanges:
+        if colorSupport:
+            if vstBC.result == 'Enabled':
+                vstBC.result = colo(vstBC.result, 'green')
+            elif vstBC.result == 'Disabled':
+                vstBC.result = colo(vstBC.result, 'yellow')
+            elif vstBC.result == 'Unchanged':
+                vstBC.result = colo(vstBC.result, 'blue')
+
+            uiFeedback = "| - {0:10}".format(vstBC.result) + ": {0:63}".format(vstBuckets[vstBC.index].vendor + ': ' + vstBuckets[vstBC.index].dll[0:-4]) + "|"
+        print(uiFeedback)
+    print("-" * 80)
+
+
+def uiInput():
+    try:
+        iVal = input("('h' for help) ->>  ")
+    except KeyboardInterrupt:
+        pass
+        iVal = 'q'
+    return iVal
+
+
+def main():
+    os.system('clear')
+    print("=== Manage LinVST plugins ======================================================")
+
+    vstBuckets = [] 
+    genSet = GenSet()
+
+    parseRes, resStr = readConfig(genSet, vstBuckets)
+    uiReadConfig(resStr)
+    orphans = []
+    # parseRes = retVal[0]
+    # genSet = retVal[1]
+
+    if parseRes:
+        refreshVstStatus(genSet, vstBuckets)
+        while True:
+            iVal = uiInput()
+
+            if iVal == 'q':
+                break
+            elif iVal == 'h':
+                uiHelp(genSet)
+            elif iVal == 's':
+                refreshVstStatus(genSet, vstBuckets)
+                uiStatus(vstBuckets)
+                if genSet.orphan_detection:
+                    orphans = checkForOrphans(genSet, vstBuckets)
+                    if orphans:
+                        uiOrphans(orphans)
+            elif iVal == 'u':
+                vstUpdate(genSet, vstBuckets)
+                uiStatus(vstBuckets)
+                uiVstUpdate()
+            elif iVal == 'r':
+                if genSet.orphan_detection:
+                    removeOrphans(genSet, orphans)
+                    uiStatus(vstBuckets)
+                else:
+                    print("|{0:78}|".format("-" * 78))
+                    print("|{0:78}|".format(" Orphan detection/removal is disabled (see config file)"))
+                    print("|{0:78}|".format("-" * 78))
+            else:
+                cmd = iVal[0]
+                # Remove whitespaces if any
+                tmpArgs = iVal[1:].replace(' ', '')
+                
+                # Check for valid input according to format:
+                # [ed][a0-9,]
+                if ((cmd == 'e' or cmd == 'd') and
+                    ((tmpArgs == 'a') or
+                    (re.match('^[0-9,]+$', tmpArgs)))):
+                    args = tmpArgs.split(',')
+                    log.debug("args: %s", args)
+
+                    if cmd == 'e':
+                        vstBCs = vstEnable(genSet, vstBuckets, args)
+                        uiStatus(vstBuckets)
+                        uiVstChange(vstBuckets, vstBCs)
+                    elif cmd == 'd':
+                        vstBCs = vstDisable(genSet, vstBuckets, args)
+                        uiStatus(vstBuckets)
+                        uiVstChange(vstBuckets, vstBCs)
+                    else:
+                        print(" Error: Somethings wrong (should never get here...)")
+                else:
+                    print("\'", iVal, "\' is no valid command.")
+    else:
+        print("|{0:78}|".format(" Exiting due to error mentioned above."))
+        print("=" * 80)
+
+
+if __name__ == '__main__':
+    main()
