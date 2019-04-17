@@ -20,7 +20,7 @@ Start up the linux DAW and point it to scan the folder containing the windows vs
 
 Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releases
 
-Scripts are also avaliable as an alternative to linvstconvert in the convert folder and also https://github.com/Goli4thus/linvstmanage
+Scripts are also avaliable as an alternative to linvstconvert in the convert and manage folders and also https://github.com/Goli4thus/linvstmanage
 
 ## Symlinks
 
