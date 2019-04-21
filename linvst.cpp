@@ -892,7 +892,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
         case effEditClose:
-                      
+#ifdef EMBED                      
         if(plugin->displayerr == 1)
 	    {
         if(plugin->display)
@@ -901,8 +901,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         XCloseDisplay(plugin->display);
 	    }	
         break;
-	    }	
-#ifdef EMBED		    
+	    }			    
 #ifdef XECLOSE 
         plugin->eventrun = 0;  
 	XSync(plugin->display, true);	
