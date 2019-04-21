@@ -1200,6 +1200,14 @@ VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)
         }
         return 0;
     }
+	
+    if(plugin->m_runok == 2)
+    {
+        std::cerr << "LinVst Error: trying to load unnamed linvst.so" << std::endl;
+	if(plugin)
+        delete plugin;
+        return 0;
+    }	
 		
     if(plugin->m_runok == 1)
     {
