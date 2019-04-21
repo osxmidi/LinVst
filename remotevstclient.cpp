@@ -97,6 +97,8 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     std::string dllName;
     std::string LinVstName;
     bool        test;
+    size_t found2;
+    std::string filename;
 
 #ifdef VST6432
    int          dlltype;
@@ -119,6 +121,18 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         cleanup();
         return;
     }
+    
+    dllName = info.dli_fname;
+
+    found2 = dllName.find_last_of("/");
+    filename = dllName.substr(found2 + 1, strlen(dllName.c_str()) - (found2 +1));
+     
+    if(!strcmp(filename.c_str(),"linvst.so"))
+    {
+        m_runok = 2;
+        cleanup();
+        return;          
+    }    
 
     if (realpath(info.dli_fname, hit2) == 0)
     {
