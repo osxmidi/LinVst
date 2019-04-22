@@ -330,6 +330,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     hostreaper(0),
     wavesthread(0),
 #ifdef EMBED
+    winm(0),
 #ifdef TRACKTIONWM  
     hosttracktion(0),
 #endif
@@ -350,8 +351,12 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     melda(0),
     winit(0),
     hWnd(0)
-{   
+{
+#ifdef EMBED	    
      winm = new winmessage;  
+     if(!winm)
+     starterror = 1;
+#endif	    
 }
 
 std::string RemoteVSTServer::getName()
