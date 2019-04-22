@@ -190,13 +190,8 @@ public:
    int handle;
    int width;
    int height;
-    struct winmessage
-    {
-        int handle;
-        int width;
-        int height;
-     } winm;
-  int displayerr;
+   winmessage *winm;
+  int displayerr;   winmessage *winm;
 #ifdef EMBEDTHREAD
    pthread_t           m_EMBEDThread;
    static void         *callEMBEDThread(void *arg) { return ((RemotePluginClient*)arg)->EMBEDThread(); }
