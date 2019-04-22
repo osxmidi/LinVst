@@ -778,6 +778,9 @@ RemotePluginClient::~RemotePluginClient()
 	 
     if (theEffect)
     delete theEffect; 
+	 
+    if (winm)
+    delete winm; 	 
   	
 #ifdef CHUNKBUF
     if (chunk_ptr)
@@ -834,6 +837,8 @@ ptr = (int *)m_shm;
 #endif
 
     theEffect = new AEffect;
+	
+    winm = new winmessage;	
 
     m_syncok = 1;
 }
@@ -1981,7 +1986,7 @@ void RemotePluginClient::showGUI()
     waitForServer3();  
 
 #ifdef EMBED
-    tryRead(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+    tryRead(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
 #endif
 }
 
