@@ -1004,7 +1004,7 @@ void RemoteVSTServer::showGUI()
 #endif 
 #endif             
         guiVisible = false;
-        winm->.handle = 0;
+        winm->handle = 0;
         winm->width = 0;
         winm->height = 0;
         tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
