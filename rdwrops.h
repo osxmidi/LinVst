@@ -63,7 +63,6 @@ struct ShmControl
     RingBuffer ringBuffer;
 };
 
-#define tryWrite2(a, b, c) rdwr_tryWrite2(a, b, c, __FILE__, __LINE__)
 #define tryRead(a, b, c) rdwr_tryRead(a, b, c, __FILE__, __LINE__)
 #define tryWrite(a, b, c) rdwr_tryWrite(a, b, c, __FILE__, __LINE__)
 #define writeOpcode(a, b) rdwr_writeOpcode(a, b, __FILE__, __LINE__)
