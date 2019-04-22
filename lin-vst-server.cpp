@@ -167,13 +167,7 @@ public:
     bool                haveGui;
 #ifdef EMBED
     HANDLE handlewin;
-
-    struct winmessage
-    {
-        int handle;
-        int width;
-        int height;
-    } winm;
+    winmessage *winm;
 #endif
     int guiupdate;
     int guiupdatecount;
@@ -357,7 +351,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     winit(0),
     hWnd(0)
 {   
-
+     winm = new winmessage;  
 }
 
 std::string RemoteVSTServer::getName()
@@ -508,7 +502,10 @@ RemoteVSTServer::~RemoteVSTServer()
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
     m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
     }
-    }    
+    }  
+	
+    if (winm)
+    delete winm;  	
 }
 
 void RemoteVSTServer::process(float **inputs, float **outputs, int sampleFrames)
@@ -865,10 +862,10 @@ void RemoteVSTServer::showGUI()
         {
         guiVisible = false;
 #ifdef EMBED        
-        winm.handle = 0;
-        winm.width = 0;
-        winm.height = 0;
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+        winm->handle = 0;
+        winm->width = 0;
+        winm->height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
 #endif        
         return;
         }        
@@ -893,10 +890,10 @@ void RemoteVSTServer::showGUI()
         {       
         UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0)); 
         guiVisible = false;        
-        winm.handle = 0;
-        winm.width = 0;
-        winm.height = 0;
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));       
+        winm->handle = 0;
+        winm->width = 0;
+        winm->height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));       
         return;
         }
 #endif 
@@ -904,9 +901,9 @@ void RemoteVSTServer::showGUI()
 #endif       
 	
 #ifdef EMBED
-        winm.handle = 0;
-        winm.width = 0;
-        winm.height = 0;
+        winm->handle = 0;
+        winm->width = 0;
+        winm->height = 0;
 
         handlewin = 0; 
 
@@ -921,10 +918,10 @@ void RemoteVSTServer::showGUI()
         UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
 #endif 
 #endif          
-        winm.handle = 0;
-        winm.width = 0;
-        winm.height = 0;
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));     
+        winm->handle = 0;
+        winm->width = 0;
+        winm->height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));     
         return;
     }
 
@@ -936,10 +933,10 @@ void RemoteVSTServer::showGUI()
         UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
 #endif 
 #endif      
-        winm.handle = 0;
-        winm.width = 0;
-        winm.height = 0;
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));           
+        winm->handle = 0;
+        winm->width = 0;
+        winm->height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));           
         return;
     }
 
@@ -980,10 +977,10 @@ void RemoteVSTServer::showGUI()
 #endif 
 #endif       
         guiVisible = false;
-        winm.handle = 0;
-        winm.width = 0;
-        winm.height = 0;
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+        winm->handle = 0;
+        winm->width = 0;
+        winm->height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
         return;
     }
 	
@@ -1002,10 +999,10 @@ void RemoteVSTServer::showGUI()
 #endif 
 #endif             
         guiVisible = false;
-        winm.handle = 0;
-        winm.width = 0;
-        winm.height = 0;
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+        winm->.handle = 0;
+        winm->width = 0;
+        winm->height = 0;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
         return;
     }
 #ifdef TRACKTIONWM
@@ -1043,11 +1040,11 @@ void RemoteVSTServer::showGUI()
         if (debugLevel > 0)
             cerr << "dssi-vst-server[1]: sized window" << endl;
 
-        winm.width = rect->right - rect->left;
-        winm.height = rect->bottom - rect->top;
+        winm->width = rect->right - rect->left;
+        winm->height = rect->bottom - rect->top;
         handlewin = GetPropA(hWnd, "__wine_x11_whole_window");
-        winm.handle = (long int) handlewin;
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &winm, sizeof(winm));
+        winm->handle = (long int) handlewin;
+        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
 #else
     if (debugLevel > 0)
         cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
