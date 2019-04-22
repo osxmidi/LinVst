@@ -839,7 +839,13 @@ ptr = (int *)m_shm;
 #endif
 #endif
 
-    theEffect = new AEffect;
+    theEffect = new AEffect;	
+    if(!theEffect)
+    {
+    *ptr = 4;
+    m_runok = 1;   
+    cleanup();	    
+    }        	    	
 
 #ifdef EMBED	
     winm = new winmessage;
