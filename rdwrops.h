@@ -19,6 +19,15 @@
 
 #define SHM_RING_BUFFER_SIZE 4096
 
+#ifdef EMBED
+struct winmessage
+{
+    int handle;
+    int width;
+    int height;
+};    
+#endif     
+
 struct RingBuffer
 {
     int head;
