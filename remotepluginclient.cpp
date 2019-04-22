@@ -523,6 +523,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     width(0),
     height(0),
     displayerr(0),
+    winm(0),
 #ifdef EMBEDDRAG
     x11_win(0),
     pparent(0),
@@ -779,8 +780,10 @@ RemotePluginClient::~RemotePluginClient()
     if (theEffect)
     delete theEffect; 
 	 
+#ifdef EMBED	 
     if (winm)
-    delete winm; 	 
+    delete winm; 
+#endif	 
   	
 #ifdef CHUNKBUF
     if (chunk_ptr)
@@ -837,8 +840,16 @@ ptr = (int *)m_shm;
 #endif
 
     theEffect = new AEffect;
-	
-    winm = new winmessage;	
+
+#ifdef EMBED	
+    winm = new winmessage;
+    if(!winm)
+    {
+    *ptr = 4;
+    m_runok = 1;   
+    cleanup();	    
+    }        	    
+#endif	
 
     m_syncok = 1;
 }
