@@ -691,9 +691,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         plugin->showGUI();
        // usleep(50000);
 
-        plugin->handle = plugin->winm.handle;
-        plugin->width = plugin->winm.width;
-        plugin->height = plugin->winm.height;
+        plugin->handle = plugin->winm->handle;
+        plugin->width = plugin->winm->width;
+        plugin->height = plugin->winm->height;
         plugin->parent = (Window) ptr;
         plugin->child = (Window) plugin->handle;
 
@@ -786,9 +786,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         plugin->showGUI();
       //  usleep(50000);
 
-       plugin->handle = plugin->winm.handle;
-       plugin->width = plugin->winm.width;
-       plugin->height = plugin->winm.height;
+       plugin->handle = plugin->winm->handle;
+       plugin->width = plugin->winm->width;
+       plugin->height = plugin->winm->height;
        plugin->parent = (Window) ptr;
        plugin->child = (Window) plugin->handle;
 
