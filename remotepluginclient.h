@@ -191,7 +191,7 @@ public:
    int width;
    int height;
    winmessage *winm;
-  int displayerr;   winmessage *winm;
+  int displayerr;
 #ifdef EMBEDTHREAD
    pthread_t           m_EMBEDThread;
    static void         *callEMBEDThread(void *arg) { return ((RemotePluginClient*)arg)->EMBEDThread(); }
