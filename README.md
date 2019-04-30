@@ -323,7 +323,7 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help w
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
 Serum needs Wine Staging to register.
 
-**Kontakt Player 5.6.8** (turn multiprocessing off). Requires Wine 2.0 and above
+**Kontakt Player 5.6.8 and 6.0** (turn multiprocessing off). Requires Wine 2.0 and above
 
 Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
 Kontakt and Wine 2.8 staging or later only need an additional msvcp140.dll override. 
