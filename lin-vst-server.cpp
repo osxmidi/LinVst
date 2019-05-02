@@ -2557,5 +2557,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         cerr << "dssi-vst-server[1]: freed dll" << endl;
  //   if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: exiting" << endl;
-    return 0;
+	
+    exit(0);
+	
+ //   return 0;
 }
