@@ -2152,14 +2152,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     {
         cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
         cerr << "(Command line was: " << cmdline << ")" << endl;
-        return 1;
+	    
+	exit(0);    
+      //  return 1;
     }
 
     if (!libname || !libname[0] || !fileInfo || !fileInfo[0])
     {
         cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
         cerr << "(Command line was: " << cmdline << ")" << endl;
-        return 1;
+	    
+	exit(0);    
+        // return 1;
     }
 	
     strcpy(cdpath, libname);
@@ -2184,7 +2188,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer);    
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
-        return 1;
+	    
+    exit(0);    
+    // return 1;
 #else
 #ifdef VST32  
     TCHAR wbuf[1024];
@@ -2193,7 +2199,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer);  
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
-        return 1;
+	    
+    exit(0);    
+    // return 1;
 #else
     TCHAR wbuf[1024];
     wsprintf(wbuf, "Error loading plugin dll %s. This LinVst version is for 64 bit vst's only", fileName.c_str());
@@ -2201,7 +2209,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer);
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << fileName << "\" This LinVst version is for 64 bit vsts only." << endl;
-        return 1;
+  
+    exit(0);    
+    // return 1;
 #endif
 #endif    
     }
@@ -2223,7 +2233,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     KillTimer(NULL, errtimer);
     if(libHandle)
     FreeLibrary(libHandle);
-    return 1;
+	    
+    exit(0);    
+    // return 1;
       }
     }
 	
@@ -2246,7 +2258,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         KillTimer(NULL, errtimer);   
 	if(libHandle)
         FreeLibrary(libHandle);
-        return 1; 
+	 	
+	exit(0);	
+        // return 1; 
         }
 
         if(remoteVSTServerInstance->starterror == 1)
@@ -2261,7 +2275,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	delete remoteVSTServerInstance;
 	if(libHandle)
         FreeLibrary(libHandle);
-        return 1; 
+		
+	exit(0);	
+        // return 1; 
         }
 
     remoteVSTServerInstance->m_plugin = getinstance(hostCallback);
@@ -2284,7 +2300,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	delete remoteVSTServerInstance;
 	if(libHandle)
 	FreeLibrary(libHandle);
-        return 1;
+	    
+        exit(0);
+	// return 1;
     }
 
     if (remoteVSTServerInstance->m_plugin->magic != kEffectMagic)
@@ -2306,7 +2324,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	delete remoteVSTServerInstance;
 	if(libHandle)
 	FreeLibrary(libHandle);
-        return 1;
+	    
+	exit(0);    
+        // return 1;
     }
 
     if (!(remoteVSTServerInstance->m_plugin->flags & effFlagsCanReplacing))
@@ -2328,7 +2348,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	delete remoteVSTServerInstance;
 	if(libHandle)
 	FreeLibrary(libHandle);
-        return 1;
+	    
+	exit(0);    
+        // return 1;
     }
 
     if(remoteVSTServerInstance->m_plugin->flags & effFlagsHasEditor)
@@ -2357,7 +2379,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	delete remoteVSTServerInstance;
 	if(libHandle)
 	FreeLibrary(libHandle);
-        return 1;
+	    
+	exit(0);    
+        // return 1;
     }
 
     DWORD threadIdp2 = 0;
@@ -2392,7 +2416,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	delete remoteVSTServerInstance;
 	if(libHandle)
 	FreeLibrary(libHandle);
-        return 1;
+	    
+	exit(0);    
+        // return 1;
     }
 
     DWORD threadIdp3 = 0;
@@ -2433,7 +2459,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	delete remoteVSTServerInstance;
 	if(libHandle)
 	FreeLibrary(libHandle);
-        return 1;
+	    
+	exit(0);    
+        // return 1;
     }
 
     MSG msg;
