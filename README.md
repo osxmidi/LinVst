@@ -213,7 +213,7 @@ Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table
 
 ## Running VST3 plugins.
 
-There are a few ways to try to run a Windows vst3 plugin.
+There are a few ways to try to run a Windows vst3 plugin (this is mainly useful when there might not be vst2 versions of a plugin available).
 
 **vst3shell (from Polac VST Loaders for Jeskola Buzz)**
 
