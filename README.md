@@ -211,6 +211,22 @@ Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedV
 
 Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
 
+## Running VST3 plugins.
+
+There a a few ways to try to run a vst3 plugin.
+
+**vst3shell (from Polac VST Loaders for Jeskola Buzz)**
+
+https://www.xlutop.com/buzz/
+
+Put vst3shell.x64.dll and vsti3shell.x64.dll and vst3shell.x64.core from the Gear/Vst folder (without x64 in the names for 32 bit vst's) into your vst plugins folder and rename a copy of linvst.so to vst3shell.x64.so and also rename a copy of linvst.so to vsti3shell.x64.so, and then do a plugin scan in the daw (Point the daw to scan the ~/.wine/drive_c/Program Files/Common Files/VST3 folder and your vst plugins folder). 
+
+The vst3 plugins should appear in the daw's plugin list. 
+
+**DDMF** Metaplugin VST3 to VST2 wrapper (d2d1 might need to be disabled for some video cards) (Draging and Dropping VST3 files to the DDMF Metaplugin window is ok).
+
+DDMF Metaplugin also needs the Microsoft Visual C++ 2010 Redistributable Package which is usually installed by default but if there is a problem then it is possible to also install it by using winetricks vcrun2010.
+
 ## Wine Config
 
 LinVst expects wine to be found in /usr/bin.
@@ -351,9 +367,6 @@ For cd installs
 sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
-
-**DDMF** Metaplugin VST3 to VST2 wrapper (d2d1 might need to be disabled for some video cards) (Draging and Dropping VST3 files to the DDMF Metaplugin window is ok).
-DDMF Metaplugin also needs the Microsoft Visual C++ 2010 Redistributable Package which is usually installed by default but if there is a problem then it is possible to also install it by using winetricks vcrun2010.
 
 **Guitar Rig 5** (same dll overrides as Kontakt)
 
