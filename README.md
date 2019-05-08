@@ -223,6 +223,8 @@ Put vst3shell.x64.dll and vsti3shell.x64.dll and vst3shell.x64.core from the Gea
 
 The vst3 plugins should appear in the daw's plugin list. 
 
+A daw plugin scan is required after adding new vst3 plugins.
+
 **DDMF** Metaplugin VST3 to VST2 wrapper (d2d1 might need to be disabled for some video cards) (Draging and Dropping VST3 files to the DDMF Metaplugin window is ok).
 
 DDMF Metaplugin also needs the Microsoft Visual C++ 2010 Redistributable Package which is usually installed by default but if there is a problem then it is possible to also install it by using winetricks vcrun2010.
