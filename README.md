@@ -219,11 +219,13 @@ There are a few ways to try to run a Windows vst3 plugin (this is mainly useful 
 
 https://www.xlutop.com/buzz/
 
-Put vst3shell.x64.dll and vsti3shell.x64.dll and vst3shell.x64.core from the Gear/Vst folder (without x64 in the names for 32 bit vst's) into your vst plugins folder and rename a copy of linvst.so to vst3shell.x64.so and also rename a copy of linvst.so to vsti3shell.x64.so, and then do a plugin scan in the daw (Point the daw to scan the ~/.wine/drive_c/Program Files/Common Files/VST3 folder and your vst plugins folder). 
+Put vst3shell.x64.dll and vsti3shell.x64.dll and vst3shell.x64.core from the Gear/Vst folder into your vst plugins folder and rename a copy of linvst.so to vst3shell.x64.so and also rename a copy of linvst.so to vsti3shell.x64.so, and then do a plugin scan in the daw (Point the daw to scan your vst plugins folder). 
 
 The vst3 plugins should appear in the daw's plugin list. 
 
-A daw plugin scan is required after adding new vst3 plugins.
+A new daw plugin scan is required after adding new vst3 plugins.
+
+(For Linux 32 bit systems only (not 64 bit Linux systems) the dll's to use are vst3shell.dll and vsti3shell.dll and vst3shell.core)
 
 **DDMF** Metaplugin VST3 to VST2 wrapper (d2d1 might need to be disabled for some video cards) (Draging and Dropping VST3 files to the DDMF Metaplugin window is ok).
 
