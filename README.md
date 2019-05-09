@@ -221,7 +221,7 @@ https://www.xlutop.com/buzz/
 
 Put vst3shell.x64.dll and vsti3shell.x64.dll and vst3shell.x64.core from the Gear/Vst folder into your vst plugins folder and rename a copy of linvst.so to vst3shell.x64.so and also rename a copy of linvst.so to vsti3shell.x64.so, and then do a plugin scan in the daw (Point the daw to scan your vst plugins folder). 
 
-The vst3 plugins should appear in the daw's plugin list. 
+The vst3 plugins should appear in the daw's plugin list (the ~/.wine/drive_c/Program Files/Common Files/VST3 folder is scanned for vst3 plugins).
 
 A new daw plugin scan is required after adding new vst3 plugins.
 
