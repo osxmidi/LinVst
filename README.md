@@ -452,6 +452,8 @@ Waves Central seems to require a usb stick to be inserted so that the install/li
 
 Waves Central also requires some simple registry additions
 
+Just import the Waves.reg file (in the Waves folder) into the registry using regedit or manually do the below
+
 wine regedit
 
 Add the following environment string variables under HKEY_CURRENT_USER\Environment (New String Value)
