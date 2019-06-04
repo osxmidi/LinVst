@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Environment]
+"COMMONPROGRAMFILES(X86)"="C:\\Program Files (x86)\\Common Files"
+"PROGRAMFILES(X86)"="C:\\Program Files (x86)"
+"PUBLIC"="C:\\users\\Public"
+
+
