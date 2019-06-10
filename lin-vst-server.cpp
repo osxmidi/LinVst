@@ -194,6 +194,9 @@ public:
     int                 parfin;
     int                 audfin;
     int                 getfin;
+    
+    std::string         deviceName2;
+    std::string         bufferwaves;
 
 private:
     std::string         m_name;
@@ -410,6 +413,7 @@ void RemoteVSTServer::EffectOpen()
     m_plugin->flags |= effFlagsHasEditor;
     haveGui = true;
     wavesthread = 1;
+    bufferwaves = buffer;	    
     }
 
     writeInt(&m_shm[FIXED_SHM_SIZE], wavesthread);
@@ -504,7 +508,12 @@ RemoteVSTServer::~RemoteVSTServer()
     {	
     if(m_plugin)
     {
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0); 
+    
+    if(((strncmp(remoteVSTServerInstance->deviceName2.c_str(), "vst3shell", 9) == 0) || (strncmp(remoteVSTServerInstance->deviceName2.c_str(), "vsti3shell", 10) == 0)) && (strcmp(bufferwaves.c_str(), "Waves") == 0)) 
+    {
+    }
+    else
     m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
     }
     } 
@@ -2481,6 +2490,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	exit(0);    
         // return 1;
     }
+	
+    remoteVSTServerInstance->deviceName2 = deviceName;	
 
     MSG msg;
     int tcount = 0;
