@@ -2524,16 +2524,20 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     TranslateMessage(&msg);
     DispatchMessage(&msg);
 
+/*	    
     if (msg.wParam == remoteVSTServerInstance->timerval)
     {
     tcount++;			
     if(tcount == 1)
     {
+*/    
     remoteVSTServerInstance->dispatchControl(50);
+/*	    
     tcount = 0;
     break;
     }                
     } 
+*/    
    
     if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin) 
     {
