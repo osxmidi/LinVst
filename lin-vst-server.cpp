@@ -331,7 +331,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     sampleRate(0),
     setprogrammiss(0),
     hostreaper(0),
-    wavesthread(0),
+    wavesthread(1),
 #ifdef EMBED
     winm(0),
 #ifdef TRACKTIONWM  
