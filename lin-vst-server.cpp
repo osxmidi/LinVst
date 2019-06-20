@@ -405,7 +405,10 @@ void RemoteVSTServer::EffectOpen()
 */
 		
     if(strcmp("MeldaProduction", buffer) == 0)
+    {    
     melda = 1;	
+    wavesthread = 1;  
+    }	    
 	
 #ifdef WAVES
     if(strcmp("Waves", buffer) == 0)
