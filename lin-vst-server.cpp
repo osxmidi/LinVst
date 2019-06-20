@@ -2527,7 +2527,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (msg.wParam == remoteVSTServerInstance->timerval)
     {
     tcount++;			
-    if(tcount == 10)
+    if(tcount == 1)
     {
     remoteVSTServerInstance->dispatchControl(50);
     tcount = 0;
