@@ -2511,62 +2511,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     int tcount = 0;
 
     while (!remoteVSTServerInstance->exiting)
-    {	        
-    if(remoteVSTServerInstance->wavesthread == 1)
-    {
-    if(remoteVSTServerInstance->guiVisible == true && remoteVSTServerInstance->haveGui == true)
-    {    
-    for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
-    {		   
-    if(remoteVSTServerInstance->exiting)
-    break;
-    	        	    		
-    TranslateMessage(&msg);
-    DispatchMessage(&msg);
-
-/*	    
-    if (msg.wParam == remoteVSTServerInstance->timerval)
-    {
-    tcount++;			
-    if(tcount == 1)
-    {
-*/    
-    remoteVSTServerInstance->dispatchControl(50);
-/*	    
-    tcount = 0;
-    break;
-    }                
-    } 
-*/    
-   
-    if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin) 
-    {
-    remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
-    if(remoteVSTServerInstance->guiupdate)
-    remoteVSTServerInstance->guiUpdate();  
-    }                  
-    }     
-    }    
-    else
-    {
-    for (int idx = 0; (idx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); idx++)
-    {		
-    if(remoteVSTServerInstance->exiting)
-    break;    
-	    
-    TranslateMessage(&msg);
-    DispatchMessage(&msg);
-    }
-    remoteVSTServerInstance->dispatchControl(50);    
-    }      
-    } 
-    else
-    {  
+    {		         
     while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-    {   
-    if(remoteVSTServerInstance->wavesthread == 1)	
-    break;
-    
+    {       
     if(remoteVSTServerInstance->exiting)
     break;	
     
@@ -2575,16 +2522,19 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
       
     if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin) 
     {
+    if(remoteVSTServerInstance->exiting)
+    break;	   
+    remoteVSTServerInstance->dispatchControl(50);  
+    if(remoteVSTServerInstance->exiting)
+    break;	   
     remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
     if(remoteVSTServerInstance->guiupdate)
     remoteVSTServerInstance->guiUpdate();  
     }
-    }               
-    remoteVSTServerInstance->dispatchControl(50);    
-    }
-            
+    }    
     if(remoteVSTServerInstance->exiting)
-    break;	      
+    break;		    
+    remoteVSTServerInstance->dispatchControl(50);          
     }
 	
 /*
