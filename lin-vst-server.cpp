@@ -2522,18 +2522,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
       
     if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin) 
     {
-    if(remoteVSTServerInstance->exiting)
-    break;	   
-    remoteVSTServerInstance->dispatchControl(50);  
-    if(remoteVSTServerInstance->exiting)
-    break;	   
     remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
     if(remoteVSTServerInstance->guiupdate)
     remoteVSTServerInstance->guiUpdate();  
+    remoteVSTServerInstance->dispatchControl(50);
     }
-    }    
-    if(remoteVSTServerInstance->exiting)
-    break;		    
+    }    		    
     remoteVSTServerInstance->dispatchControl(50);          
     }
 	
