@@ -1446,9 +1446,10 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     case audioMasterGetTime:
     
     if(remoteVSTServerInstance)
-    {	
+    {	    
     if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
     {
+/*    
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);   
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
@@ -1462,9 +1463,17 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 
     rv = (long)remoteVSTServerInstance->timeinfo;
     }
+*/
+    if(remoteVSTServerInstance->timeinfo)
+    {
+    memcpy(remoteVSTServerInstance->timeinfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
+
+ //    printf("%f\n", remoteVSTServerInstance->timeinfo->sampleRate);
+
+    rv = (long)remoteVSTServerInstance->timeinfo;
+    }        
     }
-    }
-    
+    }    
         break;
 
     case audioMasterProcessEvents:
