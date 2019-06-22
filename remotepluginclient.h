@@ -214,6 +214,8 @@ char *m_shm3;
     
 int m_inexcept;
     
+VstTimeInfo *timeInfo;   
+    
 #ifdef WAVES
 int wavesthread;
 #endif
