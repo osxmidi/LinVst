@@ -503,6 +503,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_updateio(0),
     m_updatein(0),
     m_updateout(0),
+    timeInfo(0),
 #ifdef CHUNKBUF
     chunk_ptr(0),
 #endif
@@ -1675,7 +1676,21 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     }
 	
     if (((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(float)) >= (PROCESSSIZE))
-        return;
+    return;
+	
+    if(m_audioMaster && theEffect)
+    {
+    timeInfo = 0;
+
+    timeInfo = (VstTimeInfo *)m_audioMaster(theEffect, audioMasterGetTime, 0, 0, 0, 0);
+
+    if(timeInfo)
+    {    
+ //   printf("%f\n", timeInfo->sampleRate);
+    
+    memcpy((VstTimeInfo*)&m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], timeInfo, sizeof(VstTimeInfo));
+    }
+    }             	
 
     size_t blocksz = sampleFrames * sizeof(float);
 
@@ -1732,7 +1747,21 @@ void RemotePluginClient::processdouble(double **inputs, double **outputs, int sa
     }
 	
     if (((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(double)) >= (PROCESSSIZE))
-        return;
+    return;
+	
+    if(m_audioMaster && theEffect)
+    {
+    timeInfo = 0;
+
+    timeInfo = (VstTimeInfo *)m_audioMaster(theEffect, audioMasterGetTime, 0, 0, 0, 0);
+
+    if(timeInfo)
+    {    
+ //   printf("%f\n", timeInfo->sampleRate);
+    
+    memcpy((VstTimeInfo*)&m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], timeInfo, sizeof(VstTimeInfo));
+    }
+    }             	
 
     size_t blocksz = sampleFrames * sizeof(double);
 
@@ -2057,9 +2086,9 @@ void RemotePluginClient::effVoidOp(int opcode)
 #endif
 #endif 
         m_finishaudio = 1;
-        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl3->ringBuffer, effClose);
-        commitWrite(&m_shmControl3->ringBuffer);
+        writeOpcodering(&m_shmControl4->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl4->ringBuffer, effClose);
+        commitWrite(&m_shmControl4->ringBuffer);
       }
       else
       {
@@ -2089,9 +2118,9 @@ void RemotePluginClient::effVoidOp(int opcode)
 #endif
 #endif 
         m_finishaudio = 1;
-        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl3->ringBuffer, opcode);
-        commitWrite(&m_shmControl3->ringBuffer);
+        writeOpcodering(&m_shmControl4->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl4->ringBuffer, opcode);
+        commitWrite(&m_shmControl4->ringBuffer);
 
         waitForServer2exit(); 
         waitForServer3exit(); 
@@ -2101,22 +2130,22 @@ void RemotePluginClient::effVoidOp(int opcode)
     }
     else
     {
-        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl3->ringBuffer, opcode);
-        commitWrite(&m_shmControl3->ringBuffer);
-        waitForServer3();  
+        writeOpcodering(&m_shmControl4->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl4->ringBuffer, opcode);
+        commitWrite(&m_shmControl4->ringBuffer);
+        waitForServer4();  
     }
 }
 
 int RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
 {
-        writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginDoVoid2);
-        writeIntring(&m_shmControl3->ringBuffer, opcode);
-        writeIntring(&m_shmControl3->ringBuffer, index);
-        writeIntring(&m_shmControl3->ringBuffer, value);
-        writeFloatring(&m_shmControl3->ringBuffer, opt);
-        commitWrite(&m_shmControl3->ringBuffer);
-        waitForServer3();  
+        writeOpcodering(&m_shmControl4->ringBuffer, RemotePluginDoVoid2);
+        writeIntring(&m_shmControl4->ringBuffer, opcode);
+        writeIntring(&m_shmControl4->ringBuffer, index);
+        writeIntring(&m_shmControl4->ringBuffer, value);
+        writeFloatring(&m_shmControl4->ringBuffer, opt);
+        commitWrite(&m_shmControl4->ringBuffer);
+        waitForServer4();  
         return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
