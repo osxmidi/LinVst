@@ -980,7 +980,33 @@ void RemotePluginServer::dispatchGetSetEvents()
         writeFloat(&m_shm2[FIXED_SHM_SIZE2 + 1024], floatval);
         break;
     }
+		    
+    case RemotePluginDoVoid:
+    {
+        int opcode = readIntring(&m_shmControl4->ringBuffer);
+        if (opcode == effClose)
+	{	
+        m_threadsfinish = 1;
+	    waitForClient2exit();
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
+	}	
+        effDoVoid(opcode);
+        break;
+    }
 
+    case RemotePluginDoVoid2:
+    {
+        int opcode = readIntring(&m_shmControl4->ringBuffer);
+        int index = readIntring(&m_shmControl4->ringBuffer);
+        int value = readIntring(&m_shmControl4->ringBuffer);
+        float opt = readFloatring(&m_shmControl4->ringBuffer);
+        int b = effDoVoid2(opcode, index, value, opt);
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
+        break;
+    }		        
+		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchGetSetEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1523,33 +1549,7 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginEffectOpen:
         EffectOpen();
         break;
-		    
-    case RemotePluginDoVoid:
-    {
-        int opcode = readIntring(&m_shmControl3->ringBuffer);
-        if (opcode == effClose)
-	{	
-        m_threadsfinish = 1;
-	waitForClient2exit();
-        waitForClient3exit();
-        waitForClient4exit();
-        waitForClient5exit();
-	}	
-        effDoVoid(opcode);
-        break;
-    }
-
-    case RemotePluginDoVoid2:
-    {
-        int opcode = readIntring(&m_shmControl3->ringBuffer);
-        int index = readIntring(&m_shmControl3->ringBuffer);
-        int value = readIntring(&m_shmControl3->ringBuffer);
-        float opt = readFloatring(&m_shmControl3->ringBuffer);
-        int b = effDoVoid2(opcode, index, value, opt);
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
-        break;
-    }		    
-		    
+		    		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
     }
