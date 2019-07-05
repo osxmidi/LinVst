@@ -6,6 +6,6 @@ Depending on which option is chosen (gtk2 gtk3 subdirectories(tree)) makegtk2 ma
 
 Then run it by changing into the directory and running ./makegtk3 etc
 
-A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
+A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree icons to appear.
 
-Use makegtk3-withicon for the -onpie option.
+Use makegtk3-withicon etc for the -no-pie icon option.
