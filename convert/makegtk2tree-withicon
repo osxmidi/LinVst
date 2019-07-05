@@ -1,0 +1,1 @@
+g++ -no-pie `pkg-config --cflags gtk+-2.0` linvstconvertgtktree.cpp -o linvstconverttree `pkg-config --libs gtk+-2.0`
