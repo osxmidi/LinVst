@@ -2,4 +2,10 @@ The convert folder is for making the linvstconvert and linvstconverttree (naviga
 
 The makegtk etc files in the convert folder contain simple commands for making the convert utilities.
 
+Depending on which option is chosen (gtk2 gtk3 subdirectories(tree)) makegtk2 makegtk2tree makegtk3 and makegtk3tree need to be made executable ie chmod +x makegtk3
+
+Then run it by changing into the directory and running ./makegtk3 etc
+
 A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
+
+Use makegtk3-withicon for the -onpie option.
