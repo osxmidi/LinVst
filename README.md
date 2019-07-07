@@ -434,7 +434,7 @@ The winbind and libntlm0 and gnutls packages might need to be installed for net 
 
 **TDR SlickEQ mixing/mastering equalizer** 
 
-**iLOK Licence Manager** needs winetricks msxml3
+**iLOK Licence Manager** needs winetricks msxml3 (might need crypt32.dll overrides)
 
 **Waves plugins**.
 
