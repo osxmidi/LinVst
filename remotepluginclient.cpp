@@ -37,6 +37,8 @@
 
 #include "paths.h"
 
+#define hidegui2 77775634
+
 #ifdef XEMBED
 #define XEMBED_EMBEDDED_NOTIFY	0
 #define XEMBED_FOCUS_OUT 5
@@ -2038,9 +2040,11 @@ void RemotePluginClient::showGUI()
 
 void RemotePluginClient::hideGUI()
 {
-    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginHideGUI);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
+      effVoidOp2(hidegui2, 0, 0, 0);	
+	
+//    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginHideGUI);
+//    commitWrite(&m_shmControl3->ringBuffer);
+//    waitForServer3();  
 }
 
 #ifdef EMBED
@@ -2139,13 +2143,13 @@ void RemotePluginClient::effVoidOp(int opcode)
 
 int RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
 {
-        writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginDoVoid2);
-        writeIntring(&m_shmControl2->ringBuffer, opcode);
-        writeIntring(&m_shmControl2->ringBuffer, index);
-        writeIntring(&m_shmControl2->ringBuffer, value);
-        writeFloatring(&m_shmControl2->ringBuffer, opt);
-        commitWrite(&m_shmControl2->ringBuffer);
-        waitForServer2();  
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid2);
+        writeIntring(&m_shmControl5->ringBuffer, opcode);
+        writeIntring(&m_shmControl5->ringBuffer, index);
+        writeIntring(&m_shmControl5->ringBuffer, value);
+        writeFloatring(&m_shmControl5->ringBuffer, opt);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();  
         return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
