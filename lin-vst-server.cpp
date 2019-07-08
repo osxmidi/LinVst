@@ -219,7 +219,8 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	 {
          if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
 	 {
-         remoteVSTServerInstance->hideGUI();	 
+         hidegui = 1;
+//         remoteVSTServerInstance->hideGUI();	 
          return 0;
 	 }
          }
