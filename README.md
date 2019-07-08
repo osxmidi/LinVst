@@ -442,11 +442,11 @@ Basic Install Procedure for Waves Central/64bit Waves plugins would be
 
 1: Install the mfc42 and mfc42u 32bit dll overrides into ~/.wine/drive_c/windows/syswow64 (and optionally add the dll names in winecfg's Libraries tab)
 
-2: Install rktools.exe (from the (Windows Server 2003 Resource Kit Tools)
+2: Install rktools.exe (from Windows Server 2003 Resource Kit Tools)
 
 3: Install the mfc140.dll override into ~/.wine/drive_c/windows/system32 (and optionally add the dll names in winecfg's Libraries tab)
 
-4: Import Waves.reg (in Waves folder) into regedit
+4: Import Waves.reg (in LinVst's Waves folder) into regedit
 
 5: Install Waves Central
 
