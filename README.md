@@ -438,6 +438,18 @@ The winbind and libntlm0 and gnutls packages might need to be installed for net 
 
 **Waves plugins**.
 
+Basic Install Procedure for Waves Central/64bit Waves plugins would be
+
+1: Install the mfc42 and mfc42u 32bit dll overrides into ~/.wine/drive_c/windows/syswow64 (and optionally add the dll names in winecfg's Libraries tab)
+
+2: Install rktools.exe (from the (Windows Server 2003 Resource Kit Tools)
+
+3: Install the mfc140.dll override into ~/.wine/drive_c/windows/system32 (and optionally add the dll names in winecfg's Libraries tab)
+
+4: Import Waves.reg (in Waves folder) into regedit
+
+5: Install Waves Central
+
 Tested Waves Central and Waves C1 and C4 and C360 and API-560 and Abbey Road Plates and Bass Slapper(1GB samples) plugins with Wine Staging version 3.x and 4.x and Debian Stretch/Sid (other non Debian based systems not tested).
 
 Waves VST3 API-560 and Abbey Road Plates plugins tested with DDMF Metaplugin VST3 to VST2 wrapper and Wine Staging 4.x and Debian Stretch/Sid.
