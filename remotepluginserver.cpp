@@ -886,17 +886,6 @@ void RemotePluginServer::dispatchProcessEvents()
         break;
     }
 
-    case RemotePluginDoVoid2:
-    {
-        int opcode = readIntring(&m_shmControl2->ringBuffer);
-        int index = readIntring(&m_shmControl2->ringBuffer);
-        int value = readIntring(&m_shmControl2->ringBuffer);
-        float opt = readFloatring(&m_shmControl2->ringBuffer);
-        int b = effDoVoid2(opcode, index, value, opt);
-        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
-        break;
-    }		            		    
-
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchProcessEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1181,6 +1170,17 @@ void RemotePluginServer::dispatchParEvents()
 
     switch (opcode)
     {
+		    
+    case RemotePluginDoVoid2:
+    {
+        int opcode = readIntring(&m_shmControl5->ringBuffer);
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        int value = readIntring(&m_shmControl5->ringBuffer);
+        float opt = readFloatring(&m_shmControl5->ringBuffer);
+        int b = effDoVoid2(opcode, index, value, opt);
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
+        break;
+    }		          		    
 
     case RemotePluginSetCurrentProgram:
         setCurrentProgram(readIntring(&m_shmControl5->ringBuffer));
