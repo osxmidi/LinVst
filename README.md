@@ -298,7 +298,7 @@ Upgrading to the latest wine-stable version is recommended.
 
 Some distros/wine can result in varying latency results.
 
-LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel and on Debian 9 with a realtime kernel (AV Linux should be similar), but not so much on some other distros without a low latency/real time kernel but results can vary from system to system, so some distros (and their setups, wine etc) might be better than some others in terms of latency and latency would also depend on the audio hardware/drivers as well.
+LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel and on Debian 9 with a realtime kernel (AV Linux and MX Linux with real time kernels should be similar), but not so much on some other distros without a low latency/real time kernel but results can vary from system to system, so some distros (and their setups, wine etc) might be better than some others in terms of latency and latency would also depend on the audio hardware/drivers as well.
 
 rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) may have some effect.
 
@@ -452,7 +452,8 @@ Basic Install Procedure for Waves Central/64bit Waves plugins would be
 
 6: Install Waves Central
 
-7: For Waves V10 plugins,  Descend into the path by double clicking on (C:)
+7: A dialog box will popup (asking for a path) the first time a Waves V10 plugin is run, 
+descend into the path by double clicking on (C:)
 and then double click on Program Files (x86) (or Program Files if Plug-Ins V10 can't be found)
 and then double click on Waves
 and then just highlight Plug-Ins V10 with a single click (don't descend into it)
