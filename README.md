@@ -323,27 +323,11 @@ d2d1 based plugins
 
 d2d1.dll can cause errors because Wine's current d2d1 support is not complete and using a d2d1.dll override might produce a black (blank) display.
 
-Some plugins need d2d1 to be disabled in the winecfg Libraries tab (add a d2d1 entry and then edit it and select disable).
+Some plugins might need d2d1 to be disabled in the winecfg Libraries tab (add a d2d1 entry and then edit it and select disable).
 
 A scan of the plugin dll file can be done to find out if the plugin depends on d2d1 
 
 "strings vstname.dll | grep -i d2d1"
-
-
-**Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
-
-**OP-X PRO-II** (Disable d2d1 in the Libraries section of winecfg)
-
-**MT-PowerDrumKit** (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
-
-**MT-PowerDrumKit** has a Linux version that is a Windows plugin but it does not seem to need d2d1 and avoids any d2d1 problems.
-
-**Toneboosters TrackEssentials** (disable d2d1 for Ferox)
-
-**Serum Synth** (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
-Serum needs Wine Staging to register.
 
 **Kontakt Player 5.6.8 and 6.0** (turn multiprocessing off). Requires Wine 2.0 and above
 
@@ -373,68 +357,6 @@ For cd installs
 sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
-
-**Guitar Rig 5** (same dll overrides as Kontakt)
-
-**Reaktor 6** (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
-
-**FM8** (might need the standalone FM8 to be run first so that the plugin's file browser files appear)
-
-**Line 6 Helix Native** (msvcr120.dll and gdiplus.dll overrides or winetricks vcrun2013 gdiplus wininet) (copy and paste username and password into the registration window)
-
-**S-Gear Amp Sim**
-
-**TH3 Amp Sim**
-
-**IK Amplitube 4**
-
-**IK SampleTank**
-
-**Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
-
-**EZDrummer2** (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
-
-**Mercuriall Spark Amp Sim**
-
-**Melda MXXX Multi Effects** (turn GPU acceleration off)
-
-**Izotope Ozone** has multiple dlls and only the main dll (which is a vst dll) needs to have a linvst .so file associated with it. For instance, the Ozone 8.dll would have an associated Ozone 8.so file and none of the other dlls would have associated .so files (otherwise the DAW will try and load the other dlls which are not vst dlls and then produce errors).
-
-**T-RackS**
-
-**Nebula4**
-
-**VUMT**
-
-**Sforzando** (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
-
-**BassMidi** sf2 and sfz.
-
-**Groove Machine** (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
-
-**Zampler RX**
-
-**Stillwell plugins**
-
-**Cobalt (Sanford) Synth**
-
-**Synth1** needs it's presets path setup (browse and locate using the opt button).
-
-**FL Sytrus** needs winetricks corefonts to be installed for fonts. The UI might become blank after closing and reopening (minimizing).
-
-**Ignite Amps TPA-1 Amp Sim** 
-
-**LePou Amp Sims**
-
-**Nick Crow Lab Amp Sims**
-
-**Voxengo Boogex Guitar Effects**
-
-**Klanghelm MJUC Compressor**
-
-**TDR SlickEQ mixing/mastering equalizer** 
-
-**iLOK Licence Manager** needs winetricks msxml3 (might need crypt32.dll overrides)
 
 **Waves plugins**.
 
@@ -521,6 +443,83 @@ and then just highlight Plug-Ins V10 with a single click (don't descend into it)
 and then finish by clicking on open.
 
 The DAW scan should then pick up the Waves plugins.
+
+**iLOK Software Licence Manager** needs winetricks msxml3 (might need crypt32.dll overrides, winetricks crypt32)
+
+**Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
+
+**OP-X PRO-II** (Disable d2d1 in the Libraries section of winecfg)
+
+**MT-PowerDrumKit** (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
+
+**MT-PowerDrumKit** has a Linux version that is a Windows plugin but it does not seem to need d2d1 and avoids any d2d1 problems.
+
+**Toneboosters TrackEssentials** (disable d2d1 for Ferox)
+
+**Serum Synth** (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
+Serum needs Wine Staging to register.
+
+**Guitar Rig 5** (same dll overrides as Kontakt)
+
+**Reaktor 6** (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
+
+**FM8** (might need the standalone FM8 to be run first so that the plugin's file browser files appear)
+
+**Line 6 Helix Native** (msvcr120.dll and gdiplus.dll overrides or winetricks vcrun2013 gdiplus wininet) (copy and paste username and password into the registration window)
+
+**S-Gear Amp Sim**
+
+**TH3 Amp Sim**
+
+**IK Amplitube 4**
+
+**IK SampleTank**
+
+**Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
+
+**EZDrummer2** (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
+
+**Mercuriall Spark Amp Sim**
+
+**Melda MXXX Multi Effects** (turn GPU acceleration off)
+
+**Izotope Ozone** has multiple dlls and only the main dll (which is a vst dll) needs to have a linvst .so file associated with it. For instance, the Ozone 8.dll would have an associated Ozone 8.so file and none of the other dlls would have associated .so files (otherwise the DAW will try and load the other dlls which are not vst dlls and then produce errors).
+
+**T-RackS**
+
+**Nebula4**
+
+**VUMT**
+
+**Sforzando** (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+
+**BassMidi** sf2 and sfz.
+
+**Groove Machine** (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+
+**Zampler RX**
+
+**Stillwell plugins**
+
+**Cobalt (Sanford) Synth**
+
+**Synth1** needs it's presets path setup (browse and locate using the opt button).
+
+**FL Sytrus** needs winetricks corefonts to be installed for fonts. The UI might become blank after closing and reopening (minimizing).
+
+**Ignite Amps TPA-1 Amp Sim** 
+
+**LePou Amp Sims**
+
+**Nick Crow Lab Amp Sims**
+
+**Voxengo Boogex Guitar Effects**
+
+**Klanghelm MJUC Compressor**
+
+**TDR SlickEQ mixing/mastering equalizer** 
 
 ## To make
 
