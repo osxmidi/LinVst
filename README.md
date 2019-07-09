@@ -300,7 +300,7 @@ Some distros/wine can result in varying latency results.
 
 LinVst has produced reasonable latency results on Ubuntu Studio with a low latency kernel and a real time kernel and on Debian 9 with a realtime kernel (AV Linux and MX Linux with real time kernels should be similar), but not so much on some other distros without a low latency/real time kernel but results can vary from system to system, so some distros (and their setups, wine etc) might be better than some others in terms of latency and latency would also depend on the audio hardware/drivers as well.
 
-A kernel that has PREEMPT in it's info is favored (get kernel info by running uname -a).
+A kernel that has PREEMPT in it's info would be the preference (obtain kernel info by running uname -a).
 
 rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) may have some effect.
 
