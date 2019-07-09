@@ -339,7 +339,7 @@ To override dll's, copy windows dlls to drive_c/windows/system32 and then overri
 
 Native Access requires Wine Devel/Wine Staging 3.5 or later and a msvcp140.dll override.
 
-Native Access aborts during a download, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
+Because Wine might have problems mounting the downloaded iso file, Native Access aborts partway through a download but the iso file has been downloaded, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
 
 For all NI iso files they need to be mounted using udf and the unhide option.
 
@@ -359,6 +359,8 @@ sudo mount -t udf -o unhide /dev/sr0 /mnt
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
 **Waves plugins**.
+
+Because Wine has some missing parts as compared to Windows (ie Robocopy, reg entries, some dll's etc) some things need to be installed and setup.
 
 Basic Install Procedure for Waves Central/64bit Waves plugins would be
 
