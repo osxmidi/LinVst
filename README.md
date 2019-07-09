@@ -452,6 +452,8 @@ Basic Install Procedure for Waves Central/64bit Waves plugins would be
 
 6: Install Waves Central
 
+7: The vst 64 bit dll to wrap is WaveShellxxxxxx.dll in ~/.wine/drive_c/Program Files/VSTPlugIns/ (there might be more than one WaveShellxxxxxx.dll depending on additional Waves plugins installs)
+
 7: A dialog box will popup (asking for a path) the first time a Waves V10 plugin is run, 
 descend into the path by double clicking on (C:)
 and then double click on Program Files (x86) (or Program Files if Plug-Ins V10 can't be found)
