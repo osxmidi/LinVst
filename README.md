@@ -444,13 +444,19 @@ Basic Install Procedure for Waves Central/64bit Waves plugins would be
 
 2: Install the mfc42 and mfc42u 32bit dll overrides into ~/.wine/drive_c/windows/syswow64 (and optionally add the dll names in winecfg's Libraries tab)
 
-3: Install rktools.exe (from Windows Server 2003 Resource Kit Tools)
+3: Install rktools.exe (Robocopy from Windows Server 2003 Resource Kit Tools)
 
 4: Install the mfc140.dll override into ~/.wine/drive_c/windows/system32 (and optionally add the dll names in winecfg's Libraries tab)
 
 5: Import Waves.reg (in LinVst's Waves folder) into regedit
 
 6: Install Waves Central
+
+7: For Waves V10 plugins,  Descend into the path by double clicking on (C:)
+and then double click on Program Files (x86) (or Program Files if Plug-Ins V10 can't be found)
+and then double click on Waves
+and then just highlight Plug-Ins V10 with a single click (don't descend into it)
+and then finish by clicking on open.
 
 Tested Waves Central and Waves C1 and C4 and C360 and API-560 and Abbey Road Plates and Bass Slapper(1GB samples) plugins with Wine Staging version 3.x and 4.x and Debian Stretch/Sid (other non Debian based systems not tested).
 
@@ -506,8 +512,8 @@ mv linvst.so "WaveShell1-VST 10.0_x64.so"
 Then set the DAW to scan ~/.wine/drive_c/Program Files/VSTPlugIns and then scan, and a select folder dialog will appear.
 
 Descend into the path by double clicking on (C:)
-and then double clicking on Program Files (x86) (or Program Files if Plug-Ins V10 can't be found)
-and then double clicking on Waves
+and then double click on Program Files (x86) (or Program Files if Plug-Ins V10 can't be found)
+and then double click on Waves
 and then just highlight Plug-Ins V10 with a single click (don't descend into it)
 and then finish by clicking on open.
 
