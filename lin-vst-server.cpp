@@ -685,7 +685,7 @@ void RemoteVSTServer::effDoVoid(int opcode)
 {
     if (opcode == 78345432)
     {
-        hostreaper = 1;
+//        hostreaper = 1;
          return;
     }
 #ifdef EMBED
