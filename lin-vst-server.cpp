@@ -515,6 +515,8 @@ RemoteVSTServer::~RemoteVSTServer()
     if(effectrun == true)
     {	
 #ifndef WCLASS  
+    if(melda == 1)
+    {
     if(remoteVSTServerInstance->haveGui == true)
     {
     if(hWnd)
@@ -524,7 +526,8 @@ RemoteVSTServer::~RemoteVSTServer()
     DestroyWindow(child);
     }
     }
-#endif    	    	    
+    }
+#endif    	    	    	    
 	    
     if(m_plugin)
     {
@@ -1176,7 +1179,21 @@ void RemoteVSTServer::hideGUI()
 #endif
 
   if(melda == 0)
+  {
   m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
+  
+#ifndef WCLASS  
+    if(remoteVSTServerInstance->haveGui == true)
+    {
+    if(hWnd)
+    {
+    HWND child = GetWindow(hWnd, GW_CHILD);  
+    if(child)
+    DestroyWindow(child);
+    }
+    }
+#endif    	    	        
+  }	
 		
   if(hWnd)
   {	
