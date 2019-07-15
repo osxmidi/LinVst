@@ -514,6 +514,18 @@ RemoteVSTServer::~RemoteVSTServer()
 {
     if(effectrun == true)
     {	
+#ifndef WCLASS  
+    if(remoteVSTServerInstance->haveGui == true)
+    {
+    if(hWnd)
+    {
+    HWND child = GetWindow(hWnd, GW_CHILD);  
+    if(child)
+    DestroyWindow(child);
+    }
+    }
+#endif    	    	    
+	    
     if(m_plugin)
     {
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0); 
