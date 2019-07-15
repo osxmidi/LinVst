@@ -1190,9 +1190,6 @@ void RemoteVSTServer::hideGUI()
   #endif         	  
   }
 	
-   if(melda == 1)
-   m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
-
    guiVisible = false;
 	
    hidegui = 0;	
