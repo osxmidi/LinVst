@@ -513,22 +513,7 @@ void RemoteVSTServer::EffectOpen()
 RemoteVSTServer::~RemoteVSTServer()
 {
     if(effectrun == true)
-    {	
-#ifndef WCLASS  
-    if(melda == 1)
-    {
-    if(remoteVSTServerInstance->haveGui == true)
-    {
-    if(hWnd)
-    {
-    HWND child = GetWindow(hWnd, GW_CHILD);  
-    if(child)
-    DestroyWindow(child);
-    }
-    }
-    }
-#endif    	    	    	    
-	    
+    {		    
     if(m_plugin)
     {
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0); 
@@ -1181,7 +1166,9 @@ void RemoteVSTServer::hideGUI()
   if(melda == 0)
   {
   m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
-  
+  }
+	
+#ifdef EMBED  
 #ifndef WCLASS  
     if(remoteVSTServerInstance->haveGui == true)
     {
@@ -1193,7 +1180,7 @@ void RemoteVSTServer::hideGUI()
     }
     }
 #endif    	    	        
-  }	
+#endif	
 		
   if(hWnd)
   {	
@@ -1218,10 +1205,15 @@ void RemoteVSTServer::hideGUI()
   #endif 
   #endif         	  
   }
+
+  if(melda == 1)
+  {
+  m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
+  }	  
 	
-   guiVisible = false;
+  guiVisible = false;
 	
-   hidegui = 0;	
+  hidegui = 0;	
 
    // if (!exiting)
     //    usleep(50000);
