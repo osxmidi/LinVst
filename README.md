@@ -8,7 +8,7 @@ LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
 Decide on what version to run, either the embedded window version or the standalone window version (the embedded version would probably be the default choice)
 
-Copy all of the lin-vst-server files (files with lin-vst-server in their names) from the version that was chosen to /usr/bin (either the embedded or standalone version folder)
+Copy all of the lin-vst-serverxxxx files (files with lin-vst-server in their names) from the version that was chosen to /usr/bin (either the embedded or standalone version folder)
 
 Make a folder and place the windows vst's in it.
 
@@ -586,6 +586,8 @@ The default Makefile is for 64 bit vst's only (embedded window).
 Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's (also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support) (lin-vst-server32st for standalone window version)
 
 Makefile-standalone-64 (64 bit vsts only) is for a standalone window version.
+
+Defining TRACKTIONWM makes a Tracktion embedded window compatible version (lin-vst-servertrack.exe lin-vst-servertrack.exe.so (lin-vst-server32track.exe lin-vst-server32track.exe.so) installed to /usr/bin).
 
 Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
 
