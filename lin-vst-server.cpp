@@ -715,7 +715,15 @@ int ret;
 
     ret = 0;	
     if(opcode == hidegui2)
-    hidegui = 1;    	
+    {
+    hidegui = 1;  
+#ifdef XECLOSE    
+    while(hidegui == 1)
+    {    
+    sched_yield();
+    } 
+#endif       
+    }  	
     else
     ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);    
     return ret;
