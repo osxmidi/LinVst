@@ -587,7 +587,7 @@ Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that aut
 
 Makefile-standalone-64 (64 bit vsts only) is for a standalone window version.
 
-Defining TRACKTIONWM makes a Tracktion embedded window compatible version (lin-vst-servertrack.exe lin-vst-servertrack.exe.so (lin-vst-server32track.exe lin-vst-server32track.exe.so) installed to /usr/bin).
+Defining TRACKTIONWM makes a Tracktion embedded window compatible version (lin-vst-servertrack.exe lin-vst-servertrack.exe.so (lin-vst-servertrack32.exe lin-vst-servertrack32.exe.so) installed to /usr/bin).
 
 Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
 
