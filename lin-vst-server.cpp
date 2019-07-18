@@ -2581,7 +2581,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     
     if(remoteVSTServerInstance->hidegui == 1)
     {
-    remoteVSTServerInstance->hidegui = 0;
     remoteVSTServerInstance->hideGUI();
     }
     
