@@ -21,7 +21,7 @@ LINK_FLAGS   = $(LDFLAGS)
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
 LINK_WINE   = -m32 -lpthread -lrt $(LINK_FLAGS)
 
-TARGETS     = linvst.so lin-vst-serverlx32.exe
+TARGETS     = linvst.so lin-vst-server32lx.exe
 
 # --------------------------------------------------------------
 
@@ -30,7 +30,7 @@ all: $(TARGETS)
 linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o paths.unix.o
 	$(CXX) $^ $(LINK_PLUGIN) -o $@
 	
-lin-vst-serverlx32.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
+lin-vst-server32lx.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
 	$(WINECXX) $^ $(LINK_WINE) -o $@
 
 # --------------------------------------------------------------
@@ -67,4 +67,4 @@ install:
 	install -d $(BIN_DIR)
 	install -d $(VST_DIR)
 	install -m 755 linvst.so $(VST_DIR)
-	install -m 755 lin-vst-serverlx32.exe lin-vst-serverlx32.exe.so $(BIN_DIR)
+	install -m 755 lin-vst-server32lx.exe lin-vst-server32lx.exe.so $(BIN_DIR)
