@@ -581,15 +581,11 @@ sudo make install
 
 Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder (lin-vst-serverst for standalone window version)
 
-(also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support) (lin-vst-serverst32 for standalone window version)
+The default Makefile is for 64 bit vst's only (embedded window).
 
-Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's.
+Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's (also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support) (lin-vst-server32st for standalone window version)
 
-Makefile-embed-6432 (64 and 32 bit vsts) and Makefile-embed-64 (64 bit vsts only) are for the daw embedded window option.
-
-Makefile-standalone-6432 (64 and 32 bit vsts) and Makefile-standalone-64 (64 bit vsts only) are for a standalone window version that can be useful for some daw's.
-
-LinVst-Linux32bit-only.zip contains makefiles for Linux 32bit only systems and makes and installs lin-vst-serverlx32 (lin-vst-serverstlx32 for standalone window version).
+Makefile-standalone-64 (64 bit vsts only) is for a standalone window version.
 
 Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
 
@@ -599,10 +595,7 @@ Defining FOCUS enables an alternative keyboard focus operation where the plugin 
 
 See Makefile comments for define options.
 
-Tracktion/Waveform might have an embedded window offset problem where the plugin's gui is misaligned with the Tracktion/Waveform plugin window and requires overwriting the LinVst files with the files in the Tracktion folder.
-
-The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only.
-
+The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only and contains makefiles for Linux 32bit only systems and makes and installs lin-vst-server32lx (lin-vst-server32lxst for standalone window version) to /usr/bin.
 
 --
 
