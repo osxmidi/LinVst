@@ -20,6 +20,8 @@ Start up the linux DAW and point it to scan the folder containing the windows vs
 
 Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releases
 
+If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
+
 Scripts are also avaliable as an alternative to linvstconvert in the convert and manage folders and also https://github.com/Goli4thus/linvstmanage
 
 ## Symlinks
@@ -146,6 +148,8 @@ If a windows vst dll file and it's associated renamed linvst.so file are located
 Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
 ## Common Problems/Possible Fixes
+
+If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
 
 LinVst looks for wine in /usr/bin and if there isn't a /usr/bin/wine then that will probably cause problems.
 /usr/bin/wine can be a symbolic link to /opt/wine-staging/bin/wine (for wine staging) for example.
