@@ -463,6 +463,12 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help w
 
 **MT-PowerDrumKit** has a Linux version that is a Windows plugin but it does not seem to need d2d1 and avoids any d2d1 problems.
 
+**MT-PowerDrumKit** exports grooves to mtpdk.mid in the /home/user/Documents folder and then mtpdk.mid can be drag and dropped into the DAW.
+
+**EZDrummer2** (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
+
+**EZDrummer2** exports grooves to Variation*.mid in the ~/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder and then Variation*.mid can be drag and dropped into the DAW.
+
 **Toneboosters TrackEssentials** (disable d2d1 for Ferox)
 
 **Serum Synth** (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
@@ -486,8 +492,6 @@ Serum needs Wine Staging to register.
 **IK SampleTank**
 
 **Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
-
-**EZDrummer2** (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
 
 **Mercuriall Spark Amp Sim**
 
