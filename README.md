@@ -463,7 +463,7 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help w
 
 **MT-PowerDrumKit** has a Linux version that is a Windows plugin but it does not seem to need d2d1 and avoids any d2d1 problems.
 
-**MT-PowerDrumKit** exports grooves to mtpdk.mid in the /home/user/Documents folder and then mtpdk.mid can be drag and dropped into the DAW.
+**MT-PowerDrumKit** exports grooves to mtpdk.mid in the /home/user/Documents folder (the last dragged groove or fill to the composer) and then mtpdk.mid can be drag and dropped into the DAW.
 
 **EZDrummer2** (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
 
