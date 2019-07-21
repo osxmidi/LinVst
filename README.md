@@ -168,6 +168,8 @@ Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
 
 d2d1 can be disabled in the winecfg Libraries tab.
 
+A d3d9 dll override might help.
+
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 (MaxVersionGL is a DWORD hex value) might help with some plugins and d2d1 (can also depend on hardware and drivers).
 
 wininet is used by some vst's for net access including registration and online help etc and sometimes wines inbuilt wininet might cause a crash or have unimplemented functions.
