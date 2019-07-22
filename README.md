@@ -468,7 +468,7 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help w
 **MT-PowerDrumKit** exports grooves to mtpdk.mid in the /home/user/Documents folder (the last dragged groove or fill to the composer) and then mtpdk.mid can be drag and dropped into the DAW.
 
 **EZDrummer2** (visual glitches can be removed by choosing the Windows XP version in winecfg). 
-Exports clips to a midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer/ folder (the last dragged clip that was dragged outside of the EZDrummer2 window) and then the midi file can be drag and dropped into the DAW.
+Exports EZdrummer Libraries clips to a midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer/ folder (the last dragged clip that was dragged outside of the EZDrummer2 window) and then the midi file can be drag and dropped into the DAW.
 
 **Toneboosters TrackEssentials** (disable d2d1 for Ferox)
 
