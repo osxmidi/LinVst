@@ -467,7 +467,7 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help w
 
 **MT-PowerDrumKit** exports grooves to mtpdk.mid in the /home/user/Documents folder (the last dragged groove or fill to the composer) and then mtpdk.mid can be drag and dropped into the DAW.
 
-**EZDrummer2** (choose Mixer window before quiting if drumkit is playing to avoid possible hang when quiting) 
+**EZDrummer2** (visual glitches can be removed by choosing the Windows XP version in winecfg) 
 
 **Toneboosters TrackEssentials** (disable d2d1 for Ferox)
 
