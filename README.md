@@ -195,11 +195,11 @@ cabextract needs to be installed (sudo apt-get install cabextract, yum install c
 
 To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
 
-For details about overriding dll's, see the next section (Wine Config).
+For details about overriding dll's, see the next section (Wine Config)./home/user/.wine/drive_c/ProgramData//home/user/.wine/drive_c/ProgramData/
 
-Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped into the vst window and not for items dragged and dropped from the vst window to the DAW/host window.
-Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file to a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
-See MT-PowerDrumKit and EZDrummer 2 and Addictive Drums 2 below for some details.
+Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped onto the vst window and not for items dragged and dropped from the vst window to the DAW/host or to the Desktop window.
+Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file in a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
+See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 below for some details.
 
 **Renoise**
 
