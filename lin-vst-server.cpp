@@ -227,6 +227,13 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     break;
 		    
      case WM_TIMER:
+     /*
+     if(remoteVSTServerInstance)
+              {
+     if(remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin && !remoteVSTServerInstance->hidegui) 
+    remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+    }
+    */		    
      break;
        	
     default:
@@ -2542,8 +2549,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance->exiting)
     break;
 	    
-    if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
-    break;    
+//    if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
+//    break;    
     
     TranslateMessage(&msg);
     DispatchMessage(&msg);
