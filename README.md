@@ -168,8 +168,6 @@ Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
 
 d2d1 can be disabled in the winecfg Libraries tab.
 
-A d3d9 dll override might help.
-
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 (MaxVersionGL is a DWORD hex value) might help with some plugins and d2d1 (can also depend on hardware and drivers).
 
 wininet is used by some vst's for net access including registration and online help etc and sometimes wines inbuilt wininet might cause a crash or have unimplemented functions.
@@ -200,6 +198,8 @@ To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be insta
 For details about overriding dll's, see the next section (Wine Config).
 
 Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped into the vst window and not for items dragged and dropped from the vst window to the DAW/host window.
+Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file to a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
+See MT-PowerDrumKit and EZDrummer 2 and Addictive Drums 2 below for some details.
 
 **Renoise**
 
