@@ -199,7 +199,7 @@ For details about overriding dll's, see the next section (Wine Config)./home/use
 
 Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped onto the vst window and not for items dragged and dropped from the vst window to the DAW/host or to the Desktop window.
 Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file in a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
-See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 below for some details.
+See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 below for some details.
 
 **Renoise**
 
@@ -470,6 +470,8 @@ Choose Select All (from the right side Menu drop down) to be able to drag multip
 
 **Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
 Drag the clip from the Beats window to outside of the Addictive Drums 2 window and then a midi file will appear (probably AD2Beat.mid) in /home/user/.wine/drive_c/users/user/My Documents/Addictive Drums 2/XXXXXX/Settings which should contain the clip and which can then be dragged to the DAW. Same thing applies for the recorded wav file (ADDrop.wav).
+
+**Steven Slate Drums SSD5** Drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
 
 **Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
