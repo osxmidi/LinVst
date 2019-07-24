@@ -24,32 +24,75 @@ If a LinVst version error pops up then LinVst probably needs to be reinstalled t
 
 Scripts are also avaliable as an alternative to linvstconvert in the convert and manage folders and also https://github.com/Goli4thus/linvstmanage
 
-## Symlinks
+## Common Problems/Possible Fixes
 
-Symlinks can be used for convenience if wanted.
-One reason to use symlinks would be to be able to group plugins together outside of their Wine install paths and reference them from a common folder via symlinks.
+If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
 
-For a quick simple example, say that the plugin dll file is in ~/.wine/drive_c/Program Files/Vstplugins and is called plugin.dll.
-Then just open that folder using the file manager and drag linvst.so to it and rename linvst.so to whatever the dll name is (plugin.so for plugin.dll).
-Then create a symlink to plugin.so using a right click and selecting create symlink from the option menu, the make sure the symlink ends in a .so extension (might need to edit the symlinks name) and then drag that symlink to anywhere the DAW searches (say ~/vst for example) and then plugin.so should load (via the symlink) within the DAW.
+LinVst looks for wine in /usr/bin and if there isn't a /usr/bin/wine then that will probably cause problems.
+/usr/bin/wine can be a symbolic link to /opt/wine-staging/bin/wine (for wine staging) for example.
 
-If the dll plugin files are in a sudo permission folder (or any permission folder) such as /usr/lib/vst, then make a user permission folder such as /home/user/vst and then make symbolic links to /usr/lib/vst in the /home/user/vst folder by changing into /home/user/vst and running&nbsp;&nbsp;ln -s /usr/lib/vst/&lowast;&nbsp;&nbsp;.&nbsp;&nbsp;and then run linvstconvert on the /home/user/vst folder and then set the DAW to search the /home/user/vst folder.
+Quite a few plugins need winetricks corefonts installed for fonts.
 
-linvstconvert can also be run with sudo permission for folders/directories that need sudo permission.
+A large number of vst plugin crashes/problems can be basically narrowed down to the following dll's and then worked around by overriding/disabling them.
 
-Another way to use symlinks is, if the vst dll files and correspondingly named linvst .so files (made by using linvstconvert) are in say for example /home/user/.wine/drive_c/"Program Files"/VSTPlugins
+Quite a few vst plugins rely on the Visual C++ Redistributable dlls msvcr120.dll msvcr140.dll msvcp120.dll msvcp140.dll etc
 
-then setting up links in say for example /home/user/vst
+Some vst plugins might crash if the Visual C++ Redistributable dlls are not present in /home/username/.wine/drive_c/windows/system32 for 64 bit vst's and /home/username/.wine/drive_c/windows/syswow64 for 32 bit vst's, and then overridden in the winecfg Libraries tab
 
-by creating the /home/user/vst directory and changing into the /home/user/vst directory
+Quite a few plugins rely on the d2d1 dll 
 
-and then running
+Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
+
+d2d1 can be disabled in the winecfg Libraries tab.
+
+Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 (MaxVersionGL is a DWORD hex value) might help with some plugins and d2d1 (can also depend on hardware and drivers).
+
+wininet is used by some vst's for net access including registration and online help etc and sometimes wines inbuilt wininet might cause a crash or have unimplemented functions.
+
+wininet can be overridden with wininet.dll and iertutil.dll and nsi.dll
+
+The winbind and libntlm0 and gnutls packages might need to be installed for net access (sudo apt-get install winbind sudo apt-get install gnutls-bin sudo apt-get install libntlm0)
+
+Occasionally other dlls might need to be overridden such as gdiplus.dll etc
+
+Winetricks https://github.com/Winetricks/winetricks can make overriding dll's easier.
+
+**For the above dll overrides**
 
 ```
-ln -s /home/user/.wine/drive_c/"Program Files"/VSTPlugins/*.so /home/user/vst
+winetricks vcrun2013
+winetricks vcrun2015
+winetricks wininet
+winetricks gdiplus
 ```
 
-will create symbolic links in /home/user/vst to the linvst .so files in /home/user/.wine/drive_c/"Program Files"/VSTPlugins and then the DAW can be pointed to scan /home/user/vst
+Winetricks also has a force flag --force ie winetricks --force vcrun2013
+
+cabextract needs to be installed (sudo apt-get install cabextract, yum install cabextract etc)
+
+To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
+
+For details about overriding dll's, see the next section (Wine Config)./home/user/.wine/drive_c/ProgramData//home/user/.wine/drive_c/ProgramData/
+
+Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped onto the vst window and not for items dragged and dropped from the vst window to the DAW/host or to the Desktop window.
+Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file in a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
+See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 below for some details.
+
+**Renoise**
+
+Sometimes a synth vst doesn't declare itself as a synth and Renoise might not enable it.
+
+A workaround is to install sqlitebrowser
+
+sudo add-apt-repository ppa:linuxgndu/sqlitebrowser-testing
+
+sudo apt-get update && sudo apt-get install sqlitebrowser
+
+Add the synth vst's path to VST_PATH and start Renoise to scan it.
+
+Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedVSTs_x64.db (enable hidden folders with right click in the file browser).
+
+Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
 
 ## More Detailed Guide
 
@@ -147,75 +190,32 @@ If a windows vst dll file and it's associated renamed linvst.so file are located
 
 Symlinks can point to renamed linvst.so files located within a WINEPREFIX.
 
-## Common Problems/Possible Fixes
+## Symlinks
 
-If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
+Symlinks can be used for convenience if wanted.
+One reason to use symlinks would be to be able to group plugins together outside of their Wine install paths and reference them from a common folder via symlinks.
 
-LinVst looks for wine in /usr/bin and if there isn't a /usr/bin/wine then that will probably cause problems.
-/usr/bin/wine can be a symbolic link to /opt/wine-staging/bin/wine (for wine staging) for example.
+For a quick simple example, say that the plugin dll file is in ~/.wine/drive_c/Program Files/Vstplugins and is called plugin.dll.
+Then just open that folder using the file manager and drag linvst.so to it and rename linvst.so to whatever the dll name is (plugin.so for plugin.dll).
+Then create a symlink to plugin.so using a right click and selecting create symlink from the option menu, the make sure the symlink ends in a .so extension (might need to edit the symlinks name) and then drag that symlink to anywhere the DAW searches (say ~/vst for example) and then plugin.so should load (via the symlink) within the DAW.
 
-Quite a few plugins need winetricks corefonts installed for fonts.
+If the dll plugin files are in a sudo permission folder (or any permission folder) such as /usr/lib/vst, then make a user permission folder such as /home/user/vst and then make symbolic links to /usr/lib/vst in the /home/user/vst folder by changing into /home/user/vst and running&nbsp;&nbsp;ln -s /usr/lib/vst/&lowast;&nbsp;&nbsp;.&nbsp;&nbsp;and then run linvstconvert on the /home/user/vst folder and then set the DAW to search the /home/user/vst folder.
 
-A large number of vst plugin crashes/problems can be basically narrowed down to the following dll's and then worked around by overriding/disabling them.
+linvstconvert can also be run with sudo permission for folders/directories that need sudo permission.
 
-Quite a few vst plugins rely on the Visual C++ Redistributable dlls msvcr120.dll msvcr140.dll msvcp120.dll msvcp140.dll etc
+Another way to use symlinks is, if the vst dll files and correspondingly named linvst .so files (made by using linvstconvert) are in say for example /home/user/.wine/drive_c/"Program Files"/VSTPlugins
 
-Some vst plugins might crash if the Visual C++ Redistributable dlls are not present in /home/username/.wine/drive_c/windows/system32 for 64 bit vst's and /home/username/.wine/drive_c/windows/syswow64 for 32 bit vst's, and then overridden in the winecfg Libraries tab
+then setting up links in say for example /home/user/vst
 
-Quite a few plugins rely on the d2d1 dll 
+by creating the /home/user/vst directory and changing into the /home/user/vst directory
 
-Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
-
-d2d1 can be disabled in the winecfg Libraries tab.
-
-Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 (MaxVersionGL is a DWORD hex value) might help with some plugins and d2d1 (can also depend on hardware and drivers).
-
-wininet is used by some vst's for net access including registration and online help etc and sometimes wines inbuilt wininet might cause a crash or have unimplemented functions.
-
-wininet can be overridden with wininet.dll and iertutil.dll and nsi.dll
-
-The winbind and libntlm0 and gnutls packages might need to be installed for net access (sudo apt-get install winbind sudo apt-get install gnutls-bin sudo apt-get install libntlm0)
-
-Occasionally other dlls might need to be overridden such as gdiplus.dll etc
-
-Winetricks https://github.com/Winetricks/winetricks can make overriding dll's easier.
-
-**For the above dll overrides**
+and then running
 
 ```
-winetricks vcrun2013
-winetricks vcrun2015
-winetricks wininet
-winetricks gdiplus
+ln -s /home/user/.wine/drive_c/"Program Files"/VSTPlugins/*.so /home/user/vst
 ```
 
-Winetricks also has a force flag --force ie winetricks --force vcrun2013
-
-cabextract needs to be installed (sudo apt-get install cabextract, yum install cabextract etc)
-
-To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
-
-For details about overriding dll's, see the next section (Wine Config)./home/user/.wine/drive_c/ProgramData//home/user/.wine/drive_c/ProgramData/
-
-Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped onto the vst window and not for items dragged and dropped from the vst window to the DAW/host or to the Desktop window.
-Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file in a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
-See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 below for some details.
-
-**Renoise**
-
-Sometimes a synth vst doesn't declare itself as a synth and Renoise might not enable it.
-
-A workaround is to install sqlitebrowser
-
-sudo add-apt-repository ppa:linuxgndu/sqlitebrowser-testing
-
-sudo apt-get update && sudo apt-get install sqlitebrowser
-
-Add the synth vst's path to VST_PATH and start Renoise to scan it.
-
-Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedVSTs_x64.db (enable hidden folders with right click in the file browser).
-
-Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
+will create symbolic links in /home/user/vst to the linvst .so files in /home/user/.wine/drive_c/"Program Files"/VSTPlugins and then the DAW can be pointed to scan /home/user/vst
 
 ## Running VST3 plugins.
 
