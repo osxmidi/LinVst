@@ -474,6 +474,8 @@ Drag the clip from the Beats window to outside of the Addictive Drums 2 window a
 **Steven Slate Drums SSD5** Drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
 Samples might need to be manually extracted (by clicking on the slatepack files) (using Archive Manager).
 
+**BFD3 FXpansion**
+
 **Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
 **OP-X PRO-II** (Disable d2d1 in the Libraries section of winecfg)
