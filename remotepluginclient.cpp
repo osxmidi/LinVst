@@ -1680,7 +1680,8 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     if (((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(float)) >= (PROCESSSIZE))
     return;
 	
-    if(m_audioMaster && theEffect)
+#ifdef NEWTIME	
+    if(m_audioMaster && theEffect && m_shm3)
     {
     timeInfo = 0;
 
@@ -1692,7 +1693,8 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     
     memcpy((VstTimeInfo*)&m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], timeInfo, sizeof(VstTimeInfo));
     }
-    }             	
+    } 
+#endif                	 	
 
     size_t blocksz = sampleFrames * sizeof(float);
 
@@ -1751,7 +1753,8 @@ void RemotePluginClient::processdouble(double **inputs, double **outputs, int sa
     if (((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(double)) >= (PROCESSSIZE))
     return;
 	
-    if(m_audioMaster && theEffect)
+#ifdef NEWTIME	
+    if(m_audioMaster && theEffect && m_shm3)
     {
     timeInfo = 0;
 
@@ -1763,7 +1766,8 @@ void RemotePluginClient::processdouble(double **inputs, double **outputs, int sa
     
     memcpy((VstTimeInfo*)&m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], timeInfo, sizeof(VstTimeInfo));
     }
-    }             	
+    } 
+#endif                	
 
     size_t blocksz = sampleFrames * sizeof(double);
 
