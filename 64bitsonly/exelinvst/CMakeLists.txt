@@ -64,18 +64,18 @@ set( CMAKE_CXX_STANDARD 14 )
 
 include_directories( ${WIN_INCLUDE} )
 
-add_executable( lin-vst-server.exe ${LINVST_SVR_SRC} )
-set_target_properties(  lin-vst-server.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -m64 -pipe -Wall -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE" )
-target_link_libraries( lin-vst-server.exe pthread rt )
+add_executable( lin-vst-servertrack.exe ${LINVST_SVR_SRC} )
+set_target_properties(  lin-vst-servertrack.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -m64 -pipe -Wall -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME" )
+target_link_libraries( lin-vst-servertrack.exe pthread rt )
 
 
-#add_executable( lin-vst-server32.exe  ${LINVST_SVR_SRC} )
-#set_target_properties( lin-vst-server32.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} -m32 -pipe -Wall -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE" )
-#target_link_libraries( lin-vst-server32.exe pthread rt )
+#add_executable( lin-vst-servertrack32.exe ${LINVST_SVR_SRC} )
+#set_target_properties( lin-vst-servertrack32.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} -m32 -pipe -Wall -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME" )
+#target_link_libraries( lin-vst-servertrack32.exe pthread rt )
 
 install( TARGETS
-  lin-vst-server.exe  
-  #lin-vst-server32.exe
+  lin-vst-servertrack.exe  
+  #lin-vst-servertrack32.exe
   DESTINATION bin )
 
-install(FILES  ${CMAKE_CURRENT_BINARY_DIR}/bin/lin-vst-server.exe.so  DESTINATION bin)
+install(FILES  ${CMAKE_CURRENT_BINARY_DIR}/bin/lin-vst-servertrack.exe.so  DESTINATION bin)
