@@ -1470,35 +1470,45 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     
     if(remoteVSTServerInstance)
     {	    
-    if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
+    if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun && remoteVSTServerInstance->m_shm3)
     {
-/*    
+#ifndef NEWTIME    
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);   
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
-
-    if(remoteVSTServerInstance->timeinfo)
+/*    
+  if(remoteVSTServerInstance->timeinfo)
     {
     memcpy(remoteVSTServerInstance->timeinfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
-
     // printf("%f\n", timeInfo.sampleRate);
-
     rv = (long)remoteVSTServerInstance->timeinfo;
-    }
-*/
-    if(remoteVSTServerInstance->timeinfo)
+    }    
+*/ 
+   memcpy(&timeInfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
+
+  //   printf("%f\n", timeInfo.sampleRate);
+ 
+  rv = (long)&timeInfo;
+#else
+/*    
+  if(remoteVSTServerInstance->timeinfo)
     {
     memcpy(remoteVSTServerInstance->timeinfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
-
- //    printf("%f\n", remoteVSTServerInstance->timeinfo->sampleRate);
-
+    // printf("%f\n", timeInfo.sampleRate);
     rv = (long)remoteVSTServerInstance->timeinfo;
-    }        
+    }    
+*/ 
+    memcpy(&timeInfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
+
+ //    printf("newtime %f\n", timeInfo.sampleRate);
+  
+    rv = (long)&timeInfo;    
+#endif           
     }
     }    
         break;
-
+		    
     case audioMasterProcessEvents:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterProcessEvents requested" << endl;
