@@ -59,9 +59,9 @@ include_directories( ${WIN_INCLUDE} )
 
 set( CMAKE_EXE_LINKER_FLAGS "-m32 -lpthread -lrt ${LINK_FLAGS}" )
 
-add_executable( lin-vst-serverlx32.exe  ${LINVST_SVR_SRC} )
-set_target_properties( lin-vst-serverlx32.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS}  -m32 -O2 -DVST32 -DEMBED -DEMBEDDRAG -DWAVES -DWAVESLOOP -DVESTIGE" )
-target_link_libraries( lin-vst-serverlx32.exe pthread rt )
+add_executable( lin-vst-server32lx.exe  ${LINVST_SVR_SRC} )
+set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS}  -m32 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME" )
+target_link_libraries( lin-vst-server32lx.exe pthread rt )
 
 install( TARGETS  lin-vst-serverlx32.exe DESTINATION bin )
 install(FILES  ${PROJECT_BINARY_DIR}/bin/lin-vst-serverlx32.exe.so  DESTINATION bin)
