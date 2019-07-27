@@ -268,7 +268,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
    if(*ptr == 3)
    m_386run = 1;
 	    
-   timeinfo = new VstTimeInfo;
+//   timeinfo = new VstTimeInfo;
 }
 
 RemotePluginServer::~RemotePluginServer()
@@ -301,8 +301,8 @@ RemotePluginServer::~RemotePluginServer()
     }
 #endif    
 	    
-    if(timeinfo)
-    delete timeinfo;	
+ //   if(timeinfo)
+ //   delete timeinfo;	
 	    
     cleanup();	    
     }
