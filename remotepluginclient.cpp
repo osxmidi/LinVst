@@ -806,7 +806,7 @@ ptr = (int *)m_shm;
 
     for (int i=0;i<40000;i++)
     {
-        if (*ptr == 254)
+        if (*ptr == 255)
          {
             startok = 1;
             break;
