@@ -651,6 +651,8 @@ make
 cpack
 ```
 
+This should create a LinVst-64bit-x.y.z.deb file ready to install.
+
 ## How to use the 64 bits only package
 
 The 64 bits package installs the following files:
@@ -670,7 +672,8 @@ pylinvstconvert-64bit path/to/the/vst.dll
 
 It will create the appropriate .so file alongside your DLL.
 
-This should create a LinVst-x.y.z.deb file ready to install.
+To batch convert multiple vst dll files use
+pylinvstconvert-64bit-batch /pathtovstfolder/*.dll
 
 ### building the 64 bit and 32 bit version.
 
@@ -683,6 +686,8 @@ cmake ../64bits-32bits
 make
 cpack
 ```
+
+This should create a LinVst-64bit-32bit-x.y.z.deb file ready to install.
 
 ## How to use the 64 bit and 32 bit package
 
@@ -705,7 +710,8 @@ pylinvstconvert-64bit-32bit path/to/the/vst.dll
 
 It will create the appropriate .so file alongside your DLL.
 
-This should create a LinVst-6432-x.y.z.deb file ready to install.
+To batch convert multiple vst dll files use
+pylinvstconvert-64bit-32bit-batch /pathtovstfolder/*.dll
 
 ### building the 32 bits only version.
 
@@ -719,7 +725,7 @@ make
 cpack
 ```
 
-This should create a LinVst-i386-x.y.z.deb file ready to install.
+This should create a LinVst-32bit-x.y.z.deb file ready to install.
 
 ## How to use the 32 bits only package
 
@@ -739,6 +745,9 @@ pylinvstconvert-32bit path/to/the/vst.dll
 ```
 
 It will create the appropriate .so file alongside your DLL.
+
+To batch convert multiple vst dll files use
+pylinvstconvert-32bit-batch /pathtovstfolder/*.dll
 
 ## Notes
 
