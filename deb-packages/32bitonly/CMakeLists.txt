@@ -17,7 +17,7 @@ SET(PATCH_VERSION "0")
 add_subdirectory( liblinvst )
 add_subdirectory( exelinvst )
 
-install(FILES ../convert/pylinvstconvert-386 DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+install(FILES ../../convert/pylinvstconvert-386 DESTINATION ${SCRIPT1_INSTALL_PATH} bin
       PERMISSIONS OWNER_EXECUTE OWNER_READ
       GROUP_EXECUTE GROUP_READ
       WORLD_EXECUTE WORLD_READ )		  
