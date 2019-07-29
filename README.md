@@ -641,7 +641,7 @@ The 32 bit only version can run 32 bit vst's on a 32 bit Linux system.
 
 ### building the 64 bits only version.
 
-In the LinVst directory:
+In the LinVst/deb-packages directory:
 
 ```bash
 mkdir build64
@@ -674,7 +674,7 @@ This should create a LinVst-x.y.z.deb file ready to install.
 
 ### building the 64 bits and 32 bits version.
 
-In the LinVst directory:
+In the LinVst/deb-packages directory:
 
 ```bash
 mkdir build64-32
@@ -709,7 +709,7 @@ This should create a LinVst-6432-x.y.z.deb file ready to install.
 
 ### building the 32 bits only version.
 
-In the LinVst directory:
+In the LinVst/deb-packages directory:
 
 ```bash
 mkdir build32
