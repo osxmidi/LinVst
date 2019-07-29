@@ -24,7 +24,7 @@ set( LINVST_SO_SRC SHARED
   ../../../paths.cpp
   )
 
-add_library(linvst-6432 ${LINVST_SO_SRC} )
-set_target_properties(linvst-6432 PROPERTIES PREFIX "")
-target_link_libraries( linvst-6432 pthread dl X11 rt )
-install( TARGETS linvst-6432 DESTINATION share/LinVst )
+add_library(linvst ${LINVST_SO_SRC} )
+set_target_properties(linvst PROPERTIES PREFIX "")
+target_link_libraries( linvst pthread dl X11 rt )
+install( TARGETS linvst DESTINATION share/LinVst/64bit-32bit )
