@@ -24,7 +24,7 @@ find_program (
 if( NOT WINEGPP_BIN )
   message( "ERROR, cannot find wineg++." )
 else()
-  message( "Comiling exe with " ${WINEGPP_BIN} " compiler." )
+  message( "Compiling exe with " ${WINEGPP_BIN} " compiler." )
 endif()      
           
 set( CMAKE_CXX_COMPILER ${WINEGPP_BIN} )
