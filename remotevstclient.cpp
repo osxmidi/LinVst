@@ -49,12 +49,12 @@
 
 void errwin(std::string dllname)
 {
-static Window window = 0;
-static Window ignored = 0;
-static Display* display = 0;
-static int screen = 0;
-static Atom winstate;
-static Atom winmodal;
+Window window = 0;
+Window ignored = 0;
+Display* display = 0;
+int screen = 0;
+Atom winstate;
+Atom winmodal;
 
 std::string filename;
 std::string filename2;
