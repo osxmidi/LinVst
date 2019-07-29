@@ -1,0 +1,3 @@
+#!/bin/bash
+
+for file in "$@"; do python /usr/bin/pylinvstconvert-32bit "$file"; done
