@@ -714,7 +714,7 @@ In the LinVst/deb-packages directory:
 ```bash
 mkdir build32
 cd build32
-cmake ../32bitsonly
+cmake ../32bitonly
 make
 cpack
 ```
