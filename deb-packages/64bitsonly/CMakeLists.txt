@@ -25,7 +25,12 @@ install(FILES ../convert/pylinvstconvert-64bit DESTINATION ${SCRIPT1_INSTALL_PAT
  install(FILES ./pylinvstconvert-64bit-batch DESTINATION ${SCRIPT1_INSTALL_PATH} bin
       PERMISSIONS OWNER_EXECUTE OWNER_READ
       GROUP_EXECUTE GROUP_READ
-      WORLD_EXECUTE WORLD_READ )		      
+      WORLD_EXECUTE WORLD_READ )	
+      
+ install(FILES ../Readme DESTINATION ${SCRIPT1_INSTALL_PATH} share/LinVst/64bit
+      PERMISSIONS OWNER_READ
+      GROUP_READ
+      WORLD_READ )	      
 
 #-----------------------------------------------------------------
 # CPack configuration.
