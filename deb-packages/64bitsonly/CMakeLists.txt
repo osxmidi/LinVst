@@ -4,7 +4,7 @@
 set( CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Install prefix." )
 
 # Base project setup.
-project(LinVst)
+project(LinVst-64bit)
 
 INCLUDE(FindPackageHandleStandardArgs)
 
