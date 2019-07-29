@@ -627,6 +627,8 @@ The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only
 This has been developped and tested on an ubuntu 18.04. It should work on other releases.
 It has been tested with wineHQ stable release in 32 and 64 bits.
 
+The Deb package files are in the deb-packages folder.
+
 There are 3 different versions.
 
 A 64 bit version only, a 64 bit and 32 bit version and a 32 bit version only (for 32 bit only Linux systems/distros)
