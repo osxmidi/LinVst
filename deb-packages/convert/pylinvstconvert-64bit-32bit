@@ -6,7 +6,7 @@ import sys
 
 parser = argparse.ArgumentParser(description='Convert windows vst dll to linux libraries using LinVst.')
 parser.add_argument('--linvst',action='store',  default='/usr/share/LinVst/64bit-32bit/linvst.so', type=str,
-                    help='path of linvst-6432.so (default to "/usr/share/Linvst/64bit-32bit/linvst.so".')
+                    help='path of linvst.so (default to "/usr/share/Linvst/64bit-32bit/linvst.so".')
 parser.add_argument('dllfile', action='store', type=str, help='dll file toconvert.')
 
 args = parser.parse_args()
