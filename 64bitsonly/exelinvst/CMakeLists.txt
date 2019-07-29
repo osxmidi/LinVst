@@ -65,12 +65,12 @@ set( CMAKE_CXX_STANDARD 14 )
 include_directories( ${WIN_INCLUDE} )
 
 add_executable( lin-vst-servertrack.exe ${LINVST_SVR_SRC} )
-set_target_properties(  lin-vst-servertrack.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -m64 -pipe -Wall -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME" )
+set_target_properties(  lin-vst-servertrack.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -m64 -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME" )
 target_link_libraries( lin-vst-servertrack.exe pthread rt )
 
 
 #add_executable( lin-vst-servertrack32.exe ${LINVST_SVR_SRC} )
-#set_target_properties( lin-vst-servertrack32.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} -m32 -pipe -Wall -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME" )
+#set_target_properties( lin-vst-servertrack32.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} -m32 -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME" )
 #target_link_libraries( lin-vst-servertrack32.exe pthread rt )
 
 install( TARGETS
