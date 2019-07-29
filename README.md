@@ -660,8 +660,8 @@ This should create a LinVst-x.y.z.deb file ready to install.
 The 64 bits package install the following files:
 
 ```bash
-/usr/bin/lin-vst-serverlx32.exe
-./usr/bin/lin-vst-serverlx32.exe.so
+/usr/bin/lin-vst-server32lx.exe
+./usr/bin/lin-vst-server32lx.exe.so
 ./usr/bin/pylinvstconvert-386
 ./usr/share/LinVst/linvst-i386.so
 ```
@@ -679,8 +679,8 @@ It will create the appropriate .so file along your DLL.
 The 64 bits package install the following files:
 
 ```bash
-/usr/bin/lin-vst-server.exe
-./usr/bin/lin-vst-server.exe.so
+/usr/bin/lin-vst-servertrack.exe
+./usr/bin/lin-vst-servertrack.exe.so
 ./usr/bin/pylinvstconvert
 ./usr/share/LinVst/linvst.so
 ```
