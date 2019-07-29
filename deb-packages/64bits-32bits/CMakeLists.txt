@@ -34,7 +34,7 @@ SET(CPACK_PACKAGING_INSTALL_PREFIX "/tmp")
 SET(CPACK_GENERATOR "DEB")
  
 SET(CPACK_PACKAGE_DESCRIPTION "LinVst windows->linux vst bridge.")
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Wrapper for 64 and 32 bit windows VST plugins to make them available on Linux.")
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Linux Wrapper for 64 bit and 32 bit windows VST plugins.")
 SET(CPACK_PACKAGE_VENDOR "osxmidi")
 SET(CPACK_PACKAGE_CONTACT "abc@def.com")
 SET(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
