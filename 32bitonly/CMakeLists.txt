@@ -11,7 +11,7 @@ INCLUDE(FindPackageHandleStandardArgs)
 message( "Configuring Project LinVst." )
 
 SET(MAJOR_VERSION "2")
-SET(MINOR_VERSION "23")
+SET(MINOR_VERSION "55")
 SET(PATCH_VERSION "0")
 
 add_subdirectory( liblinvst )
