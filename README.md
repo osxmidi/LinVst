@@ -633,7 +633,7 @@ A 64 bit version only, a 64 bit and 32 bit version and a 32 bit version only (fo
 
 The 64 bit only version can run 64 bit vst's on a 64 bit Linux system.
 
-The 64 bit and 32 bit version can run 64 bit vst's and also run 32 bit vst's on a 64 bit Linux system (needs multilib).
+The 64 bit and 32 bit version can run 64 bit vst's and also run 32 bit vst's on a 64 bit Linux system (needs multilib and wine 32 bit development libraries and 32 bit development libraries, see make instructions).
 
 The 32 bit only version can run 32 bit vst's on a 32 bit Linux system.
 
