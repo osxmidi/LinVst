@@ -1,4 +1,3 @@
-
 ## Building the deb package.
 
 This has been developed and tested on Ubuntu 18.04. It should work on other releases.
@@ -35,14 +34,14 @@ The 64 bits package installs the following files:
 ```bash
 /usr/bin/lin-vst-servertrack.exe
 ./usr/bin/lin-vst-servertrack.exe.so
-./usr/bin/pylinvstconvert
+./usr/bin/pylinvstconvert-64bit
 ./usr/share/LinVst/64bit/linvst.so
 ```
 
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
 
 ```
-pylinvstconvert path/to/the/vst.dll
+pylinvstconvert-64bit path/to/the/vst.dll
 ```
 
 It will create the appropriate .so file alongside your DLL.
@@ -70,14 +69,14 @@ The 64 bit and 32 bit package installs the following files:
 ./usr/bin/lin-vst-servertrack.exe.so
 /usr/bin/lin-vst-servertrack32.exe
 ./usr/bin/lin-vst-servertrack32.exe.so
-./usr/bin/pylinvstconvert
+./usr/bin/pylinvstconvert-64bit-32bit
 ./usr/share/LinVst/64bit-32bit/linvst.so
 ```
 
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
 
 ```
-pylinvstconvert path/to/the/vst.dll
+pylinvstconvert-64bit-32bit path/to/the/vst.dll
 ```
 
 It will create the appropriate .so file alongside your DLL.
@@ -105,14 +104,14 @@ The 64 bits package installs the following files:
 ```bash
 /usr/bin/lin-vst-server32lx.exe
 ./usr/bin/lin-vst-server32lx.exe.so
-./usr/bin/pylinvstconvert-386
+./usr/bin/pylinvstconvert-32bit
 ./usr/share/LinVst/32bit/linvst.so
 ```
 
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
 
 ```
-pylinvstconvert-386 path/to/the/vst.dll
+pylinvstconvert-32bit path/to/the/vst.dll
 ```
 
 It will create the appropriate .so file alongside your DLL.
