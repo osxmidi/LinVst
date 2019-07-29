@@ -624,7 +624,7 @@ The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only
 
 ## Building the deb package.
 
-This has been developped and tested on an ubuntu 18.04. It should work on other releases.
+This has been developed and tested on Ubuntu 18.04. It should work on other releases.
 It has been tested with wineHQ stable release in 32 and 64 bits.
 
 The Deb package files are in the deb-packages folder.
@@ -668,7 +668,7 @@ You can use the python script pylinvstconvert to convert your windows vst dlls t
 pylinvstconvert path/to/the/vst.dll
 ```
 
-It will create the appropriate .so file along your DLL.
+It will create the appropriate .so file alongside your DLL.
 
 This should create a LinVst-x.y.z.deb file ready to install.
 
@@ -703,7 +703,7 @@ You can use the python script pylinvstconvert to convert your windows vst dlls t
 pylinvstconvert path/to/the/vst.dll
 ```
 
-It will create the appropriate .so file along your DLL.
+It will create the appropriate .so file alongside your DLL.
 
 This should create a LinVst-6432-x.y.z.deb file ready to install.
 
@@ -738,7 +738,7 @@ You can use the python script pylinvstconvert to convert your windows vst dlls t
 pylinvstconvert-386 path/to/the/vst.dll
 ```
 
-It will create the appropriate .so file along your DLL.
+It will create the appropriate .so file alongside your DLL.
 
 ## Notes
 
