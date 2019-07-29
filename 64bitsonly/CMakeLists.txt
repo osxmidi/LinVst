@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+# cmake_minimum_required(VERSION 3.9)
 
 # General set up, must stay here.
 set( CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Install prefix." )
