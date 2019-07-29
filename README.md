@@ -627,7 +627,17 @@ The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only
 This has been developped and tested on an ubuntu 18.04. It should work on other releases.
 It has been tested with wineHQ stable release in 32 and 64 bits.
 
-### building the 64 bits version.
+There are 3 different versions.
+
+A 64 bit version only, a 64 bit and 32 bit version and a 32 bit version only (for 32 bit only Linux systems/distros)
+
+The 64 bit only version can run 64 bit vst's on a 64 bit Linux system.
+
+The 64 bit and 32 bit version can run 64 bit vst's and also run 32 bit vst's on a 64 bit Linux system (needs multilib).
+
+The 32 bit only version can run 32 bit vst's on a 32 bit Linux system.
+
+### building the 64 bits only version.
 
 In the LinVst directory:
 
@@ -639,7 +649,7 @@ make
 cpack
 ```
 
-## How to use the 64 bits package
+## How to use the 64 bits only package
 
 The 64 bits package install the following files:
 
@@ -660,7 +670,42 @@ It will create the appropriate .so file along your DLL.
 
 This should create a LinVst-x.y.z.deb file ready to install.
 
-### building the 32 bits version.
+### building the 64 bits and 32 bits version.
+
+In the LinVst directory:
+
+```bash
+mkdir build64-32
+cd build64-32
+cmake ../64bits-32bits
+make
+cpack
+```
+
+## How to use the 64 bits only package
+
+The 64 bits package install the following files:
+
+```bash
+/usr/bin/lin-vst-servertrack.exe
+./usr/bin/lin-vst-servertrack.exe.so
+/usr/bin/lin-vst-servertrack32.exe
+./usr/bin/lin-vst-servertrack32.exe.so
+./usr/bin/pylinvstconvert
+./usr/share/LinVst/linvst.so
+```
+
+You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
+
+```
+pylinvstconvert path/to/the/vst.dll
+```
+
+It will create the appropriate .so file along your DLL.
+
+This should create a LinVst-6432-x.y.z.deb file ready to install.
+
+### building the 32 bits only version.
 
 In the LinVst directory:
 
@@ -674,7 +719,7 @@ cpack
 
 This should create a LinVst-i386-x.y.z.deb file ready to install.
 
-## How to use the 32 bits package
+## How to use the 32 bits only package
 
 The 64 bits package install the following files:
 
@@ -694,7 +739,5 @@ pylinvstconvert-386 path/to/the/vst.dll
 It will create the appropriate .so file along your DLL.
 
 ## Notes
-
-The 32 and 64 bits packages can both be installed at the same time.
 
 The default convert tool with gui is not packaged, it is replaced by the pylinvstconvert scripts.
