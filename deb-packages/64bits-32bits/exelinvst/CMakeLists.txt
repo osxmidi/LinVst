@@ -55,9 +55,9 @@ endif()
 
 
 set( LINVST_SVR_SRC
-  ../../lin-vst-server.cpp
-  ../../remotepluginserver.cpp
-  ../../paths.cpp
+  ../../../lin-vst-server.cpp
+  ../../../remotepluginserver.cpp
+  ../../../paths.cpp
   )
 
 set( CMAKE_CXX_STANDARD 14 )
