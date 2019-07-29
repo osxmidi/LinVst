@@ -38,7 +38,7 @@ The 64 bits package install the following files:
 /usr/bin/lin-vst-servertrack.exe
 ./usr/bin/lin-vst-servertrack.exe.so
 ./usr/bin/pylinvstconvert
-./usr/share/LinVst/linvst.so
+./usr/share/LinVst/64bit/linvst.so
 ```
 
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
@@ -73,7 +73,7 @@ The 64 bits package install the following files:
 /usr/bin/lin-vst-servertrack32.exe
 ./usr/bin/lin-vst-servertrack32.exe.so
 ./usr/bin/pylinvstconvert
-./usr/share/LinVst/linvst.so
+./usr/share/LinVst/64bit-32bit/linvst.so
 ```
 
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
@@ -108,7 +108,7 @@ The 64 bits package install the following files:
 /usr/bin/lin-vst-server32lx.exe
 ./usr/bin/lin-vst-server32lx.exe.so
 ./usr/bin/pylinvstconvert-386
-./usr/share/LinVst/linvst-i386.so
+./usr/share/LinVst/32bit/linvst.so
 ```
 
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
