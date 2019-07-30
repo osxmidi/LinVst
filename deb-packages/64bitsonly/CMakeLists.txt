@@ -20,7 +20,17 @@ add_subdirectory( exelinvst )
 install(FILES ../convert/pylinvstconvert-64bit DESTINATION ${SCRIPT1_INSTALL_PATH} bin
       PERMISSIONS OWNER_EXECUTE OWNER_READ
       GROUP_EXECUTE GROUP_READ
-      WORLD_EXECUTE WORLD_READ )	
+      WORLD_EXECUTE WORLD_READ )
+      
+install(FILES ../convert/linvstconvert64bit/linvstconvert DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+      PERMISSIONS OWNER_EXECUTE OWNER_READ
+      GROUP_EXECUTE GROUP_READ
+      WORLD_EXECUTE WORLD_READ )  
+      
+install(FILES ../convert/linvstconvert64bit/linvstconverttree DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+      PERMISSIONS OWNER_EXECUTE OWNER_READ
+      GROUP_EXECUTE GROUP_READ
+      WORLD_EXECUTE WORLD_READ )              
       
  install(FILES ./pylinvstconvert-64bit-batch DESTINATION ${SCRIPT1_INSTALL_PATH} bin
       PERMISSIONS OWNER_EXECUTE OWNER_READ
