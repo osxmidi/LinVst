@@ -686,7 +686,6 @@ cmake ../64bits-32bits
 make
 cpack
 ```
-
 This should create a LinVst-64bit-32bit-x.y.z.deb file ready to install.
 
 ## How to use the 64 bit and 32 bit package
@@ -695,24 +694,25 @@ The 64 bit and 32 bit package installs the following files:
 
 ```bash
 /usr/bin/lin-vst-servertrack.exe
-./usr/bin/lin-vst-servertrack.exe.so
+/usr/bin/lin-vst-servertrack.exe.so
 /usr/bin/lin-vst-servertrack32.exe
-./usr/bin/lin-vst-servertrack32.exe.so
-./usr/bin/pylinvstconvert-64bit-32bit
-./usr/share/LinVst/64bit-32bit/linvst.so
-```
+/usr/bin/lin-vst-servertrack32.exe.so
+/usr/bin/pylinvstconvert-64bit-32bit
+/usr/share/LinVst/64bit-32bit/linvst.so
+/usr/share/LinVst/64bit-32bit/Readme
 
+```
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
 
 ```
 pylinvstconvert-64bit-32bit path/to/the/vst.dll
-```
 
-It will create the appropriate .so file alongside your DLL.
+which will create the appropriate .so file alongside your vst dll.
 
 To batch convert multiple vst dll files use
 pylinvstconvert-64bit-32bit-batch /pathtovstfolder/*.dll
 
+```
 ### building the 32 bits only version.
 
 In the LinVst/deb-packages directory:
@@ -733,21 +733,22 @@ The 64 bits package installs the following files:
 
 ```bash
 /usr/bin/lin-vst-server32lx.exe
-./usr/bin/lin-vst-server32lx.exe.so
-./usr/bin/pylinvstconvert-32bit
-./usr/share/LinVst/32bit/linvst.so
+/usr/bin/lin-vst-server32lx.exe.so
+/usr/bin/pylinvstconvert-32bit
+/usr/share/LinVst/32bit/linvst.so
+/usr/share/LinVst/32bit/Readme
 ```
-
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
 
 ```
 pylinvstconvert-32bit path/to/the/vst.dll
-```
 
-It will create the appropriate .so file alongside your DLL.
+which will create the appropriate .so file alongside your vst dll.
 
 To batch convert multiple vst dll files use
 pylinvstconvert-32bit-batch /pathtovstfolder/*.dll
+
+```
 
 ## Notes
 
