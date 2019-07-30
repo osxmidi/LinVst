@@ -679,7 +679,7 @@ The 64 bits package installs the following files:
 /usr/bin/linvstconverttree
 /usr/bin/pylinvstconvert-64bit
 /usr/share/LinVst/64bit/linvst.so
-/usr/share/LinVst/64bit/Readme
+/usr/share/LinVst/Readme
 
 ```
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
@@ -719,7 +719,7 @@ The 64 bit and 32 bit package installs the following files:
 /usr/bin/linvstconverttree
 /usr/bin/pylinvstconvert-64bit-32bit
 /usr/share/LinVst/64bit-32bit/linvst.so
-/usr/share/LinVst/64bit-32bit/Readme
+/usr/share/LinVst/Readme
 
 ```
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
@@ -758,7 +758,7 @@ The 64 bits package installs the following files:
 /usr/bin/linvstconverttree
 /usr/bin/pylinvstconvert-32bit
 /usr/share/LinVst/32bit/linvst.so
-/usr/share/LinVst/32bit/Readme
+/usr/share/LinVst/Readme
 ```
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
 
