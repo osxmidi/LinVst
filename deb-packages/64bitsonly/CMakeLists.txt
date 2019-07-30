@@ -37,7 +37,7 @@ install(FILES ../convert/linvstconvert64bit/linvstconverttree DESTINATION ${SCRI
       GROUP_EXECUTE GROUP_READ
       WORLD_EXECUTE WORLD_READ )	
       
- install(FILES ../Readme DESTINATION ${SCRIPT1_INSTALL_PATH} share/LinVst/64bit
+ install(FILES ../Readme DESTINATION ${SCRIPT1_INSTALL_PATH} share/LinVst
       PERMISSIONS OWNER_READ
       GROUP_READ
       WORLD_READ )	      
