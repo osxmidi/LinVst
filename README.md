@@ -650,7 +650,6 @@ cmake ../64bitsonly
 make
 cpack
 ```
-
 This should create a LinVst-64bit-x.y.z.deb file ready to install.
 
 ## How to use the 64 bits only package
@@ -659,22 +658,23 @@ The 64 bits package installs the following files:
 
 ```bash
 /usr/bin/lin-vst-servertrack.exe
-./usr/bin/lin-vst-servertrack.exe.so
-./usr/bin/pylinvstconvert-64bit
-./usr/share/LinVst/64bit/linvst.so
-```
+/usr/bin/lin-vst-servertrack.exe.so
+/usr/bin/pylinvstconvert-64bit
+/usr/share/LinVst/64bit/linvst.so
+/usr/share/LinVst/64bit/Readme
 
+```
 You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
 
 ```
 pylinvstconvert-64bit path/to/the/vst.dll
-```
 
-It will create the appropriate .so file alongside your DLL.
+which will create the appropriate .so file alongside your DLL.
 
 To batch convert multiple vst dll files use
 pylinvstconvert-64bit-batch /pathtovstfolder/*.dll
 
+```
 ### building the 64 bit and 32 bit version.
 
 In the LinVst/deb-packages directory:
