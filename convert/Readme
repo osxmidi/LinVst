@@ -7,6 +7,8 @@ sudo make install, installs linvstconvert to /usr/bin
 
 Makefile-linvstconverttree makes linvstconvertree
 
+gtk3 dev libraries are needed.
+
 -------
 
 To use cmake
@@ -20,6 +22,8 @@ cmake ../convert
 make
 
 sudo make install installs linvstconvert linvstconverttree and linvstconvert-cli to /usr/bin
+
+gtk3 dev libraries are needed.
 
 -------
 
