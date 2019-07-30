@@ -622,6 +622,22 @@ The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only
 
 # Building Deb package.
 
+## To use LinVst
+
+The vst dll files need to have associated .so files (that have the same name as the vst dll files), so that a Linux DAW can load them.
+
+linvstconvert and linvstconverttree (also handles vst dll files in subdirectories) can produce the associated .so files automatically.
+
+Start linvstconvert (or linvstconverttree) and select the linvst.so file which is installed in /usr/share/LinVst/xxbit.
+
+Then select the folder containing the vst dll files, and then click on the Convert button.
+
+Then point the DAW to scan that vst folder.
+
+linvstconvert and linvstconverttree are installed in /usr/bin
+
+There is also a python script that can be used (see below).
+
 ## Building the deb package.
 
 This has been developed and tested on Ubuntu 18.04. It should work on other releases.
