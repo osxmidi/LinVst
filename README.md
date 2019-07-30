@@ -659,6 +659,8 @@ The 64 bits package installs the following files:
 ```bash
 /usr/bin/lin-vst-servertrack.exe
 /usr/bin/lin-vst-servertrack.exe.so
+/usr/bin/linvstconvert
+/usr/bin/linvstconverttree
 /usr/bin/pylinvstconvert-64bit
 /usr/share/LinVst/64bit/linvst.so
 /usr/share/LinVst/64bit/Readme
@@ -697,6 +699,8 @@ The 64 bit and 32 bit package installs the following files:
 /usr/bin/lin-vst-servertrack.exe.so
 /usr/bin/lin-vst-servertrack32.exe
 /usr/bin/lin-vst-servertrack32.exe.so
+/usr/bin/linvstconvert
+/usr/bin/linvstconverttree
 /usr/bin/pylinvstconvert-64bit-32bit
 /usr/share/LinVst/64bit-32bit/linvst.so
 /usr/share/LinVst/64bit-32bit/Readme
@@ -734,6 +738,8 @@ The 64 bits package installs the following files:
 ```bash
 /usr/bin/lin-vst-server32lx.exe
 /usr/bin/lin-vst-server32lx.exe.so
+/usr/bin/linvstconvert
+/usr/bin/linvstconverttree
 /usr/bin/pylinvstconvert-32bit
 /usr/share/LinVst/32bit/linvst.so
 /usr/share/LinVst/32bit/Readme
@@ -750,6 +756,3 @@ pylinvstconvert-32bit-batch /pathtovstfolder/*.dll
 
 ```
 
-## Notes
-
-The default convert tool with gui is not packaged, it is replaced by the pylinvstconvert scripts.
