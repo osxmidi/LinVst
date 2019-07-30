@@ -20,9 +20,19 @@ add_subdirectory( exelinvst )
 install(FILES ../convert/pylinvstconvert-32bit DESTINATION ${SCRIPT1_INSTALL_PATH} bin
       PERMISSIONS OWNER_EXECUTE OWNER_READ
       GROUP_EXECUTE GROUP_READ
-      WORLD_EXECUTE WORLD_READ )	
+      WORLD_EXECUTE WORLD_READ )
       
-   install(FILES ./pylinvstconvert-32bit-batch DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+install(FILES ../convert/linvstconvert32bit/linvstconvert DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+      PERMISSIONS OWNER_EXECUTE OWNER_READ
+      GROUP_EXECUTE GROUP_READ
+      WORLD_EXECUTE WORLD_READ )  
+      
+install(FILES ../convert/linvstconvert32bit/linvstconverttree DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+      PERMISSIONS OWNER_EXECUTE OWNER_READ
+      GROUP_EXECUTE GROUP_READ
+      WORLD_EXECUTE WORLD_READ )       
+      
+install(FILES ./pylinvstconvert-32bit-batch DESTINATION ${SCRIPT1_INSTALL_PATH} bin
       PERMISSIONS OWNER_EXECUTE OWNER_READ
       GROUP_EXECUTE GROUP_READ
       WORLD_EXECUTE WORLD_READ )	
