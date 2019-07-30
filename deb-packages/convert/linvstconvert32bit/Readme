@@ -1,0 +1,7 @@
+To make
+
+cd deb-packages/convert/linvstconvert32bit
+
+cmake ../../../convert
+
+make
