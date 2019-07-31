@@ -14,5 +14,5 @@ files = glob.glob(args.src_path, recursive=True)
 for file in files:
     if file.endswith( ".dll" ) or file.endswith( ".DLL" ) or file.endswith( ".Dll" ):
           sofile = file[ 0: -4 ] + ".so"
-          shutil.copyfile( '/usr/share/LinVst/64bit-32bit/linvst.so', sofile ) 
+          shutil.copyfile( './linvst.so', sofile ) 
 
