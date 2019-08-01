@@ -77,11 +77,13 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_shmFileName3(0),
     m_shm3(0),
     m_shmSize3(0),
+#ifndef INOUTMEM
     m_inputs(0),
     m_outputs(0),
 #ifdef DOUBLEP
     m_inputsdouble(0),
     m_outputsdouble(0),   
+#endif
 #endif
     m_threadsfinish(0),
     m_runok(0),
@@ -275,6 +277,7 @@ RemotePluginServer::~RemotePluginServer()
 {
     if(starterror == 0)
     {
+#ifndef INOUTMEM    
     if(m_inputs)
     {
     delete m_inputs;
@@ -300,6 +303,7 @@ RemotePluginServer::~RemotePluginServer()
     m_outputsdouble = 0;	    
     }
 #endif    
+#endif	    
 	    
  //   if(timeinfo)
  //   delete timeinfo;	
@@ -687,6 +691,8 @@ void RemotePluginServer::dispatchProcessEvents()
 	    
 	int sampleFrames = readIntring(&m_shmControl2->ringBuffer);    
 //	if(m_updateio == 1)
+
+#ifndef INOUTMEM
 	if(sampleFrames == -1) 
         {
             if (m_inputs)
@@ -697,16 +703,6 @@ void RemotePluginServer::dispatchProcessEvents()
             if (m_updatein > 0)
                 m_inputs = new float*[m_updatein];
 
-#ifdef DOUBLEP
-            if (m_inputsdouble)
-            {
-                delete m_inputsdouble;
-                m_inputsdouble = 0;
-            }
-            if (m_updatein > 0)
-                m_inputsdouble = new double*[m_updatein];
-#endif
-
             if (m_outputs)
             {
                 delete m_outputs;
@@ -715,22 +711,22 @@ void RemotePluginServer::dispatchProcessEvents()
             if (m_updateout > 0)
                 m_outputs = new float*[m_updateout];
 
-#ifdef DOUBLEP
-            if (m_outputsdouble)
-            {
-                delete m_outputsdouble;
-                m_outputsdouble = 0;
-            }
-            if (m_updateout > 0)
-                m_outputsdouble = new double*[m_updateout];
-#endif
-
         m_numInputs = m_updatein;
         m_numOutputs = m_updateout;
 
         m_updateio = 0;
 	break;
         }
+#else
+	    if(sampleFrames == -1) 
+        {
+        m_numInputs = m_updatein;
+        m_numOutputs = m_updateout;
+
+        m_updateio = 0;
+	break;
+        }
+#endif        
 
         if (m_bufferSize < 0)
         {
@@ -747,6 +743,8 @@ void RemotePluginServer::dispatchProcessEvents()
 
         size_t blocksz = sampleFrames * sizeof(float);
 
+
+#ifndef INOUTMEM 
 	if(m_inputs)
 	{
         for (int i = 0; i < m_numInputs; ++i)
@@ -762,8 +760,30 @@ void RemotePluginServer::dispatchProcessEvents()
             m_outputs[i] = (float *)(m_shm + i * blocksz);
         }
 	}
-
-        process(m_inputs, m_outputs, sampleFrames);
+	
+	 process(m_inputs, m_outputs, sampleFrames);
+#else
+    if((m_numInputs < 1024) && (m_numOutputs < 1024))
+    {
+	if(m_inputs)
+	{
+        for (int i = 0; i < m_numInputs; ++i)
+        {
+            m_inputs[i] = (float *)(m_shm + i * blocksz);
+        }
+	}
+	    
+	if(m_outputs)
+	{
+        for (int i = 0; i < m_numOutputs; ++i)
+        {
+            m_outputs[i] = (float *)(m_shm + i * blocksz);
+        }
+	}
+	
+	 process(m_inputs, m_outputs, sampleFrames);
+	 }
+#endif	        
     }
         break;
 
@@ -786,17 +806,10 @@ void RemotePluginServer::dispatchProcessEvents()
 	    
 	int sampleFrames = readIntring(&m_shmControl2->ringBuffer);    
 //	if(m_updateio == 1)
+
+#ifndef INOUTMEM
 	if(sampleFrames == -1) 
         {
-            if (m_inputs)
-            {
-                delete m_inputs;
-                m_inputs = 0;
-            }
-            if (m_updatein > 0)
-                m_inputs = new float*[m_updatein];
-
-#ifdef DOUBLEP
             if (m_inputsdouble)
             {
                 delete m_inputsdouble;
@@ -804,17 +817,7 @@ void RemotePluginServer::dispatchProcessEvents()
             }
             if (m_updatein > 0)
                 m_inputsdouble = new double*[m_updatein];
-#endif
-
-            if (m_outputs)
-            {
-                delete m_outputs;
-                m_outputs = 0;
-            }
-            if (m_updateout > 0)
-                m_outputs = new float*[m_updateout];
-
-#ifdef DOUBLEP
+ 
             if (m_outputsdouble)
             {
                 delete m_outputsdouble;
@@ -822,7 +825,6 @@ void RemotePluginServer::dispatchProcessEvents()
             }
             if (m_updateout > 0)
                 m_outputsdouble = new double*[m_updateout];
-#endif
 
         m_numInputs = m_updatein;
         m_numOutputs = m_updateout;
@@ -830,6 +832,16 @@ void RemotePluginServer::dispatchProcessEvents()
         m_updateio = 0;
 	break;
         }
+#else
+	    if(sampleFrames == -1) 
+        {
+        m_numInputs = m_updatein;
+        m_numOutputs = m_updateout;
+
+        m_updateio = 0;
+	break;
+        }
+#endif        
 
         if (m_bufferSize < 0)
         {
@@ -846,7 +858,8 @@ void RemotePluginServer::dispatchProcessEvents()
 
         size_t blocksz = sampleFrames * sizeof(double);
 
-	if(m_inputsdouble) 
+#ifndef INOUTMEM 
+	if(m_inputsdouble)
 	{
         for (int i = 0; i < m_numInputs; ++i)
         {
@@ -861,8 +874,30 @@ void RemotePluginServer::dispatchProcessEvents()
             m_outputsdouble[i] = (double *)(m_shm + i * blocksz);
         }
 	}
-
-        processdouble(m_inputsdouble, m_outputsdouble, sampleFrames);
+	
+	 process(m_inputsdouble, m_outputsdouble, sampleFrames);
+#else
+    if((m_numInputs < 1024) && (m_numOutputs < 1024))
+    {
+	if(m_inputsdouble)
+	{
+        for (int i = 0; i < m_numInputs; ++i)
+        {
+            m_inputsdouble[i] = (double *)(m_shm + i * blocksz);
+        }
+	}
+	    
+	if(m_outputsdouble)
+	{
+        for (int i = 0; i < m_numOutputs; ++i)
+        {
+            m_outputsdouble[i] = (double *)(m_shm + i * blocksz);
+        }
+	}
+	
+	 process(m_inputsdouble, m_outputsdouble, sampleFrames);
+	 }
+#endif	        
     }
         break;
 #endif
@@ -1344,7 +1379,8 @@ void RemotePluginServer::dispatchParEvents()
     {
         int numin = getInputCount();
         // m_numInputs = getInputCount();
-
+        
+#ifndef INOUTMEM
         if (numin != m_numInputs)
         {
             if (m_inputs)
@@ -1365,6 +1401,7 @@ void RemotePluginServer::dispatchParEvents()
                 m_inputsdouble = new double*[numin];
 #endif
         }
+#endif        
         m_numInputs = numin;
         writeInt(&m_shm[FIXED_SHM_SIZE], m_numInputs);
         break;
@@ -1374,7 +1411,8 @@ void RemotePluginServer::dispatchParEvents()
     {
         int numout = getOutputCount();
         // m_numOutputs = getOutputCount();
-
+        
+#ifndef INOUTMEM
         if (numout != m_numOutputs)
         {
             if (m_outputs)
@@ -1395,6 +1433,7 @@ void RemotePluginServer::dispatchParEvents()
                 m_outputsdouble = new double*[numout];
 #endif
         }
+#endif        
         m_numOutputs = numout;
         writeInt(&m_shm[FIXED_SHM_SIZE], m_numOutputs);
         break;
