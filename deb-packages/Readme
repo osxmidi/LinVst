@@ -12,7 +12,11 @@ Then point the DAW to scan that vst folder.
 
 linvstconvert and linvstconverttree are installed in /usr/bin
 
-There is also a python script that can be used (see below).
+There are also python scripts that can be used linvstconvert64 for LinVst 64bit only, linvstconvert6432 for LinVst 64bit and 32bit and linvstconvert32 for LinVst 32bit only.
+
+linvstconvertxx "path to vst dll folder/*" (** for subdirectories); Path to vst dll folder is enclosed in quotes.
+
+For example linvstconvertxx "/home/user/vst/*" or linvstconvertxx "/home/user/vst/**" for subdirectories.
 
 -------------
 
@@ -55,18 +59,9 @@ The 64 bits package installs the following files:
 /usr/bin/lin-vst-servertrack.exe.so
 /usr/bin/linvstconvert
 /usr/bin/linvstconverttree
-/usr/bin/pylinvstconvert-64bit
+/usr/bin/linvstconvert64
 /usr/share/LinVst/64bit/linvst.so
 /usr/share/LinVst/Readme
-
-You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
-
-pylinvstconvert-64bit path/to/the/vst.dll
-
-which will create the appropriate .so file alongside your DLL.
-
-To batch convert multiple vst dll files use
-pylinvstconvert-64bit-batch /pathtovstfolder/*.dll
 
 -------------------------------
 
@@ -92,18 +87,9 @@ The 64 bit and 32 bit package installs the following files:
 /usr/bin/lin-vst-servertrack32.exe.so
 /usr/bin/linvstconvert
 /usr/bin/linvstconverttree
-/usr/bin/pylinvstconvert-64bit-32bit
+/usr/bin/linvstconvert6432
 /usr/share/LinVst/64bit-32bit/linvst.so
 /usr/share/LinVst/Readme
-
-You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
-
-pylinvstconvert-64bit-32bit path/to/the/vst.dll
-
-which will create the appropriate .so file alongside your vst dll.
-
-To batch convert multiple vst dll files use
-pylinvstconvert-64bit-32bit-batch /pathtovstfolder/*.dll
 
 ---------------------
 
@@ -127,18 +113,9 @@ The 64 bits package installs the following files:
 /usr/bin/lin-vst-server32lx.exe.so
 /usr/bin/linvstconvert
 /usr/bin/linvstconverttree
-/usr/bin/pylinvstconvert-32bit
+/usr/bin/linvstconvert32
 /usr/share/LinVst/32bit/linvst.so
 /usr/share/LinVst/Readme
-
-You can use the python script pylinvstconvert to convert your windows vst dlls the following way:
-
-pylinvstconvert-32bit path/to/the/vst.dll
-
-which will create the appropriate .so file alongside your vst dll.
-
-To batch convert multiple vst dll files use
-pylinvstconvert-32bit-batch /pathtovstfolder/*.dll
 
 ------------------
 
