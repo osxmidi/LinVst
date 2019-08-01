@@ -81,8 +81,13 @@ public:
 #ifdef DOUBLEP
     virtual void            processdouble(double **inputs, double **outputs, int sampleFrames) = 0;
     virtual bool            setPrecision(int value)                {return false; }    
+#ifndef INOUTMEM       
     double                   **m_inputsdouble;
     double                   **m_outputsdouble;
+#else
+    double                   *m_inputsdouble[1024];
+    double                   *m_outputsdouble[1024];    
+#endif
 #endif
 #ifdef MIDIEFF
     virtual bool            getInProp(int index)                   {return false; }
@@ -150,8 +155,13 @@ private:
     char                    *m_shmFileName2;
     char                    *m_shmFileName3;
 
+#ifndef INOUTMEM
     float                   **m_inputs;
     float                   **m_outputs;
+#else
+    float                   *m_inputs[1024];
+    float                   *m_outputs[1024];    
+#endif
 
     RemotePluginDebugLevel  m_debugLevel;
 
