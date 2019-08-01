@@ -875,7 +875,7 @@ void RemotePluginServer::dispatchProcessEvents()
         }
 	}
 	
-	 process(m_inputsdouble, m_outputsdouble, sampleFrames);
+	 processdouble(m_inputsdouble, m_outputsdouble, sampleFrames);
 #else
     if((m_numInputs < 1024) && (m_numOutputs < 1024))
     {
@@ -895,7 +895,7 @@ void RemotePluginServer::dispatchProcessEvents()
         }
 	}
 	
-	 process(m_inputsdouble, m_outputsdouble, sampleFrames);
+	 processdouble(m_inputsdouble, m_outputsdouble, sampleFrames);
 	 }
 #endif	        
     }
