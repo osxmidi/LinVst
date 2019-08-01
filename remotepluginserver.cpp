@@ -494,7 +494,7 @@ int RemotePluginServer::sizeShm()
 
     ptr = (int *)m_shm;
 
-    *ptr = 255;
+    *ptr = 26;
 	
      return 0;	
 }
