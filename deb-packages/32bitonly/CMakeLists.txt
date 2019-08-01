@@ -17,6 +17,11 @@ SET(PATCH_VERSION "0")
 add_subdirectory( liblinvst )
 add_subdirectory( exelinvst )
 
+install(FILES ../convert/linvstconvert32 DESTINATION ${SCRIPT1_INSTALL_PATH} bin
+      PERMISSIONS OWNER_EXECUTE OWNER_READ
+      GROUP_EXECUTE GROUP_READ
+      WORLD_EXECUTE WORLD_READ )
+
 install(FILES ../convert/pylinvstconvert-32bit DESTINATION ${SCRIPT1_INSTALL_PATH} bin
       PERMISSIONS OWNER_EXECUTE OWNER_READ
       GROUP_EXECUTE GROUP_READ
