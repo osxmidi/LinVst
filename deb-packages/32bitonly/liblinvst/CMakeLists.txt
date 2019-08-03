@@ -28,4 +28,4 @@ add_library(linvst ${LINVST_SO_SRC} )
 set_target_properties(linvst PROPERTIES PREFIX "")
 target_link_libraries( linvst pthread dl X11 rt )
 
-install( TARGETS linvst-i386 DESTINATION share/LinVst/32bit )
+install( TARGETS linvst DESTINATION share/LinVst/32bit )
