@@ -7,7 +7,7 @@ import os
 import argparse
                 
 parser = argparse.ArgumentParser()
-parser.add_argument('src_path', action='store', type=str, help='Path to vst dll folder/* (** for subdirectories); place linvst.so into the same folder as this script and enclose vst dll path in quotes, for example linvstconvert-py "/home/user/vst/*" or linvstconvert-py "/home/user/vst/**" for subdirectories')
+parser.add_argument('src_path', action='store', type=str, help='Path to vst dll folder/* (** for subdirectories); place linvst.so into the same folder as this script and enclose the vst dll path in quotes, for example linvstconvert-py "/home/user/vst/*" or linvstconvert-py "/home/user/vst/**" for subdirectories')
 args = parser.parse_args()
 files = glob.glob(args.src_path, recursive=True)
 
