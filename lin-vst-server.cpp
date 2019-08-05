@@ -493,14 +493,16 @@ void RemoteVSTServer::EffectOpen()
         int delay;
     } am;
 
-        am.flags = m_plugin->flags;
         am.pcount = m_plugin->numPrograms;
         am.parcount = m_plugin->numParams;
         am.incount = m_plugin->numInputs;
         am.outcount = m_plugin->numOutputs;
         am.delay = m_plugin->initialDelay;
 #ifndef DOUBLEP
+        am.flags = m_plugin->flags;	
         am.flags &= ~effFlagsCanDoubleReplacing;
+#else
+        am.flags = m_plugin->flags;	
 #endif
 
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
@@ -1607,14 +1609,16 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     {		    
     if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
     {
-        am.flags = plugin->flags;
         am.pcount = plugin->numPrograms;
         am.parcount = plugin->numParams;
         am.incount = plugin->numInputs;
         am.outcount = plugin->numOutputs;
         am.delay = plugin->initialDelay;
 #ifndef DOUBLEP
+        am.flags = m_plugin->flags;	
         am.flags &= ~effFlagsCanDoubleReplacing;
+#else
+        am.flags = m_plugin->flags;	
 #endif
 
         memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
