@@ -614,7 +614,7 @@ void RemotePluginServer::dispatchProcess(int timeout)
     }
     else
     {
-    if (fwait(&m_shmControl2->runServer386, 50)) {
+    if (fwait(&m_shmControl2->runServer386, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
@@ -626,7 +626,7 @@ void RemotePluginServer::dispatchProcess(int timeout)
 
 #else
 
-    if (fwait(&m_shmControl2->runServer, 50)) {
+    if (fwait(&m_shmControl2->runServer, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
@@ -955,7 +955,7 @@ void RemotePluginServer::dispatchGetSet(int timeout)
     }
     else
     {
-    if (fwait(&m_shmControl4->runServer386, 50)) {
+    if (fwait(&m_shmControl4->runServer386, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
@@ -967,7 +967,7 @@ void RemotePluginServer::dispatchGetSet(int timeout)
 
 #else
 
-    if (fwait(&m_shmControl4->runServer, 50)) {
+    if (fwait(&m_shmControl4->runServer, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
@@ -1065,7 +1065,7 @@ void RemotePluginServer::dispatchControl(int timeout)
     }
     else
     {
-    if (fwait(&m_shmControl3->runServer386, 50)) {
+    if (fwait(&m_shmControl3->runServer386, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
@@ -1077,7 +1077,7 @@ void RemotePluginServer::dispatchControl(int timeout)
 
 #else
 
-    if (fwait(&m_shmControl3->runServer, 50)) {
+    if (fwait(&m_shmControl3->runServer, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
@@ -1145,7 +1145,7 @@ void RemotePluginServer::dispatchPar(int timeout)
     }
     else
     {
-    if (fwait(&m_shmControl5->runServer386, 50)) {
+    if (fwait(&m_shmControl5->runServer386, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
@@ -1157,7 +1157,7 @@ void RemotePluginServer::dispatchPar(int timeout)
 
 #else
 
-    if (fwait(&m_shmControl5->runServer, 50)) {
+    if (fwait(&m_shmControl5->runServer, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
