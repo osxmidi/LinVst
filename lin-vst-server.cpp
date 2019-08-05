@@ -1615,10 +1615,10 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
         am.outcount = plugin->numOutputs;
         am.delay = plugin->initialDelay;
 #ifndef DOUBLEP
-        am.flags = m_plugin->flags;	
+        am.flags = plugin->flags;	
         am.flags &= ~effFlagsCanDoubleReplacing;
 #else
-        am.flags = m_plugin->flags;	
+        am.flags = plugin->flags;	
 #endif
 
         memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
