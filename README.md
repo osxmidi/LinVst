@@ -3,7 +3,6 @@
 LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
 ## Quick Start Guide (see the Detailed-Guide folder for more info) 
-https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
 (See the Wiki page for a visual guide https://github.com/osxmidi/LinVst/wiki)
 
@@ -18,6 +17,8 @@ Start linvstconvert (in the convert folder) and then select the linvst.so from t
 Point linvstconvert to the folder containing the windows vst's and hit the Start (Convert) button.
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
+
+More detailed info is at https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
 Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releases
 
