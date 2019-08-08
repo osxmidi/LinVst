@@ -1402,7 +1402,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 #endif
 {
     VstTimeInfo timeInfo;
-    long rv = 0;
+    VstIntPtr rv = 0;
     int retval = 0;
 
     switch (opcode)
@@ -1491,7 +1491,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 
   //   printf("%f\n", timeInfo.sampleRate);
  
-  rv = (long)&timeInfo;
+  rv = (VstIntPtr)&timeInfo;
 #else
 /*    
   if(remoteVSTServerInstance->timeinfo)
