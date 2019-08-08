@@ -1505,7 +1505,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 
  //    printf("newtime %f\n", timeInfo.sampleRate);
   
-    rv = (long)&timeInfo;    
+    rv = (VstIntPtr)&timeInfo;    
 #endif           
     }
     }    
