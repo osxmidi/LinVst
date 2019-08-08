@@ -48,7 +48,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
 #endif
     m_flags(0),
     m_delay(0),
-    timeinfo(0),
+    // timeinfo(0),
     m_inexcept(0),
     m_shmFd(-1),
     m_shmFd2(-1),
