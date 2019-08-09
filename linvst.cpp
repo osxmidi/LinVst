@@ -502,7 +502,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr value, void* ptr, float opt)
 {
     RemotePluginClient  *plugin = (RemotePluginClient *) effect->object;
-    VstIntPtr           v = 0;
+    VstIntPtr           v = 1;
     ERect        *rp;
 
 #ifdef EMBED
