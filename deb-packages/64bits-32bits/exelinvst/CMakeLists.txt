@@ -42,6 +42,7 @@ find_path( WIN_INCLUDE windows.h
   /usr/include/wine-development/windows
   /usr/include/wine-development/wine/windows
   /usr/include/wine/wine/windows
+  /usr/include/wine/windows
   /opt/wine-stable/include/wine/windows
   /opt/wine-devel/include/wine/windows
   /opt/wine-staging/include/wine/windows
