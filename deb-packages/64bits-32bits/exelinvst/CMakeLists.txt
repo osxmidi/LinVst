@@ -66,13 +66,13 @@ include_directories( ${WIN_INCLUDE} )
 
 add_executable( lin-vst-servertrack.exe ${LINVST_SVR_SRC} )
 set_target_properties(  lin-vst-servertrack.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -m64 -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME -DINOUTMEM" )
+set_target_properties( lin-vst-servertrack32.exe PROPERTIES LINK_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-L/usr/lib/x86_64-linux-gnu/wine-development" )
 target_link_libraries( lin-vst-servertrack.exe pthread rt )
 
 
 add_executable( lin-vst-servertrack32.exe ${LINVST_SVR_SRC} )
 set_target_properties( lin-vst-servertrack32.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} -Wl,-L/usr/lib/i386-linux-gnu/wine-development -m32 -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME -DINOUTMEM" )
 set_target_properties( lin-vst-servertrack32.exe PROPERTIES LINK_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-L/usr/lib/i386-linux-gnu/wine-development -m32" )
-
 target_link_libraries( lin-vst-servertrack32.exe pthread rt )
 
 install( TARGETS
