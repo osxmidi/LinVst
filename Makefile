@@ -19,7 +19,7 @@ BUILD_FLAGS_WIN = -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -
 LINK_FLAGS   = $(LDFLAGS)
 
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
-LINK_WINE   = -lpthread -lrt $(LINK_FLAGS)
+LINK_WINE   = -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 
 TARGETS     = linvst.so lin-vst-servertrack.exe
 
