@@ -12,7 +12,7 @@ message( "Configuring Project LinVst." )
 
 SET(MAJOR_VERSION "2")
 SET(MINOR_VERSION "6")
-SET(PATCH_VERSION "2")
+SET(PATCH_VERSION "3")
 
 add_subdirectory( convertvst )
 add_subdirectory( converttreevst )
