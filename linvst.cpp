@@ -592,6 +592,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
     case effGetEffectName:
         strncpy((char *) ptr, plugin->getName().c_str(), kVstMaxEffectNameLen);
+        v=1;		    
         break;
 
     case effGetParamName:
@@ -889,7 +890,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #else
         plugin->showGUI();
 #endif
-	plugin->editopen = 1;	    
+	plugin->editopen = 1;	
+	v=1;		    
         break;
 
         case effEditClose:
@@ -941,7 +943,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #else            
         plugin->hideGUI();
 #endif  
-	plugin->editopen = 0;	          
+	plugin->editopen = 0;	 
+	v=1;		    
         break;
 		    
     case effCanDo:
