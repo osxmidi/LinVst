@@ -48,7 +48,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
 #endif
     m_flags(0),
     m_delay(0),
-    // timeinfo(0),
+    timeinfo(0),
     m_inexcept(0),
     m_shmFd(-1),
     m_shmFd2(-1),
@@ -271,6 +271,8 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
    m_386run = 1;
 	    
 //   timeinfo = new VstTimeInfo;
+	    
+     timeinfo = &timeinfo2;   
 }
 
 RemotePluginServer::~RemotePluginServer()
