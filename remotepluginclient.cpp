@@ -786,12 +786,12 @@ RemotePluginClient::~RemotePluginClient()
     if (theEffect)
     delete theEffect; 
     */
-	 
+/*	 
 #ifdef EMBED	 
     if (winm)
     delete winm; 
 #endif	 
-  	
+*/ 	
 #ifdef CHUNKBUF
     if (chunk_ptr)
     free(chunk_ptr);
@@ -857,14 +857,17 @@ ptr = (int *)m_shm;
 
    theEffect = &theEffect2;	
 
-#ifdef EMBED	
+#ifdef EMBED
+    /*	
     winm = new winmessage;
     if(!winm)
     {
     *ptr = 4;
     m_runok = 1;   
     cleanup();	    
-    }        	    
+    } 
+    */
+    winm = &winm2;
 #endif	
 
     m_syncok = 1;
