@@ -154,6 +154,7 @@ public:
     int                 m_syncok;
     int                 m_386run;
     AEffect             *theEffect;
+    AEffect             theEffect2;
     audioMasterCallback m_audioMaster;
 
     int                 m_threadbreak;
