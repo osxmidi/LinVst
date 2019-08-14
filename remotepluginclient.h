@@ -191,6 +191,12 @@ public:
    int handle;
    int width;
    int height;
+   struct winmessage
+   {
+    int handle;
+    int width;
+    int height;
+   } winm2;        
    winmessage *winm;
   int displayerr;
 #ifdef EMBEDTHREAD
