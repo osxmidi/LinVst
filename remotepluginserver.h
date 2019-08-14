@@ -205,9 +205,8 @@ int starterror;
 bool fwait(int *fcount, int ms);
 bool fpost(int *fcount);
 
-// VstTimeInfo *timeinfo;
-    
-VstTimeInfo timeInfo;    
+VstTimeInfo *timeinfo;
+VstTimeInfo timeinfo2;       
     
 int                 m_updateio;
 int                 m_updatein;
