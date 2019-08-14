@@ -1215,7 +1215,6 @@ void RemotePluginClient::getEffString(int opcode, int index, char *ptr, int len)
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
     strncpy(ptr, readString(&m_shm[FIXED_SHM_SIZE]).c_str(), len);
-    ptr[len-1] = 0;
 }
 
 int RemotePluginClient::getFlags()
