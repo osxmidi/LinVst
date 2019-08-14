@@ -541,13 +541,13 @@ RemoteVSTServer::~RemoteVSTServer()
     m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
     }
     } 
-	
-#ifdef EMBED	
-    /*	
+
+/*
+#ifdef EMBED		
     if (winm)
     delete winm; 
-    */
 #endif	
+*/
 }
 
 void RemoteVSTServer::process(float **inputs, float **outputs, int sampleFrames)
