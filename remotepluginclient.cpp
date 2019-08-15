@@ -1860,6 +1860,44 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     return ret;
 }
 
+#ifndef MIDIEFF 
+#ifdef VESTIGE
+bool RemotePluginClient::getEffInProp(int index, void *ptr)
+{
+char ptr2[256];
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteInProp);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+ 
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr2, 256);
+    memcpy(ptr, &ptr2, sizeof(vinfo));
+
+    return b;
+}
+
+bool RemotePluginClient::getEffOutProp(int index, void *ptr)
+{
+char ptr2[256];
+bool b;
+
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteOutProp);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+ 
+    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr2, 256);
+    memcpy(ptr, &ptr2, sizeof(vinfo));
+
+    return b;
+}
+#endif
+#endif
+
 #ifdef MIDIEFF
 bool RemotePluginClient::getEffInProp(int index, void *ptr)
 {
