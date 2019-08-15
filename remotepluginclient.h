@@ -93,6 +93,14 @@ public:
     void                processdouble(double **inputs, double **outputs, int sampleFrames);
     bool                setPrecision(int value);
 #endif 
+    
+#ifndef MIDIEFF 
+#ifdef VESTIGE
+    bool                getEffInProp(int index, void *ptr);
+    bool                getEffOutProp(int index, void *ptr);
+#endif
+#endif
+        
 #ifdef MIDIEFF
     bool                getEffInProp(int index, void *ptr);
     bool                getEffOutProp(int index, void *ptr);
@@ -226,6 +234,11 @@ VstTimeInfo *timeInfo;
 #ifdef WAVES
 int wavesthread;
 #endif
+    
+struct vinfo
+{
+char a[96];
+};    
 
 protected:
     void                cleanup();
