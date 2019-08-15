@@ -89,6 +89,14 @@ public:
     double                   *m_outputsdouble[1024];    
 #endif
 #endif
+    
+#ifndef MIDIEFF 
+#ifdef VESTIGE
+   virtual bool            getInProp(int index)                   {return false; }
+    virtual bool            getOutProp(int index)                  {return false; }
+#endif
+#endif    
+    
 #ifdef MIDIEFF
     virtual bool            getInProp(int index)                   {return false; }
     virtual bool            getOutProp(int index)                  {return false; }
