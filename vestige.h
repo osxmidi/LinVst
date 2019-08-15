@@ -121,8 +121,6 @@ const int effProcessEvents = 25;
 const int effCanBeAutomated = 26;
 // The next one was gleaned from http://www.kvraudio.com/forum/viewtopic.php?p=1905347
 const int effGetProgramNameIndexed = 29;
-const int effGetInputProperties = 33;
-const int effGetOutputProperties = 34;
 // The next one was gleaned from http://www.asseca.org/vst-24-specs/efGetPlugCategory.html
 const int effGetPlugCategory = 35;
 const int effGetEffectName = 45;
