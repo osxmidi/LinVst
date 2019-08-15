@@ -1494,7 +1494,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     {
     memcpy(remoteVSTServerInstance->timeinfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
     // printf("%f\n", remoteVSTServerInstance->timeinfo->sampleRate);
-    rv = (longVstIntPtr)remoteVSTServerInstance->timeinfo;
+    rv = (VstIntPtr)remoteVSTServerInstance->timeinfo;
     }    
 */ 
    memcpy(remoteVSTServerInstance->timeinfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
