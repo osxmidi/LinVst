@@ -137,6 +137,14 @@ public:
     virtual void        processdouble(double **inputs, double **outputs, int sampleFrames);
     virtual bool        setPrecision(int);  
 #endif
+
+#ifndef MIDIEFF 
+#ifdef VESTIGE
+    virtual bool        getOutProp(int);
+    virtual bool        getInProp(int);
+#endif
+#endif
+
 #ifdef MIDIEFF
     virtual bool        getOutProp(int);
     virtual bool        getInProp(int);
@@ -573,6 +581,34 @@ bool retval;
 
         return retval;       
 }    
+#endif
+
+#ifndef MIDIEFF 
+#ifdef VESTIGE
+bool RemoteVSTServer::getOutProp(int index)
+{
+char ptr[256];
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effGetOutputProperties, index, 0, &ptr, 0);
+
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr, 256);
+
+        return retval;         
+}
+
+bool RemoteVSTServer::getInProp(int index)
+{
+char ptr[256];
+bool retval;
+
+        retval = m_plugin->dispatcher(m_plugin, effGetInputProperties, index, 0, &ptr, 0);
+
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr, 256);
+
+        return retval;       
+}
+#endif
 #endif
 
 #ifdef MIDIEFF
