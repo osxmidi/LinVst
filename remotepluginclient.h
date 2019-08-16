@@ -94,12 +94,8 @@ public:
     bool                setPrecision(int value);
 #endif 
     
-#ifndef MIDIEFF 
-#ifdef VESTIGE
     bool                getEffInProp(int index, void *ptr);
     bool                getEffOutProp(int index, void *ptr);
-#endif
-#endif
         
 #ifdef MIDIEFF
     bool                getEffInProp(int index, void *ptr);
