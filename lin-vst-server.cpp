@@ -138,16 +138,10 @@ public:
     virtual bool        setPrecision(int);  
 #endif
 
-#ifndef MIDIEFF 
-#ifdef VESTIGE
     virtual bool        getOutProp(int);
     virtual bool        getInProp(int);
-#endif
-#endif
 
 #ifdef MIDIEFF
-    virtual bool        getOutProp(int);
-    virtual bool        getInProp(int);
     virtual bool        getMidiKey(int);
     virtual bool        getMidiProgName(int);
     virtual bool        getMidiCurProg(int);
@@ -583,7 +577,6 @@ bool retval;
 }    
 #endif
 
-#ifndef MIDIEFF 
 #ifdef VESTIGE
 bool RemoteVSTServer::getOutProp(int index)
 {
@@ -608,10 +601,7 @@ bool retval;
 
         return retval;       
 }
-#endif
-#endif
-
-#ifdef MIDIEFF
+#else
 bool RemoteVSTServer::getInProp(int index)
 {
 VstPinProperties ptr;
@@ -635,7 +625,9 @@ bool retval;
 
         return retval;         
 }
+#endif
 
+#ifdef MIDIEFF
 bool RemoteVSTServer::getMidiKey(int index)
 {
 MidiKeyName ptr;
