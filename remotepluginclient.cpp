@@ -1860,7 +1860,6 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     return ret;
 }
 
-#ifndef MIDIEFF 
 #ifdef VESTIGE
 bool RemotePluginClient::getEffInProp(int index, void *ptr)
 {
@@ -1895,10 +1894,7 @@ bool b;
 
     return b;
 }
-#endif
-#endif
-
-#ifdef MIDIEFF
+#else
 bool RemotePluginClient::getEffInProp(int index, void *ptr)
 {
 VstPinProperties ptr2;
@@ -1932,7 +1928,9 @@ bool b;
 
     return b;
 }
+#endif
 
+#ifdef MIDIEFF
 bool RemotePluginClient::getEffMidiKey(int index, void *ptr)
 {
 MidiKeyName ptr2;
