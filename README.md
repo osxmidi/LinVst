@@ -20,6 +20,8 @@ Start up the linux DAW and point it to scan the folder containing the windows vs
 
 More detailed info is at https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
+Make info is at https://github.com/osxmidi/LinVst/tree/master/Make-Guide
+
 Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releases
 
 If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
