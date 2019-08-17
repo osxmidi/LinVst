@@ -82,7 +82,7 @@ Drag and Drop is enabled for the embedded LinVst version used with Reaper/Trackt
 Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file in a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
 See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 in the Detailed Guide https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide for some details.
 
-Also, see the tested vst's section for some possible tips.
+Also, see the tested vst's section in the Detailed Guide https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide for some possible tips.
 
 **Bitwig**
 
