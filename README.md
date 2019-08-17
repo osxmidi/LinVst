@@ -86,7 +86,9 @@ Also, see the tested vst's section for some possible tips.
 
 **Renoise**
 
-Sometimes a synth vst doesn't declare itself as a synth and Renoise might not enable it.
+Choose the sandbox option for plugins.
+
+Sometimes a synth vst might not declare itself as a synth and Renoise might not enable it.
 
 A workaround is to install sqlitebrowser
 
