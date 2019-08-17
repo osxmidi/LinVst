@@ -84,6 +84,10 @@ See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 below for some
 
 Also, see the tested vst's section for some possible tips.
 
+**Bitwig**
+For Bitwig 2.5 and 3.0, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
+For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins.
+
 **Renoise**
 
 Choose the sandbox option for plugins.
