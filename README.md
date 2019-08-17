@@ -76,7 +76,7 @@ cabextract needs to be installed (sudo apt-get install cabextract, yum install c
 
 To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
 
-For details about overriding dll's, see the next section (Wine Config)./home/user/.wine/drive_c/ProgramData//home/user/.wine/drive_c/ProgramData/
+For details about overriding dll's, see the Detailed Guide https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide (Wine Config)./home/user/.wine/drive_c/ProgramData//home/user/.wine/drive_c/ProgramData/
 
 Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped onto the vst window and not for items dragged and dropped from the vst window to the DAW/host or to the Desktop window.
 Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file in a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
@@ -85,6 +85,7 @@ See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 below for some
 Also, see the tested vst's section for some possible tips.
 
 **Bitwig**
+
 For Bitwig 2.5 and 3.0, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
 For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins.
 
