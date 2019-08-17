@@ -74,7 +74,7 @@ Winetricks also has a force flag --force ie winetricks --force vcrun2013
 
 cabextract needs to be installed (sudo apt-get install cabextract, yum install cabextract etc)
 
-For details about overriding dll's, see the Detailed Guide https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
+For details about overriding dll's, see the Wine Config section in the Detailed Guide https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
 To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
 
