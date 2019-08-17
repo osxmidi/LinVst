@@ -4,7 +4,7 @@ For the deb package see https://github.com/osxmidi/LinVst/tree/master/deb-packag
 
 Remove -DVESTIGE from the makefiles to use the VST2 SDK (by default the VST2 SDK is not required).
 
-If using the VST2 SDK then the plugininterfaces folder contained within the VST2_SDK folder, needs to be placed in the LinVst files folder.
+If using the VST2 SDK then the plugininterfaces folder needs to be placed inside the LinVst main source folder.
 
 Wine libwine development files.
 
