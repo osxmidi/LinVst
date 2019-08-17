@@ -43,11 +43,13 @@ The 32 bit only version can run 32 bit vst's on a 32 bit Linux system.
 
 In the LinVst/deb-packages directory:
 
+```bash
 mkdir build64
 cd build64
 cmake ../64bitsonly
 make
 cpack
+```
 
 This should create a LinVst-64bit-x.y.z.deb file ready to install.
 
@@ -55,6 +57,7 @@ This should create a LinVst-64bit-x.y.z.deb file ready to install.
 
 The 64 bits package installs the following files:
 
+```bash
 /usr/bin/lin-vst-servertrack.exe
 /usr/bin/lin-vst-servertrack.exe.so
 /usr/bin/linvstconvert
@@ -62,6 +65,7 @@ The 64 bits package installs the following files:
 /usr/bin/linvstconvert64
 /usr/share/LinVst/64bit/linvst.so
 /usr/share/LinVst/Readme
+```
 
 -------------------------------
 
@@ -69,11 +73,13 @@ The 64 bits package installs the following files:
 
 In the LinVst/deb-packages directory:
 
+```bash
 mkdir build64-32
 cd build64-32
 cmake ../64bits-32bits
 make
 cpack
+```
 
 This should create a LinVst-64bit-32bit-x.y.z.deb file ready to install.
 
@@ -81,6 +87,7 @@ This should create a LinVst-64bit-32bit-x.y.z.deb file ready to install.
 
 The 64 bit and 32 bit package installs the following files:
 
+```bash
 /usr/bin/lin-vst-servertrack.exe
 /usr/bin/lin-vst-servertrack.exe.so
 /usr/bin/lin-vst-servertrack32.exe
@@ -90,6 +97,7 @@ The 64 bit and 32 bit package installs the following files:
 /usr/bin/linvstconvert6432
 /usr/share/LinVst/64bit-32bit/linvst.so
 /usr/share/LinVst/Readme
+```
 
 ---------------------
 
@@ -97,11 +105,13 @@ The 64 bit and 32 bit package installs the following files:
 
 In the LinVst/deb-packages directory:
 
+```bash
 mkdir build32
 cd build32
 cmake ../32bitonly
 make
 cpack
+```
 
 This should create a LinVst-32bit-x.y.z.deb file ready to install.
 
@@ -109,6 +119,7 @@ This should create a LinVst-32bit-x.y.z.deb file ready to install.
 
 The 64 bits package installs the following files:
 
+```bash
 /usr/bin/lin-vst-server32lx.exe
 /usr/bin/lin-vst-server32lx.exe.so
 /usr/bin/linvstconvert
@@ -116,6 +127,7 @@ The 64 bits package installs the following files:
 /usr/bin/linvstconvert32
 /usr/share/LinVst/32bit/linvst.so
 /usr/share/LinVst/Readme
+```
 
 ------------------
 
