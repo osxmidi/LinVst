@@ -193,6 +193,8 @@ Additional dll's (dll overrides) might have to be added to Wine for some Windows
 
 Winetricks might help with some plugins https://github.com/Winetricks/winetricks
 
+Some plugins need Windows fonts (~/.wine/drive_c/windows/Fonts) ./winetricks corefonts
+
 Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines current implementation.
 
 Running winetricks wininet and/or installing winbind and libntlm0 for a distro (sudo apt-get install winbind, sudo apt-get install libntlm0) might help (wininet and it's associated dll's can also be manually installed as dll overrides).
