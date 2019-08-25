@@ -295,7 +295,7 @@ and then finish by clicking on open.
 
 Tested Waves Central and Waves C1 and C4 and C360 and API-560 and Abbey Road Plates and Bass Slapper(1GB samples) plugins with Wine Staging version 3.x and 4.x and Debian Stretch/Sid (other non Debian based systems not tested).
 
-Waves VST3 API-560 and Abbey Road Plates plugins tested with DDMF Metaplugin VST3 to VST2 wrapper and Wine Staging 4.x and Debian Stretch/Sid.
+Waves VST3 API-560 and Abbey Road Plates plugins tested with LinVst3 and the DDMF Metaplugin VST3 to VST2 wrapper and Wine Staging 4.x and Debian Stretch/Sid.
 
 Bitwig seems to need the Waveshell to be unpacked into individual dll's using shell2vst.
 
