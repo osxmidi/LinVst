@@ -146,7 +146,7 @@ public:
 #endif
 
     int                 getEffInt(int opcode);
-    void                getEffString(int opcode, int index, char *ptr, int len);
+    std::string         getEffString(int opcode, int index);
     void                effVoidOp(int opcode);
     int                 effVoidOp2(int opcode, int index, int value, float opt);
 
