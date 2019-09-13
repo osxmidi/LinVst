@@ -1217,15 +1217,14 @@ int RemotePluginClient::getEffInt(int opcode)
     return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
-void RemotePluginClient::getEffString(int opcode, int index, char *ptr, int len)
+std::string RemotePluginClient::getEffString(int opcode, int index)
 {
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetEffString);
     writeIntring(&m_shmControl5->ringBuffer, opcode);
     writeIntring(&m_shmControl5->ringBuffer, index);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-//    strncpy(ptr, readString(&m_shm[FIXED_SHM_SIZE]).c_str(), len);
-    strcpy(ptr, readString(&m_shm[FIXED_SHM_SIZE]).c_str());
+    return readString(&m_shm[FIXED_SHM_SIZE]);
 }
 
 int RemotePluginClient::getFlags()
