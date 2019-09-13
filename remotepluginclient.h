@@ -98,8 +98,8 @@ public:
     bool                getEffOutProp(int index, void *ptr);
         
 #ifdef MIDIEFF
-    bool                getEffInProp(int index, void *ptr);
-    bool                getEffOutProp(int index, void *ptr);
+//    bool                getEffInProp(int index, void *ptr);
+//    bool                getEffOutProp(int index, void *ptr);
     bool                getEffMidiKey(int index, void *ptr);
     bool                getEffMidiProgName(int index, void *ptr);
     bool                getEffMidiCurProg(int index, void *ptr);
