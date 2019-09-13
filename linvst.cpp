@@ -604,14 +604,12 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         strcpy((char *) ptr, plugin->getParameterName(index).c_str());	    
         break;
 
-    case effGetParamLabel:
-    //    plugin->getEffString(effGetParamLabel, index, (char *) ptr, kVstMaxParamStrLen);
-        plugin->getEffString(effGetParamLabel, index, (char *) ptr, kVstMaxVendorStrLen);
+    case effGetParamLabel:        
+     strcpy((char *) ptr, plugin->getEffString(effGetParamLabel, index).c_str());	
         break;
 
     case effGetParamDisplay:
-     //   plugin->getEffString(effGetParamDisplay, index, (char *) ptr, kVstMaxParamStrLen);
-        plugin->getEffString(effGetParamDisplay, index, (char *) ptr, kVstMaxVendorStrLen);
+    strcpy((char *) ptr, plugin->getEffString(effGetParamDisplay, index).c_str());
         break;
 
     case effGetProgramNameIndexed:
