@@ -75,6 +75,8 @@ public:
 
     int                 getParameterCount();
     std::string         getParameterName(int);
+    std::string         getParameterLabel(int);
+    std::string         getParameterDisplay(int);
 #ifdef WAVES
     int                 getShellName(char *ptr);
 #endif
