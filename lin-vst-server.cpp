@@ -96,6 +96,8 @@ public:
     virtual int         getUID() { if(m_plugin) return m_plugin->uniqueID; }
     virtual int         getParameterCount() { if(m_plugin) return m_plugin->numParams; }
     virtual std::string getParameterName(int);
+    virtual std::string getParameterLabel(int);
+    virtual std::string getParameterDisplay(int);
     virtual void        setParameter(int, float);
     virtual float       getParameter(int);
     virtual void        getParameters(int, int, float *);
@@ -833,6 +835,24 @@ std::string RemoteVSTServer::getParameterName(int p)
     memset(name, 0, sizeof(name));
 
     m_plugin->dispatcher(m_plugin, effGetParamName, p, 0, name, 0);
+    return name;
+}
+
+std::string RemoteVSTServer::getParameterLabel(int p)
+{
+    char name[512];
+    memset(name, 0, sizeof(name));
+
+    m_plugin->dispatcher(m_plugin, effGetParamLabel, p, 0, name, 0);
+    return name;
+}
+
+std::string RemoteVSTServer::getParameterDisplay(int p)
+{
+    char name[512];
+    memset(name, 0, sizeof(name));
+
+    m_plugin->dispatcher(m_plugin, effGetParamDisplay, p, 0, name, 0);
     return name;
 }
 
