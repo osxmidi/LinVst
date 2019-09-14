@@ -1717,9 +1717,15 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     int eventnum;
     int *ptr;
     int sizeidx = 0;
+	
+    if(!m_shm)
+    return 0;    
 
-    if ((evnts->numEvents <= 0) || (!evnts) || (m_inexcept == 1) || (m_finishaudio == 1) || (!m_shm))
-        return 0;        
+    if (!evnts)
+    return 0;
+
+    if ((evnts->numEvents <= 0) || (m_inexcept == 1) || (m_finishaudio == 1))
+    return 0;        
 
     ptr = (int *)m_shm2;
     eventnum = evnts->numEvents;
