@@ -59,7 +59,9 @@ public:
 
     virtual int             getUID()                                { return 0; }
     virtual int             getParameterCount()                     { return 0; }
-    virtual std::string     getParameterName(int)                   { return ""; }
+    virtual std::string     getParameterName(int)                   { return ""; }    
+    virtual std::string     getParameterLabel(int)                  { return ""; }       
+    virtual std::string     getParameterDisplay(int)                { return ""; }
     virtual void            setParameter(int, float)                { return; }
     virtual float           getParameter(int)                       { return 0.0f; }
     virtual float           getParameterDefault(int)                { return 0.0f; }
