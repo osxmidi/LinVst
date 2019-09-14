@@ -1302,10 +1302,28 @@ int RemotePluginClient::getParameterCount()
 
 std::string RemotePluginClient::getParameterName(int p)
 {
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetParameterName);
-    writeIntring(&m_shmControl5->ringBuffer, p);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetParameterName);
+    writeIntring(&m_shmControl3->ringBuffer, p);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    return &m_shm[FIXED_SHM_SIZE];
+}
+
+std::string RemotePluginClient::getParameterLabel(int p)
+{
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetParameterLabel);
+    writeIntring(&m_shmControl3->ringBuffer, p);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    return &m_shm[FIXED_SHM_SIZE];
+}
+
+std::string RemotePluginClient::getParameterDisplay(int p)
+{
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetParameterDisplay);
+    writeIntring(&m_shmControl3->ringBuffer, p);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
     return &m_shm[FIXED_SHM_SIZE];
 }
 
