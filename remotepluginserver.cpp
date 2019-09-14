@@ -1301,8 +1301,6 @@ void RemotePluginServer::dispatchParEvents()
         break;
     }
 
-
-
     case RemotePluginSetDebugLevel:
     {
         RemotePluginDebugLevel newLevel = m_debugLevel;
@@ -1506,34 +1504,7 @@ void RemotePluginServer::dispatchParEvents()
         break;
     }
 #endif  
-		    
-#ifdef CHUNKBUF
-     case RemotePluginGetBuf:
-    {      
-        char *chunkbuf = (char *)chunkptr;
-        int curchunk = readIntring(&m_shmControl5->ringBuffer);
-        int idx = readIntring(&m_shmControl5->ringBuffer);
-        tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunkbuf[idx], curchunk);
-        break;
-    }  
-		    
-     case RemotePluginSetBuf:
-    {     
-        int curchunk = readIntring(&m_shmControl5->ringBuffer);
-        int idx = readIntring(&m_shmControl5->ringBuffer);
-        int sz2 = readIntring(&m_shmControl5->ringBuffer);
-
-        if(sz2 > 0)
-        chunkptr2 = (char *)malloc(sz2);
-
-        if(!chunkptr2)
-        break;
-
-        tryRead(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunkptr2[idx], curchunk);
-        break;
-    }  		    
-#endif		    
-		    
+		    		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchParEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1601,6 +1572,33 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginSetChunk:
         setChunk();     
         break;
+		    
+#ifdef CHUNKBUF
+     case RemotePluginGetBuf:
+    {      
+        char *chunkbuf = (char *)chunkptr;
+        int curchunk = readIntring(&m_shmControl3->ringBuffer);
+        int idx = readIntring(&m_shmControl3->ringBuffer);
+        tryWrite(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunkbuf[idx], curchunk);
+        break;
+    }  
+		    
+     case RemotePluginSetBuf:
+    {     
+        int curchunk = readIntring(&m_shmControl3->ringBuffer);
+        int idx = readIntring(&m_shmControl3->ringBuffer);
+        int sz2 = readIntring(&m_shmControl3->ringBuffer);
+
+        if(sz2 > 0)
+        chunkptr2 = (char *)malloc(sz2);
+
+        if(!chunkptr2)
+        break;
+
+        tryRead(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunkptr2[idx], curchunk);
+        break;
+    }  		    
+#endif		    		    
 		    		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
