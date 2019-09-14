@@ -1584,9 +1584,12 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
             if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
             {
                 evnts = (VstEvents*)ptr;
-
-                if ((!evnts) || (evnts->numEvents <= 0))
-                    break;
+		    
+	        if (!evnts)
+                break;
+                    
+                if (evnts->numEvents <= 0) 
+                break;   	    
 
                 eventnum = evnts->numEvents;
 
