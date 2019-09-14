@@ -1599,7 +1599,8 @@ void RemotePluginServer::dispatchControlEvents()
         break;
 
     case RemotePluginSetChunk:
-        setChunk();               
+        setChunk();     
+        break;
 		    		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
