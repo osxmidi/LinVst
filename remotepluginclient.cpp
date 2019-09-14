@@ -1130,24 +1130,12 @@ int RemotePluginClient::sizeShm()
     return 0;	
 }
 
-float   RemotePluginClient::getVersion()
+float RemotePluginClient::getVersion()
 {
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetVersion);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
     return readFloat(&m_shm[FIXED_SHM_SIZE]);
-}
-
-int RemotePluginClient::getUID()
-{
-    if (m_inexcept == 1 || m_finishaudio == 1)
-    {
-        return 0;
-    }
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginUniqueID);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
-    return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
 std::string RemotePluginClient::getName()
@@ -1225,79 +1213,6 @@ std::string RemotePluginClient::getEffString(int opcode, int index)
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
     return &m_shm[FIXED_SHM_SIZE];
-}
-
-int RemotePluginClient::getFlags()
-{
-    if (m_inexcept == 1 || m_finishaudio == 1)
-    {
-        return 0;
-    }
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetFlags);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
-    return readInt(&m_shm[FIXED_SHM_SIZE]);
-}
-
-int RemotePluginClient::getinitialDelay()
-{
-    if (m_inexcept == 1 || m_finishaudio == 1)
-    {
-        return 0;
-    }
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetinitialDelay);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
-    return readInt(&m_shm[FIXED_SHM_SIZE]);
-}
-
-int RemotePluginClient::getInputCount()
-{
-    if (m_inexcept == 1 || m_finishaudio == 1)
-    {
-        return 0;
-    }
-
-    // writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetInputCount);
-    // m_numInputs = readInt(m_processResponseFd);
-
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetInputCount);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
-    m_numInputs = readInt(&m_shm[FIXED_SHM_SIZE]);
-
-    return m_numInputs;
-}
-
-int RemotePluginClient::getOutputCount()
-{
-    if (m_inexcept == 1 || m_finishaudio == 1)
-    {
-        return 0;
-    }
-
-    // writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetOutputCount);
-    // m_numOutputs = readInt(m_processResponseFd);
-
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetOutputCount);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
-    m_numOutputs = readInt(&m_shm[FIXED_SHM_SIZE]);
-
-    return m_numOutputs;
-}
-
-int RemotePluginClient::getParameterCount()
-{
-    if (m_inexcept == 1 || m_finishaudio == 1)
-    {
-        return 0;
-    }
-
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetParameterCount);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
-    return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
 std::string RemotePluginClient::getParameterName(int p)
@@ -2183,8 +2098,6 @@ int RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
         return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
-
-
 int RemotePluginClient::canBeAutomated(int param)
 {
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginCanBeAutomated);
@@ -2193,8 +2106,6 @@ int RemotePluginClient::canBeAutomated(int param)
     waitForServer5();  
     return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
-
-
 
 int RemotePluginClient::EffectOpen()
 {
@@ -2216,6 +2127,78 @@ int RemotePluginClient::EffectOpen()
     return 1;
 }
 
+int RemotePluginClient::getFlags()
+{
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetFlags);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    return readInt(&m_shm[FIXED_SHM_SIZE]);
+}
+
+int RemotePluginClient::getinitialDelay()
+{
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetinitialDelay);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    return readInt(&m_shm[FIXED_SHM_SIZE]);
+}
+
+int RemotePluginClient::getInputCount()
+{
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+
+    // writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetInputCount);
+    // m_numInputs = readInt(m_processResponseFd);
+
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetInputCount);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    m_numInputs = readInt(&m_shm[FIXED_SHM_SIZE]);
+
+    return m_numInputs;
+}
+
+int RemotePluginClient::getOutputCount()
+{
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+
+    // writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetOutputCount);
+    // m_numOutputs = readInt(m_processResponseFd);
+
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetOutputCount);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    m_numOutputs = readInt(&m_shm[FIXED_SHM_SIZE]);
+
+    return m_numOutputs;
+}
+
+int RemotePluginClient::getParameterCount()
+{
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetParameterCount);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    return readInt(&m_shm[FIXED_SHM_SIZE]);
+}
 
 int RemotePluginClient::getProgramCount()
 {
@@ -2224,6 +2207,18 @@ int RemotePluginClient::getProgramCount()
         return 0;
     }
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetProgramCount);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
+    return readInt(&m_shm[FIXED_SHM_SIZE]);
+}
+
+int RemotePluginClient::getUID()
+{
+    if (m_inexcept == 1 || m_finishaudio == 1)
+    {
+        return 0;
+    }
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginUniqueID);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
     return readInt(&m_shm[FIXED_SHM_SIZE]);
