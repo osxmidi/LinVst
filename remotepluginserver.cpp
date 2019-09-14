@@ -1270,10 +1270,6 @@ void RemotePluginServer::dispatchParEvents()
     case RemotePluginGetParameterCount:
         writeInt(&m_shm[FIXED_SHM_SIZE], getParameterCount());
         break;
-
-    case RemotePluginGetParameterName:
-        strcpy(&m_shm[FIXED_SHM_SIZE], getParameterName(readIntring(&m_shmControl5->ringBuffer)).c_str());
-        break;
 		    
 #ifdef WAVES
     case RemotePluginGetShellName:
@@ -1348,7 +1344,6 @@ void RemotePluginServer::dispatchParEvents()
     case RemotePluginCanBeAutomated:
         canBeAutomated();
         break;
-
 
     case RemotePluginGetInputCount:
     {
@@ -1536,8 +1531,7 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginEffectOpen:
         EffectOpen();
         break;
-        
-        
+                
     case RemotePluginGetProgramCount:
         writeInt(&m_shm[FIXED_SHM_SIZE], getProgramCount());
         break;
@@ -1554,8 +1548,7 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginGetProgramName:
         strcpy(&m_shm[FIXED_SHM_SIZE], getProgramName().c_str());
         break;
-        
-        
+               
     case RemotePluginGetProgram:
         getProgram();
         break;
@@ -1563,8 +1556,7 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginSetCurrentProgram:
         setCurrentProgram(readIntring(&m_shmControl3->ringBuffer));
         break;        
-        
-        
+              
      case RemotePluginGetChunk:
         getChunk();
         break;
@@ -1598,7 +1590,19 @@ void RemotePluginServer::dispatchControlEvents()
         tryRead(&m_shm[FIXED_SHM_SIZECHUNKSTART], &chunkptr2[idx], curchunk);
         break;
     }  		    
-#endif		    		    
+#endif	
+		    
+    case RemotePluginGetParameterName:
+        strcpy(&m_shm[FIXED_SHM_SIZE], getParameterName(readIntring(&m_shmControl3->ringBuffer)).c_str());
+        break;
+        
+    case RemotePluginGetParameterLabel:
+        strcpy(&m_shm[FIXED_SHM_SIZE], getParameterLabel(readIntring(&m_shmControl3->ringBuffer)).c_str());
+        break; 
+        
+    case RemotePluginGetParameterDisplay:
+        strcpy(&m_shm[FIXED_SHM_SIZE], getParameterDisplay(readIntring(&m_shmControl3->ringBuffer)).c_str());
+        break;        	    
 		    		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
