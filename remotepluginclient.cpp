@@ -1728,7 +1728,7 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     if (eventnum > VSTSIZE)
     eventnum = VSTSIZE;            
 
-    for (int i = 0; i < evnts->numEvents; i++)
+    for (int i = 0; i < eventnum; i++)
     {
         VstEvent* pEvent = evnts->events[i];
 
