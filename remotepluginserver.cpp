@@ -1241,10 +1241,6 @@ void RemotePluginServer::dispatchParEvents()
         writeFloat(&m_shm[FIXED_SHM_SIZE], getVersion());
         break;
 
-    case RemotePluginUniqueID:
-        writeInt(&m_shm[FIXED_SHM_SIZE], getUID());
-        break;
-
     case RemotePluginGetName:
         strcpy(&m_shm[FIXED_SHM_SIZE], getName().c_str());
         break;
@@ -1255,20 +1251,6 @@ void RemotePluginServer::dispatchParEvents()
 
     case RemotePluginTerminate:
         terminate();
-        break;
-
-    case RemotePluginGetFlags:
-        m_flags = getFlags();
-        writeInt(&m_shm[FIXED_SHM_SIZE], m_flags);
-        break;
-
-    case RemotePluginGetinitialDelay:
-        m_delay = getinitialDelay();
-        writeInt(&m_shm[FIXED_SHM_SIZE], m_delay);
-        break;
-
-    case RemotePluginGetParameterCount:
-        writeInt(&m_shm[FIXED_SHM_SIZE], getParameterCount());
         break;
 		    
 #ifdef WAVES
@@ -1338,76 +1320,9 @@ void RemotePluginServer::dispatchParEvents()
     }
 */
 
-
-        break;
-
     case RemotePluginCanBeAutomated:
         canBeAutomated();
         break;
-
-    case RemotePluginGetInputCount:
-    {
-        int numin = getInputCount();
-        // m_numInputs = getInputCount();
-        
-#ifndef INOUTMEM
-        if (numin != m_numInputs)
-        {
-            if (m_inputs)
-            {
-                delete m_inputs;
-                m_inputs = 0;
-            }
-            if (numin > 0)
-                m_inputs = new float*[numin];
-
-#ifdef DOUBLEP
-            if (m_inputsdouble)
-            {
-                delete m_inputsdouble;
-                m_inputsdouble = 0;
-            }
-            if (numin > 0)
-                m_inputsdouble = new double*[numin];
-#endif
-        }
-#endif        
-        m_numInputs = numin;
-        writeInt(&m_shm[FIXED_SHM_SIZE], m_numInputs);
-        break;
-    }
-
-    case RemotePluginGetOutputCount:
-    {
-        int numout = getOutputCount();
-        // m_numOutputs = getOutputCount();
-        
-#ifndef INOUTMEM
-        if (numout != m_numOutputs)
-        {
-            if (m_outputs)
-            {
-                delete m_outputs;
-                m_outputs = 0;
-            }
-            if (numout > 0)
-                m_outputs = new float*[numout];
-
-#ifdef DOUBLEP
-            if (m_outputsdouble)
-            {
-                delete m_outputsdouble;
-                m_outputsdouble = 0;
-            }
-            if (numout > 0)
-                m_outputsdouble = new double*[numout];
-#endif
-        }
-#endif        
-        m_numOutputs = numout;
-        writeInt(&m_shm[FIXED_SHM_SIZE], m_numOutputs);
-        break;
-    }
 		    		    		   		    
 #ifdef DOUBLEP
      case RemoteSetPrecision:
@@ -1532,10 +1447,6 @@ void RemotePluginServer::dispatchControlEvents()
         EffectOpen();
         break;
                 
-    case RemotePluginGetProgramCount:
-        writeInt(&m_shm[FIXED_SHM_SIZE], getProgramCount());
-        break;
-
     case RemotePluginGetProgramNameIndexed:
     {
         char name[512];
@@ -1602,7 +1513,93 @@ void RemotePluginServer::dispatchControlEvents()
         
     case RemotePluginGetParameterDisplay:
         strcpy(&m_shm[FIXED_SHM_SIZE], getParameterDisplay(readIntring(&m_shmControl3->ringBuffer)).c_str());
-        break;        	    
+        break;  
+		    
+    case RemotePluginUniqueID:
+        writeInt(&m_shm[FIXED_SHM_SIZE], getUID());
+        break;
+        
+    case RemotePluginGetFlags:
+        m_flags = getFlags();
+        writeInt(&m_shm[FIXED_SHM_SIZE], m_flags);
+        break;
+
+    case RemotePluginGetinitialDelay:
+        m_delay = getinitialDelay();
+        writeInt(&m_shm[FIXED_SHM_SIZE], m_delay);
+        break;
+
+    case RemotePluginGetParameterCount:
+        writeInt(&m_shm[FIXED_SHM_SIZE], getParameterCount());
+        break;        
+        
+     case RemotePluginGetProgramCount:
+        writeInt(&m_shm[FIXED_SHM_SIZE], getProgramCount());
+        break;
+       
+    case RemotePluginGetInputCount:
+    {
+        int numin = getInputCount();
+        // m_numInputs = getInputCount();
+        
+#ifndef INOUTMEM
+        if (numin != m_numInputs)
+        {
+            if (m_inputs)
+            {
+                delete m_inputs;
+                m_inputs = 0;
+            }
+            if (numin > 0)
+                m_inputs = new float*[numin];
+
+#ifdef DOUBLEP
+            if (m_inputsdouble)
+            {
+                delete m_inputsdouble;
+                m_inputsdouble = 0;
+            }
+            if (numin > 0)
+                m_inputsdouble = new double*[numin];
+#endif
+        }
+#endif        
+        m_numInputs = numin;
+        writeInt(&m_shm[FIXED_SHM_SIZE], m_numInputs);
+        break;
+    }
+
+    case RemotePluginGetOutputCount:
+    {
+        int numout = getOutputCount();
+        // m_numOutputs = getOutputCount();
+        
+#ifndef INOUTMEM
+        if (numout != m_numOutputs)
+        {
+            if (m_outputs)
+            {
+                delete m_outputs;
+                m_outputs = 0;
+            }
+            if (numout > 0)
+                m_outputs = new float*[numout];
+
+#ifdef DOUBLEP
+            if (m_outputsdouble)
+            {
+                delete m_outputsdouble;
+                m_outputsdouble = 0;
+            }
+            if (numout > 0)
+                m_outputsdouble = new double*[numout];
+#endif
+        }
+#endif        
+        m_numOutputs = numout;
+        writeInt(&m_shm[FIXED_SHM_SIZE], m_numOutputs);
+        break;
+    }       	    
 		    		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchControlEvents: unexpected opcode " << opcode << std::endl;
