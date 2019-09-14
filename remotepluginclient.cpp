@@ -810,7 +810,7 @@ ptr = (int *)m_shm;
 
     for (int i=0;i<40000;i++)
     {
-        if (*ptr == 266)
+        if (*ptr == 27)
          {
             startok = 1;
             break;
