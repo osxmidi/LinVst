@@ -274,7 +274,7 @@ Because Wine has some missing parts as compared to Windows (ie Robocopy, reg ent
 
 Basic Install Procedure for Waves Central/64bit Waves plugins would be
 
-1: Install Wine Staging (Ubuntu needs libfaudio0)
+1: Install Wine Staging (Ubuntu needs libfaudio0) and install winetricks cmd (to workaround possible cmd problems that can cause hangs).
 
 2: Install the mfc42 and mfc42u 32bit dll overrides into ~/.wine/drive_c/windows/syswow64 (and optionally add the dll names in winecfg's Libraries tab)
 
