@@ -413,7 +413,11 @@ void RemoteVSTServer::EffectOpen()
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+	
+    m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, 1024, NULL, 0);
 
+    m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL, (float)44100);
+	
     char buffer[512];
     memset(buffer, 0, sizeof(buffer));
 	
