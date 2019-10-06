@@ -15,6 +15,7 @@ vst: a DSSI plugin wrapper for VST effects and instruments
 #include <string.h>
 
 
+
 std::vector<std::string>
 Paths::getPath(std::string envVar, std::string deflt, std::string defltHomeRelPath)
 {
@@ -39,11 +40,12 @@ Paths::getPath(std::string envVar, std::string deflt, std::string defltHomeRelPa
 	pathList.push_back(path.substr(index, newindex - index));
 	index = newindex + 1;
     }
-    
+
     pathList.push_back(path.substr(index));
 
     return pathList;
 }
+
 
 // Behaves like mkstemp, but for shared memory.
 int shm_mkstemp(char *fileBase)
@@ -71,8 +73,41 @@ int shm_mkstemp(char *fileBase)
         int fd = shm_open(fileBase, O_RDWR | O_CREAT | O_EXCL, 0660);
         if (fd >= 0) {
             return fd;
-        } else if (errno != EEXIST) { 
+        } else if (errno != EEXIST) {
             return -1;
         }
     }
+}
+
+
+std::string
+getBinaryPath(std::string basename, std::string suffix, std::string ext)
+{
+    std::string parentPath = "/usr/bin";
+
+#ifdef EMBED
+    suffix += "st";
+#endif
+
+    std::string fullPath = parentPath + "/" + basename + suffix + ext;
+    return fullPath;
+}
+
+std::vector<std::string>
+getCombinedBinaryPaths(std::vector<std::string> basenames,
+                       std::vector<std::string> suffixes,
+                       std::vector<std::string> extensions)
+{
+  std::vector<std::string> resultPaths;
+
+  for (auto basename : basenames) {
+    for (auto suffix : suffixes) {
+      for (auto ext : extensions) {
+        auto fullPath = getBinaryPath(basename, suffix, ext);
+        resultPaths.push_back(fullPath);
+      }
+    }
+  }
+
+  return resultPaths;
 }
