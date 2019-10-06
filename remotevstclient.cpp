@@ -47,6 +47,8 @@
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 
+
+
 void errwin(std::string dllname)
 {
 Window window = 0;
@@ -210,200 +212,42 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     mfile.close();
 #endif
 
-#ifndef VST32     
+    // Define basename and suffix
+    std::string basename = "lin-vst-server";
+    std::string suffix = "";
+
+#ifdef VST32
+    suffix += "32lx";
+#else
 #ifdef VST6432
-#ifdef TRACKTIONWM 
-    if (dlltype == 2)
-    {
-#ifdef EMBED    
-    LinVstName = "/usr/bin/lin-vst-servertrack32.exe";
-#else
-    LinVstName = "/usr/bin/lin-vst-servertrack32st.exe";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
+    if (dlltype == 2) {
+        suffix += "32";
     }
-#ifdef EMBED     
-    LinVstName = "/usr/bin/lin-vst-servertrack32.exe.so";
-#else
-    LinVstName = "/usr/bin/lin-vst-servertrack32st.exe.so";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-    }
-    else
-    {
-#ifdef EMBED 
-    LinVstName = "/usr/bin/lin-vst-servertrack.exe";
-#else
-    LinVstName = "/usr/bin/lin-vst-servertrackst.exe";
-#endif        
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-#ifdef EMBED     
-    LinVstName = "/usr/bin/lin-vst-servertrack.exe.so";
-#else
-    LinVstName = "/usr/bin/lin-vst-servertrackst.exe.so";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-    }   
-#else
-    if (dlltype == 2)
-    {
-#ifdef EMBED 
-    LinVstName = "/usr/bin/lin-vst-server32.exe";
-#else
-    LinVstName = "/usr/bin/lin-vst-server32st.exe";
-#endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-#ifdef EMBED 
-    LinVstName = "/usr/bin/lin-vst-server32.exe.so";
-#else
-    LinVstName = "/usr/bin/lin-vst-server32st.exe.so";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-    }
-    else
-    {
-#ifdef EMBED  
-    LinVstName = "/usr/bin/lin-vst-server.exe";
-#else
-    LinVstName = "/usr/bin/lin-vst-serverst.exe";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-#ifdef EMBED     
-    LinVstName = "/usr/bin/lin-vst-server.exe.so";
-#else
-    LinVstName = "/usr/bin/lin-vst-serverst.exe.so";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    } 
-    }       
-#endif
-#else
-#ifdef TRACKTIONWM 
-#ifdef EMBED 
-    LinVstName = "/usr/bin/lin-vst-servertrack.exe";
-#else
-    LinVstName = "/usr/bin/lin-vst-servertrackst.exe";
-#endif        
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-#ifdef EMBED     
-    LinVstName = "/usr/bin/lin-vst-servertrack.exe.so";
-#else
-    LinVstName = "/usr/bin/lin-vst-servertrackst.exe.so";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-#else
-#ifdef EMBED  
-    LinVstName = "/usr/bin/lin-vst-server.exe";
-#else
-    LinVstName = "/usr/bin/lin-vst-serverst.exe";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
-#ifdef EMBED     
-    LinVstName = "/usr/bin/lin-vst-server.exe.so";
-#else
-    LinVstName = "/usr/bin/lin-vst-serverst.exe.so";
-#endif    
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
-    }
+// Tracktion only considered for VST64_32
+#ifdef TRACKTIONWM
+    basename += "track";
 #endif
 #endif
 #endif
 
-#ifdef VST32
-#ifdef EMBED 
-    LinVstName = "/usr/bin/lin-vst-server32lx.exe";
-#else
-    LinVstName = "/usr/bin/lin-vst-server32lxst.exe";
-#endif
+    std::string vstExePath = getBinaryPath(basename, suffix, ".exe");
+    std::string vstSoPath = getBinaryPath(basename, suffix, ".exe.so");
+
+    LinVstName = vstExePath;
     test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
+    if (!test) {
+      m_runok = 1;
+      cleanup();
+      return;
     }
-#ifdef EMBED     
-    LinVstName = "/usr/bin/lin-vst-server32lx.exe.so";
-#else
-    LinVstName = "/usr/bin/lin-vst-server32lxst.exe.so";
-#endif    
+
+    LinVstName = vstSoPath;
     test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
-    m_runok = 1;
-    cleanup();
-    return;
+    if (!test) {
+      m_runok = 1;
+      cleanup();
+      return;
     }
-#endif
 
     hit2[0] = '\0';
 
@@ -443,102 +287,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
     else if (child == 0)
     {
-#ifdef VST6432
-#ifdef TRACKTIONWM 
-        if (dlltype == 2)
-        {
-            m_386run = 1;
-            #ifdef EMBED
-            if (execlp("/usr/bin/lin-vst-servertrack32.exe", "/usr/bin/lin-vst-servertrack32.exe", argStr, NULL))
-            #else
-            if (execlp("/usr/bin/lin-vst-servertrack32st.exe", "/usr/bin/lin-vst-servertrack32st.exe", argStr, NULL))
-            #endif
-            {
-                m_runok = 1;
-                cleanup();
-                return;
-            }
-        }
-        else
-        {
-            #ifdef EMBED
-            if (execlp("/usr/bin/lin-vst-servertrack.exe", "/usr/bin/lin-vst-servertrack.exe", argStr, NULL))
-            #else
-            if (execlp("/usr/bin/lin-vst-servertrackst.exe", "/usr/bin/lin-vst-servertrackst.exe", argStr, NULL))
-            #endif
-            {
-                m_runok = 1;
-                cleanup();
-                return;
-            }
-        }
-#else
-        if (dlltype == 2)
-        {
-            m_386run = 1;
-            #ifdef EMBED
-            if (execlp("/usr/bin/lin-vst-server32.exe", "/usr/bin/lin-vst-server32.exe", argStr, NULL))
-            #else
-            if (execlp("/usr/bin/lin-vst-server32st.exe", "/usr/bin/lin-vst-server32st.exe", argStr, NULL))
-            #endif
-            {
-                m_runok = 1;
-                cleanup();
-                return;
-            }
-        }
-        else
-        {
-            #ifdef EMBED
-            if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL))
-            #else
-            if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
-            #endif
-            {
-                m_runok = 1;
-                cleanup();
-                return;
-            }
-        }
-#endif
-#else
-#ifdef TRACKTIONWM 
-            #ifdef EMBED
-            if (execlp("/usr/bin/lin-vst-servertrack.exe", "/usr/bin/lin-vst-servertrack.exe", argStr, NULL))
-            #else
-            if (execlp("/usr/bin/lin-vst-servertrackst.exe", "/usr/bin/lin-vst-servertrackst.exe", argStr, NULL))
-            #endif
-        {
-            m_runok = 1;
-            cleanup();
-            return;
-        }            
-#else
-            #ifdef EMBED
-            if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe", argStr, NULL))
-            #else
-            if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
-            #endif
-        {
-            m_runok = 1;
-            cleanup();
-            return;
-        }
-#endif
-#endif
-
-#ifdef VST32
-            #ifdef EMBED
-            if (execlp("/usr/bin/lin-vst-server32lx.exe", "/usr/bin/lin-vst-server32lx.exe", argStr, NULL))
-            #else
-            if (execlp("/usr/bin/lin-vst-server32lxst.exe", "/usr/bin/lin-vst-server32lxst.exe", argStr, NULL))
-            #endif
-        {
-            m_runok = 1;
-            cleanup();
-            return;
-        }
-#endif
+      m_386run = 1;
+      if (execlp(vstExePath.c_str(), vstExePath.c_str(), argStr, NULL)) {
+        m_runok = 1;
+        cleanup();
+        return;
+      }
    }
     syncStartup();
 }
