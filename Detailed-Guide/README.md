@@ -356,7 +356,56 @@ and then finish by clicking on open.
 
 The DAW scan should then pick up the Waves plugins.
 
+**Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
+Drag the clip from the Beats window to outside of the Addictive Drums 2 window and then a midi file will appear (probably AD2Beat.mid) in /home/user/.wine/drive_c/users/user/My Documents/Addictive Drums 2/XXXXXX/Settings which should contain the clip and which can then be dragged to the DAW. Same thing applies for the recorded wav file (ADDrop.wav).
+
+**BassMidi** sf2 and sfz.
+
+**BFD3 FXpansion**
+
+**Cobalt (Sanford) Synth**
+
+**EZDrummer2** (visual glitches can be removed by choosing the Windows XP version in winecfg). 
+Exports EZdrummer Libraries clips to a midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder (the last dragged clip that was dragged outside of the EZDrummer2 window) and then the midi file can be drag and dropped into the DAW.
+Choose Select All (from the right side Menu drop down) to be able to drag multiple clips to the midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder
+
+**FL Sytrus** needs winetricks corefonts to be installed for fonts. The UI might become blank after closing and reopening (minimizing).
+
+**FM8** (might need the standalone FM8 to be run first so that the plugin's file browser files appear)
+
+**Groove Machine** (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+
+**Guitar Rig 5** (same dll overrides as Kontakt)
+
+**HoRNet Tape**
+
+**Ignite Amps TPA-1 Amp Sim** 
+
+**IK Amplitube 4**
+
+**IK SampleTank**
+
 **iLOK Software Licence Manager** needs winetricks msxml3 (might need crypt32.dll overrides, winetricks crypt32)
+
+**Izotope Ozone** has multiple dlls and only the main dll (which is a vst dll) needs to have a linvst .so file associated with it. For instance, the Ozone 8.dll would have an associated Ozone 8.so file and none of the other dlls would have associated .so files (otherwise the DAW will try and load the other dlls which are not vst dlls and then produce errors).
+
+**Klanghelm IVGI Saturation**
+
+**Klanghelm MJUC Compressor**
+
+**Klanghelm SDDR Saturation**
+
+**Klanghelm VUMT analog style metering and channel tools**
+
+**LePou Amp Sims**
+
+**Line 6 Helix Native** (msvcr120.dll and gdiplus.dll overrides or winetricks vcrun2013 gdiplus wininet) (copy and paste username and password into the registration window)
+
+**Melda MXXX Multi Effects** (turn GPU acceleration off)
+
+**Mercuriall Spark Amp Sim**
+
+**MinimogueVA**
 
 **MT-PowerDrumKit** (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
@@ -366,81 +415,46 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help w
 **MT-PowerDrumKit** exports grooves to mtpdk.mid in the /home/user/Documents folder (the last dragged groove or fill to the composer) and then mtpdk.mid can be drag and dropped into the DAW.
 To deal with multiple grooves/fills (compositions), drag the composition from the composer window to outside of the MT-PowerDrumKit window and then mtpdk.mid should contain the whole composition.
 
-**EZDrummer2** (visual glitches can be removed by choosing the Windows XP version in winecfg). 
-Exports EZdrummer Libraries clips to a midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder (the last dragged clip that was dragged outside of the EZDrummer2 window) and then the midi file can be drag and dropped into the DAW.
-Choose Select All (from the right side Menu drop down) to be able to drag multiple clips to the midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder
+**Nebula4**
 
-**Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
-Drag the clip from the Beats window to outside of the Addictive Drums 2 window and then a midi file will appear (probably AD2Beat.mid) in /home/user/.wine/drive_c/users/user/My Documents/Addictive Drums 2/XXXXXX/Settings which should contain the clip and which can then be dragged to the DAW. Same thing applies for the recorded wav file (ADDrop.wav).
-
-**Steven Slate Drums SSD5** Drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
-Samples might need to be manually extracted (by clicking on the slatepack files) (using Archive Manager).
-
-**BFD3 FXpansion**
-
-**Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
+**Nick Crow Lab Amp Sims**
 
 **OP-X PRO-II** (Disable d2d1 in the Libraries section of winecfg)
 
-**Toneboosters TrackEssentials** (disable d2d1 for Ferox)
+**Reaktor 6** (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
+
+**S-Gear Amp Sim**
 
 **Serum Synth** (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
 Serum needs Wine Staging to register.
 
-**Guitar Rig 5** (same dll overrides as Kontakt)
-
-**Reaktor 6** (msvcp140.dll concrt140.dll dll overrides for Wine 2.0)
-
-**FM8** (might need the standalone FM8 to be run first so that the plugin's file browser files appear)
-
-**Line 6 Helix Native** (msvcr120.dll and gdiplus.dll overrides or winetricks vcrun2013 gdiplus wininet) (copy and paste username and password into the registration window)
-
-**S-Gear Amp Sim**
-
-**TH3 Amp Sim Overloud**
-
-**IK Amplitube 4**
-
-**IK SampleTank**
-
-**Mercuriall Spark Amp Sim**
-
-**Melda MXXX Multi Effects** (turn GPU acceleration off)
-
-**Izotope Ozone** has multiple dlls and only the main dll (which is a vst dll) needs to have a linvst .so file associated with it. For instance, the Ozone 8.dll would have an associated Ozone 8.so file and none of the other dlls would have associated .so files (otherwise the DAW will try and load the other dlls which are not vst dlls and then produce errors).
-
-**T-RackS**
-
-**Nebula4**
-
-**VUMT**
-
 **Sforzando** (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 
-**BassMidi** sf2 and sfz.
+**Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
-**Groove Machine** (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
-
-**Zampler RX**
+**Steven Slate Drums SSD5** Drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
+Samples might need to be manually extracted (by clicking on the slatepack files) (using Archive Manager).
 
 **Stillwell plugins**
 
-**Cobalt (Sanford) Synth**
-
 **Synth1** needs it's presets path setup (browse and locate using the opt button).
 
-**FL Sytrus** needs winetricks corefonts to be installed for fonts. The UI might become blank after closing and reopening (minimizing).
+**T-RackS**
 
-**Ignite Amps TPA-1 Amp Sim** 
+**TDR Nova parallel dynamic equalizer**
 
-**LePou Amp Sims**
+**TDR SlickEQ mixing/mastering equalizer** 
 
-**Nick Crow Lab Amp Sims**
+**TH3 Amp Sim Overloud**
+
+**Toneboosters TrackEssentials** (disable d2d1 for Ferox)
+
+**ValhallaPlate plate reverb**
 
 **Voxengo Boogex Guitar Effects**
 
-**Klanghelm MJUC Compressor**
+**Voxengo SPAN spectrum analyzer**
 
-**TDR SlickEQ mixing/mastering equalizer** 
+**Zampler RX**
 
