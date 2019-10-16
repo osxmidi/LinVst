@@ -18,7 +18,7 @@ Point linvstconvert to the folder containing the windows vst's and hit the Start
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
-More detailed info is at https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
+More detailed info is at https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide which includes updated Native/Access/Kontakt and Waves Central/Waves install details plus install details for other vsts.
 
 Make info is at https://github.com/osxmidi/LinVst/tree/master/Make-Guide
 
