@@ -239,6 +239,14 @@ A scan of the plugin dll file can be done to find out if the plugin depends on d
 
 "strings vstname.dll | grep -i d2d1"
 
+**Kontakt Player/Native Access updated info (Wine 4)
+
+The Native Access install seems to require a Windows 10 setting in winecfg, otherwise the Native Access install might get hungup on the ISO Driver Install.
+
+It's also probably a good idea to install winetricks cmd to avoid possible cmd bugs that might be in Wine.
+
+Dll overrides are probably not needed anymore.
+
 **Kontakt Player 5.6.8 and 6.0** (turn multiprocessing off). Requires Wine 2.0 and above
 
 Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
