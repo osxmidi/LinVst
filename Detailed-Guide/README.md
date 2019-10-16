@@ -274,7 +274,7 @@ For cd installs
 
 sudo mount -t udf -o unhide /dev/sr0 /mnt
 
-The winbind and libntlm0 and gnutls packages might need to be installed for net access.
+The winbind and libntlm0 and gnutls (gnutls-bin) packages might need to be installed for net access.
 
 **Waves plugins**.
 
