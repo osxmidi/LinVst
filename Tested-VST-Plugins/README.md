@@ -13,6 +13,12 @@ A scan of the plugin dll file can be done to find out if the plugin depends on d
 
 "strings vstname.dll | grep -i d2d1"
 
+**Kontakt (Wine 4)
+
+The Native Access install might hang when installing the ISO Driver and setting Windows 10 in winecfg might get around it.
+
+Install winetricks cmd (to workaround possible cmd problems that can cause hangs).
+
 **Kontakt Player 5.6.8 and 6.0** (turn multiprocessing off). Requires Wine 2.0 and above
 
 Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
@@ -48,7 +54,7 @@ Because Wine has some missing parts as compared to Windows (ie Robocopy, reg ent
 
 Basic Install Procedure for Waves Central/64bit Waves plugins would be
 
-1: Install Wine Staging
+1: Install Wine Staging (Ubuntu needs libfaudio0) and install winetricks cmd (to workaround possible cmd problems that can cause hangs).
 
 2: Install the mfc42 and mfc42u 32bit dll overrides into ~/.wine/drive_c/windows/syswow64 (and optionally add the dll names in winecfg's Libraries tab)
 
