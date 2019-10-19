@@ -2046,8 +2046,8 @@ void RemotePluginClient::effVoidOp(int opcode)
       }
       else
       {
-	waitForClientexit();    
-        m_threadbreak = 1; 
+//	waitForClientexit();    
+//        m_threadbreak = 1; 
 /*
     if (m_shm)
         for (int i=0;i<100000;i++)
@@ -2075,6 +2075,20 @@ void RemotePluginClient::effVoidOp(int opcode)
         writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginDoVoid);
         writeIntring(&m_shmControl2->ringBuffer, opcode);
         commitWrite(&m_shmControl2->ringBuffer);
+        waitForServer2(); 
+        
+        writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl2->ringBuffer, effClose);
+        commitWrite(&m_shmControl2->ringBuffer);
+        
+       	waitForClientexit();   
+       	 
+        m_threadbreak = 1; 
+#ifdef EMBED  
+#ifdef EMBEDTHREAD
+        m_threadbreakembed = 1;
+#endif
+#endif 
 
         waitForServer2exit(); 
         waitForServer3exit(); 
