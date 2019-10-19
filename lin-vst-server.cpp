@@ -551,6 +551,12 @@ RemoteVSTServer::~RemoteVSTServer()
     m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
     }
     } 
+	
+	//        m_threadsfinish = 1;
+	waitForClient2exit();
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
 
 /*
 #ifdef EMBED		
