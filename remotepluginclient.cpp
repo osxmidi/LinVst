@@ -777,7 +777,12 @@ RemotePluginClient::~RemotePluginClient()
  if(m_runok == 0)
  {	
     if(m_threadbreak == 0) 
-    waitForClientexit();       
+    waitForClientexit();      
+	 
+	waitForServer2exit(); 
+        waitForServer3exit(); 
+        waitForServer4exit(); 
+        waitForServer5exit();   
 		 
     cleanup();
 
@@ -2089,11 +2094,6 @@ void RemotePluginClient::effVoidOp(int opcode)
         m_threadbreakembed = 1;
 #endif
 #endif 
-
-        waitForServer2exit(); 
-        waitForServer3exit(); 
-        waitForServer4exit(); 
-        waitForServer5exit();  
       }
     }
     else
