@@ -199,6 +199,7 @@ public:
     int                 bufferSize;
     int                 sampleRate;
     bool                exiting;
+    bool                exiting2;
     bool                effectrun;
     bool                inProcessThread;
     bool                guiVisible;
@@ -283,7 +284,7 @@ DWORD WINAPI AudioThreadMain(LPVOID parameter)
         perror("Failed to set realtime priority for audio thread");
     }
 */
-    while (!remoteVSTServerInstance->exiting)
+    while (!remoteVSTServerInstance->exiting2)
     {
     remoteVSTServerInstance->dispatchProcess(50);
     }
@@ -307,7 +308,7 @@ DWORD WINAPI GetSetThreadMain(LPVOID parameter)
         perror("Failed to set realtime priority for audio thread");
     }
 */
-    while (!remoteVSTServerInstance->exiting)
+    while (!remoteVSTServerInstance->exiting2)
     {
     remoteVSTServerInstance->dispatchGetSet(50);
     }
@@ -331,7 +332,7 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
         perror("Failed to set realtime priority for audio thread");
     }
 */
-    while (!remoteVSTServerInstance->exiting)
+    while (!remoteVSTServerInstance->exiting2)
     {
     remoteVSTServerInstance->dispatchPar(50);
     }
@@ -361,6 +362,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     haveGui(true),
     timerval(0),
     exiting(false),
+    exiting2(false),
     effectrun(false),
     inProcessThread(false),
     guiVisible(false),
@@ -752,9 +754,18 @@ void RemoteVSTServer::effDoVoid(int opcode)
 	
     if (opcode == effClose)
     {
+
+    if(exiting == true)   
+{ 
+    exiting2 = true;
+}
+else
+{
+    waitForServerexit();
+    
          // usleep(500000);
-        waitForServerexit();
-        terminate();
+    terminate();
+}
 	return;    
     }
   
