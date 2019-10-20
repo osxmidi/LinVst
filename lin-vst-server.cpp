@@ -308,7 +308,7 @@ DWORD WINAPI GetSetThreadMain(LPVOID parameter)
         perror("Failed to set realtime priority for audio thread");
     }
 */
-    while (!remoteVSTServerInstance->exiting2)
+    while (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->dispatchGetSet(50);
     }
@@ -332,7 +332,7 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
         perror("Failed to set realtime priority for audio thread");
     }
 */
-    while (!remoteVSTServerInstance->exiting2)
+    while (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->dispatchPar(50);
     }
@@ -552,12 +552,6 @@ RemoteVSTServer::~RemoteVSTServer()
     }
     } 
 	
-	//        m_threadsfinish = 1;
-	waitForClient2exit();
-        waitForClient3exit();
-        waitForClient4exit();
-        waitForClient5exit();
-
 /*
 #ifdef EMBED		
     if (winm)
@@ -763,14 +757,23 @@ void RemoteVSTServer::effDoVoid(int opcode)
 
     if(exiting == true)   
 { 
+	waitForClient2exit();
+
     exiting2 = true;
 }
 else
 {
     waitForServerexit();
+
+	//        m_threadsfinish = 1;
+
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
     
          // usleep(500000);
     terminate();
+
 }
 	return;    
     }
