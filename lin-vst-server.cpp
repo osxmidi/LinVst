@@ -284,7 +284,7 @@ DWORD WINAPI AudioThreadMain(LPVOID parameter)
         perror("Failed to set realtime priority for audio thread");
     }
 */
-    while (!remoteVSTServerInstance->exiting2)
+    while (!remoteVSTServerInstance->exiting)
     {
     remoteVSTServerInstance->dispatchProcess(50);
     }
@@ -754,27 +754,9 @@ void RemoteVSTServer::effDoVoid(int opcode)
 	
     if (opcode == effClose)
     {
-
-    if(exiting == true)   
-{ 
-	waitForClient2exit();
-
-    exiting2 = true;
-}
-else
-{
-    waitForServerexit();
-
-	//        m_threadsfinish = 1;
-
-        waitForClient3exit();
-        waitForClient4exit();
-        waitForClient5exit();
-    
          // usleep(500000);
-    terminate();
-
-}
+        waitForServerexit();
+        terminate();
 	return;    
     }
   
