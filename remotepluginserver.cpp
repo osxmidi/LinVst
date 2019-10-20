@@ -911,12 +911,14 @@ void RemotePluginServer::dispatchProcessEvents()
     case RemotePluginDoVoid:
     {
         int opcode = readIntring(&m_shmControl2->ringBuffer);
-	    /*
         if (opcode == effClose)
 	{	
-
-	}
-	*/
+        m_threadsfinish = 1;
+	    waitForClient2exit();
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
+	}	
         effDoVoid(opcode);
         break;
     }
