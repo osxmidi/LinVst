@@ -776,7 +776,7 @@ RemotePluginClient::~RemotePluginClient()
 {
  if(m_runok == 0)
  {	
-//    if(m_threadbreak == 0) 
+    m_threadbreak = 1; 
     waitForClientexit();  
     waitForServer2exit(); 
     waitForServer3exit(); 
