@@ -239,9 +239,8 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		    
     case WM_TIMER:
 	/*
-         if(remoteVSTServerInstance)
+         if(wParam == 678)
          {
-         if(remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin && !remoteVSTServerInstance->hidegui) 
          remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
          }	
 	*/
@@ -1201,10 +1200,11 @@ void RemoteVSTServer::showGUI()
 	guiVisible = true;
         ShowWindow(hWnd, SW_SHOWNORMAL);
         UpdateWindow(hWnd);
+	    
+        timerval = 678;
+        timerval = SetTimer(hWnd, timerval, 80, 0);	    
     }
 #endif	
-        timerval = 678;
-        timerval = SetTimer(hWnd, timerval, 80, 0);
 }
 	
 void RemoteVSTServer::hideGUI()
@@ -1288,6 +1288,9 @@ void RemoteVSTServer::openGUI()
     ShowWindow(hWnd, SW_SHOWNORMAL);
     // ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);	
+	
+    timerval = 678;
+    timerval = SetTimer(hWnd, timerval, 80, 0);	
 }
 #endif
 
@@ -2639,7 +2642,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance->hidegui == 1)
     break;  
     
-    if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin) 
+    if((msg.message == WM_TIMER) && (msg.wParam == 678)) 
     {
     remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
     if(remoteVSTServerInstance->guiupdate)
