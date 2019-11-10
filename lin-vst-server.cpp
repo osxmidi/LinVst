@@ -2383,41 +2383,59 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 	
         // remoteVSTServerInstance = new RemoteVSTServer(fileInfo, libname);
     
-        if(!remoteVSTServerInstance)
-        {
-        cerr << "ERROR: Remote VST startup failed" << endl;
-        /*
-        TCHAR wbuf[1024];
-        wsprintf(wbuf, "Remote VST startup failed %s", fileName.c_str());
-        UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-        MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-        KillTimer(NULL, errtimer);  
-	*/
-	if(libHandle)
-        FreeLibrary(libHandle);
-	usleep(5000000); 	
-	exit(0);	
-        // return 1; 
-        }
-
-        if(remoteVSTServerInstance->starterror == 1)
-        {
-        cerr << "ERROR: Remote VST startup failed and/or mismatched LinVst versions" << endl;
-	/*
-        TCHAR wbuf[1024];
-        wsprintf(wbuf, "Remote VST startup failed and/or mismatched LinVst versions %s", fileName.c_str());
-        UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-        MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-        KillTimer(NULL, errtimer);    
-	*/
+    if(!remoteVSTServerInstance)
+    {
+    cerr << "ERROR: Remote VST startup failed" << endl;
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    /*
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);    
+    */
+	usleep(5000000);    
 	if(remoteVSTServerInstance)
 	delete remoteVSTServerInstance;
 	if(libHandle)
-        FreeLibrary(libHandle);
-	usleep(5000000);	
-	exit(0);	
-        // return 1; 
+	FreeLibrary(libHandle);
+	    
+        exit(0);
+	// return 1;
         }
+
+    if(remoteVSTServerInstance->starterror == 1)
+    {
+    cerr << "ERROR: Remote VST startup failed and/or mismatched LinVst versions" << endl;
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    /*
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);    
+    */
+	usleep(5000000);    
+	if(remoteVSTServerInstance)
+	delete remoteVSTServerInstance;
+	if(libHandle)
+	FreeLibrary(libHandle);
+	    
+        exit(0);
+	// return 1;
+    }
 
     remoteVSTServerInstance->m_plugin = getinstance(hostCallback);
     if (!remoteVSTServerInstance->m_plugin)
