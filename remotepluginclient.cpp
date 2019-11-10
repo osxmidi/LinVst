@@ -316,8 +316,8 @@ else
                    case disconnectserver: 
                    m_inexcept = 1;
                    usleep(100000);
-                   memset (theEffect, 0, sizeof(AEffect));
-                   theEffect = 0;          
+                //   memset (theEffect, 0, sizeof(AEffect));
+                //   theEffect = 0;          
                    waitForServer2exit(); 
                    waitForServer3exit(); 
                    waitForServer4exit(); 
