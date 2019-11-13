@@ -2246,7 +2246,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     cout << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
     cout << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
     cout << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-    cout << "LinVst version 2.7.2" << endl;
+    cout << "LinVst version 2.7.3" << endl;
 
     if (cmdline)
     {
@@ -2645,7 +2645,42 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     int tcount = 0;
 
     while (!remoteVSTServerInstance->exiting)
-    {		         
+    {	
+    if(remoteVSTServerInstance->wavesthread == 1)
+    {	         
+    for (int loopidx=0; (loopidx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); loopidx++)
+    {       
+    if(remoteVSTServerInstance->exiting)
+    break;
+	    
+ //   if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
+ //   break;    
+    
+    TranslateMessage(&msg);
+    DispatchMessage(&msg);
+       
+    if(remoteVSTServerInstance->hidegui == 1)
+    break;  
+    
+    if((msg.message == WM_TIMER) && (msg.wParam == 678)) 
+    {
+    remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
+    if(remoteVSTServerInstance->guiupdate)
+    remoteVSTServerInstance->guiUpdate();  
+    }      
+    } 
+    
+    if(remoteVSTServerInstance->hidegui == 1)
+    {
+    remoteVSTServerInstance->hideGUI();
+    }
+    
+    if(remoteVSTServerInstance->exiting)
+    break;	                   
+    remoteVSTServerInstance->dispatchControl(50);               
+    }
+    else
+    {	         
     while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
     {       
     if(remoteVSTServerInstance->exiting)
@@ -2676,6 +2711,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance->exiting)
     break;	                   
     remoteVSTServerInstance->dispatchControl(50);               
+    }
     }
 	
 /*
