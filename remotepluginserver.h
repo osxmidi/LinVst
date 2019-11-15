@@ -210,7 +210,13 @@ bool fwait(int *fcount, int ms);
 bool fpost(int *fcount);
 
 VstTimeInfo *timeinfo;
-VstTimeInfo timeinfo2;       
+VstTimeInfo timeinfo2;   
+    
+struct vinfo
+{
+char a[64 + 8 + (sizeof(int32_t) * 2) + 48];	
+// char a[96];
+};        
     
 int                 m_updateio;
 int                 m_updatein;
