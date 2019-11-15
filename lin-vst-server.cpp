@@ -587,24 +587,24 @@ bool retval;
 #ifdef VESTIGE
 bool RemoteVSTServer::getOutProp(int index)
 {
-char ptr[256];
+char ptr[sizeof(vinfo)];
 bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetOutputProperties, index, 0, &ptr, 0);
 
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr, 256);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr, sizeof(vinfo));
 
         return retval;         
 }
 
 bool RemoteVSTServer::getInProp(int index)
 {
-char ptr[256];
+char ptr[sizeof(vinfo)];
 bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetInputProperties, index, 0, &ptr, 0);
 
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr, 256);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr, sizeof(vinfo));
 
         return retval;       
 }
