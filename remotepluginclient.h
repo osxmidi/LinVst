@@ -235,7 +235,8 @@ int wavesthread;
     
 struct vinfo
 {
-char a[96];
+char a[64 + 8 + (sizeof(int32_t) * 2) + 48];	
+// char a[96];
 };    
 
 protected:
