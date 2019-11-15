@@ -1225,10 +1225,7 @@ void RemoteVSTServer::hideGUI()
   UpdateWindow(hWnd);
 #endif
 
-  if(melda == 0)
-  {
-  m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
-  }
+  m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
 	
 #ifdef EMBED  
 #ifndef WCLASS  
@@ -1267,11 +1264,6 @@ void RemoteVSTServer::hideGUI()
   #endif 
   #endif         	  
   }
-
-  if(melda == 1)
-  {
-  m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);	
-  }	  
 	
   guiVisible = false;
 	
@@ -2653,8 +2645,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance->exiting)
     break;
 	    
- //   if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
- //   break;    
+    if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
+    break;    
     
     TranslateMessage(&msg);
     DispatchMessage(&msg);
