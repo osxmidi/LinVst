@@ -1771,10 +1771,10 @@ bool RemotePluginClient::getEffInProp(int index, void *ptr)
 char ptr2[sizeof(vinfo)];
 bool b;
 
-    writeOpcodering(&m_shmControl3->ringBuffer, RemoteInProp);
-    writeIntring(&m_shmControl3->ringBuffer, index);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
+    writeOpcodering(&m_shmControl4->ringBuffer, RemoteInProp);
+    writeIntring(&m_shmControl4->ringBuffer, index);
+    commitWrite(&m_shmControl4->ringBuffer);
+    waitForServer4();  
  
    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr2, sizeof(vinfo));
@@ -1788,10 +1788,10 @@ bool RemotePluginClient::getEffOutProp(int index, void *ptr)
 char ptr2[sizeof(vinfo)];
 bool b;
 
-    writeOpcodering(&m_shmControl3->ringBuffer, RemoteOutProp);
-    writeIntring(&m_shmControl3->ringBuffer, index);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
+    writeOpcodering(&m_shmControl4->ringBuffer, RemoteOutProp);
+    writeIntring(&m_shmControl4->ringBuffer, index);
+    commitWrite(&m_shmControl4->ringBuffer);
+    waitForServer4();  
 
     tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
     tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr2, sizeof(vinfo));
