@@ -8,3 +8,5 @@ Usage is ./testvst.exe "vstfile.dll"
 
 paths and vst filenames that contain spaces need to be enclosed in quotes.
 
+Makefile32bits is for 32bit vst plugins.
+
