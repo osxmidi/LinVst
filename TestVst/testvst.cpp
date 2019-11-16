@@ -199,6 +199,8 @@ int numargs;
     FreeLibrary(libHandle);  	
 	exit(0);
     }
+	
+    SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);	
 	    
     ShowWindow(hWnd, SW_SHOWNORMAL);
     UpdateWindow(hWnd);
