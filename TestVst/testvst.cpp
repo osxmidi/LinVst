@@ -135,11 +135,14 @@ int numargs;
     if(m_plugin->flags & effFlagsHasEditor)
     {
 	printf("HasEditor\n");	
-	}	
+    }	
     else 
     { 
-    printf("NoEditor\n");		
-	}  
+        printf("NoEditor\n");
+	if(libHandle)
+	FreeLibrary(libHandle);	    
+	exit(0);        
+    }  
 	
 	m_plugin->dispatcher( m_plugin, effOpen, 0, 0, NULL, 0);  
 	
