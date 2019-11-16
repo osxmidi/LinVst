@@ -11,17 +11,9 @@
 #include <shellapi.h>
 
 #define APPLICATION_CLASS_NAME "dssi_vst"
-#ifdef TRACKTIONWM 
-#define APPLICATION_CLASS_NAME2 "dssi_vst2"
-#endif
+
 #define OLD_PLUGIN_ENTRY_POINT "main"
 #define NEW_PLUGIN_ENTRY_POINT "VSTPluginMain"
-
-#if VST_FORCE_DEPRECATED
-#define DEPRECATED_VST_SYMBOL(x) __##x##Deprecated
-#else
-#define DEPRECATED_VST_SYMBOL(x) x
-#endif
 
 #ifdef VESTIGE
 typedef int16_t VstInt16;	
