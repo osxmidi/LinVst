@@ -1032,23 +1032,7 @@ void RemotePluginServer::dispatchGetSetEvents()
         writeFloat(&m_shm2[FIXED_SHM_SIZE2 + 1024], floatval);
         break;
     }
-		    
-    case RemoteInProp:
-    {   
-        int index = readIntring(&m_shmControl4->ringBuffer);
-        bool b = getInProp(index);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-        break;
-    }
-    
-    case RemoteOutProp:
-    {   
-        int index = readIntring(&m_shmControl4->ringBuffer);
-        bool b = getOutProp(index);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-        break;
-    }	    		    	    
-		    		    
+		    		    		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchGetSetEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1223,7 +1207,42 @@ void RemotePluginServer::dispatchParEvents()
 
     switch (opcode)
     {
-		    
+		
+    case RemotePluginDoVoid:
+    {
+        int opcode = readIntring(&m_shmControl5->ringBuffer);
+        if (opcode == effClose)
+	{	
+        m_threadsfinish = 1;
+	    waitForClient2exit();
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
+	}	
+        effDoVoid(opcode);
+        break;
+    }
+		    		    
+    case RemotePluginHideGUI:
+        hideGUI2();
+        break;			
+		        
+    case RemoteInProp:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getInProp(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }
+    
+    case RemoteOutProp:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getOutProp(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }
+    
     case RemotePluginDoVoid2:
     {
         int opcode = readIntring(&m_shmControl5->ringBuffer);
@@ -1233,7 +1252,7 @@ void RemotePluginServer::dispatchParEvents()
         int b = effDoVoid2(opcode, index, value, opt);
         tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
         break;
-    }		          		    
+    }    	    		    	        		          		    
 
     case RemotePluginSetBufferSize:
     {
@@ -1306,13 +1325,6 @@ void RemotePluginServer::dispatchParEvents()
     {
         bool b = warn(readStringring(&m_shmControl5->ringBuffer));
         tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
-        break;
-    }
-
-    case RemotePluginGetEffInt:
-    {
-        int opcode = readIntring(&m_shmControl5->ringBuffer);
-        writeInt(&m_shm[FIXED_SHM_SIZE], getEffInt(opcode));
         break;
     }
 
@@ -1444,6 +1456,14 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginEffectOpen:
         EffectOpen();
         break;
+        
+     case RemotePluginGetEffInt:
+    {
+        int opcode = readIntring(&m_shmControl3->ringBuffer);
+        int  value = readIntring(&m_shmControl3->ringBuffer);
+        writeInt(&m_shm[FIXED_SHM_SIZE], getEffInt(opcode, value));
+        break;
+    }		           
                 
     case RemotePluginGetProgramNameIndexed:
     {

@@ -583,7 +583,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 		    
     case effMainsChanged:
-        plugin->effVoidOp2(effMainsChanged, index, value, opt);
+        v = plugin->getEffInt(effMainsChanged, value);
         break;
  
     case effGetVendorString:		    
@@ -633,7 +633,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
 #ifdef DOUBLEP
     case effSetProcessPrecision:
-        v = plugin->setPrecision(value);
+        v = plugin->getEffInt(effSetProcessPrecision, value);
       break;  
 #endif
 
@@ -680,7 +680,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
     case effGetPlugCategory:
-        v = plugin->getEffInt(effGetPlugCategory);
+        v = plugin->getEffInt(effGetPlugCategory, 0);
         break;
 #ifdef WAVES
     case effShellGetNextPlugin:

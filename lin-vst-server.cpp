@@ -112,12 +112,13 @@ public:
 
     virtual void        showGUI();
     virtual void        hideGUI();
+    virtual void        hideGUI2();    
 #ifdef EMBED
     virtual void        openGUI();
 #endif
     virtual void        guiUpdate();
     
-    virtual int         getEffInt(int opcode);
+    virtual int         getEffInt(int opcode, int value);
     virtual std::string getEffString(int opcode, int index);
     virtual void        effDoVoid(int opcode);
     virtual int         effDoVoid2(int opcode, int index, int value, float opt);
@@ -729,9 +730,9 @@ bool RemoteVSTServer::getEffCanDo(std::string ptr)
 }
 #endif
 
-int RemoteVSTServer::getEffInt(int opcode)
+int RemoteVSTServer::getEffInt(int opcode, int value)
 {
-    return m_plugin->dispatcher(m_plugin, opcode, 0, 0, NULL, 0);
+    return m_plugin->dispatcher(m_plugin, opcode, 0, value, NULL, 0);
 }
 
 void RemoteVSTServer::effDoVoid(int opcode)
@@ -1206,6 +1207,17 @@ void RemoteVSTServer::showGUI()
     }
 #endif	
 }
+
+void RemoteVSTServer::hideGUI2()
+{
+    hidegui = 1;  
+#ifdef XECLOSE    
+    while(hidegui == 1)
+    {    
+    sched_yield();
+    } 
+#endif        				
+}	
 	
 void RemoteVSTServer::hideGUI()
 {

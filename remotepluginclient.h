@@ -147,7 +147,7 @@ public:
     void                openGUI();
 #endif
 
-    int                 getEffInt(int opcode);
+    int                 getEffInt(int opcode, int value);
     std::string         getEffString(int opcode, int index);
     void                effVoidOp(int opcode);
     int                 effVoidOp2(int opcode, int index, int value, float opt);

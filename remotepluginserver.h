@@ -74,7 +74,7 @@ public:
     virtual std::string     getProgramName()                        { return ""; }
     virtual void            setCurrentProgram(int)                  { return; }
 
-    virtual int             getEffInt(int opcode)                   { return 0; }
+    virtual int             getEffInt(int opcode, int value)        { return 0; }
     virtual std::string     getEffString(int opcode, int index)     { return ""; }
     virtual void            effDoVoid(int opcode)                   { return; }
     virtual int             effDoVoid2(int opcode, int index, int value, float opt)           { return 0; }
@@ -113,6 +113,7 @@ public:
 
     virtual void            showGUI()                               { }
     virtual void            hideGUI()                               { }
+    virtual void            hideGUI2()                              { }         
 #ifdef EMBED
     virtual void            openGUI()                               { }
 #endif
