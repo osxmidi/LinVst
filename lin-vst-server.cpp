@@ -767,7 +767,8 @@ int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
 {
 int ret;
 
-    ret = 0;	
+    ret = 0;
+/*	
     if(opcode == hidegui2)
     {
     hidegui = 1;  
@@ -779,6 +780,7 @@ int ret;
 #endif       
     }  	
     else
+ */   
     ret = m_plugin->dispatcher(m_plugin, opcode, index, value, NULL, opt);    
     return ret;
 }
