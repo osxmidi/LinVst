@@ -186,7 +186,9 @@ Serum needs Wine Staging to register.
 
 **Mercuriall Spark Amp Sim**
 
-**Melda MXXX Multi Effects** (turn GPU acceleration off)
+**Melda 
+Installer needs corefonts (winetricks corefonts)
+Melda MXXX Multi Effects** (turn GPU acceleration off)
 
 **Izotope Ozone** has multiple dlls and only the main dll (which is a vst dll) needs to have a linvst .so file associated with it. For instance, the Ozone 8.dll would have an associated Ozone 8.so file and none of the other dlls would have associated .so files (otherwise the DAW will try and load the other dlls which are not vst dlls and then produce errors).
 
