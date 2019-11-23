@@ -2307,7 +2307,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     pathName = pathName.substr(0, found);
     size_t found2 = fileName.find_last_of("/");
     fileName = fileName.substr(found2 + 1, strlen(libname) - (found2 +1));
-    SetCurrentDirectory(pathName.c_str());
+    // SetCurrentDirectory(pathName.c_str());
 
     cout << "Loading  " << libname << endl;
 
