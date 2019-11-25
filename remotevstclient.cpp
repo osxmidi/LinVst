@@ -443,6 +443,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     }
     else if (child == 0)
     {
+#ifndef VST32        
 #ifdef VST6432
 #ifdef TRACKTIONWM 
         if (dlltype == 2)
@@ -526,8 +527,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         }
 #endif
 #endif
-
-#ifdef VST32
+#else
             #ifdef EMBED
             if (execlp("/usr/bin/lin-vst-server32lx.exe", "/usr/bin/lin-vst-server32lx.exe", argStr, NULL))
             #else
