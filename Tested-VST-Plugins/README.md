@@ -50,6 +50,8 @@ The winbind and libntlm0 and gnutls packages might need to be installed for net 
 
 **Waves plugins**.
 
+Waves Central v11 needs windows powershell which does not currently work.
+
 Because Wine has some missing parts as compared to Windows (ie Robocopy, reg entries, some dll's etc) some things need to be installed and setup.
 
 Basic Install Procedure for Waves Central/64bit Waves plugins would be
