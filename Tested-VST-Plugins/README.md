@@ -3,6 +3,9 @@
 >  LinVst tested with Wine4 and Linux Tracktion 7/Waveform, Linux Ardour 5.x, Linux Reaper 5.x, Linux Renoise 3.1, Linux Bitwig Studio 2.5 (For Bitwig 2.5, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
 For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins).
 
+If a plugin needs a dll override it can be found by running TestVst from the terminal and looking for any unimplemented function in xxxx.dll errors in the output (the xxxx.dll is the dll that needs to be replaced with a dll override).
+
+
 d2d1 based plugins
 
 d2d1.dll can cause errors because Wine's current d2d1 support is not complete and using a d2d1.dll override might produce a black (blank) display.
@@ -13,7 +16,7 @@ A scan of the plugin dll file can be done to find out if the plugin depends on d
 
 "strings vstname.dll | grep -i d2d1"
 
-Wine (current versions) doesn't have the temp directory paths set in the registry, so importing Waves.reg in the Waves folder is probably a good idea as it sets the temp file path in the registry (for 64 bit Windows) and some plugins might need this info to install properly.
+Wine (current versions) doesn't have the temp directory paths set in the registry, so importing Waves.reg in the Waves folder using regedit is probably a good idea as it sets the temp file path in the registry (for 64 bit Windows) and some plugins might need this info to install properly.
 
 **Kontakt (Wine 4)
 
@@ -21,7 +24,7 @@ The Native Access install might hang when installing the ISO Driver and setting 
 
 Install winetricks cmd (to workaround possible cmd problems that can cause hangs).
 
-**Kontakt Player 5.6.8 and 6.0** (can try turning multiprocessing off for some setups). Requires Wine 2.0 and above
+**Kontakt Player 5.x and 6.x** (can try turning multiprocessing off for some setups). Requires Wine 2.0 and above
 
 Some additional dll overrides (below) might be needed for Kontakt.
 
@@ -30,6 +33,8 @@ Kontakt when used with Wine (Stable) 4.x needs a msvcp140.dll override whereas K
 To override a Wine dll, copy the windows dll (64 bit) to ~/.wine/drive_c/windows/system32 and then override the dll to be native by entering the dll name in the winecfg Libraries option tab.
 
 Native Access might need a msvcp140.dll override.
+
+Temp directory paths might need to be setup in the registry for some Native Access installs (Use regedit to import Waves.reg in the Waves folder).
 
 Native Access can abort or crash partway through a download (because Wine can have problems mounting the downloaded iso file) but the iso file has been downloaded, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
 
