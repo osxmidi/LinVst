@@ -13,7 +13,9 @@ Wine libwine development files.
 For Manjaro
 
 sudo pacman -Sy wine-staging
+
 sudo pacman -Sy libx11
+
 sudo pacman -Sy gcc-multilib
 
 ------
