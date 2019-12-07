@@ -13,6 +13,8 @@ A scan of the plugin dll file can be done to find out if the plugin depends on d
 
 "strings vstname.dll | grep -i d2d1"
 
+Wine (current versions) doesn't have the temp directory paths set in the registry, so importing Waves.reg in the Waves folder is probably a good idea as it sets the temp file path in the registry (for 64 bit Windows) and some plugins might need this info to install properly.
+
 **Kontakt (Wine 4)
 
 The Native Access install might hang when installing the ISO Driver and setting Windows 10 in winecfg might get around it.
