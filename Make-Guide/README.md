@@ -8,15 +8,29 @@ If using the VST2 SDK then the plugininterfaces folder needs to be placed inside
 
 Wine libwine development files.
 
+------
+
+For Manjaro
+
+sudo pacman -Sy wine-staging
+sudo pacman -Sy libx11
+sudo pacman -Sy gcc-multilib
+
+------
+
 For Ubuntu/Debian, sudo apt-get install libwine-development-dev (For Debian, Wine might need to be reinstalled after installing libwine-development-dev) (for Ubuntu 14.04 it's sudo apt-get install wine1.8 and sudo apt-get install wine1.8-dev)
 
 wine-devel packages for other distros (sudo apt-get install wine-devel).
 
 libX11 development needed for embedded version (sudo apt-get install libx11-dev)
 
+-------
+
 For Fedora 
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
 sudo yum -y install libstdc++.i686 libX11.i686
+
+-------
  
 Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
 
