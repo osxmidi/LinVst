@@ -21,19 +21,19 @@ The Native Access install might hang when installing the ISO Driver and setting 
 
 Install winetricks cmd (to workaround possible cmd problems that can cause hangs).
 
-**Kontakt Player 5.6.8 and 6.0** (turn multiprocessing off). Requires Wine 2.0 and above
+**Kontakt Player 5.6.8 and 6.0** (can try turning multiprocessing off for some setups). Requires Wine 2.0 and above
 
-Some additional dll overrides (below) might be needed for Kontakt and Wine 2.0.
-Kontakt and Wine 2.8 staging or later only need an additional msvcp140.dll override. 
-To override dll's, copy windows dlls to drive_c/windows/system32 and then override the dlls to be native using the winecfg Libraries option.
+Some additional dll overrides (below) might be needed for Kontakt.
 
-(Kontakt Wine 2.0 additional dll's, msvcp140.dll concrt140.dll api-ms-win-crt-time-l1-1-0.dll api-ms-win-crt-runtime-l1-1-0.dll ucrtbase.dll)
+Kontakt when used with Wine (Stable) 4.x needs a msvcp140.dll override whereas Kontakt used with Wine Staging 4.x doesn't. 
 
-Native Access requires Wine Devel/Wine Staging 3.5 or later and a msvcp140.dll override.
+To override a Wine dll, copy the windows dll (64 bit) to ~/.wine/drive_c/windows/system32 and then override the dll to be native by entering the dll name in the winecfg Libraries option tab.
 
-Because Wine might have problems mounting the downloaded iso file, Native Access aborts partway through a download but the iso file has been downloaded, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
+Native Access might need a msvcp140.dll override.
 
-For all NI iso files they need to be mounted using udf and the unhide option.
+Native Access can abort or crash partway through a download (because Wine can have problems mounting the downloaded iso file) but the iso file has been downloaded, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
+
+All NI iso files need to be mounted using udf and the unhide option (because they are dual PC/Mac iso files).
 
 sudo mount -t udf file.iso -o unhide /mnt
 
