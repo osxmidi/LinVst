@@ -10,7 +10,7 @@ Wine libwine development files.
 
 ------
 
-For Manjaro
+For Manjaro/Arch
 
 sudo pacman -Sy wine-staging
 
