@@ -110,8 +110,6 @@ COMMONPROGRAMFILES C:\Program Files\Common Files
 
 PROGRAMFILES C:\Program Files
 
-PUBLIC C:\users\Public
-
 COMMONPROGRAMFILES(X86) C:\Program Files (x86)\Common Files
 
 PROGRAMFILES(X86) C:\Program Files (x86)
