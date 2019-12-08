@@ -106,13 +106,21 @@ wine regedit
 
 Add the following environment string variables under HKEY_CURRENT_USER\Environment (New String Value)
 
+COMMONPROGRAMFILES C:\Program Files\Common Files
+
+PROGRAMFILES C:\Program Files
+
+PUBLIC C:\users\Public
+
 COMMONPROGRAMFILES(X86) C:\Program Files (x86)\Common Files
 
 PROGRAMFILES(X86) C:\Program Files (x86)
 
 PUBLIC C:\users\Public
 
-for 32 bit systems it's
+-----------------
+
+for 32 bit only systems it's
 
 COMMONPROGRAMFILES C:\Program Files\Common Files
 
