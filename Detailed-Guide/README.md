@@ -224,6 +224,36 @@ wineserver can have it's priority level changed from normal to high or very high
 
 The wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
 
+Set realtime priorities
+
+If they are not set then cpu spiking can occur with Kontakt and other plugins.
+
+sudo edit /etc/security/limits.conf
+
+add
+
+@audio          -       rtprio          99
+
+------
+
+sudo edit /etc/group
+
+change 
+
+audio:x:29:pulse
+
+to audio:x:29:pulse,<your_username>
+
+------------
+
+sudo edit /etc/security/limits.d/audio.conf
+
+add
+
+@audio   -  rtprio     95
+@audio   -  memlock    unlimited
+#@audio   -  nice      -19
+
 ## Tested vst's
 
 >  LinVst tested with Wine4 and Linux Tracktion 7/Waveform, Linux Ardour 5.x, Linux Reaper 5.x, Linux Renoise 3.1, Linux Bitwig Studio 2.5 (For Bitwig 2.5, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
