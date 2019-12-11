@@ -111,3 +111,30 @@ Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedV
 
 Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
 
+For possible DAW plugin window focus options remove most of the // characters from the start of the lines in linvst.cpp around line 344
+
+      case EnterNotify:
+//      if(reaperid)
+ //     if(mapped2)
+  //    {     
+      if(e.xcrossing.focus == False)
+      {
+      XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
+//    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
+      }
+ //     }
+      break;
+      
+      would end up as 
+      
+      case EnterNotify:
+      if(reaperid)
+      if(mapped2)
+      {     
+      if(e.xcrossing.focus == False)
+      {
+      XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
+//    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
+      }
+      }
+      break;
