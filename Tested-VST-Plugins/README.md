@@ -55,6 +55,10 @@ sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
 
+Kontakt tries to install the vc redist dlls and they might not actually get installed.
+
+To install the real vc redist dlls (in a dll override way) use winetricks vcrunxxxx.
+
 **Waves plugins**.
 
 Waves Central v11 needs windows powershell which does not currently work.
