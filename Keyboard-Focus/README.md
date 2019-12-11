@@ -14,7 +14,11 @@ For possible DAW plugin window focus options remove most of the // characters fr
  //     }
       break;
       
+```      
+      
       would end up as 
+      
+```      
       
       case EnterNotify:
       if(reaperid)
