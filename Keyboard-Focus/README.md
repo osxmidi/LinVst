@@ -1,5 +1,7 @@
 For possible DAW plugin window focus options remove most of the // characters from the start of the lines in linvst.cpp around line 344
 
+**
+
       case EnterNotify:
 //      if(reaperid)
  //     if(mapped2)
@@ -26,3 +28,4 @@ For possible DAW plugin window focus options remove most of the // characters fr
       }
       break;
 
+**
