@@ -12,11 +12,7 @@ Wine libwine development files.
 
 For Manjaro/Arch
 
-sudo pacman -Sy wine-staging
-
-sudo pacman -Sy libx11
-
-sudo pacman -Sy gcc-multilib
+sudo pacman -Sy wine-staging libx11 gcc-multilib
 
 ------
 
