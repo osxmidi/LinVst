@@ -30,6 +30,8 @@ to audio:x:29:pulse,<your_username>
 
 sudo edit /etc/security/limits.d/audio.conf
 
+add
+
 @audio - rtprio 95
 @audio - memlock unlimited
 #@audio - nice -19
