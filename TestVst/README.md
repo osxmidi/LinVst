@@ -12,3 +12,9 @@ Makefile32bits is for 32bit vst plugins.
 
 If TestVst is run from a terminal and the output is looked at, then sometimes there can be an unimplemented function error in some dll and that dll can then be overriden.
 
+Some vst plugins might not work due to Wines current capabilities or for some other reason.
+
+Some vst plugins rely on the d2d1 dll which is not totally implemented in current Wine.
+
+If a plugin has trouble with it's display then disabling d2d1 in the winecfg Libraries tab can be tried.
+
