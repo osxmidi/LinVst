@@ -45,11 +45,13 @@ Quite a few vst plugins rely on the Visual C++ Redistributable dlls msvcr120.dll
 
 Some vst plugins might crash if the Visual C++ Redistributable dlls are not present in /home/username/.wine/drive_c/windows/system32 for 64 bit vst's and /home/username/.wine/drive_c/windows/syswow64 for 32 bit vst's, and then overridden in the winecfg Libraries tab
 
-Quite a few plugins rely on the d2d1 dll 
+Some vst plugins might not work due to Wines current capabilities or for some other reason.
 
-Some vst's might crash if Wines inbuilt d2d1 is active (which it is by default).
+Use TestVst for testing how a vst plugin might run under Wine.
 
-d2d1 can be disabled in the winecfg Libraries tab.
+Some vst plugins rely on the d2d1 dll which is not totally implemented in current Wine.
+
+If a plugin has trouble with it's display then disabling d2d1 in the winecfg Libraries tab can be tried.
 
 Some plugins need Windows fonts (~/.wine/drive_c/windows/Fonts) ./winetricks corefonts
 
