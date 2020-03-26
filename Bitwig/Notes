@@ -1,0 +1,17 @@
+LinVst may have some problems with some plugins and Bitwig.
+
+
+A fix at the moment is to change some lines in linvst.cpp
+
+find (around line 1068)
+
+    wait(NULL);	        	    
+    delete plugin;		
+
+and change it to
+
+  //  wait(NULL);	        	    
+    delete plugin;		
+
+
+Use the quick fix in conjunction with choosing the plugins to be run Individually in the Bitwig Settings-Plug-Ins panel.
