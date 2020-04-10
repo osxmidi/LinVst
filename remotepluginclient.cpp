@@ -1594,7 +1594,9 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     {
     timeInfo = 0;
 
-    timeInfo = (VstTimeInfo *)m_audioMaster(theEffect, audioMasterGetTime, 0, 0, 0, 0);
+//    timeInfo = (VstTimeInfo *)m_audioMaster(theEffect, audioMasterGetTime, 0, 0, 0, 0);
+	    
+    timeInfo = (VstTimeInfo *)m_audioMaster(theEffect, audioMasterGetTime, 0, kVstPpqPosValid | kVstTempoValid | kVstBarsValid | kVstCyclePosValid | kVstTimeSigValid, 0, 0);	    
 
     if(timeInfo)
     {    
