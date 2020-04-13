@@ -218,6 +218,7 @@ Melda MXXX Multi Effects** (turn GPU acceleration off)
 **VUMT**
 
 **Sforzando** (sfz drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
+Sforzando newer versions might not work properly due to Wine d2d1 problems.
 
 **BassMidi** sf2 and sfz.
 
