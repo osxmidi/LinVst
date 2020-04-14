@@ -20,6 +20,8 @@ For example linvstconvertxx "/home/user/vst/*" or linvstconvertxx "/home/user/vs
 
 -------------
 
+The LinVst source folder should be located in a folder/directory with user permissions otherwise cmake might produce permission errors.
+
 ## Building the deb package.
 
 This has been developed and tested on Ubuntu 18.04. It should work on other releases.
