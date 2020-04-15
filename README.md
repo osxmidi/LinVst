@@ -92,11 +92,6 @@ See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 in the Tested 
 
 Also, see the Tested VST's folder at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins for some vst plugin setups and possible tips.
 
-**Bitwig**
-
-For Bitwig 2.5 and 3.0, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
-For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins.
-
 **Renoise**
 
 Choose the sandbox option for plugins.
