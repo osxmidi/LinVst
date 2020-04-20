@@ -340,7 +340,8 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       if(e.xmap.window == child)
       mapped2 = 0;     
       break;	    
-		      
+
+#ifndef NOFOCUS		      
       case EnterNotify:
 //      if(reaperid)
  //     if(mapped2)
@@ -352,6 +353,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       }
  //     }
       break;
+#endif		      
 		      
 #ifdef FOCUS
       case LeaveNotify:
