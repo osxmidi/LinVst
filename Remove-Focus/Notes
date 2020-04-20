@@ -1,15 +1,3 @@
-To remove Focus grabbing, remove the following from linvst.cpp around line 344
+To remove Focus grabbing use the Makefiles in this folder.
 
-
-
-     case EnterNotify:
-//      if(reaperid)
- //     if(mapped2)
-  //    {     
-      if(e.xcrossing.focus == False)
-      {
-      XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
-//    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
-      }
- //     }
-      break;
+It will also disable keyboard input.
