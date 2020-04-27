@@ -476,6 +476,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_threadbreak(0),
     m_threadbreakexit(0),
     editopen(0),
+    winrect(0),
     m_shmFileName(0),
     m_shm(0),
     m_shmSize(0),
@@ -1988,6 +1989,7 @@ bool RemotePluginClient::warn(std::string str)
 
 void RemotePluginClient::showGUI()
 {
+    winrect = 0;
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginShowGUI);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
