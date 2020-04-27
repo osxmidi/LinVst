@@ -205,7 +205,8 @@ public:
     int winerror;    
    } winm2;        
    winmessage *winm;
-  int displayerr;
+  int winrect;    
+  int displayerr;    
 #ifdef EMBEDTHREAD
    pthread_t           m_EMBEDThread;
    static void         *callEMBEDThread(void *arg) { return ((RemotePluginClient*)arg)->EMBEDThread(); }
