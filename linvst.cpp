@@ -716,7 +716,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
         plugin->display = XOpenDisplay(0);
 
-        if(plugin->display && plugin->handle)
+        if(plugin->display && plugin->handle && !plugin->winm->winerror)
         {	        
         plugin->eventrun = 1; 
              
