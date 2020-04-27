@@ -178,6 +178,7 @@ public:
     int handle;
     int width;
     int height;
+    int winerror;
     } winm2;    
     winmessage *winm;
 #endif
@@ -951,6 +952,18 @@ bool RemoteVSTServer::warn(std::string warning)
 
 void RemoteVSTServer::showGUI()
 {	
+       winm->winerror = 0;
+	
+       if(haveGui == false)
+       {
+        winm->handle = 0;
+        winm->width = 0;
+        winm->height = 0;
+        winm->winerror = 0;
+        guiVisible = false;
+        return;
+       }
+	
 #ifdef WCLASS
         memset(&wclass, 0, sizeof(WNDCLASSEX));
         wclass.cbSize = sizeof(WNDCLASSEX);
@@ -1093,6 +1106,7 @@ void RemoteVSTServer::showGUI()
         winm->handle = 0;
         winm->width = 0;
         winm->height = 0;
+	winm->winerror = 1;    
         tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
         return;
     }
@@ -1223,6 +1237,17 @@ void RemoteVSTServer::hideGUI2()
 	
 void RemoteVSTServer::hideGUI()
 {
+      if(haveGui == false)
+       {
+        winm->handle = 0;
+        winm->width = 0;
+        winm->height = 0;
+        winm->winerror = 0;
+        guiVisible = false;
+        hidegui = 0;	
+        return;
+       }
+	
     // if (!hWnd)
         // return;
 /*
@@ -1294,6 +1319,11 @@ void RemoteVSTServer::hideGUI()
 #ifdef EMBED
 void RemoteVSTServer::openGUI()
 {
+    if(haveGui == false)
+    {
+    guiVisible = false;
+    return;
+    }
     guiVisible = true;
     ShowWindow(hWnd, SW_SHOWNORMAL);
     // ShowWindow(hWnd, SW_SHOW);
