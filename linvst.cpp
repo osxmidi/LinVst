@@ -551,7 +551,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     {
         rp = &plugin->retRect;
         *((struct ERect **)ptr) = rp;
-	v=1;	    
+	v=plugin->winrect;		    
     }
         break;
 
@@ -717,7 +717,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         plugin->display = XOpenDisplay(0);
 
         if(plugin->display && plugin->handle && !plugin->winm->winerror)
-        {	        
+        {
+	plugin->winrect = 1;	
         plugin->eventrun = 1; 
              
      //   XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
@@ -811,9 +812,10 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
        plugin->display = XOpenDisplay(0);
 
-       if(plugin->display && plugin->handle)
+       if(plugin->display && plugin->handle && !plugin->winm->winerror)
        {
-       plugin->eventrun = 1;  
+       plugin->winrect = 1;	
+       plugin->eventrun = 1; 
             
 #ifdef XECLOSE
        data[0] = 0;
