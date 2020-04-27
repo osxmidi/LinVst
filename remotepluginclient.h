@@ -202,6 +202,7 @@ public:
     int handle;
     int width;
     int height;
+    int winerror;    
    } winm2;        
    winmessage *winm;
   int displayerr;
