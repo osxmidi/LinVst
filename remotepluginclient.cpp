@@ -476,7 +476,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_threadbreak(0),
     m_threadbreakexit(0),
     editopen(0),
-    winrect(0),
     m_shmFileName(0),
     m_shm(0),
     m_shmSize(0),
@@ -529,6 +528,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     height(0),
     displayerr(0),
     winm(0),
+    winrect(0),
 #ifdef EMBEDDRAG
     x11_win(0),
     pparent(0),
