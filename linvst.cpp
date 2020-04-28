@@ -549,12 +549,32 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     {
     case effEditGetRect:
     {
+#ifdef EMBED
+        if(plugin->winrect == 0)
+        {
+        plugin->effVoidOp(effEditGetRect);
+
+        if(!plugin->winm->winerror)
+        {
+        plugin->width = plugin->winm->width;
+        plugin->height = plugin->winm->height;
+
+        rp = &plugin->retRect;
+        rp->bottom = plugin->height;
+        rp->top = 0;
+        rp->right = plugin->width;
+        rp->left = 0;
+
+	plugin->winrect = 1;	
+        }
+        }
+#endif
         rp = &plugin->retRect;
         *((struct ERect **)ptr) = rp;
 	v=plugin->winrect;		    
     }
         break;
-
+		    
     case effEditIdle:
 #ifdef EMBED
 #ifdef XEMBED
@@ -954,7 +974,10 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #else            
         plugin->hideGUI();
 #endif  
-	plugin->editopen = 0;	 
+	plugin->editopen = 0;	
+#ifdef EMBED
+        plugin->winrect = 0;	
+#endif 		    
 	v=1;		    
         break;
 		    
