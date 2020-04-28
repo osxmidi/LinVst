@@ -1989,12 +1989,12 @@ bool RemotePluginClient::warn(std::string str)
 
 void RemotePluginClient::showGUI()
 {
-    winrect = 0;
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginShowGUI);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
 
 #ifdef EMBED
+    winrect = 0;	
     tryRead(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
 #endif
 }
