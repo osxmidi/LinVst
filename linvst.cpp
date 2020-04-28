@@ -571,6 +571,9 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #endif
         rp = &plugin->retRect;
         *((struct ERect **)ptr) = rp;
+	if(plugin->winrect == 2)
+	v = 0;
+	else    
 	v=plugin->winrect;		    
     }
         break;
@@ -810,7 +813,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        else
        {
        plugin->displayerr = 1;
-       plugin->eventrun = 0;       
+       plugin->eventrun = 0;  
+       plugin->winrect = 2;	       
        }
      }   
 #else
@@ -915,6 +919,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        {
        plugin->displayerr = 1;
        plugin->eventrun = 0;
+       plugin->winrect = 2;	       
        }
      }
 #endif
