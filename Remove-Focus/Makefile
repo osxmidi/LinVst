@@ -24,7 +24,7 @@ LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
 LINK_WINE   = -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 LINK_WINE32   = -L/usr/lib/i386-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 
-TARGETS     = linvst.so lin-vst-servertrack-bw.exe lin-vst-servertrack32-bw.exe
+TARGETS     = linvst.so lin-vst-servertrack.exe lin-vst-servertrack32.exe
 
 # --------------------------------------------------------------
 
@@ -33,10 +33,10 @@ all: $(TARGETS)
 linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o paths.unix.o
 	$(CXX) $^ $(LINK_PLUGIN) -o $@
 	
-lin-vst-servertrack-bw.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
+lin-vst-servertrack.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
 	$(WINECXX) -m64 $^ $(LINK_WINE) -o $@
 
-lin-vst-servertrack32-bw.exe: lin-vst-server.wine32.o remotepluginserver.wine32.o paths.wine32.o
+lin-vst-servertrack32.exe: lin-vst-server.wine32.o remotepluginserver.wine32.o paths.wine32.o
 	$(WINECXX) -m32 $^ $(LINK_WINE32) -o $@
 
 # --------------------------------------------------------------
@@ -83,5 +83,5 @@ install:
 	install -d $(BIN_DIR)
 	install -d $(VST_DIR)
 	install -m 755 linvst.so $(VST_DIR)
-	install -m 755 lin-vst-servertrack-bw.exe lin-vst-servertrack-bw.exe.so $(BIN_DIR)
-	install -m 755 lin-vst-servertrack32-bw.exe lin-vst-servertrack32-bw.exe.so $(BIN_DIR)
+	install -m 755 lin-vst-servertrack.exe lin-vst-servertrack.exe.so $(BIN_DIR)
+	install -m 755 lin-vst-servertrack32.exe lin-vst-servertrack32.exe.so $(BIN_DIR)
