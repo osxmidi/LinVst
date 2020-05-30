@@ -214,7 +214,7 @@ LinVst has produced reasonable latency results with a low latency kernel and wit
 
 A kernel that has PREEMPT in it's info would be the preference (obtain kernel info by running uname -a).
 
-rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) may have some effect.
+rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may have some effect.
 
 LinVst is memory access intensive and having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
 
