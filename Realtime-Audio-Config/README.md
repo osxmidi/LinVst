@@ -2,7 +2,9 @@ Some distros such as Manjaro/Mint don't seem to currently setup audio for realti
 
 If they are not set then cpu spiking can occur with plugins.
 
-To set audio realtime priorities edit the below files.
+Installing jackd2 can set up realtime as well.
+
+To set audio realtime priorities manually, edit the below files.
 
 ```
 
