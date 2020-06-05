@@ -1,4 +1,4 @@
-## To make
+# To make
 
 For the deb package see https://github.com/osxmidi/LinVst/tree/master/deb-packages
 
@@ -10,23 +10,28 @@ Wine libwine development files.
 
 ------
 
-For Manjaro/Arch
+## For Manjaro/Arch
 
+```
 sudo pacman -Sy wine-staging libx11 gcc-multilib
+```
 
 ------
 
-For Ubuntu/Debian, sudo apt-get install libwine-development-dev (For Debian, Wine might need to be reinstalled after installing libwine-development-dev) (for Ubuntu 14.04 it's sudo apt-get install wine1.8 and sudo apt-get install wine1.8-dev)
+## For Ubuntu/Debian
+`sudo apt-get install libwine-development-dev` (For Debian, Wine might need to be reinstalled after installing libwine-development-dev) (for Ubuntu 14.04 it's `sudo apt-get install wine1.8` and `sudo apt-get install wine1.8-dev`)
 
-wine-devel packages for other distros (sudo apt-get install wine-devel).
+wine-devel packages for other distros (`sudo apt-get install wine-devel`).
 
-libX11 development needed for embedded version (sudo apt-get install libx11-dev)
+libX11 development needed for embedded version (`sudo apt-get install libx11-dev`)
 
 -------
 
-For Fedora 
+## For Fedora 
+```
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
 sudo yum -y install libstdc++.i686 libX11.i686
+```
 
 -------
  
@@ -34,8 +39,8 @@ Include and Library paths might need to be changed in the Makefile for various 6
 
 Additional 32 bit development libraries are probably needed.
 
-On Ubuntu/Debian 64 bits 
-
+## On Ubuntu/Debian 64 bits 
+```
 sudo dpkg --add-architecture i386
 
 sudo apt-get install libc6-dev-i386
@@ -43,11 +48,11 @@ sudo apt-get install libc6-dev-i386
 sudo apt-get install gcc-multilib g++-multilib
 
 sudo apt-get install libwine-development-dev:i386
-
+```
 For Debian add deb http://ftp.de.debian.org/debian distro main non-free to /etc/apt/sources.list (distro gets replaced with distro ie stretch etc)
-
+```
 sudo apt-get update
-
+```
 --------
 
 The convert folder is for making the linvstconvert and linvstconverttree (navigates subfolders) utilities that name convert Windows vst dll filenames (.dll) to corresponding Linux shared library filenames (.so).
@@ -58,23 +63,23 @@ A -no-pie option might be needed on some systems for the linvstconvert and linvs
 
 --
 
-For LinVst
-
+## For LinVst
+```
 sudo make clean
 
 make
 
 sudo make install
-
-Installs lin-vst-server.exe and lin-vst-server.exe.so to /usr/bin and installs linvst.so to /vst in the source code folder (lin-vst-serverst for standalone window version)
+```
+Installs lin-vst-server.exe and lin-vst-server.exe.so to `/usr/bin` and installs linvst.so to `/vst` in the source code folder (lin-vst-serverst for standalone window version)
 
 The default Makefile is for 64 bit vst's only (embedded window).
 
-Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's (also installs lin-vst-server32.exe and lin-vst-server32.exe.so to /usr/bin for 32 bit vst support) (lin-vst-server32st for standalone window version)
+Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's (also installs lin-vst-server32.exe and lin-vst-server32.exe.so to `/usr/bin` for 32 bit vst support) (lin-vst-server32st for standalone window version)
 
 Makefile-standalone-64 (64 bit vsts only) is for a standalone window version.
 
-Defining TRACKTIONWM makes a Tracktion embedded window compatible version (lin-vst-servertrack.exe lin-vst-servertrack.exe.so (lin-vst-servertrack32.exe lin-vst-servertrack32.exe.so) installed to /usr/bin).
+Defining TRACKTIONWM makes a Tracktion embedded window compatible version (lin-vst-servertrack.exe lin-vst-servertrack.exe.so (lin-vst-servertrack32.exe lin-vst-servertrack32.exe.so) installed to `/usr/bin`).
 
 Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
 
@@ -84,5 +89,5 @@ Defining FOCUS enables an alternative keyboard focus operation where the plugin 
 
 See Makefile comments for define options.
 
-The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only and contains makefiles for Linux 32bit only systems and makes and installs lin-vst-server32lx (lin-vst-server32lxst for standalone window version) to /usr/bin.
+The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only and contains makefiles for Linux 32bit only systems and makes and installs lin-vst-server32lx (lin-vst-server32lxst for standalone window version) to `/usr/bin`.
 
