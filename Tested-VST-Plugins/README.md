@@ -179,7 +179,8 @@ Samples might need to be manually extracted (by clicking on the slatepack files)
 
 **Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
-**OP-X PRO-II** (Disable d2d1 in the Libraries section of winecfg)
+**OP-X PRO-II** Use the 32 bit XP version.
+(The 64 bit version can run (but with some GUI problems) by disabling d2d1 in the Libraries section of winecfg)
 
 **Toneboosters TrackEssentials** (disable d2d1 for Ferox)
 
