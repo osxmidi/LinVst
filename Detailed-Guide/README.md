@@ -240,9 +240,12 @@ sudo edit /etc/group
 
 change 
 
+```
 audio:x:29:pulse
 
 to audio:x:29:pulse,<your_username>
+
+```
 
 ------------
 
@@ -322,9 +325,13 @@ sudo edit /etc/group
 
 change 
 
+```
+
 audio:x:29:pulse
 
 to audio:x:29:pulse,<your_username>
+
+```
 
 ------------
 
