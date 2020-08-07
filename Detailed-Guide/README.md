@@ -224,6 +224,7 @@ wineserver can have it's priority level changed from normal to high or very high
 
 The wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
 
+```
 Set realtime priorities
 
 If they are not set then cpu spiking can occur with Kontakt and other plugins.
@@ -240,12 +241,9 @@ sudo edit /etc/group
 
 change 
 
-```
 audio:x:29:pulse
 
 to audio:x:29:pulse,<your_username>
-
-```
 
 ------------
 
@@ -256,6 +254,8 @@ add
 @audio   -  rtprio     95
 @audio   -  memlock    unlimited
 #@audio   -  nice      -19
+
+```
 
 ## Tested vst's
 
@@ -309,6 +309,7 @@ sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls (gnutls-bin) packages might need to be installed for net access.
 
+```
 Set realtime priorities
 
 If they are not set then cpu spiking can occur with Kontakt and other plugins.
@@ -325,13 +326,9 @@ sudo edit /etc/group
 
 change 
 
-```
-
 audio:x:29:pulse
 
 to audio:x:29:pulse,<your_username>
-
-```
 
 ------------
 
@@ -342,6 +339,8 @@ add
 @audio   -  rtprio     95
 @audio   -  memlock    unlimited
 #@audio   -  nice      -19
+
+```
 
 **Waves plugins**.
 
