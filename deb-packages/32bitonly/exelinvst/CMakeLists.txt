@@ -58,7 +58,7 @@ set( CMAKE_CXX_STANDARD 14 )
 
 include_directories( ${WIN_INCLUDE} )
 
-set( CMAKE_EXE_LINKER_FLAGS "-m32 -lpthread -lrt ${LINK_FLAGS}" )
+set( CMAKE_EXE_LINKER_FLAGS "-m32 -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)" )
 
 add_executable( lin-vst-server32lx.exe  ${LINVST_SVR_SRC} )
 set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS}  -m32 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DVESTIGE -DXECLOSE -DWCLASS -DNEWTIME -DINOUTMEM -DCHUNKBUF" )
