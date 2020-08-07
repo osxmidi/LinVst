@@ -19,7 +19,7 @@ BUILD_FLAGS_WIN = -m32 -O2 -DVST32 -DDRAG -DWINONTOP -DWAVES -DVESTIGE -DWCLASS 
 LINK_FLAGS   = $(LDFLAGS)
 
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
-LINK_WINE   = -m32 -lpthread -lrt $(LINK_FLAGS)
+LINK_WINE   = -m32 -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 
 TARGETS     = linvst.so lin-vst-server32lxst.exe
 
