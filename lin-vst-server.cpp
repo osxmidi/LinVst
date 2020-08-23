@@ -2139,11 +2139,11 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     if(remoteVSTServerInstance && !remoteVSTServerInstance->exiting)
     {	
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
-    strcpy(&m_shm[FIXED_SHM_SIZE3], (char*)ptr);
+    strcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], (char*)ptr);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
 
-    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 + 512], sizeof(int));
     rv = retval;  
     }
     }
