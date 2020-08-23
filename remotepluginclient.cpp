@@ -261,11 +261,11 @@ else
                    case audioMasterCanDo:    
                    retval = 0;
                    retstr2[0]='\0';
-                   strcpy(retstr2, &m_shm[FIXED_SHM_SIZE3]);
-                   retval = m_audioMaster(theEffect, audioMasterCanDo, 0, 0, (char *) retstr2, 0);
-                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+                   strcpy(retstr2, &m_shm3[FIXED_SHM_SIZE3]);                   
+                   retval = m_audioMaster(theEffect, audioMasterCanDo, 0, 0, (char *) retstr2, 0);                   
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3 + 512], &retval, sizeof(int));
                    break;  
-#endif				
+#endif	
                    case audioMasterGetVendorString:
                    retstr2[0]='\0';
                    retval = m_audioMaster(theEffect, audioMasterGetVendorString, 0, 0, (char *) retstr2, 0);                   
@@ -292,16 +292,22 @@ else
                     retRect.bottom = readIntring(&m_shmControl->ringBuffer);
                     retRect.left = 0;
                     retRect.top = 0;
-		    width = retRect.right;
+		            width = retRect.right;
                     height = retRect.bottom;
                     if(display && parent && child)
                     {
+		    if(reaperid == 0)
+		    retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);                   							
                     XUnmapWindow(display, child);
-                    XResizeWindow(display, parent, width, height);
+                  //  XResizeWindow(display, parent, width, height);
                     XResizeWindow(display, child, width, height);
+                    XEvent e;
+                    if (XCheckTypedWindowEvent(display, child, ConfigureNotify, &e))
+                    {        
                     XMapWindow(display, child);
                     XSync(display, false);
                     XFlush(display);
+			    	}
                     }
                     break;
 #endif
