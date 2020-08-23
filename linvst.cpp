@@ -548,35 +548,14 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     switch (opcode)
     {
     case effEditGetRect:
-    {
-#ifdef EMBED
-        if(plugin->winrect == 0)
-        {
-        plugin->effVoidOp(effEditGetRect);
-
-        if(!plugin->winm->winerror)
-        {
-        plugin->width = plugin->winm->width;
-        plugin->height = plugin->winm->height;
-
-        rp = &plugin->retRect;
-        rp->bottom = plugin->height;
-        rp->top = 0;
-        rp->right = plugin->width;
-        rp->left = 0;
-
-	plugin->winrect = 1;	
-        }
-        }
-#endif
-        rp = &plugin->retRect;
-        *((struct ERect **)ptr) = rp;
-	if(plugin->winrect == 2)
-	v = 0;
-	else    
-	v=plugin->winrect;		    
-    }
-        break;
+       rp = &plugin->retRect;
+       *((struct ERect **)ptr) = rp;
+        
+       if(plugin->editopen == 1)
+       v = 1;
+       else
+       v = 0;
+       break;
 		    
     case effEditIdle:
 #ifdef EMBED
@@ -741,7 +720,6 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 
         if(plugin->display && plugin->handle && !plugin->winm->winerror)
         {
-	plugin->winrect = 1;	
         plugin->eventrun = 1; 
              
      //   XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
@@ -813,8 +791,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        else
        {
        plugin->displayerr = 1;
-       plugin->eventrun = 0;  
-       plugin->winrect = 2;	       
+       plugin->eventrun = 0;  	       
        }
      }   
 #else
@@ -837,8 +814,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        plugin->display = XOpenDisplay(0);
 
        if(plugin->display && plugin->handle && !plugin->winm->winerror)
-       {
-       plugin->winrect = 1;	
+       {	
        plugin->eventrun = 1; 
             
 #ifdef XECLOSE
@@ -918,8 +894,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        else
        {
        plugin->displayerr = 1;
-       plugin->eventrun = 0;
-       plugin->winrect = 2;	       
+       plugin->eventrun = 0;	       
        }
      }
 #endif
@@ -980,9 +955,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         plugin->hideGUI();
 #endif  
 	plugin->editopen = 0;	
-#ifdef EMBED
-        plugin->winrect = 0;	
-#endif 		    
+    
 	v=1;		    
         break;
 		    
