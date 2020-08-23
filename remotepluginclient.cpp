@@ -528,7 +528,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     height(0),
     displayerr(0),
     winm(0),
-    winrect(0),
 #ifdef EMBEDDRAG
     x11_win(0),
     pparent(0),
@@ -1993,8 +1992,7 @@ void RemotePluginClient::showGUI()
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
 
-#ifdef EMBED
-    winrect = 0;	
+#ifdef EMBED	
     tryRead(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
 #endif
 }
