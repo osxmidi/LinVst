@@ -744,30 +744,6 @@ void RemoteVSTServer::effDoVoid(int opcode)
          return;
     }
 #ifdef EMBED
- if (opcode == effEditGetRect)
-   {
-    rect = 0;
-    m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
-//    m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
- //   m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
- //   m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
-    if (!rect)
-    {
-        winm->width = 0;
-        winm->height = 0;
-	winm->winerror = 1;    
-        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
-        return;
-    }
-    else
-    {
-        winm->width = rect->right - rect->left;
-        winm->height = rect->bottom - rect->top;
-	winm->winerror = 0; 
-        tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
-        return;
-     }
-    }	
 #ifdef TRACKTIONWM  
     if (opcode == 67584930)
     {
