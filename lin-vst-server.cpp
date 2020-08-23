@@ -168,6 +168,7 @@ public:
     WNDCLASSEX          wclass;
 #ifdef TRACKTIONWM  
     WNDCLASSEX          wclass2;
+    POINT offset;    
 #endif    
     UINT_PTR            timerval;
     bool                haveGui;
@@ -1114,7 +1115,7 @@ void RemoteVSTServer::showGUI()
 	if(hosttracktion == 1)
         {
         RECT offsetcl, offsetwin;
-        POINT offset;
+  //      POINT offset;
 
         HWND hWnd2 = CreateWindow(APPLICATION_CLASS_NAME2, "LinVst", WS_CAPTION, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
         GetClientRect(hWnd2, &offsetcl);
