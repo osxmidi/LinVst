@@ -1800,7 +1800,6 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
             cerr << "dssi-vst-server[2]: audioMasterSizeWindow requested" << endl;
 {
 #ifdef EMBED
-#ifndef TRACKTIONWM
 #ifdef EMBEDRESIZE
    int opcodegui = 123456789;
 	
@@ -1813,17 +1812,21 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 
     // ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
     // SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP, 0, 0, remoteVSTServerInstance->guiresizewidth, remoteVSTServerInstance->guiresizeheight, 0);
+
+#ifdef TRACKTIONWM
+	if(remoteVSTServerInstance->hosttracktion == 1)
+    SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN) + remoteVSTServerInstance->offset.x, GetSystemMetrics(SM_YVIRTUALSCREEN) + remoteVSTServerInstance->offset.y, index, value, 0); 
+#endif
 	    
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcodegui);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, index);
     remoteVSTServerInstance->writeIntring(&remoteVSTServerInstance->m_shmControl->ringBuffer, value);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
-    remoteVSTServerInstance->guiupdate = 1;
+ //   remoteVSTServerInstance->guiupdate = 1;
     rv = 1;
     }
     }
-#endif
 #endif
 #else
      if(remoteVSTServerInstance)
