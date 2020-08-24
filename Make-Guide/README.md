@@ -71,23 +71,23 @@ make
 
 sudo make install
 ```
-Installs lin-vst-server.exe and lin-vst-server.exe.so to `/usr/bin` and installs linvst.so to `/vst` in the source code folder (lin-vst-serverst for standalone window version)
+Installs lin-vst-serverxxxx.exe and lin-vst-serverxxxxx.exe.so to `/usr/bin` and installs linvst.so into the vst folder in the source code folder.
 
-The default Makefile is for 64 bit vst's only (embedded window).
+The default Makefile is for 64 bit vst's only.
 
-Makefile-embed-6432 and Makefile-standalone-6432 build a LinVst version that autodetects and automatically runs both 64 bit vst's and 32 bit vst's (also installs lin-vst-server32.exe and lin-vst-server32.exe.so to `/usr/bin` for 32 bit vst support) (lin-vst-server32st for standalone window version)
+Makefile-64-32bit builds a LinVst version that runs both 64 bit vst's and 32 bit vst's.
 
-Makefile-standalone-64 (64 bit vsts only) is for a standalone window version.
+Defining EMBEDRESIZE enables vst window resizing (may not work for all DAW's).
 
-Defining TRACKTIONWM makes a Tracktion embedded window compatible version (lin-vst-servertrack.exe lin-vst-servertrack.exe.so (lin-vst-servertrack32.exe lin-vst-servertrack32.exe.so) installed to `/usr/bin`).
-
-Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
-
-Defining EMBEDRESIZE enables vst window resizing for the embedded window version (currently only working with Linux Reaper).
-
-Defining FOCUS enables an alternative keyboard focus operation where the plugin keyboard focus is given up when the mouse pointer leaves the plugin window.
+Defining NOFOCUS enables an alternative keyboard/mouse focus operation
 
 See Makefile comments for define options.
 
-The 32bitonly folder contains makefiles for 32 bit systems and 32 bit vst's only and contains makefiles for Linux 32bit only systems and makes and installs lin-vst-server32lx (lin-vst-server32lxst for standalone window version) to `/usr/bin`.
+The Standalone folder contains makefiles for a standalone window version.
+
+Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
+
+The 32bitonly folder contains makefiles for Linux 32 bit systems and 32 bit vst's only.
+
+
 
