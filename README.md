@@ -92,6 +92,10 @@ See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 in the Tested 
 
 Also, see the Tested VST's folder at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins for some vst plugin setups and possible tips.
 
+**Waveform**
+
+For Waveform see https://github.com/osxmidi/LinVst/tree/Waveform
+
 **Bitwig**
 
 LinVst may have some problems with some plugins and Bitwig.
