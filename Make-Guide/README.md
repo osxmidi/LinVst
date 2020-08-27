@@ -1,3 +1,5 @@
+For Waveform see https://github.com/osxmidi/LinVst/tree/Waveform
+
 # To make
 
 For the deb package see https://github.com/osxmidi/LinVst/tree/master/deb-packages
