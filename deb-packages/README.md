@@ -24,9 +24,6 @@ The LinVst source folder should be located in a folder/directory with user permi
 
 ## Building the deb package.
 
-This has been developed and tested on Ubuntu 18.04. It should work on other releases.
-It has been tested with wineHQ stable release in 32 and 64 bits.
-
 The Deb package files are in the deb-packages folder.
 
 There are 3 different versions.
