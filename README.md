@@ -1,4 +1,4 @@
-# LinVst for Waveform (tested with Waveform 11)
+# LinVst
 
 LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
