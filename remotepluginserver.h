@@ -205,6 +205,12 @@ int m_inexcept;
 int m_runok;
 int m_386run;
 
+#ifdef EMBED
+#ifdef TRACKTIONWM  
+    int                 hosttracktion;
+#endif
+#endif
+
 int starterror;
 
 bool fwait(int *fcount, int ms);

@@ -1,4 +1,4 @@
-# LinVst
+# LinVst for Waveform (tested with Waveform 11)
 
 LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
@@ -91,10 +91,6 @@ Usually the dragged item (dragged outside of the vst's window) will be saved as 
 See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 in the Tested VST's folder at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins for some details.
 
 Also, see the Tested VST's folder at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins for some vst plugin setups and possible tips.
-
-**Waveform**
-
-For Waveform see https://github.com/osxmidi/LinVst/tree/Waveform
 
 **Bitwig**
 
