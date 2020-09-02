@@ -36,9 +36,13 @@ To install a windows vst exe installation file use wine "path to the exe file"
 
 The quotes also handle paths with spaces in their names.
 
-For example, if the windows vst exe installation file is located in the Downloads folder and is named delay.exe, then (from the terminal) wine "~/Downloads/delay.exe" will start the installation. 
+For example, if the windows vst exe installation file is located in the Downloads folder and is named delay.exe, then (from the terminal) wine ~/"Downloads/delay.exe" will start the installation (~ stands for the user path ie /home/your-user-name). 
 
 msi files can be clicked on to start their installation.
+
+Usually by default vst installers install to a path something like ~/.wine/drive_c/Program Files/Steinberg/VSTPlugins and that would usually be the path/folder to use with linvstconvert or (linvstconverttree for subdirs) and then that path would be set in the DAW's plugin search paths.
+
+To change into the plugin directory (using the terminal) cd ~/".wine/drive_c/Program Files/Steinberg/VSTPlugins"
 
 -----
 
