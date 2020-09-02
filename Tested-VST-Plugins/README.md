@@ -1,6 +1,6 @@
 ## Tested vst's
 
->  LinVst tested with Wine4 and Linux Tracktion 7/Waveform, Linux Ardour 5.x, Linux Reaper 5.x, Linux Renoise 3.1, Linux Bitwig Studio 2.5 (For Bitwig 2.5, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
+LinVst tested with Waveform, Ardour, Reaper, Renoise, Bitwig Studio (For Bitwig 2.5 and later, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
 For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins).
 
 If a plugin needs a dll override it can be found by running TestVst from the terminal and looking for any unimplemented function in xxxx.dll errors in the output (the xxxx.dll is the dll that needs to be replaced with a dll override).
