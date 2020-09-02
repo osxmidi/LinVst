@@ -216,7 +216,11 @@ A kernel that has PREEMPT in it's info would be the preference (obtain kernel in
 
 rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may have some effect.
 
-LinVst is memory access intensive and having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
+LinVst is memory access intensive.
+
+Systems with faster memory are most likely to perform better.
+
+Having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
 
 Wineserver can be set to a higher priority may have an effect on cpu load and system response on some systems/setups/plugins.
 
