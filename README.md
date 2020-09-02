@@ -32,6 +32,16 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 ## Common Problems/Possible Fixes
 
+To install a windows vst exe installation file use wine "pathto the exe file"
+
+The quotes also handle paths with spaces in their names.
+
+For example, if the windows vst exe installation file is located in the downloads folder and is named delay.exe, then (from the terminal) wine "~/Downloads/delay.exe" will start the installation. 
+
+msi files can be clicked on to start their installation.
+
+-----
+
 Automatic window resizing is not supported, after a resize the UI needs to be closed and then reopened for the new window size to take effect.
 
 If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
