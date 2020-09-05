@@ -423,9 +423,9 @@ void RemoteVSTServer::EffectOpen()
 
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
 	
-    m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, 1024, NULL, 0);
+ //   m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, 1024, NULL, 0);
 
-    m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL, (float)44100);
+ //   m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL, (float)44100);
 	
     char buffer[512];
     memset(buffer, 0, sizeof(buffer));
@@ -2760,16 +2760,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->dispatchControl(50);               
     }
     }
-	
-/*
-    for (int i=0;i<10000;i++)
-    {
-        if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
-            break;
-	usleep(1000);    
-    }
-*/
-	
+		
     remoteVSTServerInstance->waitForServerexit();
     remoteVSTServerInstance->waitForClient2exit();
     remoteVSTServerInstance->waitForClient3exit();
@@ -2777,6 +2768,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->waitForClient5exit();	
 	
     WaitForMultipleObjects(3, ThreadHandle, TRUE, 5000);
+        
+    for (int idx50=0;idx50<100000;idx50++)
+    {
+    if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
+    break;
+	usleep(100);    
+    }    
 
     if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: cleaning up" << endl;
