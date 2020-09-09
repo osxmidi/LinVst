@@ -11,7 +11,7 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DLVRT -DVST32 -DWAVES -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF $(CXX_FLAGS)
+BUILD_FLAGS  = -m32 -fPIC -O2 -DLVRT -DVST32 -DWAVES -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF $(CXX_FLAGS)
 BUILD_FLAGS_WIN = -m32 -O2 -DVST32 -DDRAG -DWINONTOP -DWAVES -DVESTIGE -DWCLASS -DNEWTIME -DINOUTMEM -DCHUNKBUF -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows
 
 # undefine WINONTOP for standard window behaviour
