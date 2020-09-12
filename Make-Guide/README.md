@@ -19,7 +19,8 @@ sudo pacman -Sy wine-staging libx11 gcc-multilib
 ------
 
 ## For Ubuntu/Debian
-`sudo apt-get install libwine-development-dev` (For Debian, Wine might need to be reinstalled after installing libwine-development-dev) (for Ubuntu 14.04 it's `sudo apt-get install wine1.8` and `sudo apt-get install wine1.8-dev`)
+
+sudo apt-get install wine-staging-dev
 
 wine-devel packages for other distros (`sudo apt-get install wine-devel`).
 
