@@ -20,11 +20,9 @@ sudo pacman -Sy wine-staging libx11 gcc-multilib
 
 ## For Ubuntu/Debian
 
+sudo apt-get install libx11-dev`
+
 sudo apt-get install wine-stable-dev or sudo apt-get install wine-staging-dev
-
-wine-devel packages for other distros (`sudo apt-get install wine-devel`).
-
-libX11 development needed for embedded version (`sudo apt-get install libx11-dev`)
 
 -------
 
@@ -48,11 +46,14 @@ sudo apt-get install libc6-dev-i386
 
 sudo apt-get install gcc-multilib g++-multilib
 
-sudo apt-get install libwine-development-dev:i386
 ```
-For Debian add deb http://ftp.de.debian.org/debian distro main non-free to /etc/apt/sources.list (distro gets replaced with distro ie stretch etc)
+-----
+
+## Other distros
+
 ```
-sudo apt-get update
+wine-devel packages for other distros (`sudo apt-get install wine-devel`).
+
 ```
 --------
 
