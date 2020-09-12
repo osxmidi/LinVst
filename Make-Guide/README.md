@@ -20,7 +20,7 @@ sudo pacman -Sy wine-staging libx11 gcc-multilib
 
 ## For Ubuntu/Debian
 
-sudo apt-get install libx11-dev`
+sudo apt-get install libx11-dev
 
 sudo apt-get install wine-stable-dev or sudo apt-get install wine-staging-dev
 
