@@ -32,6 +32,16 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 ## Common Problems/Possible Fixes
 
+One of the problems in converting multiple vst's at once is that when the daw tries to load them, one or more plugins might not scan (and/or run) and so the daw scan might stop/hang.
+
+For some daws the vst plugin loading can be seen by starting the daw from the terminal and then if a plugin causes trouble then it should be possible to id which plugin it was by the terminal output.
+
+To be sure about what plugin might run and what plugin might not, it's probably best to proceed by adding one plugin at a time and/or by using the TestVst utility.
+
+Some plugins won't run due to various problems.
+
+----
+
 To install a windows vst exe installation file use wine "path to the exe file"
 
 The quotes also handle paths with spaces in their names.
