@@ -22,7 +22,7 @@ If a plugin has trouble with it's display then disabling d2d1 in the winecfg Lib
 
 Batch Testing
 
-For testing multiple vst dll files at once, place testvst.exe (and/or testvst32.exe for 32 bit plugins) and testvst-batch (testvst32-batch for 32 bit plugins) into the vst folder containing the vst dll files.
+For testing multiple vst dll files at once, place testvst.exe and testvst.exe.so (and/or testvst32.exe and testvst32.exe.so for 32 bit plugins) and testvst-batch (testvst32-batch for 32 bit plugins) into the vst folder containing the vst dll files.
 
 Using the terminal, cd into the vst folder and enter
 
