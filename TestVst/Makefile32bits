@@ -10,7 +10,7 @@ BUILD_FLAGS_WIN = -m32 -DVESTIGE -I/usr/include/wine-development/windows -I/usr/
 
 LINK_FLAGS   = $(LDFLAGS)
 
-LINK_WINE   = -L/usr/lib/i386-linux-gnu/wine-development -lpthread -lrt -lshell32 $(LINK_FLAGS)
+LINK_WINE   = -L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -L/usr/lib/i386-linux-gnu/wine-development -lpthread -lrt -lshell32 $(LINK_FLAGS)
 
 TARGETS     = testvst32.exe
 
