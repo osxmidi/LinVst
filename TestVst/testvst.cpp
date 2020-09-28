@@ -65,7 +65,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 LPWSTR *args;
 int numargs;
    
-    cout << "LinVst Vst Test" << endl;	
+    cout << "LinVst Vst Test: " << cmdline << endl;	
 
     args = CommandLineToArgvW(GetCommandLineW(), &numargs);
    
