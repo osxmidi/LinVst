@@ -18,11 +18,15 @@ Some vst plugins rely on the d2d1 dll which is not totally implemented in curren
 
 If a plugin has trouble with it's display then disabling d2d1 in the winecfg Libraries tab can be tried.
 
+(remove all testvst files from any daw search paths after testing (testvst32.exe.so can cause Reaper to hang/quit when it's scanning)).
+
 -----
 
 Batch Testing
 
 For testing multiple vst dll files at once, place testvst.exe and testvst.exe.so (and/or testvst32.exe and testvst32.exe.so for 32 bit plugins) and testvst-batch (testvst32-batch for 32 bit plugins) into the vst folder containing the vst dll files.
+
+(remove all testvst files from any daw search paths after testing (testvst32.exe.so can cause Reaper to hang/quit when it's scanning)).
 
 Using the terminal, cd into the vst folder and enter
 
