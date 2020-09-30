@@ -139,8 +139,19 @@ int numargs;
     else 
     { 
         printf("NoEditor\n");
-	if(libHandle)
-	FreeLibrary(libHandle);	    
+	    
+    m_plugin->dispatcher( m_plugin, effOpen, 0, 0, NULL, 0);  
+	
+	printf("NumInputs %d\n", m_plugin->numInputs);
+        printf("NumOutputs %d\n", m_plugin->numOutputs);
+		
+	cout << "Maker " << getMaker(m_plugin)	<< endl;	    
+	    
+	    
+    m_plugin->dispatcher( m_plugin, effClose, 0, 0, NULL, 0);  
+	
+    if(libHandle)
+    FreeLibrary(libHandle);     
 	exit(0);        
     }  
 	
