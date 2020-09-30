@@ -18,12 +18,12 @@ TARGETS     = testvst32.exe
 
 all: $(TARGETS)
 
-testvst32.exe: testvst.wine.o
+testvst32.exe: testvst.wine32.o
 	$(WINECXX) -m32 $^ $(LINK_WINE) -o $@
 
 # --------------------------------------------------------------
 
-testvst.wine.o: testvst.cpp
+testvst.wine32.o: testvst.cpp
 	$(WINECXX) $(BUILD_FLAGS_WIN) -c $^ -o $@
 
  
