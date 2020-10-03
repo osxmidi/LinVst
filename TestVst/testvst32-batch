@@ -1,32 +1,32 @@
-files=(*.dll)
+files=($1*.dll)
 idx=0
 for file in "${files[@]}"
 do
 ./testvst32.exe "${file}"
 let idx++
 done
-files2=(*/*.dll)
+files2=($1*/*.dll)
 idx2=0
 for file2 in "${files2[@]}"
 do
 ./testvst32.exe "${file2}"
 let idx2++
 done
-files3=(*/*/*.dll)
+files3=($1*/*/*.dll)
 idx3=0
 for file3 in "${files3[@]}"
 do
 ./testvst32.exe "${file3}"
 let idx3++
 done
-files4=(*/*/*/*.dll)
+files4=($1*/*/*/*.dll)
 idx4=0
 for file4 in "${files4[@]}"
 do
 ./testvst32.exe "${file4}"
 let idx4++
 done
-files5=(*/*/*/*/*.dll)
+files5=($1*/*/*/*/*.dll)
 idx5=0
 for file5 in "${files5[@]}"
 do
