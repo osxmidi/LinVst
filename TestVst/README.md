@@ -2,44 +2,57 @@
 
 TestVst can roughly test how a vst dll plugin might run under Wine.
 
-It tries to open the vst and display the vst window for roughly 8 seconds and then closes.
+It tries to open the vst dll and display the vst window for roughly 8 seconds and then closes.
 
-Usage is ./testvst.exe "vstfile.dll"
+Usage is ./testvst.exe "path to vstfile.dll"
 
 paths and vst filenames that contain spaces need to be enclosed in quotes.
 
-Makefile32bits is for 32bit vst plugins.
+for example (cd into the testvst folder using the terminal)
 
-If TestVst is run from a terminal and the output is looked at, then sometimes there can be an unimplemented function error in some dll and that dll can then be overriden.
+./testvst.exe "/home/your-user-name/.wine/drive_c/Program Files/Steinberg/VstPlugins/delay.dll"
 
-Some vst plugins might not work due to Wines current capabilities or for some other reason.
+./testvst32.exe "/home/your-user-name/.wine/drive_c/Program Files (x86)/Steinberg/VstPlugins/delay32.dll"
 
-Some vst plugins rely on the d2d1 dll which is not totally implemented in current Wine.
+testvst32.exe is for 32bit vst plugins.
 
-If a plugin has trouble with it's display then disabling d2d1 in the winecfg Libraries tab can be tried.
+Use testvst.exe from a folder that is not in a daw search path.
 
-(remove all testvst files from any daw search paths after testing (testvst32.exe.so can cause Reaper to hang/quit when it's scanning)).
+If testvst.exe.so and/or testvst32.exe.so are in any daw search paths then they can cause problems if the daw tries to load them.
 
 -----
 
 Batch Testing
 
-For testing multiple vst dll files at once, place testvst.exe and testvst.exe.so (and/or testvst32.exe and testvst32.exe.so for 32 bit plugins) and testvst-batch (testvst32-batch for 32 bit plugins) into the vst folder containing the vst dll files.
+For testing multiple vst dll files at once, unzip the testvst folder, then (using the terminal) cd into the unzipped testvst folder.
 
-(remove all testvst files from any daw search paths after testing (testvst32.exe.so can cause Reaper to hang/quit when it's scanning)).
-
-Using the terminal, cd into the vst folder and enter
+then enter
 
 chmod +x testvst-batch
 (chmod +x testvst32-batch for 32 bit plugins)
 
-then enter
+Usage is ./testvst-batch "path to the vst folder containing the vst dll files"
 
-./testvst-batch
-(./testvst32-batch for 32 bit plugins)
+paths that contain spaces need to be enclosed in quotes.
+
+pathnames must end with a /
+
+Same usage procedure applies to testvst32-batch which tests 32 bit vst dll files.
+
+for example
+
+./testvst-batch "/home/your-user-name/.wine/drive_c/Program Files/Steinberg/VstPlugins/"
+
+./testvst32-batch "/home/your-user-name/.wine/drive_c/Program Files (x86)/Steinberg/VstPlugins/"
 
 After that, testvst.exe (testvst32.exe for 32 bit plugins) will attempt to run the plugins one after another, any plugin dialogs that popup should be dismissed as soon as possible.
 
 If a Wine plugin problem is encountered, then that plugin can be identified by the terminal output from testvst.exe (testvst32.exe for 32 bit plugins).
+
+Use testvst.exe from a folder that is not in a daw search path.
+
+If testvst.exe.so and/or testvst32.exe.so are in any daw search paths then they can cause problems if the daw tries to load them.
+
+-----
 
 
