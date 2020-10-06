@@ -186,7 +186,9 @@ Samples might need to be manually extracted (by clicking on the slatepack files)
 
 **Toneboosters TrackEssentials** (disable d2d1 for Ferox)
 
-**Serum Synth** (can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
+**Serum Synth** 
+Disable d2d1 in winecfg libraries and install gdiplus dll override (via winetricks, winetricks gdiplus).
+Serum can have some issues with Wines current d2d1, disable d2d1 or try a d2d1 override) (32 bit version seems to work better than the 64 bit version with a d2d1 version 6.1.7601.17514 32 bit dll override)
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL to 30002 might help but there might still be some d2d1 errors (can also depend on hardware and drivers).
 Serum needs Wine Staging to register.
 
