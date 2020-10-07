@@ -57,6 +57,6 @@ If testvst.exe.so and/or testvst32.exe.so are in any daw search paths then they 
 
 TestVst can also be used to test dll overrides (wine dll's that are replaced by windows dll's) and if they are likely to work, without going through dll override trial and error using LinVst.
 
-The terminal output of TestVst can sometimes be used to work out what dll override might be needed (if wine dll's unimplemented function errors appear in the terminal output for instance).
+The terminal output of TestVst can sometimes be used to work out what dll override might be needed (if wine dll unimplemented function errors appear in the terminal output for instance).
 
 Some plugins won't run due to various problems.
