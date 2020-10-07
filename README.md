@@ -38,6 +38,10 @@ For some daws the vst plugin loading can be seen by starting the daw from the te
 
 To be sure about what plugin might run and what plugin might not, it's probably best to proceed by adding one plugin at a time and/or by using the TestVst utility https://github.com/osxmidi/LinVst/releases/tag/3.1 which can be run in batch mode to test multiple vsts.
 
+TestVst can also be used to test dll overrides (wine dll's that are replaced by windows dll's) and if they are likely to work, without going through dll override trial and error using LinVst.
+
+The terminal output of TestVst can sometimes be used to work out what dll override might be needed (if wine dll's unimplemented function errors appear in the terminal output for instance).
+
 Some plugins won't run due to various problems.
 
 ----
