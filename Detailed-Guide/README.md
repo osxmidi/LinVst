@@ -1,3 +1,87 @@
+## Latency/Performance
+
+Some distros/hardware can result in varying latency results.
+
+LinVst has produced reasonable latency results with a low latency kernel and with a real time kernel and with the Liquorix kernel but results can vary from system to system.
+
+A kernel that has PREEMPT in it's info would be the preference (obtain kernel info by running uname -a).
+
+rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may have some effect.
+
+LinVst is memory access intensive.
+
+Systems with faster memory are most likely to perform better ie (ddr4).
+
+Having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
+
+Wineserver opens and accesses files in /tmp/.wine-uid (uid is usually 1000).
+
+/tmp can be mounted in memory (rather than using the standard disk based /tmp) for whenever Wineserver accesses /tmp/.wine-uid, which may help with xruns.
+
+For non systemd systems
+
+echo "tmpfs /tmp tmpfs rw,nosuid,nodev" | sudo tee -a /etc/fstab
+
+and then reboot
+
+sudo reboot
+
+verify with findmnt /tmp
+
+For (debian based) systemd systems
+
+sudo cp -v /usr/share/systemd/tmp.mount /etc/systemd/system/
+sudo systemctl enable tmp.mount
+
+and then reboot
+
+sudo reboot
+
+verify with systemctl is-enabled tmp.mount and findmnt /tmp
+
+Winservers temp files in ~/.wine/drive_c/users/$USER/Temp can also be redirected to use /tmp that has been mounted in memory rather than use disk access.
+
+rm -r ~/.wine/drive_c/users/$USER/Temp
+ln -s /tmp/ ~/.wine/drive_c/users/$USER/Temp
+
+Wineserver can be set to a higher priority which may have an effect on cpu load and system response on some systems/setups/plugins.
+
+Wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
+
+The Wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
+
+```
+Set realtime priorities
+
+If they are not set then cpu spiking can occur with Kontakt and other plugins.
+
+sudo edit /etc/security/limits.conf
+
+add
+
+@audio          -       rtprio          99
+
+------
+
+sudo edit /etc/group
+
+change 
+
+audio:x:29:pulse
+
+to audio:x:29:pulse,<your_username>
+
+------------
+
+sudo edit /etc/security/limits.d/audio.conf
+
+add
+
+@audio   -  rtprio     95
+@audio   -  memlock    unlimited
+#@audio   -  nice      -19
+
+```
 ## More Detailed Guide
 
 To use LinVst, the linvst.so file simply needs to be renamed to match the windows vst dll's filename.
@@ -205,91 +289,6 @@ On some slower systems Wine can initially take a long time to load properly when
 The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
 
 Upgrading to the latest wine-stable version is recommended.
-
-## Latency/Performance
-
-Some distros/hardware can result in varying latency results.
-
-LinVst has produced reasonable latency results with a low latency kernel and with a real time kernel and with the Liquorix kernel but results can vary from system to system.
-
-A kernel that has PREEMPT in it's info would be the preference (obtain kernel info by running uname -a).
-
-rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may have some effect.
-
-LinVst is memory access intensive.
-
-Systems with faster memory are most likely to perform better ie (ddr4).
-
-Having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
-
-Wineserver opens files in /tmp/.wine-uid (uid is usually 1000).
-
-/tmp can be mounted in memory for faster file access whenever Wineserver accesses /tmp/.wine-uid, which may help with xruns.
-
-For non systemd systems
-
-echo "tmpfs /tmp tmpfs rw,nosuid,nodev" | sudo tee -a /etc/fstab
-
-and then reboot
-
-sudo reboot
-
-verify with findmnt /tmp
-
-For (debian based) systemd systems
-
-sudo cp -v /usr/share/systemd/tmp.mount /etc/systemd/system/
-sudo systemctl enable tmp.mount
-
-and then reboot
-
-sudo reboot
-
-verify with systemctl is-enabled tmp.mount and findmnt /tmp
-
-Winservers temp files in ~/.wine/drive_c/users/$USER/Temp can also be redirected to use /tmp that has been mounted in memory rather than use disk access.
-
-rm -r ~/.wine/drive_c/users/$USER/Temp
-ln -s /tmp/ ~/.wine/drive_c/users/$USER/Temp
-
-Wineserver can be set to a higher priority which may have an effect on cpu load and system response on some systems/setups/plugins.
-
-Wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
-
-The Wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
-
-```
-Set realtime priorities
-
-If they are not set then cpu spiking can occur with Kontakt and other plugins.
-
-sudo edit /etc/security/limits.conf
-
-add
-
-@audio          -       rtprio          99
-
-------
-
-sudo edit /etc/group
-
-change 
-
-audio:x:29:pulse
-
-to audio:x:29:pulse,<your_username>
-
-------------
-
-sudo edit /etc/security/limits.d/audio.conf
-
-add
-
-@audio   -  rtprio     95
-@audio   -  memlock    unlimited
-#@audio   -  nice      -19
-
-```
 
 ## Tested vst's
 
