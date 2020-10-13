@@ -20,7 +20,9 @@ Point linvstconvert to the folder containing the windows vst's and hit the Start
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
-More detailed info is at https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide which includes possible performance details and install details for vsts.
+More detailed info is at https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide which includes possible performance details.
+
+Install details for vsts is at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins.
 
 Make info is at https://github.com/osxmidi/LinVst/tree/master/Make-Guide
 
