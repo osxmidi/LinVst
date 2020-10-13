@@ -247,6 +247,11 @@ sudo reboot
 
 verify with systemctl is-enabled tmp.mount and findmnt /tmp
 
+Winservers temp files in ~/.wine/drive_c/users/$USER/Temp can also be redirected to use /tmp that has been mounted in memory rather than use disk access.
+
+rm -r ~/.wine/drive_c/users/$USER/Temp
+ln -s /tmp/ ~/.wine/drive_c/users/$USER/Temp
+
 Wineserver can be set to a higher priority which may have an effect on cpu load and system response on some systems/setups/plugins.
 
 Wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
