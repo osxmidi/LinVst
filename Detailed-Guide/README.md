@@ -218,15 +218,40 @@ rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalan
 
 LinVst is memory access intensive.
 
-Systems with faster memory are most likely to perform better.
+Systems with faster memory are most likely to perform better ie (ddr4).
 
 Having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
 
-Wineserver can be set to a higher priority may have an effect on cpu load and system response on some systems/setups/plugins.
+Wineserver opens files in /tmp/.wine-uid (uid is usually 1000).
 
-wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
+/tmp can be mounted in memory for faster file access whenever Wineserver accesses /tmp/.wine-uid, which may help with xruns.
 
-The wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
+For non systemd systems
+
+echo "tmpfs /tmp tmpfs rw,nosuid,nodev" | sudo tee -a /etc/fstab
+
+and then reboot
+
+sudo reboot
+
+verify with findmnt /tmp
+
+For (debian based) systemd systems
+
+sudo cp -v /usr/share/systemd/tmp.mount /etc/systemd/system/
+sudo systemctl enable tmp.mount
+
+and then reboot
+
+sudo reboot
+
+verify with systemctl is-enabled tmp.mount and findmnt /tmp
+
+Wineserver can be set to a higher priority which may have an effect on cpu load and system response on some systems/setups/plugins.
+
+Wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
+
+The Wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
 
 ```
 Set realtime priorities
