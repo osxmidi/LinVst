@@ -14,37 +14,6 @@ Systems with faster memory are most likely to perform better ie (ddr4).
 
 Having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
 
-Wineserver opens and accesses files in /tmp/.wine-uid (uid is usually 1000).
-
-/tmp can be mounted in memory (rather than using the standard disk based /tmp) for whenever Wineserver accesses /tmp/.wine-uid, which may help with xruns.
-
-For non systemd systems
-
-echo "tmpfs /tmp tmpfs rw,nosuid,nodev" | sudo tee -a /etc/fstab
-
-and then reboot
-
-sudo reboot
-
-verify with findmnt /tmp
-
-For (debian based) systemd systems
-
-sudo cp -v /usr/share/systemd/tmp.mount /etc/systemd/system/
-sudo systemctl enable tmp.mount
-
-and then reboot
-
-sudo reboot
-
-verify with systemctl is-enabled tmp.mount and findmnt /tmp
-
-Winservers temp files in ~/.wine/drive_c/users/$USER/Temp can also be redirected to use /tmp that has been mounted in memory rather than use disk access.
-
-rm -r ~/.wine/drive_c/users/$USER/Temp
-
-ln -s /tmp/ ~/.wine/drive_c/users/$USER/Temp
-
 Wineserver can be set to a higher priority which may have an effect on cpu load and system response on some systems/setups/plugins.
 
 Wineserver can have it's priority level changed from normal to high or very high (root password needed), by right clicking on wineserver in System Monitor (start winecfg first to activate wineserver in System Monitor).
