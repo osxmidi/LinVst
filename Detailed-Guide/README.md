@@ -14,11 +14,11 @@ Systems with faster memory are most likely to perform better ie (ddr4).
 
 Having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
 
-Wineserver opens and accesses files in /tmp/.wine-uid.
+Wineserver opens and accesses files in /tmp/.wine-uid https://www.amlie.name/getting-good-performance-with-windows-vsts-in-linux/
 
-/tmp/.wine-uid can be mounted in memory (rather than using the standard disk based /tmp) for whenever Wineserver accesses /tmp/.wine-uid, which may help with xruns.
+/tmp/.wine-uid can be mounted in memory (rather than using the standard disk based /tmp/.wine-uid) for whenever Wineserver accesses /tmp/.wine-uid, which may help with xruns.
 
-The uid is usually 1000, obtain uid using id -u and if it isn't 1000 then replace the 3 occurances of the 1000 number in the below echo line with the new number.
+The uid is usually 1000, obtain the uid using id -u and if it isn't 1000 then replace the 3 occurances of the 1000 number in the below echo line with the new number.
 
 For example, if the uid is 500 then the below echo line would be
 
