@@ -156,36 +156,27 @@ else
                     }
                     break;
 
-               case audioMasterIOChanged:
-                
+                case audioMasterIOChanged:
+                    retval = 0;
                     memcpy(&am, &m_shm3[FIXED_SHM_SIZE3], sizeof(am));
-                 //    printf("client %d %d %d \n", am.incount, am.outcount, am.delay);
-                 //   if((am.incount != m_numInputs) || (am.outcount != m_numOutputs) || (am.delay != m_delay))
-                  //  {
-					if((am.incount != m_numInputs) || (am.outcount != m_numOutputs))
-					{	
-                    if ((am.incount + am.outcount) * m_bufferSize * sizeof(float) < (PROCESSSIZE))
-                    {
-						
-			//			printf("up\n");
-						
-                    m_updateio = 1;
-                    m_updatein = am.incount;
-                    m_updateout = am.outcount; 
+                    theEffect->flags = am.flags;
+                    theEffect->numPrograms = am.pcount;
+                    theEffect->numParams = am.parcount;
                     theEffect->numInputs = am.incount;
                     theEffect->numOutputs = am.outcount;
-				    }
-				    }                                   
-                    if(am.delay != m_delay)
-                    {
-					m_delay = am.delay;	
                     theEffect->initialDelay = am.delay;
-                //    printf("del\n");
-				    }
-                    retval = 0;
+                    // m_updateio = 1;
                     retval = m_audioMaster(theEffect, audioMasterIOChanged, 0, 0, 0, 0);
                     memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
-				   // }
+                    if((am.incount != m_numInputs) || (am.outcount != m_numOutputs))
+                    {
+                    if ((am.incount + am.outcount) * m_bufferSize * sizeof(float) < (PROCESSSIZE))
+                    {
+                    m_updateio = 1;
+                    m_updatein = am.incount;
+                    m_updateout = am.outcount;
+                    }
+                    }
                     break;
 
                 case audioMasterProcessEvents:  
@@ -305,12 +296,18 @@ else
                     height = retRect.bottom;
                     if(display && parent && child)
                     {
-	        	    if(reaperid == 0)
-	        	    retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);                   							
+		    if(reaperid == 0)
+		    retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);                   							
                     XUnmapWindow(display, child);
                   //  XResizeWindow(display, parent, width, height);
-                    resizedone = 1;
                     XResizeWindow(display, child, width, height);
+                    XEvent e;
+                    if (XCheckTypedWindowEvent(display, child, ConfigureNotify, &e))
+                    {        
+                    XMapWindow(display, child);
+                    XSync(display, false);
+                    XFlush(display);
+			    	}
                     }
                     break;
 #endif
@@ -515,7 +512,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     m_updateio(0),
     m_updatein(0),
     m_updateout(0),
-    m_delay(0),
     timeInfo(0),
 #ifdef CHUNKBUF
     chunk_ptr(0),
@@ -538,9 +534,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     height(0),
     displayerr(0),
     winm(0),
-#ifdef EMBEDRESIZE
-    resizedone(0),
-#endif         
 #ifdef TRACKTIONWM     
     waveformid(0),
     hosttracktion(0),
@@ -830,7 +823,7 @@ ptr = (int *)m_shm;
 
     for (int i=0;i<40000;i++)
     {
-        if (*ptr == 310)
+        if (*ptr == 300)
          {
             startok = 1;
             break;
@@ -1614,8 +1607,6 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     commitWrite(&m_shmControl2->ringBuffer);
     waitForServer2();  
     m_updateio = 0;
-    printf("update1\n");
-    return;
     }
 	
     if (((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(float)) >= (PROCESSSIZE))
@@ -1691,8 +1682,6 @@ void RemotePluginClient::processdouble(double **inputs, double **outputs, int sa
     commitWrite(&m_shmControl2->ringBuffer);
     waitForServer2();  
     m_updateio = 0;
-    printf("update2\n");
-    return;
     }
 	
     if (((m_numInputs + m_numOutputs) * m_bufferSize * sizeof(double)) >= (PROCESSSIZE))
@@ -2196,8 +2185,7 @@ int RemotePluginClient::getinitialDelay()
     writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetinitialDelay);
     commitWrite(&m_shmControl3->ringBuffer);
     waitForServer3();  
-    m_delay = readInt(&m_shm[FIXED_SHM_SIZE]);
-    return m_delay;
+    return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
 
 int RemotePluginClient::getInputCount()

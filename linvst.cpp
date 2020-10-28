@@ -392,17 +392,6 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       case ConfigureNotify:
 //      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
 //      {
-
-#ifdef EMBEDRESIZE
-      if(plugin->resizedone == 1)
-      {
-	  plugin->resizedone = 0;
-      XMapWindow(display, child);
-      XSync(display, false);
-      XFlush(display);
-      }
-#endif
-
       x = 0;
       y = 0;
       ignored = 0;
@@ -809,20 +798,11 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        else
        {
        plugin->displayerr = 1;
-       plugin->eventrun = 0;
-       plugin->editopen = 0;
-       if(plugin->display)
-       {
-       XSync(plugin->display, true);
-       XCloseDisplay(plugin->display);
-       plugin->display = 0; 
-       } 
-       v=0;
-       break;	             
+       plugin->eventrun = 0;  	       
        }
      }   
 #else
-    {		
+    {
         plugin->showGUI();
       //  usleep(50000);
 
@@ -921,16 +901,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
        else
        {
        plugin->displayerr = 1;
-       plugin->eventrun = 0;
-       plugin->editopen = 0;
-       if(plugin->display)
-       {
-       XSync(plugin->display, true);
-       XCloseDisplay(plugin->display);
-       plugin->display = 0; 
-       } 
-       v=0;
-       break;	       
+       plugin->eventrun = 0;	       
        }
      }
 #endif
@@ -942,13 +913,19 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         break;
 
         case effEditClose:
-    	if(plugin->editopen == 1)
-        {        
 #ifdef EMBED                      
-#ifndef XEMBED 	    			    
+        if(plugin->displayerr == 1)
+	    {
+        if(plugin->display)
+	    {
+        XSync(plugin->display, true);
+        XCloseDisplay(plugin->display);
+	    }	
+        break;
+	    }			    
 #ifdef XECLOSE 
         plugin->eventrun = 0;  
-    	XSync(plugin->display, true);	
+	XSync(plugin->display, true);	
 		 
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
@@ -968,33 +945,23 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 	plugin->xeclose = 0;
 	
 	XSync(plugin->display, false);	  	    
-#else
-       XReparentWindow(plugin->display, plugin->child, XDefaultRootWindow(plugin->display), 0, 0);  
-       XSync(plugin->display, false);	
-#endif        
-#endif
-
+#endif       
         plugin->hideGUI();	 
            
+        if(plugin->display)
+        {
 #ifdef EMBEDDRAG
         if(plugin->x11_win)
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
-#endif      	  	   
-        XSync(plugin->display, false);	 	  	 
+#endif      	  	 
         XCloseDisplay(plugin->display);
-        plugin->display = 0;          		    
+        plugin->display = 0; 
+        }  		    
 #else            
         plugin->hideGUI();
-#endif 
-
-#ifdef EMBED
-#ifndef XECLOSE
-    plugin->eventrun = 0; 
-#endif  
 #endif  
 	plugin->editopen = 0;	
-    }	
     
 	v=1;		    
         break;
@@ -1055,8 +1022,7 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         case effClose:         
      	if(plugin->editopen == 1)
         {
-#ifdef EMBED		
-#ifndef XEMBED    
+#ifdef EMBED		    
 #ifdef XECLOSE
         plugin->eventrun = 0;  
         XSync(plugin->display, true);	
@@ -1079,32 +1045,22 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 	plugin->xeclose = 0;
 	
 	XSync(plugin->display, false);	  	    
-#else
-       XReparentWindow(plugin->display, plugin->child, XDefaultRootWindow(plugin->display), 0, 0);  
-       XSync(plugin->display, false);	
 #endif  
-#endif
 #endif		
         plugin->hideGUI();
-        	
+        }	
 #ifdef EMBED		
+        if(plugin->display)
+        {
 #ifdef EMBEDDRAG
         if(plugin->x11_win)
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
-#endif  
-  	  	XSync(plugin->display, false);	 
+#endif      	  	 
         XCloseDisplay(plugin->display);
-        plugin->display = 0;           
-#endif  
-	    }  
-
-#ifdef EMBED	    
-#ifndef XECLOSE
-    plugin->eventrun = 0; 
-#endif 
-#endif       
-	            		    
+        plugin->display = 0; 
+        }  		       
+#endif            		    
 	plugin->effVoidOp(effClose);	    
 
 /*
@@ -1248,9 +1204,7 @@ std::string filename2;
   sleep(10);
   XSync (display, false);
   XDestroyWindow(display, window);
-  XSync(display, false);	 
-  XCloseDisplay(display); 
-  display = 0;   
+  XCloseDisplay(display);  
   }
 
 VST_EXPORT AEffect* VSTPluginMain (audioMasterCallback audioMaster)

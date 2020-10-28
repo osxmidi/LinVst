@@ -186,7 +186,6 @@ public:
     int                 m_updateio;
     int                 m_updatein;
     int                 m_updateout;
-    int                 m_delay;
 #ifdef CHUNKBUF
     char *chunk_ptr;
 #endif
@@ -206,10 +205,7 @@ public:
     int winerror;    
    } winm2;        
    winmessage *winm;
-  int displayerr; 
-#ifdef EMBEDRESIZE
-  int resizedone;
-#endif     
+  int displayerr;    
 #ifdef EMBEDTHREAD
    pthread_t           m_EMBEDThread;
    static void         *callEMBEDThread(void *arg) { return ((RemotePluginClient*)arg)->EMBEDThread(); }
