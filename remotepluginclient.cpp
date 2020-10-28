@@ -180,7 +180,7 @@ else
                     {
 					m_delay = am.delay;	
                     theEffect->initialDelay = am.delay;
-                    printf("del\n");
+                //    printf("del\n");
 				    }
                     retval = 0;
                     retval = m_audioMaster(theEffect, audioMasterIOChanged, 0, 0, 0, 0);
