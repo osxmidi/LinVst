@@ -68,7 +68,7 @@ To change into the plugin directory (using the terminal) cd ~/".wine/drive_c/Pro
 
 -----
 
-If window resizing does not work, then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
+For window resizing, after a resize the UI needs to be closed and then reopened for the new window size to take effect.
 
 If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
 
