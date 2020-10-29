@@ -1614,7 +1614,7 @@ void RemotePluginClient::process(float **inputs, float **outputs, int sampleFram
     commitWrite(&m_shmControl2->ringBuffer);
     waitForServer2();  
     m_updateio = 0;
-    printf("update1\n");
+    // printf("update1\n");
     return;
     }
 	
@@ -1691,7 +1691,7 @@ void RemotePluginClient::processdouble(double **inputs, double **outputs, int sa
     commitWrite(&m_shmControl2->ringBuffer);
     waitForServer2();  
     m_updateio = 0;
-    printf("update2\n");
+    // printf("update2\n");
     return;
     }
 	
