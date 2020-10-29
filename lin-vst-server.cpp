@@ -202,8 +202,6 @@ public:
 * */
     AEffect             *m_plugin;
     VstEvents           vstev[VSTSIZE];
-    int                 bufferSize;
-    int                 sampleRate;
     bool                exiting;
     bool                exiting2;
     bool                effectrun;
@@ -353,8 +351,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     m_plugin(0),
     m_name(fallbackName),
     m_maker(""),
-    bufferSize(512),
-    sampleRate(44100),
     setprogrammiss(0),
     hostreaper(0),
     wavesthread(0),
@@ -420,12 +416,10 @@ void RemoteVSTServer::EffectOpen()
         cerr << "dssi-vst-server[1]: opening plugin" << endl;	       
 	
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
-
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
-	
+    
     m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, bufferSize, NULL, 0);
-
-    m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL, (float)sampleRate);	
+    m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL, (float)sampleRate);	    
 		
     char buffer[512];
     memset(buffer, 0, sizeof(buffer));
@@ -461,34 +455,12 @@ void RemoteVSTServer::EffectOpen()
     if (strncmp(buffer, "IK", 2) == 0)
         setprogrammiss = 1;
 */	
-#ifndef WCLASS
-	    if (haveGui == true)
-    {
-	memset(&wclass, 0, sizeof(WNDCLASSEX));
-        wclass.cbSize = sizeof(WNDCLASSEX);
-        wclass.style = 0;
-	    // CS_HREDRAW | CS_VREDRAW;
-        wclass.lpfnWndProc = MainProc;
-        wclass.cbClsExtra = 0;
-        wclass.cbWndExtra = 0;
-        wclass.hInstance = GetModuleHandle(0);
-        wclass.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME);
-        wclass.hCursor = LoadCursor(0, IDI_APPLICATION);
-        // wclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wclass.lpszMenuName = "MENU_DSSI_VST";
-        wclass.lpszClassName = APPLICATION_CLASS_NAME;
-        wclass.hIconSm = 0;
 
-        if (!RegisterClassEx(&wclass))
-        {
-            cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
-            haveGui = false;
-        }
-#ifdef TRACKTIONWM   
-		    
+#ifdef TRACKTIONWM    
+
         offset.x = 0;
         offset.y = 0;    
-		    
+           
     	memset(&wclass2, 0, sizeof(WNDCLASSEX));
         wclass2.cbSize = sizeof(WNDCLASSEX);
         wclass2.style = 0;
@@ -523,44 +495,6 @@ void RemoteVSTServer::EffectOpen()
      
         UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));        
 #endif        
-    }
-#else
-#ifdef TRACKTIONWM       
-    	memset(&wclass2, 0, sizeof(WNDCLASSEX));
-        wclass2.cbSize = sizeof(WNDCLASSEX);
-        wclass2.style = 0;
-	    // CS_HREDRAW | CS_VREDRAW;
-        wclass2.lpfnWndProc = MainProc2;
-        wclass2.cbClsExtra = 0;
-        wclass2.cbWndExtra = 0;
-        wclass2.hInstance = GetModuleHandle(0);
-        wclass2.hIcon = LoadIcon(GetModuleHandle(0), APPLICATION_CLASS_NAME2);
-        wclass2.hCursor = LoadCursor(0, IDI_APPLICATION);
-        // wclass2.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wclass2.lpszMenuName = "MENU_DSSI_VST2";
-        wclass2.lpszClassName = APPLICATION_CLASS_NAME2;
-        wclass2.hIconSm = 0;
-
-        if (!RegisterClassEx(&wclass2))
-        {
-            cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
-            haveGui = false;
-        }
-        
-        RECT offsetcl, offsetwin;
-
-        HWND hWnd2 = CreateWindow(APPLICATION_CLASS_NAME2, "LinVst", WS_CAPTION, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
-        if(hWnd2)
-        GetClientRect(hWnd2, &offsetcl);
-        GetWindowRect(hWnd2, &offsetwin);
-        DestroyWindow(hWnd2);
-
-        offset.x = (offsetwin.right - offsetwin.left) - offsetcl.right;
-        offset.y = (offsetwin.bottom - offsetwin.top) - offsetcl.bottom;
-     
-        UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));        
-#endif        
-#endif
 	
     struct amessage
     {
@@ -572,17 +506,25 @@ void RemoteVSTServer::EffectOpen()
         int delay;
     } am;
 
-        am.pcount = m_plugin->numPrograms;
-        am.parcount = m_plugin->numParams;
+  //      am.pcount = m_plugin->numPrograms;
+   //     am.parcount = m_plugin->numParams;
         am.incount = m_plugin->numInputs;
         am.outcount = m_plugin->numOutputs;
         am.delay = m_plugin->initialDelay;
+        /*
 #ifndef DOUBLEP
         am.flags = m_plugin->flags;	
         am.flags &= ~effFlagsCanDoubleReplacing;
 #else
         am.flags = m_plugin->flags;	
 #endif
+* */
+
+    if((am.incount != m_numInputs) || (am.outcount != m_numOutputs) || (am.delay != m_delay))
+    {  
+
+
+printf("servup\n");
 
     memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
 
@@ -590,6 +532,8 @@ void RemoteVSTServer::EffectOpen()
    
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();
+    
+   }
 	
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);		
 	
@@ -1012,7 +956,8 @@ bool RemoteVSTServer::warn(std::string warning)
 }
 
 void RemoteVSTServer::showGUI()
-{	
+{
+#ifdef EMBED		
        winm->winerror = 0;
 	
        if(haveGui == false)
@@ -1024,8 +969,8 @@ void RemoteVSTServer::showGUI()
         guiVisible = false;
         return;
        }
+#endif
 	
-#ifdef WCLASS
         memset(&wclass, 0, sizeof(WNDCLASSEX));
         wclass.cbSize = sizeof(WNDCLASSEX);
         wclass.style = 0;
@@ -1051,8 +996,7 @@ void RemoteVSTServer::showGUI()
         tryWrite(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
 #endif        
         return;
-        }        
-#endif       
+        }               
 	
 #ifdef EMBED
         winm->handle = 0;
@@ -1065,10 +1009,8 @@ void RemoteVSTServer::showGUI()
         cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
 
     if (haveGui == false)
-    {
-#ifdef WCLASS        
-        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
-#endif          
+    {       
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));          
         winm->handle = 0;
         winm->width = 0;
         winm->height = 0;
@@ -1077,10 +1019,8 @@ void RemoteVSTServer::showGUI()
     }
 
     if (guiVisible)
-    {
-#ifdef WCLASS        
-        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
-#endif      
+    {     
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));     
         winm->handle = 0;
         winm->width = 0;
         winm->height = 0;
@@ -1100,9 +1040,8 @@ void RemoteVSTServer::showGUI()
     if (!hWnd)
     {
         // cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
-#ifdef WCLASS 
-        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
-#endif       
+
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));      
         guiVisible = false;
         winm->handle = 0;
         winm->width = 0;
@@ -1119,9 +1058,8 @@ void RemoteVSTServer::showGUI()
     {
         // cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
         DestroyWindow(hWnd);
-#ifdef WCLASS         
-        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
-#endif             
+      
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));          
         guiVisible = false;
         winm->handle = 0;
         winm->width = 0;
@@ -1164,19 +1102,15 @@ void RemoteVSTServer::showGUI()
         cerr << "RemoteVSTServer::showGUI(" << "): guiVisible is " << guiVisible << endl;
 
     if (haveGui == false)
-    {
-#ifdef WCLASS     
-        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));  
-#endif       
+    {    
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));       
         guiVisible = false;
         return;
     }
  
     if (guiVisible)
-    {
-#ifdef WCLASS     
-        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
-#endif          
+    {    
+        UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));        
         return;
     }
 	
@@ -1188,10 +1122,8 @@ void RemoteVSTServer::showGUI()
                             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, GetModuleHandle(0), 0);
 	#endif    
     if (!hWnd)
-    {
-#ifdef WCLASS     
-    UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0)); 
-#endif                
+    {    
+    UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));             
     cerr << "dssi-vst-server: ERROR: Failed to create window!\n" << endl;
     guiVisible = false;
     return;
@@ -1205,10 +1137,8 @@ void RemoteVSTServer::showGUI()
     m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
     m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
     if (!rect)
-    {
-#ifdef WCLASS     
-    UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0)); 
-#endif        
+    {   
+    UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));      
     cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n" << endl;
     guiVisible = false;
     return;
@@ -1230,22 +1160,26 @@ void RemoteVSTServer::showGUI()
         timerval = 678;
         timerval = SetTimer(hWnd, timerval, 80, 0);	    
     }
-#endif	
+#endif
+
+    guiresizewidth = rect->right - rect->left;
+    guiresizeheight = rect->bottom - rect->top;	
 }
 
 void RemoteVSTServer::hideGUI2()
 {
     hidegui = 1;  
-#ifdef XECLOSE    
+//#ifdef XECLOSE    
     while(hidegui == 1)
     {    
     sched_yield();
     } 
-#endif        				
+//#endif        				
 }	
 	
 void RemoteVSTServer::hideGUI()
 {
+#ifdef EMBED	
       if(haveGui == false)
        {
         winm->handle = 0;
@@ -1256,6 +1190,7 @@ void RemoteVSTServer::hideGUI()
         hidegui = 0;	
         return;
        }
+#endif       
 	
     // if (!hWnd)
         // return;
@@ -1275,38 +1210,12 @@ void RemoteVSTServer::hideGUI()
 
   if(melda == 0)	
   m_plugin->dispatcher(m_plugin, effEditClose, 0, 0, 0, 0);
-	
-#ifdef EMBED  
-#ifndef WCLASS  
-    if(remoteVSTServerInstance->haveGui == true)
-    {
-    if(hWnd)
-    {
-    HWND child = GetWindow(hWnd, GW_CHILD);  
-    if(child)
-    DestroyWindow(child);
-    }
-    }
-#endif    	    	        
-#endif	
-		
+			
   if(hWnd)
   {	
   KillTimer(hWnd, timerval);
-  #ifdef EMBED
-  #ifdef XEMBED
-  DestroyWindow(hWnd);
-  #else
-  #ifdef XECLOSE	  
   DestroyWindow(hWnd); 
-  #endif	  
-  #endif	  
-  #else
-  DestroyWindow(hWnd);
-  #endif 
-  #ifdef WCLASS  
-  UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
-  #endif         	  
+  UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));        	  
   }
 	
   if(melda == 1)	
@@ -1706,8 +1615,6 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
         break;
 
     case audioMasterIOChanged:
-        if (debugLevel > 1)
-            cerr << "dssi-vst-server[2]: audioMasterIOChanged requested" << endl;
     {        
     struct amessage
     {
@@ -1718,24 +1625,42 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
         int outcount;
         int delay;
     } am;
-
-    if(remoteVSTServerInstance)
-    {		    
+		    
     if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
     {
-        am.pcount = plugin->numPrograms;
-        am.parcount = plugin->numParams;
+     //   am.pcount = plugin->numPrograms;
+     //   am.parcount = plugin->numParams;
         am.incount = plugin->numInputs;
         am.outcount = plugin->numOutputs;
         am.delay = plugin->initialDelay;
+        /*
 #ifndef DOUBLEP
         am.flags = plugin->flags;	
         am.flags &= ~effFlagsCanDoubleReplacing;
 #else
         am.flags = plugin->flags;	
 #endif
+* */
 
-        memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
+ printf("server %d %d %d \n", am.incount, am.outcount, am.delay);
+
+    if((am.incount != remoteVSTServerInstance->m_numInputs) || (am.outcount != remoteVSTServerInstance->m_numOutputs) || (am.delay != remoteVSTServerInstance->m_delay))
+    {  
+		/*
+    if((am.incount != m_numInputs) || (am.outcount != m_numOutputs))
+    {
+    if ((am.incount + am.outcount) * m_bufferSize * sizeof(float) < (PROCESSSIZE))
+  	
+	}	
+   
+  */
+  
+  printf("delay\n");
+  
+    if(am.delay != remoteVSTServerInstance->m_delay)
+    remoteVSTServerInstance->m_delay = am.delay;
+  
+    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
 
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
    
@@ -1744,18 +1669,21 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     retval = 0;
     memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
-	    
-    if((am.incount != remoteVSTServerInstance->m_numInputs) || (am.outcount != remoteVSTServerInstance->m_numOutputs))
+   // }
+    }
+/*	    
+    if((am.incount != m_numInputs) || (am.outcount != m_numOutputs))
     {
-    if ((am.incount + am.outcount) * remoteVSTServerInstance->m_bufferSize * sizeof(float) < (PROCESSSIZE))
+    if ((am.incount + am.outcount) * m_bufferSize * sizeof(float) < (PROCESSSIZE))
     {
-    remoteVSTServerInstance->m_updateio = 1;
-    remoteVSTServerInstance->m_updatein = am.incount;
-    remoteVSTServerInstance->m_updateout = am.outcount;
+    m_updateio = 1;
+    m_updatein = am.incount;
+    m_updateout = am.outcount;
     }
     }
+    */
 /*
-        AEffect* update = remoteVSTServerInstance->m_plugin;
+        AEffect* update = m_plugin;
         update->flags = am.flags;
         update->numPrograms = am.pcount;
         update->numParams = am.parcount;
@@ -1765,8 +1693,8 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 */
        }
       }
-     }
         break;
+
 
     case DEPRECATED_VST_SYMBOL(audioMasterNeedIdle):
         if (debugLevel > 1)
@@ -1778,15 +1706,17 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     case audioMasterSizeWindow:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterSizeWindow requested" << endl;
-{
-#ifdef EMBED
 #ifdef EMBEDRESIZE
-   int opcodegui = 123456789;
-	
+{
+   int opcodegui = 123456789;	
+#ifdef EMBED	
     if(remoteVSTServerInstance)
     {	
     if (remoteVSTServerInstance->hWnd && remoteVSTServerInstance->guiVisible && !remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun && (remoteVSTServerInstance->guiupdate == 0))
-    {	
+    {
+	if((remoteVSTServerInstance->guiresizewidth == index) && (remoteVSTServerInstance->guiresizeheight == value))
+	break;			
+			
     remoteVSTServerInstance->guiresizewidth = index;
     remoteVSTServerInstance->guiresizeheight = value;
 
@@ -1807,7 +1737,6 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     rv = 1;
     }
     }
-#endif
 #else
      if(remoteVSTServerInstance)
      {	
@@ -1819,6 +1748,10 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
     UpdateWindow(remoteVSTServerInstance->hWnd);
 */
+
+	if((remoteVSTServerInstance->guiresizewidth == index) && (remoteVSTServerInstance->guiresizeheight == value))
+	break;	
+
     remoteVSTServerInstance->guiresizewidth = index;
     remoteVSTServerInstance->guiresizeheight = value;
     remoteVSTServerInstance->guiupdate = 1;	
@@ -1826,7 +1759,8 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
         }
 	}
 #endif
-}	    
+}	 
+#endif   
         break;
 
     case audioMasterGetSampleRate:
@@ -2293,7 +2227,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     cout << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
     cout << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
     cout << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-    cout << "LinVst version 3.0" << endl;
+    cout << "LinVst version 3.1.0" << endl;
 
     if (cmdline)
     {
@@ -2760,16 +2694,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->dispatchControl(50);               
     }
     }
-	
-/*
-    for (int i=0;i<10000;i++)
-    {
-        if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
-            break;
-	usleep(1000);    
-    }
-*/
-	
+		
     remoteVSTServerInstance->waitForServerexit();
     remoteVSTServerInstance->waitForClient2exit();
     remoteVSTServerInstance->waitForClient3exit();
@@ -2777,6 +2702,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->waitForClient5exit();	
 	
     WaitForMultipleObjects(3, ThreadHandle, TRUE, 5000);
+    
+    for (int idx50=0;idx50<100000;idx50++)
+    {
+    if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
+    break;
+	usleep(100);    
+    }        
 
     if (debugLevel > 0)
         cerr << "dssi-vst-server[1]: cleaning up" << endl;

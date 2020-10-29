@@ -49,6 +49,8 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_flags(0),
     m_delay(0),
     timeinfo(0),
+    bufferSize(1024),
+    sampleRate(44100),  
     m_inexcept(0),
     m_shmFd(-1),
     m_shmFd2(-1),
@@ -501,7 +503,7 @@ int RemotePluginServer::sizeShm()
 
     ptr = (int *)m_shm;
 
-    *ptr = 300;
+    *ptr = 310;
 	
      return 0;	
 }
