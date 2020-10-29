@@ -11,9 +11,9 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DLVRT -DVST6432 -DXECLOSE -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DNOFOCUS $(CXX_FLAGS)
-# add -DFOCUS to the above line for alternative keyboard focus operation, add -DEMBEDRESIZE to the above line for window resizing
-BUILD_FLAGS_WIN = -m64 -O2 -DVST6432 -DXECLOSE -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows
+BUILD_FLAGS  = -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DNOFOCUS $(CXX_FLAGS)
+# add -DNOFOCUS to the above line for alternative keyboard/mouse focus operation, add -DEMBEDRESIZE to the above line for window resizing
+BUILD_FLAGS_WIN = -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows
 # add -DEMBEDRESIZE to the above line for window resizing
 
 LINK_FLAGS   = $(LDFLAGS)
@@ -31,7 +31,7 @@ linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o paths.
 	$(CXX) $^ $(LINK_PLUGIN) -o $@
 	
 lin-vst-servertrack.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
-	$(WINECXX) -m64 $^ $(LINK_WINE) -o $@
+	$(WINECXX) $^ $(LINK_WINE) -o $@
 
 # --------------------------------------------------------------
 
@@ -59,6 +59,7 @@ remotepluginserver.wine.o: remotepluginserver.cpp
 paths.wine.o: paths.cpp
 	$(WINECXX) $(BUILD_FLAGS_WIN) -c $^ -o $@
 
+
 clean:
 	rm -fR *.o *.exe *.so vst $(TARGETS)
 
@@ -67,4 +68,3 @@ install:
 	install -d $(VST_DIR)
 	install -m 755 linvst.so $(VST_DIR)
 	install -m 755 lin-vst-servertrack.exe lin-vst-servertrack.exe.so $(BIN_DIR)
-

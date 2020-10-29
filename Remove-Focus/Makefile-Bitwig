@@ -11,15 +11,15 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -fPIC -O2 -DLVRT -DXECLOSE -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DBITWIG -DNOFOCUS $(CXX_FLAGS)
-# add -DFOCUS to the above line for alternative keyboard focus operation, add -DEMBEDRESIZE to the above line for window resizing
-BUILD_FLAGS_WIN = -m64 -O2 -DXECLOSE -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows
+BUILD_FLAGS  = -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DBITWIG -DNOFOCUS $(CXX_FLAGS)
+# add -DNOFOCUS to the above line for alternative keyboard/mouse focus operation, add -DEMBEDRESIZE to the above line for window resizing
+BUILD_FLAGS_WIN = -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows
 # add -DEMBEDRESIZE to the above line for window resizing
 
 LINK_FLAGS   = $(LDFLAGS)
 
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
-LINK_WINE   = -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
+LINK_WINE = -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 
 TARGETS     = linvst.so lin-vst-servertrack-bw.exe
 
