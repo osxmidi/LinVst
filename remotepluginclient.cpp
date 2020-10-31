@@ -297,20 +297,24 @@ else
 #ifdef EMBED			
 #ifdef EMBEDRESIZE
                     case resizegui:
-                    retRect.right = readIntring(&m_shmControl->ringBuffer);
-                    retRect.bottom = readIntring(&m_shmControl->ringBuffer);
-                    retRect.left = 0;
-                    retRect.top = 0;
-		            width = retRect.right;
-                    height = retRect.bottom;
+                    {
+                    int width2 = readIntring(&m_shmControl->ringBuffer);
+                    int height2 = readIntring(&m_shmControl->ringBuffer);
+
                     if(display && parent && child)
                     {
-	        	    if(reaperid == 0)
-	        	    retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);                   							
-                    XUnmapWindow(display, child);
-                  //  XResizeWindow(display, parent, width, height);
-                    resizedone = 1;
+                    width = width2;
+                    height = height2;
+
+                    retRect.left = 0;
+                    retRect.top = 0;
+		    retRect.right = width;
+                    retRect.bottom = height;
+
+                    if(reaperid == 0)
+	            retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);                   							
                     XResizeWindow(display, child, width, height);
+                    }
                     }
                     break;
 #endif
