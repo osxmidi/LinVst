@@ -34,6 +34,9 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 ## Common Problems/Possible Fixes
 
+To enable window resizing, use the Makefiles in the Resize folder (just copy them to the main LinVst folder).
+If window resizing is not enabled then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
+
 One of the problems in converting multiple vst's at once is that when the daw tries to load them, one or more plugins might not scan (and/or run) and so the daw scan might stop/hang.
 
 For some daws the vst plugin loading can be seen by starting the daw from the terminal and then if a plugin causes trouble then it should be possible to id which plugin it was by the terminal output.
@@ -67,9 +70,6 @@ To change into the plugin directory (using the terminal) cd ~/".wine/drive_c/Pro
 ```
 
 -----
-
-To enable window resizing, use the Makefiles in the Resize folder (just copy them to the main LinVst folder).
-If window resizing is not enabled then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
 
 If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
 
