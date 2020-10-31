@@ -392,17 +392,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       case ConfigureNotify:
 //      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
 //      {
-
-#ifdef EMBEDRESIZE
-      if(plugin->resizedone == 1)
-      {
-	  plugin->resizedone = 0;
-      XMapWindow(display, child);
-      XSync(display, false);
-      XFlush(display);
-      }
-#endif
-
+		      
       x = 0;
       y = 0;
       ignored = 0;
