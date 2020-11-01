@@ -34,8 +34,7 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 ## Common Problems/Possible Fixes
 
-To enable window resizing, use the Makefiles in the Resize folder (just copy them to the main LinVst folder).
-If window resizing is not enabled then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
+If window resizing does not work, then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
 
 One of the problems in converting multiple vst's at once is that when the daw tries to load them, one or more plugins might not scan (and/or run) and so the daw scan might stop/hang.
 
