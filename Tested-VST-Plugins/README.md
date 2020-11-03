@@ -251,3 +251,5 @@ Sforzando newer versions might not work properly due to Wine d2d1 problems.
 
 **TDR SlickEQ mixing/mastering equalizer** 
 
+**Arturia Plugins** install cmd via winetricks "winetricks cmd"
+
