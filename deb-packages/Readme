@@ -1,3 +1,5 @@
+This Readme is also in /usr/share/LinVst
+
 ## To use LinVst
 
 The vst dll files need to have associated .so files (that have the same name as the vst dll files), so that a Linux DAW can load them.
@@ -20,7 +22,7 @@ For example linvstconvertxx "/home/user/vst/*" or linvstconvertxx "/home/user/vs
 
 -------------
 
-LinVst-3.0 made using Debian Buster but will probably run on other distros.
+LinVst-3.15 made using Debian Buster but will probably run on other distros.
 
 32 bit vst's running under the 64bit LinVst versions need a distros multiarch to be enabled (sudo apt-get install gcc-multilib g++-multilib for Ubuntu/Debian).
 
