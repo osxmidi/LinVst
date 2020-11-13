@@ -36,7 +36,7 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 If window resizing does not work, then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
 
-One of the problems in converting multiple vst's at once is that when the daw tries to load them, one or more plugins might not scan (and/or run) and so the daw scan might stop/hang.
+One of the problems in trying to intially load multiple vst's all at once is that when the Daw tries to load them, one or more plugins might not scan (and/or run) and the daw scan might stop/hang.
 
 Some plugins might not load for various reasons, and one of the basic ways to find problem plugins is to run the Daw from the terminal and look at the LinVst output as it loads each plugin.
 
