@@ -42,7 +42,7 @@ Some plugins might not load for various reasons, and one of the basic ways to fi
 
 It might require multiple Daw plugin rescans (maybe manual plugin rescans for some Daws) and also eliminating problem plugins by deleting their associated (renamed) .so files to get all working plugins scanned.
 
-To be sure about what plugin might run and what plugin might not, it's probably best to proceed by adding one plugin at a time and/or by using the TestVst utility https://github.com/osxmidi/LinVst/releases/tag/3.1 which can be run in batch mode to test multiple vsts.
+To be sure about what plugin might run and what plugin might not, it's probably best to proceed by adding one plugin at a time and/or by using the TestVst utility https://github.com/osxmidi/LinVst/releases which can also be run in batch mode to test multiple vsts.
 
 TestVst can also be used to test dll overrides (wine dll's that are replaced by windows dll's) and if they are likely to work, without going through dll override trial and error using LinVst.
 
