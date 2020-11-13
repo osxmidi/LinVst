@@ -38,7 +38,9 @@ If window resizing does not work, then after a resize the UI needs to be closed 
 
 One of the problems in converting multiple vst's at once is that when the daw tries to load them, one or more plugins might not scan (and/or run) and so the daw scan might stop/hang.
 
-For some daws the vst plugin loading can be seen by starting the daw from the terminal and then if a plugin causes trouble then it should be possible to id which plugin it was by the terminal output.
+Some plugins might not load for various reasons, and one of the basic ways to find problem plugins is to run the Daw from the terminal and look at the LinVst output as it loads each plugin.
+
+It might require multiple Daw plugin rescans (maybe manual plugin rescans for some Daws) and then eliminating problem plugins by deleting their associated (renamed) .so files to get all working plugins scanned.
 
 To be sure about what plugin might run and what plugin might not, it's probably best to proceed by adding one plugin at a time and/or by using the TestVst utility https://github.com/osxmidi/LinVst/releases/tag/3.1 which can be run in batch mode to test multiple vsts.
 
