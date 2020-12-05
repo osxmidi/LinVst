@@ -507,7 +507,7 @@ int RemotePluginServer::sizeShm()
     if(errorexit == 1)
     *ptr = 1000;    
     else
-    *ptr = 315;
+    *ptr = 320;
 	
      return 0;	
 }
