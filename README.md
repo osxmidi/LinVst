@@ -34,6 +34,10 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 ## Common Problems/Possible Fixes
 
+linvstconvert will not convert vst dll's in sub folders and so some plugins might not appear after a daw scan, so if that happens then use linvstconverttree.
+
+linvstconverttree will convert vst dll's in all sub folders.
+
 If window resizing does not work, then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
 
 One of the problems in trying to intially load multiple vst's all at once is that when the Daw tries to load them, one or more plugins might not scan (and/or run) and the Daw scan might stop/hang.
