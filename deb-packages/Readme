@@ -6,6 +6,10 @@ The vst dll files need to have associated .so files (that have the same name as 
 
 linvstconvert and linvstconverttree (also handles vst dll files in subdirectories) can produce the associated .so files automatically.
 
+linvstconvert will not convert vst dll's in sub folders and so some plugins might not appear after a daw scan, so if that happens then use linvstconverttree.
+
+linvstconverttree will convert vst dll's in all sub folders.
+
 Start linvstconvert (or linvstconverttree) and select the linvst.so file which is installed in /usr/share/LinVst/xxbit.
 
 Then select the folder containing the vst dll files, and then click on the Convert button.
