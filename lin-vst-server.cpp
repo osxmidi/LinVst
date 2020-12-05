@@ -76,7 +76,7 @@ using namespace std;
 class RemoteVSTServer : public RemotePluginServer
 {
 public:
-                        RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName);
+                        RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName, int errorexit2);
     virtual             ~RemoteVSTServer();
 
      // virtual std::string getName() { return m_name; }
@@ -346,8 +346,8 @@ DWORD WINAPI ParThreadMain(LPVOID parameter)
     return 0;
 }
 
-RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName) :
-    RemotePluginServer(fileIdentifiers),
+RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallbackName, int errorexit2) :
+    RemotePluginServer(fileIdentifiers, errorexit2),
     m_plugin(0),
     m_name(fallbackName),
     m_maker(""),
@@ -2299,7 +2299,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     KillTimer(NULL, errtimer);    
     */
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;	    
-    usleep(5000000);   
+    string deviceName = fileName;
+    size_t foundext = deviceName.find_last_of(".");
+    deviceName = deviceName.substr(0, foundext);
+    remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 1);        
+    usleep(5000);         
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;  
     exit(0);    
     // return 1;
 #else
@@ -2312,7 +2318,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     KillTimer(NULL, errtimer);  
     */
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
-    usleep(5000000);    
+    string deviceName = fileName;
+    size_t foundext = deviceName.find_last_of(".");
+    deviceName = deviceName.substr(0, foundext);
+    remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 1);        
+    usleep(5000);         
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;    
     exit(0);    
     // return 1;
 #else
@@ -2324,7 +2336,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     KillTimer(NULL, errtimer);
     */
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << fileName << "\" This LinVst version is for 64 bit vsts only." << endl;
-    usleep(5000000); 
+    string deviceName = fileName;
+    size_t foundext = deviceName.find_last_of(".");
+    deviceName = deviceName.substr(0, foundext);
+    remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 1);        
+    usleep(5000);         
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;  
     exit(0);    
     // return 1;
 #endif
@@ -2347,9 +2365,16 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer);
     */
+    remoteVSTServerInstance = 0;	
+    string deviceName = fileName;
+    size_t foundext = deviceName.find_last_of(".");
+    deviceName = deviceName.substr(0, foundext);
+    remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 1);    
+    usleep(5000);      
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance; 
     if(libHandle)
     FreeLibrary(libHandle);
-    usleep(5000000);    
     exit(0);    
     // return 1;
       }
