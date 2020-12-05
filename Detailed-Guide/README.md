@@ -96,6 +96,10 @@ Load test.so within the Linux DAW and then test.so will load and run the (name a
 linvstconvert (GUI or CLI) and linvstconverttree can automatically batch name convert linvst.so to mutiple windows vst dll names that are located in a folder/directory (the linvstconvert CLI version needs to be run from within the dll's folder/directory).
 linvstconverttree can automatically name convert folders and sub folders (directories and sub directories) of vst dll plugins.
 
+linvstconvert will not convert vst dll's in sub folders and so some plugins might not appear after a daw scan, so if that happens then use linvstconverttree.
+
+linvstconverttree will convert vst dll's in all sub folders.
+
 linvstconvert needs to be run with sudo permission for folders/directories that need sudo permission.
 
 After the naming conversion, the newly created files (.so files) are ready to be used in Linux vst DAW's from the folder that was used for the naming conversion.
