@@ -139,7 +139,7 @@ public:
     void                waitForClient5exit();
 
 protected:
-                            RemotePluginServer(std::string fileIdentifiers);
+                            RemotePluginServer(std::string fileIdentifiers, int errorexit);
     void                    cleanup();
 
 private:
@@ -203,6 +203,7 @@ int m_inexcept;
 
 int m_runok;
 int m_386run;
+int errorexit;    
 
 #ifdef EMBED
 #ifdef TRACKTIONWM  
