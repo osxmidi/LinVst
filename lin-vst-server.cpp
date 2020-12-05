@@ -2298,7 +2298,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer);    
     */
-    cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;	    
+    cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;	
+    remoteVSTServerInstance = 0;	    
     string deviceName = fileName;
     size_t foundext = deviceName.find_last_of(".");
     deviceName = deviceName.substr(0, foundext);
@@ -2318,6 +2319,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     KillTimer(NULL, errtimer);  
     */
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
+    remoteVSTServerInstance = 0;	    
     string deviceName = fileName;
     size_t foundext = deviceName.find_last_of(".");
     deviceName = deviceName.substr(0, foundext);
@@ -2336,6 +2338,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     KillTimer(NULL, errtimer);
     */
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << fileName << "\" This LinVst version is for 64 bit vsts only." << endl;
+    remoteVSTServerInstance = 0;
     string deviceName = fileName;
     size_t foundext = deviceName.find_last_of(".");
     deviceName = deviceName.substr(0, foundext);
