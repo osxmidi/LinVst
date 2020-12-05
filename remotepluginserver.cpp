@@ -35,7 +35,7 @@
 #include <time.h>
 #include <iostream>
 
-RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
+RemotePluginServer::RemotePluginServer(std::string fileIdentifiers, int errorexit2) :
     m_bufferSize(-1),
     m_numInputs(-1),
     m_numOutputs(-1),
@@ -95,6 +95,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
     m_threadsfinish(0),
     m_runok(0),
     m_386run(0),
+    errorexit(errorexit2),
     starterror(0)
     {
     char tmpFileBase[60];
@@ -503,6 +504,9 @@ int RemotePluginServer::sizeShm()
 
     ptr = (int *)m_shm;
 
+    if(errorexit == 1)
+    *ptr = 1000;    
+    else
     *ptr = 315;
 	
      return 0;	
