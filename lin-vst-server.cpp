@@ -2291,13 +2291,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (!libHandle)
     {
 #ifdef  VST6432
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error loading plugin dll %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);    
-    */
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;	
     remoteVSTServerInstance = 0;	    
     string deviceName = fileName;
@@ -2308,16 +2301,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance)
     delete remoteVSTServerInstance;  
     exit(0);    
-    // return 1;
 #else
 #ifdef VST32  
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error loading plugin dll %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc); 
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);  
-    */
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname << "\"" << endl;
     remoteVSTServerInstance = 0;	    
     string deviceName = fileName;
@@ -2328,15 +2313,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance)
     delete remoteVSTServerInstance;    
     exit(0);    
-    // return 1;
 #else
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error loading plugin dll %s. This LinVst version is for 64 bit vst's only", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);
-    */
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << fileName << "\" This LinVst version is for 64 bit vsts only." << endl;
     remoteVSTServerInstance = 0;
     string deviceName = fileName;
@@ -2347,7 +2324,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance)
     delete remoteVSTServerInstance;  
     exit(0);    
-    // return 1;
 #endif
 #endif    
     }
@@ -2361,13 +2337,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (!getinstance) {
     cerr << "dssi-vst-server: ERROR: VST entrypoints \"" << NEW_PLUGIN_ENTRY_POINT << "\" or \""
                 << OLD_PLUGIN_ENTRY_POINT << "\" not found in DLL \"" << libname << "\"" << endl;     
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error loading plugin dll %s. Not a VST2 dll", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);
-    */
     remoteVSTServerInstance = 0;	
     string deviceName = fileName;
     size_t foundext = deviceName.find_last_of(".");
@@ -2379,154 +2348,85 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(libHandle)
     FreeLibrary(libHandle);
     exit(0);    
-    // return 1;
       }
     }
+    
+    AEffect *t_plugin = getinstance(hostCallback);
+    
+    if(!t_plugin)
+    {
+    cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;				
+    remoteVSTServerInstance = 0;	
+    string deviceName = fileName;
+    size_t foundext = deviceName.find_last_of(".");
+    deviceName = deviceName.substr(0, foundext);
+    remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 1);    
+    usleep(5000);      
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance; 
+    if(libHandle)
+    FreeLibrary(libHandle);
+    exit(0);    				
+	}	
+		
+	if(t_plugin->magic != kEffectMagic)
+	{
+    cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;		
+    remoteVSTServerInstance = 0;	
+    string deviceName = fileName;
+    size_t foundext = deviceName.find_last_of(".");
+    deviceName = deviceName.substr(0, foundext);
+    remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 1);    
+    usleep(5000);      
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance; 
+    if(libHandle)
+    FreeLibrary(libHandle);
+    exit(0);    								
+	}
 	
+    if (!(t_plugin->flags & effFlagsCanReplacing))
+    {
+    cerr << "dssi-vst-server: ERROR: Plugin does not support processReplacing (required)" << endl;
+    remoteVSTServerInstance = 0;	
+    string deviceName = fileName;
+    size_t foundext = deviceName.find_last_of(".");
+    deviceName = deviceName.substr(0, foundext);
+    remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 1);    
+    usleep(5000);      
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance; 
+    if(libHandle)
+    FreeLibrary(libHandle);
+    exit(0);    
+    }		
+		
 	remoteVSTServerInstance = 0;
 	
-        string deviceName = fileName;
-        size_t foundext = deviceName.find_last_of(".");
-        deviceName = deviceName.substr(0, foundext);
-        remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 0);
-	
-        // remoteVSTServerInstance = new RemoteVSTServer(fileInfo, libname);
-    
+    string deviceName = fileName;
+    size_t foundext = deviceName.find_last_of(".");
+    deviceName = deviceName.substr(0, foundext);
+    remoteVSTServerInstance = new RemoteVSTServer(fileInfo, deviceName, 0);
+
     if(!remoteVSTServerInstance)
     {
     cerr << "ERROR: Remote VST startup failed" << endl;
-    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
-    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
-    remoteVSTServerInstance->waitForServer();  
-    remoteVSTServerInstance->waitForClient2exit();
-    remoteVSTServerInstance->waitForClient3exit();
-    remoteVSTServerInstance->waitForClient4exit();
-    remoteVSTServerInstance->waitForClient5exit();
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);    
-    */
-	usleep(5000000);    
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
 	if(libHandle)
 	FreeLibrary(libHandle);
-	    
-        exit(0);
-	// return 1;
-        }
+	exit(0);
+    }
 
     if(remoteVSTServerInstance->starterror == 1)
     {
-    cerr << "ERROR: Remote VST startup failed and/or mismatched LinVst versions" << endl;
-    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
-    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
-    remoteVSTServerInstance->waitForServer();  
-    remoteVSTServerInstance->waitForClient2exit();
-    remoteVSTServerInstance->waitForClient3exit();
-    remoteVSTServerInstance->waitForClient4exit();
-    remoteVSTServerInstance->waitForClient5exit();
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);    
-    */
-	usleep(5000000);    
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
+    cerr << "ERROR: Remote VST startup failed" << endl;		
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance; 		
 	if(libHandle)
 	FreeLibrary(libHandle);
-	    
-        exit(0);
-	// return 1;
+	exit(0);
     }
 
-    remoteVSTServerInstance->m_plugin = getinstance(hostCallback);
-    if (!remoteVSTServerInstance->m_plugin)
-    {
-    cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;
-    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
-    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
-    remoteVSTServerInstance->waitForServer();  
-    remoteVSTServerInstance->waitForClient2exit();
-    remoteVSTServerInstance->waitForClient3exit();
-    remoteVSTServerInstance->waitForClient4exit();
-    remoteVSTServerInstance->waitForClient5exit();
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);    
-    */
-	usleep(5000000);    
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
-	if(libHandle)
-	FreeLibrary(libHandle);
-	    
-        exit(0);
-	// return 1;
-    }
-
-    if (remoteVSTServerInstance->m_plugin->magic != kEffectMagic)
-    {
-    cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;
-    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
-    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
-    remoteVSTServerInstance->waitForServer();  
-    remoteVSTServerInstance->waitForClient2exit();
-    remoteVSTServerInstance->waitForClient3exit();
-    remoteVSTServerInstance->waitForClient4exit();
-    remoteVSTServerInstance->waitForClient5exit();
-    /*	    
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Not a VST2 plugin DLL %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);
-    */
-	usleep(5000000);    
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
-	if(libHandle)
-	FreeLibrary(libHandle);
-	    
-	exit(0);    
-        // return 1;
-    }
-
-    if (!(remoteVSTServerInstance->m_plugin->flags & effFlagsCanReplacing))
-    {
-    cerr << "dssi-vst-server: ERROR: Plugin does not support processReplacing (required)" << endl;
-    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
-    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
-    remoteVSTServerInstance->waitForServer();  
-    remoteVSTServerInstance->waitForClient2exit();
-    remoteVSTServerInstance->waitForClient3exit();
-    remoteVSTServerInstance->waitForClient4exit();
-    remoteVSTServerInstance->waitForClient5exit();
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "ProcessReplacing not supported %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer); 
-    */
-	usleep(5000000);    
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
-	if(libHandle)
-	FreeLibrary(libHandle);
-	    
-	exit(0);    
-        // return 1;
-    }
+    remoteVSTServerInstance->m_plugin = t_plugin;
 
     if(remoteVSTServerInstance->m_plugin->flags & effFlagsHasEditor)
     remoteVSTServerInstance->haveGui = true;
