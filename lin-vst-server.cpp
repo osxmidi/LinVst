@@ -2231,44 +2231,44 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
     if (cmdline)
     {
-        int offset = 0;
-        if (cmdline[0] == '"' || cmdline[0] == '\'') offset = 1;
-            for (int ci = offset; cmdline[ci]; ++ci)
-            {
-                if (cmdline[ci] == ',')
-                {
-                    libname2 = strndup(cmdline + offset, ci - offset);
-                    ++ci;
-                    if (cmdline[ci])
-                    {
-                        fileInfo = strdup(cmdline + ci);
-                        int l = strlen(fileInfo);
-                        if (fileInfo[l-1] == '"' || fileInfo[l-1] == '\'')
-                            fileInfo[l-1] = '\0';
-                    }
-                }
-            }
+    int offset = 0;
+    if (cmdline[0] == '"' || cmdline[0] == '\'') offset = 1;
+    for (int ci = offset; cmdline[ci]; ++ci)
+    {
+    if (cmdline[ci] == ',')
+    {
+    libname2 = strndup(cmdline + offset, ci - offset);
+    ++ci;
+    if (cmdline[ci])
+    {
+    fileInfo = strdup(cmdline + ci);
+    int l = strlen(fileInfo);
+    if (fileInfo[l-1] == '"' || fileInfo[l-1] == '\'')
+    fileInfo[l-1] = '\0';
+    }
+    }
+    }
     }
 
     if (libname2 != NULL)
     {
-        if ((libname2[0] == '/') && (libname2[1] == '/'))
-            libname = strdup(&libname2[1]);
-        else
-            libname = strdup(libname2);
+    if ((libname2[0] == '/') && (libname2[1] == '/'))
+    libname = strdup(&libname2[1]);
+    else
+    libname = strdup(libname2);
     }
     else
     {
-        cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
-        cerr << "(Command line was: " << cmdline << ")" << endl;	    
-	exit(0);    
+    cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
+    cerr << "(Command line was: " << cmdline << ")" << endl;	    
+    exit(0);    
     }
 
     if (!libname || !libname[0] || !fileInfo || !fileInfo[0])
     {
-        cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
-        cerr << "(Command line was: " << cmdline << ")" << endl;	    
-	exit(0);    
+    cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
+    cerr << "(Command line was: " << cmdline << ")" << endl;	    
+    exit(0);    
     }
 	
     strcpy(cdpath, libname);
@@ -2344,7 +2344,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(libHandle)
     FreeLibrary(libHandle);
     exit(0);    
-      }
+    }
     }
     
     AEffect *t_plugin = getinstance(hostCallback);
@@ -2366,7 +2366,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     }	
 		
     if(t_plugin->magic != kEffectMagic)
-	{
+    {
     cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;		
     remoteVSTServerInstance = 0;	
     string deviceName = fileName;
