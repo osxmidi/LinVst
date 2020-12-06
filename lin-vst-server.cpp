@@ -2260,19 +2260,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     else
     {
         cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
-        cerr << "(Command line was: " << cmdline << ")" << endl;
-	    
+        cerr << "(Command line was: " << cmdline << ")" << endl;	    
 	exit(0);    
-      //  return 1;
     }
 
     if (!libname || !libname[0] || !fileInfo || !fileInfo[0])
     {
         cerr << "Usage: dssi-vst-server <vstname.dll>,<tmpfilebase>" << endl;
-        cerr << "(Command line was: " << cmdline << ")" << endl;
-	    
+        cerr << "(Command line was: " << cmdline << ")" << endl;	    
 	exit(0);    
-        // return 1;
     }
 	
     strcpy(cdpath, libname);
@@ -2367,9 +2363,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(libHandle)
     FreeLibrary(libHandle);
     exit(0);    				
-	}	
+    }	
 		
-	if(t_plugin->magic != kEffectMagic)
+    if(t_plugin->magic != kEffectMagic)
 	{
     cerr << "dssi-vst-server: ERROR: Not a VST plugin in DLL \"" << libname << "\"" << endl;		
     remoteVSTServerInstance = 0;	
@@ -2383,7 +2379,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(libHandle)
     FreeLibrary(libHandle);
     exit(0);    								
-	}
+    }
 	
     if (!(t_plugin->flags & effFlagsCanReplacing))
     {
@@ -2401,7 +2397,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     exit(0);    
     }		
 		
-	remoteVSTServerInstance = 0;
+    remoteVSTServerInstance = 0;
 	
     string deviceName = fileName;
     size_t foundext = deviceName.find_last_of(".");
@@ -2411,9 +2407,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(!remoteVSTServerInstance)
     {
     cerr << "ERROR: Remote VST startup failed" << endl;
-	if(libHandle)
-	FreeLibrary(libHandle);
-	exit(0);
+    if(libHandle)
+    FreeLibrary(libHandle);
+    exit(0);
     }
 
     if(remoteVSTServerInstance->starterror == 1)
@@ -2421,9 +2417,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     cerr << "ERROR: Remote VST startup failed" << endl;		
     if(remoteVSTServerInstance)
     delete remoteVSTServerInstance; 		
-	if(libHandle)
-	FreeLibrary(libHandle);
-	exit(0);
+    if(libHandle)
+    FreeLibrary(libHandle);
+    exit(0);
     }
 
     remoteVSTServerInstance->m_plugin = t_plugin;
@@ -2452,14 +2448,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer); 
     */	    
-	usleep(5000000);
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
-	if(libHandle)
-	FreeLibrary(libHandle);
-	    
-	exit(0);    
-        // return 1;
+    usleep(5000000);
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;
+    if(libHandle)
+    FreeLibrary(libHandle);    
+    exit(0);    
     }
 
     DWORD threadIdp2 = 0;
@@ -2474,7 +2468,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (ThreadHandle[0])
     {
         // TerminateThread(ThreadHandle[0], 0);
-        CloseHandle(ThreadHandle[0]);
+    CloseHandle(ThreadHandle[0]);
     }    
 //    TerminateThread(ThreadHandle[0], 0);
 
@@ -2492,14 +2486,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer);  
     */
-	usleep(5000000);   
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
-	if(libHandle)
-	FreeLibrary(libHandle);
-	    
-	exit(0);    
-        // return 1;
+    usleep(5000000);   
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;
+    if(libHandle)
+    FreeLibrary(libHandle);    
+    exit(0);    
     }
 
     DWORD threadIdp3 = 0;
@@ -2514,7 +2506,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (ThreadHandle[0])
     {
         // TerminateThread(ThreadHandle[0], 0);
-        CloseHandle(ThreadHandle[0]);
+    CloseHandle(ThreadHandle[0]);
     }
     if (ThreadHandle[1])
     {
@@ -2538,14 +2530,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
     KillTimer(NULL, errtimer);    
     */
-	usleep(5000000);    
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
-	if(libHandle)
-	FreeLibrary(libHandle);
-	    
-	exit(0);    
-        // return 1;
+    usleep(5000000);    
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;
+    if(libHandle)
+    FreeLibrary(libHandle);    
+    exit(0);    
     }
 	
     remoteVSTServerInstance->deviceName2 = deviceName;	
@@ -2635,32 +2625,32 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     {
     if (remoteVSTServerInstance->parfin && remoteVSTServerInstance->audfin && remoteVSTServerInstance->getfin)
     break;
-	usleep(100);    
+    usleep(100);    
     }        
 
     if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: cleaning up" << endl;
+    cerr << "dssi-vst-server[1]: cleaning up" << endl;
 
     if (ThreadHandle[0])
     {
         // TerminateThread(ThreadHandle[0], 0);
-        CloseHandle(ThreadHandle[0]);
+    CloseHandle(ThreadHandle[0]);
     }
 
     if (ThreadHandle[1])
     {
         // TerminateThread(ThreadHandle[1], 0);
-        CloseHandle(ThreadHandle[1]);
+    CloseHandle(ThreadHandle[1]);
     }
 
     if (ThreadHandle[2])
     {
         // TerminateThread(ThreadHandle[2], 0);
-        CloseHandle(ThreadHandle[2]);
+    CloseHandle(ThreadHandle[2]);
     }
 
     if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: closed threads" << endl;
+    cerr << "dssi-vst-server[1]: closed threads" << endl;
 
     if(remoteVSTServerInstance)
     delete remoteVSTServerInstance;
@@ -2669,9 +2659,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     FreeLibrary(libHandle);
 
     if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: freed dll" << endl;
+    cerr << "dssi-vst-server[1]: freed dll" << endl;
  //   if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: exiting" << endl;
+    cerr << "dssi-vst-server[1]: exiting" << endl;
 	
     exit(0);
 	
