@@ -2423,7 +2423,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->waitForClient2exit();
     remoteVSTServerInstance->waitForClient3exit();
     remoteVSTServerInstance->waitForClient4exit();
-    remoteVSTServerInstance->waitForClient5exit();	    
+    remoteVSTServerInstance->waitForClient5exit();
+    usleep(5000000);  	    
     delete remoteVSTServerInstance; 
     }	    
     if(libHandle)
