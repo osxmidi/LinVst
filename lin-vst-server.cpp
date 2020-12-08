@@ -2414,9 +2414,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
 
     if(remoteVSTServerInstance->starterror == 1)
     {
-    cerr << "ERROR: Remote VST startup failed" << endl;		
+    cerr << "ERROR: Remote VST startup error" << endl;		
     if(remoteVSTServerInstance)
-    delete remoteVSTServerInstance; 		
+    {	
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();	    
+    delete remoteVSTServerInstance; 
+    }	    
     if(libHandle)
     FreeLibrary(libHandle);
     exit(0);
