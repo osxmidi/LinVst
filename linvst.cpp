@@ -346,6 +346,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 #ifndef NOFOCUS		      
       case EnterNotify:
 //      if(reaperid)
+//        {
  //     if(mapped2)
   //    {     
       if(e.xcrossing.focus == False)
@@ -353,6 +354,7 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
 //    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
       }
+ //     }
  //     }
       break;
 #endif		      
