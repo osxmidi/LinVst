@@ -837,7 +837,7 @@ ptr = (int *)m_shm;
 	if (*ptr == 1000)
 	break;	    
 	    
-        if (*ptr == 320)
+        if (*ptr == 321)
          {
             startok = 1;
             break;
