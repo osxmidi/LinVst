@@ -542,28 +542,6 @@ void RemoteVSTServer::EffectOpen()
 
 RemoteVSTServer::~RemoteVSTServer()
 {
-    if(effectrun == true)
-    {		    
-    if(m_plugin)
-    {
-	    /*
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0); 
-    
-    if(((strncmp(remoteVSTServerInstance->deviceName2.c_str(), "vst3shell", 9) == 0) || (strncmp(remoteVSTServerInstance->deviceName2.c_str(), "vsti3shell", 10) == 0)) && (strcmp(bufferwaves.c_str(), "Waves") == 0)) 
-    {
-    }
-    else
-    */
-    m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
-    }
-    } 
-	
-/*
-#ifdef EMBED		
-    if (winm)
-    delete winm; 
-#endif	
-*/
 }
 
 void RemoteVSTServer::process(float **inputs, float **outputs, int sampleFrames)
@@ -752,6 +730,7 @@ void RemoteVSTServer::effDoVoid(int opcode)
     if (opcode == effClose)
     {
          // usleep(500000);
+	m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);		    
         waitForServerexit();
         terminate();
 	return;    
