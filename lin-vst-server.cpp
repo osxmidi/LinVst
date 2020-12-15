@@ -416,7 +416,7 @@ void RemoteVSTServer::EffectOpen()
         cerr << "dssi-vst-server[1]: opening plugin" << endl;	       
 	
     m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+    // m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
     
     m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, bufferSize, NULL, 0);
     m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL, (float)sampleRate);	    
@@ -535,7 +535,7 @@ void RemoteVSTServer::EffectOpen()
     
    }
 	
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);		
+    // m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);		
 	
     effectrun = true;	
 }
@@ -546,12 +546,14 @@ RemoteVSTServer::~RemoteVSTServer()
     {		    
     if(m_plugin)
     {
+	    /*
     m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0); 
     
     if(((strncmp(remoteVSTServerInstance->deviceName2.c_str(), "vst3shell", 9) == 0) || (strncmp(remoteVSTServerInstance->deviceName2.c_str(), "vsti3shell", 10) == 0)) && (strcmp(bufferwaves.c_str(), "Waves") == 0)) 
     {
     }
     else
+    */
     m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
     }
     } 
@@ -804,9 +806,9 @@ void RemoteVSTServer::setBufferSize(int sz)
 {
     if (bufferSize != sz)
     {
-        m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+       // m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
         m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, sz, NULL, 0);
-        m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
+       // m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
         bufferSize = sz;
     }
    
@@ -818,9 +820,9 @@ void RemoteVSTServer::setSampleRate(int sr)
 {
     if (sampleRate != sr)
     {
-        m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+      //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
         m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL, (float)sr);
-        m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
+      //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
         sampleRate = sr;
     }
 
@@ -832,8 +834,8 @@ void RemoteVSTServer::reset()
 {
     cerr << "dssi-vst-server[1]: reset" << endl;
 
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
+  //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+  //  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
 }
 
 void RemoteVSTServer::terminate()
