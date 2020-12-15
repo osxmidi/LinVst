@@ -4,6 +4,7 @@ For possible DAW plugin window focus options remove most of the // characters fr
 
       case EnterNotify:
 //      if(reaperid)
+//        {
  //     if(mapped2)
   //    {     
       if(e.xcrossing.focus == False)
@@ -11,6 +12,7 @@ For possible DAW plugin window focus options remove most of the // characters fr
       XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
 //    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
       }
+ //     }
  //     }
       break;
       
@@ -22,12 +24,14 @@ For possible DAW plugin window focus options remove most of the // characters fr
       
       case EnterNotify:
       if(reaperid)
+      {
       if(mapped2)
       {     
       if(e.xcrossing.focus == False)
       {
       XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
 //    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
+      }
       }
       }
       break;
