@@ -1468,6 +1468,22 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
         // happy to oblige
         rv = 1;
         break;
+        
+    case audioMasterSetTime:
+       
+    if(remoteVSTServerInstance)
+    {	    
+    if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun && remoteVSTServerInstance->m_shm3)
+    {
+	memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - (sizeof(VstTimeInfo)*2)], ptr, sizeof(VstTimeInfo));		
+		
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);   
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+	}
+	}
+	rv = 1;
+	break;        
 
     case audioMasterGetTime:
     
@@ -1571,10 +1587,12 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
       }
         break;
 
+/*
     case DEPRECATED_VST_SYMBOL(audioMasterSetTime):
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterSetTime requested" << endl;
         break;
+*/
 
     case DEPRECATED_VST_SYMBOL(audioMasterTempoAt):
         // if (debugLevel > 1)
@@ -2207,7 +2225,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
     cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
     cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-    cerr << "LinVst version 3.2.1" << endl;
+    cerr << "LinVst version 3.2.5" << endl;
 
     if (cmdline)
     {

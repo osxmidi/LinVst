@@ -446,7 +446,7 @@ int RemotePluginServer::sizeShm()
 
     size_t sz = FIXED_SHM_SIZE + 1024;
     size_t sz2 = FIXED_SHM_SIZE2 + 1024 + (2 * sizeof(float));
-    size_t sz3 = FIXED_SHM_SIZE3 + 1024;
+    size_t sz3 = FIXED_SHM_SIZE3 + 1024 + (sizeof(VstTimeInfo)*2);
 
     m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd, 0);
     if (!m_shm)
@@ -507,7 +507,7 @@ int RemotePluginServer::sizeShm()
     if(errorexit == 1)
     *ptr = 1000;    
     else
-    *ptr = 321;
+    *ptr = 325;
 	
      return 0;	
 }
