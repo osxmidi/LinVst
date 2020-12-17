@@ -2108,6 +2108,18 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     case audioMasterUpdateDisplay:
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterUpdateDisplay requested" << endl;
+    if(remoteVSTServerInstance)
+    {	
+    if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
+    {
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)opcode);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();
+    retval = 0;
+    memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
+    rv = retval;
+      }
+     }	                
         break;
 
     case audioMasterBeginEdit:
