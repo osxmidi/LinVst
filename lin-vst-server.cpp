@@ -2105,9 +2105,10 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
             cerr << "dssi-vst-server[2]: audioMasterGetDirectory requested" << endl;
         break;
 
-    case audioMasterUpdateDisplay:
+    case audioMasterUpdateDisplay:		    
         if (debugLevel > 1)
             cerr << "dssi-vst-server[2]: audioMasterUpdateDisplay requested" << endl;
+/*		    
     if(remoteVSTServerInstance)
     {	
     if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
@@ -2119,7 +2120,8 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     memcpy(&retval, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], sizeof(int));
     rv = retval;
       }
-     }	                
+     }
+*/     
         break;
 
     case audioMasterBeginEdit:
