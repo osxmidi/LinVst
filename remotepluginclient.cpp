@@ -223,6 +223,12 @@ else
                     memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));               
                     break;
 				
+                   case audioMasterUpdateDisplay:
+                   retval = 0;
+                   retval = m_audioMaster(theEffect, audioMasterUpdateDisplay, 0, 0, 0, 0);
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+                   break;     				
+				
                    case audioMasterAutomate:
                    retval = 0;
                    idx = readIntring(&m_shmControl->ringBuffer);
