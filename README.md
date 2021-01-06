@@ -2,9 +2,9 @@
 
 LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
-See LinVst-X (https://github.com/osxmidi/LinVst-X) for running vst plugins in a single Wine process so that plugins can communicate with each other or plugins that can use shared samples between instances will be able to communicate with their other instances.
+See LinVst-X (https://github.com/osxmidi/LinVst-X) for possibly running vst plugins in a single Wine process so that plugins can communicate with each other or plugins that can use shared samples between instances will be able to communicate with their other instances.
 
-See LinVst3 https://github.com/osxmidi/LinVst3 for running vst3 plugins.
+See LinVst3 https://github.com/osxmidi/LinVst3 for poosibly running vst3 plugins.
 
 ## Quick Start Guide (see the Detailed-Guide folder for more info) 
 
