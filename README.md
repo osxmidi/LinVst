@@ -34,6 +34,8 @@ If a LinVst version error pops up then LinVst probably needs to be reinstalled t
 
 Scripts are also avaliable as an alternative to linvstconvert in the convert and manage folders and also https://github.com/Goli4thus/linvstmanage
 
+A tested vst compatibility list is at https://github.com/keybreak/linux-vst-compatibility-list
+
 ## Common Problems/Possible Fixes
 
 linvstconvert will not convert vst dll's in sub folders and so some plugins might not appear after a daw scan, so if that happens then use linvstconverttree.
