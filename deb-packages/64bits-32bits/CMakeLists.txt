@@ -11,8 +11,8 @@ INCLUDE(FindPackageHandleStandardArgs)
 message( "Configuring Project LinVst." )
 
 SET(MAJOR_VERSION "3")
-SET(MINOR_VERSION "2")
-SET(PATCH_VERSION "1")
+SET(MINOR_VERSION "5")
+SET(PATCH_VERSION "0")
 
 add_subdirectory( convertvst )
 add_subdirectory( converttreevst )
