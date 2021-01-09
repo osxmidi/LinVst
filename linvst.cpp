@@ -420,7 +420,15 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       e.xconfigure.border_width = 0;
       e.xconfigure.above = None;
       e.xconfigure.override_redirect = False;
+		      
+#ifdef TRACKTIONWM  
+      if(plugin->waveformid > 0)     
+      XSendEvent (display, child, False, NoEventMask, &e);
+      else
+      XSendEvent (display, child, False, StructureNotifyMask | SubstructureRedirectMask, &e);      
+#else	      
       XSendEvent (display, child, False, StructureNotifyMask | SubstructureRedirectMask, &e);
+#endif		      
 //      }
       break;
 
