@@ -242,12 +242,10 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     break;
 		    
     case WM_TIMER:
-	/*
          if(wParam == 678)
          {
          remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
          }	
-	*/
      break;
        	
     default:
@@ -353,7 +351,7 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     m_maker(""),
     setprogrammiss(0),
     hostreaper(0),
-    wavesthread(0),
+    wavesthread(1),
 #ifdef EMBED
     winm(0),
     /*
@@ -436,8 +434,7 @@ void RemoteVSTServer::EffectOpen()
 		
     if(strcmp("MeldaProduction", buffer) == 0)
     {    
-    melda = 1;	
-    wavesthread = 1;  
+    melda = 1;	 
     }	    
 	
 #ifdef WAVES
@@ -449,7 +446,7 @@ void RemoteVSTServer::EffectOpen()
     bufferwaves = buffer;	    
     }
 
-    writeInt(&m_shm[FIXED_SHM_SIZE], wavesthread);
+    writeInt(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], wavesthread);
 #endif
 /*
     if (strncmp(buffer, "IK", 2) == 0)
@@ -577,7 +574,7 @@ bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetOutputProperties, index, 0, &ptr, 0);
 
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr, sizeof(vinfo));
+        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(vinfo)], &ptr, sizeof(vinfo));
 
         return retval;         
 }
@@ -589,7 +586,7 @@ bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetInputProperties, index, 0, &ptr, 0);
 
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr, sizeof(vinfo));
+        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(vinfo)], &ptr, sizeof(vinfo));
 
         return retval;       
 }
@@ -601,7 +598,7 @@ bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetInputProperties, index, 0, &ptr, 0);
 
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
+        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
 
         return retval;       
 }
@@ -613,7 +610,7 @@ bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetOutputProperties, index, 0, &ptr, 0);
 
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
+        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
 
         return retval;         
 }
@@ -626,7 +623,7 @@ MidiKeyName ptr;
 bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetMidiKeyName, index, 0, &ptr, 0);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiKeyName)], &ptr, sizeof(MidiKeyName));
+        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(MidiKeyName)], &ptr, sizeof(MidiKeyName));
 
         return retval;       
 }
@@ -637,7 +634,7 @@ MidiProgramName ptr;
 bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetMidiProgramName, index, 0, &ptr, 0);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramName)], &ptr, sizeof(MidiProgramName));
+        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(MidiProgramName)], &ptr, sizeof(MidiProgramName));
 
         return retval;       
 }
@@ -648,7 +645,7 @@ MidiProgramName ptr;
 bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetCurrentMidiProgram, index, 0, &ptr, 0);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramName)], &ptr, sizeof(MidiProgramName));
+        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(MidiProgramName)], &ptr, sizeof(MidiProgramName));
 
         return retval;       
 }
@@ -659,7 +656,7 @@ MidiProgramCategory ptr;
 bool retval;
 
         retval = m_plugin->dispatcher(m_plugin, effGetMidiProgramCategory, index, 0, &ptr, 0);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramCategory)], &ptr, sizeof(MidiProgramCategory));
+        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(MidiProgramCategory)], &ptr, sizeof(MidiProgramCategory));
 
         return retval;       
 }
@@ -679,9 +676,9 @@ VstSpeakerArrangement ptr;
 VstSpeakerArrangement value;
 bool retval;
 
-       tryRead(&m_shm2[FIXED_SHM_SIZE2 - (sizeof(VstSpeakerArrangement)*2)], &ptr, sizeof(VstSpeakerArrangement));
+       tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - (sizeof(VstSpeakerArrangement)*2)], &ptr, sizeof(VstSpeakerArrangement));
 
-       tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstSpeakerArrangement)], &value, sizeof(VstSpeakerArrangement));
+       tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(VstSpeakerArrangement)], &value, sizeof(VstSpeakerArrangement));
 
        retval = m_plugin->dispatcher(m_plugin, effSetSpeakerArrangement, 0, (VstIntPtr)&value, &ptr, 0);
 
@@ -696,9 +693,9 @@ bool retval;
 
        retval = m_plugin->dispatcher(m_plugin, effSetSpeakerArrangement, 0, (VstIntPtr)&value, &ptr, 0);
 
-       tryWrite(&m_shm2[FIXED_SHM_SIZE2 - (sizeof(VstSpeakerArrangement)*2)], &ptr, sizeof(VstSpeakerArrangement));
+       tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - (sizeof(VstSpeakerArrangement)*2)], &ptr, sizeof(VstSpeakerArrangement));
 
-       tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstSpeakerArrangement)], &value, sizeof(VstSpeakerArrangement));
+       tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(VstSpeakerArrangement)], &value, sizeof(VstSpeakerArrangement));
  
        return retval;  
 }     
@@ -1324,7 +1321,7 @@ void RemoteVSTServer::canBeAutomated()
 {
     int param = readIntring(&m_shmControl5->ringBuffer);
     int r = m_plugin->dispatcher(m_plugin, effCanBeAutomated, param, 0, 0, 0);
-    writeInt(&m_shm[FIXED_SHM_SIZE], r);
+    writeInt(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], r);
 }
 
 void RemoteVSTServer::getProgram()
@@ -2239,7 +2236,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
     cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
     cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-    cerr << "LinVst version 3.2.5" << endl;
+    cerr << "LinVst version 3.5.0" << endl;
 
     if (cmdline)
     {
@@ -2583,13 +2580,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
        
     if(remoteVSTServerInstance->hidegui == 1)
     break;  
-    
+ /*   
     if((msg.message == WM_TIMER) && (msg.wParam == 678)) 
     {
     remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
     if(remoteVSTServerInstance->guiupdate)
     remoteVSTServerInstance->guiUpdate();  
-    }      
+    }  
+ */     
     } 
     
     if(remoteVSTServerInstance->hidegui == 1)
@@ -2616,13 +2614,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
        
     if(remoteVSTServerInstance->hidegui == 1)
     break;  
-    
+ /*   
     if((msg.message == WM_TIMER) && (msg.wParam == 678)) 
     {
     remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
     if(remoteVSTServerInstance->guiupdate)
     remoteVSTServerInstance->guiUpdate();  
-    }      
+    } 
+  */     
     } 
     
     if(remoteVSTServerInstance->hidegui == 1)

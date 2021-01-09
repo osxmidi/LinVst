@@ -465,10 +465,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         hit2[idx - 1] = '\0';
         setenv("WINEPREFIX", hit2, 1);
     }
-
-    std::string arg = dllName + "," + getFileIdentifiers();
-    const char *argStr = arg.c_str();
-
+    
 //    signal(SIGCHLD, SIG_IGN);
 
     #ifdef LVRT
@@ -482,6 +479,9 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         perror("Failed to set realtime priority");
     }
     #endif
+      
+    std::string arg = dllName + "," + getFileIdentifiers();
+    const char *argStr = arg.c_str();
 
     if ((child = fork()) < 0)
     {

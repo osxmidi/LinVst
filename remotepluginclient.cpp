@@ -39,11 +39,6 @@
 
 #define hidegui2 77775634
 
-#ifdef XEMBED
-#define XEMBED_EMBEDDED_NOTIFY	0
-#define XEMBED_FOCUS_OUT 5
-#endif
-
 void* RemotePluginClient::AMThread()
 {
     int         opcode;
@@ -164,7 +159,7 @@ else
                     }
                     break;
 
-               case audioMasterIOChanged:
+				case audioMasterIOChanged:
                 
                     memcpy(&am, &m_shm3[FIXED_SHM_SIZE3], sizeof(am));
                   //   printf("client %d %d %d \n", am.incount, am.outcount, am.delay);
@@ -269,7 +264,7 @@ else
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
                    break;
 				
-		   case audioMasterGetSampleRate:
+				   case audioMasterGetSampleRate:
                    retval = 0;
                    retval = m_audioMaster(theEffect, audioMasterGetSampleRate, 0, 0, 0, 0);
                    memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
@@ -322,11 +317,11 @@ else
 
                     retRect.left = 0;
                     retRect.top = 0;
-		    retRect.right = width;
+					retRect.right = width;
                     retRect.bottom = height;
 
                     if(reaperid == 0)
-	            retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);                   							
+					retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);                   							
                     XResizeWindow(display, child, width, height);
                     }
                     }
@@ -351,9 +346,7 @@ else
                    waitForServer5exit();  
                    m_threadbreak = 1;
 #ifdef EMBED
-#ifdef EMBEDTHREAD
                    m_threadbreakembed = 1;
-#endif
 #endif 
                  break;
                 default:
@@ -389,94 +382,254 @@ else
     return 0;
 }
 
-/*
-
 #ifdef EMBED
-#ifdef XEMBED
-#ifdef EMBEDTHREAD
-
-#define XEMBED_EMBEDDED_NOTIFY	0
-#define XEMBED_FOCUS_OUT 5
-
-
-void sendXembedMessage(Display* display, Window window, long message, long detail,
-		long data1, long data2)
-{
-	XEvent event;
-
-	memset(&event, 0, sizeof(event));
-	event.xclient.type = ClientMessage;
-	event.xclient.window = window;
-	event.xclient.message_type = XInternAtom(display, "_XEMBED", false);
-	event.xclient.format = 32;
-	event.xclient.data.l[0] = CurrentTime;
-	event.xclient.data.l[1] = message;
-	event.xclient.data.l[2] = detail;
-	event.xclient.data.l[3] = data1;
-	event.xclient.data.l[4] = data2;
-
-	XSendEvent(display, window, false, NoEventMask, &event);
-//	XSync(display, false);
-}
-#endif
-#endif
-#endif
-*/
-
-#ifdef EMBED
-#ifdef EMBEDTHREAD
 void* RemotePluginClient::EMBEDThread()
 {
-struct sched_param param;
-int     embedcount = 0;   
-	
+	/*
+     struct sched_param param;	
      param.sched_priority = 0;
      sched_setscheduler(0, SCHED_OTHER, &param);
-	
-     while (!m_threadbreakembed)
-     {
-     pthread_mutex_lock(&mutex2);
-	     
-     if(runembed == 1)
-     {
-     embedcount++;
-     }
+	 */
+	 	 
+      while (!m_threadbreakembed)
+      {
+      for(int idx=0;idx<40;idx++)
+      { 
+      if(m_threadbreakembed ==1)  
+      break;  
+	  usleep(1000);
+      }
+   
+	  if(display && eventrun)
+	  {	
+XEvent xevent;
+XClientMessageEvent cm;
+int accept = 0;
+int x2 = 0;
+int y2 = 0;
+Atom XdndPosition = XInternAtom(display, "XdndPosition", False);
+Atom XdndStatus = XInternAtom(display, "XdndStatus", False);
+Atom XdndActionCopy = XInternAtom(display, "XdndActionCopy", False);
+Atom XdndEnter = XInternAtom(display, "XdndEnter", False);
+Atom XdndDrop = XInternAtom(display, "XdndDrop", False);
+Atom XdndLeave = XInternAtom(display, "XdndLeave", False);
+Atom XdndFinished = XInternAtom(display, "XdndFinished", False);
 
-#ifdef XEMBED
-     if((runembed == 1) && (embedcount == 200) && mapok)
-#else
-     if((runembed == 1) && (embedcount == 200))
+int x = 0;
+int y = 0;
+Window ignored = 0;
+int mapped2 = 0;
+#ifdef FOCUS
+int x3 = 0;
+int y3 = 0;
+Window ignored3 = 0;
+#endif	
+#ifdef XECLOSE
+Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
+#endif	
+	      
+      if(parent && child)
+      {
+      int pending = XPending(display);
+
+      for (int i=0; i<pending; i++)
+      {
+      XEvent e;
+
+      XNextEvent(display, &e);
+
+      switch (e.type)
+      {
+  /*
+#ifdef XECLOSE   
+      case PropertyNotify:
+      if (e.xproperty.atom == xembedatom) 
+      {
+      xeclose = 2; 
+      }
+      break;            
+#endif	
+ */	      
+      case MapNotify:  
+      if(e.xmap.window == child)
+      mapped2 = 1;     
+      break;	
+		      
+      case UnmapNotify:  
+      if(e.xmap.window == child)
+      mapped2 = 0;     
+      break;	    
+
+#ifndef NOFOCUS		      
+      case EnterNotify:
+//      if(reaperid)
+//        {
+ //     if(mapped2)
+  //    {     
+      if(e.xcrossing.focus == False)
+      {
+      XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
+//    XSetInputFocus(display, child, RevertToParent, e.xcrossing.time);
+      }
+ //     }
+ //     }
+      break;
+#endif		      
+		      
+#ifdef FOCUS
+      case LeaveNotify:
+      x3 = 0;
+      y3 = 0;
+      ignored3 = 0;            
+      XTranslateCoordinates(display, child, XDefaultRootWindow(display), 0, 0, &x3, &y3, &ignored3);
+  
+      if(x3 < 0)
+      { 
+      width += x3;
+      x3 = 0;
+      }
+  
+      if(y3 < 0)
+      {
+      height += y3;
+      y3 = 0;;
+      }
+		      
+      if(((e.xcrossing.x_root < x3) || (e.xcrossing.x_root > x3 + (width - 1))) || ((e.xcrossing.y_root < y3) || (e.xcrossing.y_root > y3 + (height - 1))))      
+      {
+      if(mapped2)
+      {
+      if(parentok && reaperid)
+      XSetInputFocus(display, pparent, RevertToPointerRoot, CurrentTime);
+      else
+      XSetInputFocus(display, PointerRoot, RevertToPointerRoot, CurrentTime);   
+      }
+      }      
+      break; 
 #endif
-     {
-#ifdef XEMBED
-      XMapWindow(display, child);
+		      	
+      case ConfigureNotify:
+//      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
+//      {
+		      
+      x = 0;
+      y = 0;
+      ignored = 0;
 
-      openGUI();  
-      runembed = 0;
-      embedcount = 0;
-      mapok = 0;
+      XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0, 0, &x, &y, &ignored);
+      e.xconfigure.send_event = false;
+      e.xconfigure.type = ConfigureNotify;
+      e.xconfigure.event = child;
+      e.xconfigure.window = child;
+      e.xconfigure.x = x;
+#ifdef TRACKTIONWM  
+      if(waveformid > 0)     
+      e.xconfigure.y = y + waveformid;
+      else
+      e.xconfigure.y = y;
 #else
-      XReparentWindow(display, child, parent, 0, 0);
+      e.xconfigure.y = y;
+#endif      
+      e.xconfigure.width = width;
+      e.xconfigure.height = height;
+      e.xconfigure.border_width = 0;
+      e.xconfigure.above = None;
+      e.xconfigure.override_redirect = False;
+      XSendEvent (display, child, False, StructureNotifyMask | SubstructureRedirectMask, &e);
+//      }
+      break;
 
-      XMapWindow(display, child);
-      XSync(display, false);
-      XFlush(display);
+#ifdef EMBEDDRAG
+      case ClientMessage:
+      if((e.xclient.message_type == XdndEnter) || (e.xclient.message_type == XdndPosition) || (e.xclient.message_type == XdndLeave) || (e.xclient.message_type == XdndDrop))
+      {
 
- //     usleep(100000);
+      if(e.xclient.message_type == XdndPosition)
+      {      
+      x = 0;
+      y = 0;
+      ignored = 0;
+            
+      e.xclient.window = child;
+      XSendEvent (display, child, False, NoEventMask, &e);
+      
+      XTranslateCoordinates(display, child, XDefaultRootWindow(display), 0, 0, &x, &y, &ignored);
+      
+      x2 = e.xclient.data.l[2]  >> 16;
+      y2 = e.xclient.data.l[2] &0xffff;
+            
+      memset (&xevent, 0, sizeof(xevent));
+      xevent.xany.type = ClientMessage;
+      xevent.xany.display = display;
+      xevent.xclient.window = e.xclient.data.l[0];
+      xevent.xclient.message_type = XdndStatus;
+      xevent.xclient.format = 32;
+      xevent.xclient.data.l[0] = parent;
+      if(((x2 >= x) && (x2 <= x + width)) && ((y2 >= y) && (y2 <= y + height)))
+      {
+      accept = 1;
+      xevent.xclient.data.l[1] |= 1;
+      }
+      else
+      {
+      accept = 0;
+      xevent.xclient.data.l[1] &= ~1;
+      }
+      xevent.xclient.data.l[4] = XdndActionCopy;
 
-      openGUI();
+      XSendEvent (display, e.xclient.data.l[0], False, NoEventMask, &xevent);
+    
+      if(parentok && reaperid)
+      {
+      xevent.xclient.data.l[0] = pparent; 
+      XSendEvent (display, e.xclient.data.l[0], False, NoEventMask, &xevent);
+      }
+      }
+      else if(e.xclient.message_type == XdndDrop)
+      {
+      e.xclient.window = child;
+      XSendEvent (display, child, False, NoEventMask, &e);
 
-      runembed = 0;
-      embedcount = 0;
+      memset(&cm, 0, sizeof(cm));
+      cm.type = ClientMessage;
+      cm.display = display;
+      cm.window = e.xclient.data.l[0];
+      cm.message_type = XdndFinished;
+      cm.format=32;
+      cm.data.l[0] = parent;
+      cm.data.l[1] = accept;
+      if(accept)
+      cm.data.l[2] = XdndActionCopy;
+      else
+      cm.data.l[2] = None;
+      XSendEvent(display, e.xclient.data.l[0], False, NoEventMask, (XEvent*)&cm);
+      if(parentok && reaperid)
+      {
+      cm.data.l[0] = pparent;
+      XSendEvent(display, e.xclient.data.l[0], False, NoEventMask, (XEvent*)&cm);
+      }
+      }
+      else
+      {
+      e.xclient.window = child;
+      XSendEvent (display, child, False, NoEventMask, &e);
+      }
+
+      }
+      break;
 #endif
-}
-     pthread_mutex_unlock(&mutex2);
-}    
+
+      default:
+      break;
+         }
+        }
+      }
+    }
+  }    
       m_threadbreakexitembed = 1;
       pthread_exit(0);
       return 0;
 }
-#endif
 #endif
 
 RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
@@ -489,15 +642,9 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 #ifdef XECLOSE
     xeclose(0),
 #endif
-#ifdef EMBEDTHREAD
     m_EMBEDThread(0),
-    runembed(0),
     m_threadbreakembed(0),
-    m_threadbreakexitembed(0),
-#ifdef XEMBED
-    mapok(0),
-#endif    
-#endif
+    m_threadbreakexitembed(0),  
 #endif
     m_threadinit(0),
     m_threadbreak(0),
@@ -576,13 +723,7 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
 #endif
     theEffect(0)
 {
-    char tmpFileBase[60];
-	    
-#ifdef EMBED
-#ifdef EMBEDTHREAD
-    mutex2 = PTHREAD_MUTEX_INITIALIZER;	    
-#endif	    
-#endif        
+    char tmpFileBase[60];       
 	    
     srand(time(NULL));
     
@@ -794,17 +935,15 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     cleanup();
     throw((std::string)"Failed to initialize thread");
     }   
-/*	    
+	    
 #ifdef EMBED
- #ifdef EMBEDTHREAD
     if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
     {    
     cleanup();
     throw((std::string)"Failed to initialize thread2");
     }
 #endif
-#endif
-*/
+
 }
 
 RemotePluginClient::~RemotePluginClient()
@@ -851,7 +990,7 @@ ptr = (int *)m_shm;
 	if (*ptr == 1000)
 	break;	    
 	    
-        if (*ptr == 325)
+        if (*ptr == 350)
          {
             startok = 1;
             break;
@@ -875,9 +1014,8 @@ ptr = (int *)m_shm;
     {
     *ptr = 2;
     }
-	
+/*	
 #ifdef EMBED
-#ifdef EMBEDTHREAD
     if(pthread_create(&m_EMBEDThread, NULL, RemotePluginClient::callEMBEDThread, this) != 0)
     {    
     *ptr = 4;
@@ -885,7 +1023,7 @@ ptr = (int *)m_shm;
     cleanup();
     }
 #endif
-#endif
+*/
     /*
     theEffect = new AEffect;	
     if(!theEffect)
@@ -928,7 +1066,6 @@ m_threadbreak = 1;
         }
 */
 #ifdef EMBED
-#ifdef EMBEDTHREAD
 if(m_threadbreakembed == 0) 
 m_threadbreakembed = 1;
 /*
@@ -941,14 +1078,11 @@ m_threadbreakembed = 1;
         }
 */
 #endif
-#endif
     if (m_AMThread)
         pthread_join(m_AMThread, NULL);
 #ifdef EMBED
-#ifdef EMBEDTHREAD
     if (m_EMBEDThread)
         pthread_join(m_EMBEDThread, NULL);
-#endif
 #endif
         
     if (m_shm)
@@ -1095,7 +1229,7 @@ int RemotePluginClient::sizeShm()
     if (m_shm)
         return 0;
 
-    size_t sz = FIXED_SHM_SIZE + 1024;
+    size_t sz = FIXED_SHM_SIZE + FIXED_SHM_SIZE5 + 1024;
     size_t sz2 = FIXED_SHM_SIZE2 + 1024 + (2 * sizeof(float));
     size_t sz3 = FIXED_SHM_SIZE3 + 1024 + (sizeof(VstTimeInfo)*2);
 
@@ -1161,11 +1295,9 @@ int RemotePluginClient::sizeShm()
     m_threadbreak = 0;
     m_threadbreakexit = 0;
 
-#ifdef EMBED
-#ifdef EMBEDTHREAD    
+#ifdef EMBED  
     m_threadbreakembed = 0;
     m_threadbreakexitembed = 0;   
-#endif
 #endif
 	
     return 0;	
@@ -1176,7 +1308,7 @@ float RemotePluginClient::getVersion()
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetVersion);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return readFloat(&m_shm[FIXED_SHM_SIZE]);
+    return readFloat(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5]);
 }
 
 std::string RemotePluginClient::getName()
@@ -1184,7 +1316,7 @@ std::string RemotePluginClient::getName()
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetName);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return &m_shm[FIXED_SHM_SIZE];
+    return &m_shm[FIXED_SHM_SIZE + SHM_SIZE5];
 }
 
 std::string RemotePluginClient::getMaker()
@@ -1192,7 +1324,7 @@ std::string RemotePluginClient::getMaker()
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetMaker);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return &m_shm[FIXED_SHM_SIZE];
+    return &m_shm[FIXED_SHM_SIZE + SHM_SIZE5];
 }
 
 void RemotePluginClient::setBufferSize(int s)
@@ -1254,7 +1386,7 @@ std::string RemotePluginClient::getEffString(int opcode, int index)
     writeIntring(&m_shmControl5->ringBuffer, index);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return &m_shm[FIXED_SHM_SIZE];
+    return &m_shm[FIXED_SHM_SIZE + SHM_SIZE5];
 }
 
 std::string RemotePluginClient::getParameterName(int p)
@@ -1263,7 +1395,7 @@ std::string RemotePluginClient::getParameterName(int p)
     writeIntring(&m_shmControl5->ringBuffer, p);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();   
-    return &m_shm[FIXED_SHM_SIZE];			
+    return &m_shm[FIXED_SHM_SIZE + SHM_SIZE5];			
 }
 
 std::string RemotePluginClient::getParameterLabel(int p)
@@ -1272,7 +1404,7 @@ std::string RemotePluginClient::getParameterLabel(int p)
     writeIntring(&m_shmControl5->ringBuffer, p);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return &m_shm[FIXED_SHM_SIZE];	
+    return &m_shm[FIXED_SHM_SIZE + SHM_SIZE5];	
 }
 
 std::string RemotePluginClient::getParameterDisplay(int p)
@@ -1281,7 +1413,7 @@ std::string RemotePluginClient::getParameterDisplay(int p)
     writeIntring(&m_shmControl5->ringBuffer, p);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return &m_shm[FIXED_SHM_SIZE];
+    return &m_shm[FIXED_SHM_SIZE + SHM_SIZE5];
 }
 
 int RemotePluginClient::getParameterCount()
@@ -1294,7 +1426,7 @@ int RemotePluginClient::getParameterCount()
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetParameterCount);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return readInt(&m_shm[FIXED_SHM_SIZE]);
+    return readInt(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5]);
 }
 
 #ifdef WAVES
@@ -1303,8 +1435,8 @@ int RemotePluginClient::getShellName(char *ptr)
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetShellName);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    strcpy(ptr, &m_shm[FIXED_SHM_SIZE]);
-    return readInt(&m_shm[FIXED_SHM_SIZE + 512]);
+    strcpy(ptr, &m_shm[FIXED_SHM_SIZE + SHM_SIZE5]);
+    return readInt(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 + 512]);
 }
 #endif
 
@@ -1344,7 +1476,7 @@ float RemotePluginClient::getParameterDefault(int p)
     writeIntring(&m_shmControl5->ringBuffer, p);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return readFloat(&m_shm[FIXED_SHM_SIZE]);
+    return readFloat(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5]);
 }
 
 void RemotePluginClient::getParameters(int p0, int pn, float *v)
@@ -1354,7 +1486,7 @@ void RemotePluginClient::getParameters(int p0, int pn, float *v)
     writeIntring(&m_shmControl5->ringBuffer, pn);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    tryRead(&m_shm[FIXED_SHM_SIZE], v, (pn - p0 + 1) * sizeof(float));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], v, (pn - p0 + 1) * sizeof(float));
 }
 
 
@@ -1769,7 +1901,7 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
  
-    tryRead(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
     return b;
 }
 #endif
@@ -1836,8 +1968,8 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
  
-   tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-   tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr2, sizeof(vinfo));
+   tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+   tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(vinfo)], &ptr2, sizeof(vinfo));
    memcpy(ptr, &ptr2, sizeof(vinfo));
 
   return b;
@@ -1853,8 +1985,8 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
 
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr2, sizeof(vinfo));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(vinfo)], &ptr2, sizeof(vinfo));
     memcpy(ptr, &ptr2, sizeof(vinfo));
 
     return b;
@@ -1870,8 +2002,8 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
  
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
     memcpy(ptr, &ptr2, sizeof(VstPinProperties));
 
     return b;
@@ -1887,8 +2019,8 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
  
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
     memcpy(ptr, &ptr2, sizeof(VstPinProperties));
 
     return b;
@@ -1906,8 +2038,8 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
 
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiKeyName)], &ptr2, sizeof(MidiKeyName));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(MidiKeyName)], &ptr2, sizeof(MidiKeyName));
     memcpy(ptr, &ptr2, sizeof(MidiKeyName));
 
     return b;
@@ -1923,8 +2055,8 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
   
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramName)], &ptr2, sizeof(MidiProgramName));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(MidiProgramName)], &ptr2, sizeof(MidiProgramName));
     memcpy(ptr, &ptr2, sizeof(MidiProgramName));
     
     return b;
@@ -1940,8 +2072,8 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
  
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramName)], &ptr2, sizeof(MidiProgramName));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(MidiProgramName)], &ptr2, sizeof(MidiProgramName));
     memcpy(ptr, &ptr2, sizeof(MidiProgramName));
 
     return b;
@@ -1957,8 +2089,8 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
    
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(MidiProgramCategory)], &ptr2, sizeof(MidiProgramCategory));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(MidiProgramCategory)], &ptr2, sizeof(MidiProgramCategory));
     memcpy(ptr, &ptr2, sizeof(MidiProgramCategory));
 
     return b;
@@ -1973,7 +2105,7 @@ bool b;
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
  
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
     return b;
 }
 
@@ -1981,13 +2113,13 @@ bool RemotePluginClient::setEffSpeaker(VstIntPtr value, void *ptr)
 {
 bool b;
 
-    tryWrite(&m_shm2[FIXED_SHM_SIZE2 - (sizeof(VstSpeakerArrangement)*2)], ptr, sizeof(VstSpeakerArrangement));
-    tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstSpeakerArrangement)], (VstIntPtr *)value, sizeof(VstSpeakerArrangement));
+    tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - (sizeof(VstSpeakerArrangement)*2)], ptr, sizeof(VstSpeakerArrangement));
+    tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(VstSpeakerArrangement)], (VstIntPtr *)value, sizeof(VstSpeakerArrangement));
 
     writeOpcodering(&m_shmControl5->ringBuffer, RemoteSetSpeaker);
     commitWrite(&m_shmControl5->ringBuffer);
 
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
 
     return b;
 }
@@ -1999,10 +2131,10 @@ bool b;
     writeOpcodering(&m_shmControl5->ringBuffer, RemoteGetSpeaker);
     commitWrite(&m_shmControl5->ringBuffer);
     
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - ( sizeof(VstSpeakerArrangement)*2)], ptr, sizeof(VstSpeakerArrangement));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstSpeakerArrangement)], (VstIntPtr *)value, sizeof(VstSpeakerArrangement));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - ( sizeof(VstSpeakerArrangement)*2)], ptr, sizeof(VstSpeakerArrangement));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 - sizeof(VstSpeakerArrangement)], (VstIntPtr *)value, sizeof(VstSpeakerArrangement));
 
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
 
     return b;
 }
@@ -2016,7 +2148,7 @@ bool RemotePluginClient::getEffCanDo(char *ptr)
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
     bool b;
-    tryRead(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
     return b;
 }
 #endif	
@@ -2037,7 +2169,7 @@ bool RemotePluginClient::warn(std::string str)
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
     bool b;
-    tryRead(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
+    tryRead(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
     return b;
 }
 
@@ -2090,18 +2222,15 @@ void RemotePluginClient::effVoidOp(int opcode)
         }
 */              
 #ifdef EMBED
-#ifdef EMBEDTHREAD
         m_threadbreakembed = 1;
-/*
+
     if (m_shm)
         for (int i=0;i<100000;i++)
         {
-            usleep(100);
             if (m_threadbreakexitembed)
             break;
+            usleep(100);
         }
-*/
-#endif
 #endif 
         m_finishaudio = 1;
         writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
@@ -2122,18 +2251,15 @@ void RemotePluginClient::effVoidOp(int opcode)
         }
 */              
 #ifdef EMBED  
-#ifdef EMBEDTHREAD
         m_threadbreakembed = 1;
-/*
+
     if (m_shm)
         for (int i=0;i<100000;i++)
         {
-            usleep(100);
             if (m_threadbreakexitembed)
-            break;
+            break;        
+            usleep(100);
         }
-*/
-#endif
 #endif 
         m_finishaudio = 1;
         writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
@@ -2164,7 +2290,7 @@ int RemotePluginClient::effVoidOp2(int opcode, int index, int value, float opt)
         writeFloatring(&m_shmControl5->ringBuffer, opt);
         commitWrite(&m_shmControl5->ringBuffer);
         waitForServer5();  
-        return readInt(&m_shm[FIXED_SHM_SIZE]);
+        return readInt(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5]);
 }
 
 int RemotePluginClient::canBeAutomated(int param)
@@ -2173,7 +2299,7 @@ int RemotePluginClient::canBeAutomated(int param)
     writeIntring(&m_shmControl5->ringBuffer, param);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
-    return readInt(&m_shm[FIXED_SHM_SIZE]);
+    return readInt(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5]);
 }
 
 int RemotePluginClient::EffectOpen()
@@ -2710,7 +2836,6 @@ m_inexcept = 1;
         }
 */
 #ifdef EMBED
-#ifdef EMBEDTHREAD
 m_threadbreakembed = 1;
 /*
     if (m_shm)
@@ -2721,7 +2846,6 @@ m_threadbreakembed = 1;
             break;
         }
 */
-#endif
 #endif   
     m_finishaudio = 1;
 
@@ -2731,10 +2855,8 @@ m_threadbreakembed = 1;
         pthread_join(m_AMThread, NULL);
 
 #ifdef EMBED
-#ifdef EMBEDTHREAD
     if (m_EMBEDThread)
         pthread_join(m_EMBEDThread, NULL);
-#endif
 #endif
 
    // effVoidOp(errorexit);
@@ -2743,10 +2865,8 @@ m_threadbreakembed = 1;
 	
 /*
 #ifdef EMBED
-#ifndef XEMBED
     if(display)
     XCloseDisplay(display);   
-#endif
 #endif
 */
 
@@ -2771,15 +2891,13 @@ bool RemotePluginClient::fwait(int *futexp, int ms)
 		timeval.tv_nsec = (ms %= 1000) * 1000000;
 	}
 
-       for (;;) {                  
+       for (;;) {  
+          if((*futexp != 0) && (__sync_val_compare_and_swap(futexp, *futexp, *futexp - 1) > 0))
+          break;		                   
           retval = syscall(SYS_futex, futexp, FUTEX_WAIT, 0, &timeval, NULL, 0);
           if (retval == -1 && errno != EAGAIN)
           return true;
-
-          if((*futexp != 0) && (__sync_val_compare_and_swap(futexp, *futexp, *futexp - 1) > 0))
-          break;
-          }
-                               
+          }                               
           return false;          
        }
 
@@ -2787,7 +2905,7 @@ bool RemotePluginClient::fpost(int *futexp)
        {
        int retval;
 
-	__sync_fetch_and_add(futexp, 1);
+		__sync_fetch_and_add(futexp, 1);
 
         retval = syscall(SYS_futex, futexp, FUTEX_WAKE, 1, NULL, NULL, 0);
 /*
