@@ -2,9 +2,9 @@
 
 LinVst adds support for Windows vst's to be used in Linux vst capable DAW's.
 
-See LinVst-X (https://github.com/osxmidi/LinVst-X) for possibly running vst plugins in a single Wine process so that plugins can communicate with each other or plugins that can use shared samples between instances will be able to communicate with their other instances.
+See LinVst-X (https://github.com/osxmidi/LinVst-X) for running vst plugins in a single Wine process so that plugins can communicate with each other or plugins that can use shared samples between instances will be able to communicate with their other instances.
 
-See LinVst3 https://github.com/osxmidi/LinVst3 for poosibly running vst3 plugins.
+See LinVst3 https://github.com/osxmidi/LinVst3 for running vst3 plugins.
 
 ## Quick Start Guide (see the Detailed-Guide folder for more info) 
 
@@ -33,8 +33,6 @@ Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releas
 If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
 
 Scripts are also avaliable as an alternative to linvstconvert in the convert and manage folders and also https://github.com/Goli4thus/linvstmanage
-
-A tested vst compatibility list is at https://github.com/keybreak/linux-vst-compatibility-list
 
 ## Common Problems/Possible Fixes
 

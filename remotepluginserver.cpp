@@ -444,9 +444,9 @@ int RemotePluginServer::sizeShm()
 
     int *ptr;
 
-    size_t sz = FIXED_SHM_SIZE + FIXED_SHM_SIZE5 + 1024;
+    size_t sz = FIXED_SHM_SIZE + 1024;
     size_t sz2 = FIXED_SHM_SIZE2 + 1024 + (2 * sizeof(float));
-    size_t sz3 = FIXED_SHM_SIZE3 + 1024 + (sizeof(VstTimeInfo)*2);
+    size_t sz3 = FIXED_SHM_SIZE3 + 1024;
 
     m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE, m_shmFd, 0);
     if (!m_shm)
@@ -507,7 +507,7 @@ int RemotePluginServer::sizeShm()
     if(errorexit == 1)
     *ptr = 1000;    
     else
-    *ptr = 350;
+    *ptr = 321;
 	
      return 0;	
 }
@@ -1220,19 +1220,19 @@ void RemotePluginServer::dispatchParEvents()
     {
  
     case RemotePluginGetParameterName:   	
-        strcpy(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getParameterName(readIntring(&m_shmControl5->ringBuffer)).c_str());
+        strcpy(&m_shm[FIXED_SHM_SIZE], getParameterName(readIntring(&m_shmControl5->ringBuffer)).c_str());
         break;
                 
     case RemotePluginGetParameterLabel:
-        strcpy(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getParameterLabel(readIntring(&m_shmControl5->ringBuffer)).c_str());
+        strcpy(&m_shm[FIXED_SHM_SIZE], getParameterLabel(readIntring(&m_shmControl5->ringBuffer)).c_str());
         break; 
         
     case RemotePluginGetParameterDisplay:
-        strcpy(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getParameterDisplay(readIntring(&m_shmControl5->ringBuffer)).c_str());
+        strcpy(&m_shm[FIXED_SHM_SIZE], getParameterDisplay(readIntring(&m_shmControl5->ringBuffer)).c_str());
         break;  
         
      case RemotePluginGetParameterCount:
-        writeInt(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getParameterCount());
+        writeInt(&m_shm[FIXED_SHM_SIZE], getParameterCount());
         break;               		
         				
     case RemotePluginDoVoid:
@@ -1258,7 +1258,7 @@ void RemotePluginServer::dispatchParEvents()
     {   
         int index = readIntring(&m_shmControl5->ringBuffer);
         bool b = getInProp(index);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }
     
@@ -1266,7 +1266,7 @@ void RemotePluginServer::dispatchParEvents()
     {   
         int index = readIntring(&m_shmControl5->ringBuffer);
         bool b = getOutProp(index);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }
     
@@ -1277,7 +1277,7 @@ void RemotePluginServer::dispatchParEvents()
         int value = readIntring(&m_shmControl5->ringBuffer);
         float opt = readFloatring(&m_shmControl5->ringBuffer);
         int b = effDoVoid2(opcode, index, value, opt);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(int));
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(int));
         break;
     }    	    		    	        		          		    
 
@@ -1298,15 +1298,15 @@ void RemotePluginServer::dispatchParEvents()
         break;
 
     case RemotePluginGetVersion:
-        writeFloat(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getVersion());
+        writeFloat(&m_shm[FIXED_SHM_SIZE], getVersion());
         break;
 
     case RemotePluginGetName:
-        strcpy(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getName().c_str());
+        strcpy(&m_shm[FIXED_SHM_SIZE], getName().c_str());
         break;
 
     case RemotePluginGetMaker:
-        strcpy(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getMaker().c_str());
+        strcpy(&m_shm[FIXED_SHM_SIZE], getMaker().c_str());
         break;
 
     case RemotePluginTerminate:
@@ -1318,14 +1318,14 @@ void RemotePluginServer::dispatchParEvents()
      {
        char name[512];
        int retvalshell = getShellName(name);
-       writeInt(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5 + 512], retvalshell);
-       strcpy(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], name);
+       writeInt(&m_shm[FIXED_SHM_SIZE + 512], retvalshell);
+       strcpy(&m_shm[FIXED_SHM_SIZE], name);
      }
         break;
 #endif
 
     case RemotePluginGetParameterDefault:
-        writeFloat(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getParameterDefault(readIntring(&m_shmControl5->ringBuffer)));
+        writeFloat(&m_shm[FIXED_SHM_SIZE], getParameterDefault(readIntring(&m_shmControl5->ringBuffer)));
         break;
 
     case RemotePluginGetParameters:
@@ -1335,7 +1335,7 @@ void RemotePluginServer::dispatchParEvents()
         int p0 = readIntring(&m_shmControl5->ringBuffer);
         int pn = readIntring(&m_shmControl5->ringBuffer);
         getParameters(p0, pn, parameterBuffer);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], parameterBuffer, (pn - p0 + 1) * sizeof(float));
+        tryWrite(&m_shm[FIXED_SHM_SIZE], parameterBuffer, (pn - p0 + 1) * sizeof(float));
         break;
     }
 
@@ -1351,7 +1351,7 @@ void RemotePluginServer::dispatchParEvents()
     case RemotePluginWarn:
     {
         bool b = warn(readStringring(&m_shmControl5->ringBuffer));
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
         break;
     }
 
@@ -1359,7 +1359,7 @@ void RemotePluginServer::dispatchParEvents()
     {
         int opcode = readIntring(&m_shmControl5->ringBuffer);
         int idx = readIntring(&m_shmControl5->ringBuffer);
-        strcpy(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], getEffString(opcode, idx).c_str());
+        strcpy(&m_shm[FIXED_SHM_SIZE], getEffString(opcode, idx).c_str());
         break;
     }
 
@@ -1382,7 +1382,7 @@ void RemotePluginServer::dispatchParEvents()
     {   
         int value = readIntring(&m_shmControl5->ringBuffer);
         bool b = setPrecision(value);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
         break;
     }  
 #endif
@@ -1392,7 +1392,7 @@ void RemotePluginServer::dispatchParEvents()
     {   
         int index = readIntring(&m_shmControl5->ringBuffer);
         bool b = getMidiKey(index);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }  
     
@@ -1400,7 +1400,7 @@ void RemotePluginServer::dispatchParEvents()
     {   
         int index = readIntring(&m_shmControl5->ringBuffer);
         bool b = getMidiProgName(index);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }  
    
@@ -1408,7 +1408,7 @@ void RemotePluginServer::dispatchParEvents()
     {   
         int index = readIntring(&m_shmControl5->ringBuffer);
         bool b = getMidiCurProg(index);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }  
 
@@ -1416,7 +1416,7 @@ void RemotePluginServer::dispatchParEvents()
     {   
         int index = readIntring(&m_shmControl5->ringBuffer);
         bool b = getMidiProgCat(index);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }  
 
@@ -1424,21 +1424,21 @@ void RemotePluginServer::dispatchParEvents()
     {   
         int index = readIntring(&m_shmControl5->ringBuffer);
         bool b = getMidiProgCh(index);
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }  
 
      case RemoteSetSpeaker:
     {   
         bool b = setSpeaker();
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }  
     
      case RemoteGetSpeaker:
     {   
         bool b = getSpeaker();
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }  
 #endif
@@ -1447,7 +1447,7 @@ void RemotePluginServer::dispatchParEvents()
      case RemotePluginEffCanDo:
     {
         bool b =  getEffCanDo(readStringring(&m_shmControl5->ringBuffer));
-        tryWrite(&m_shm[FIXED_SHM_SIZE + SHM_SIZE5], &b, sizeof(bool));
+        tryWrite(&m_shm[FIXED_SHM_SIZE], &b, sizeof(bool));
         break;
     }
 #endif  
@@ -1903,13 +1903,15 @@ bool RemotePluginServer::fwait(int *futexp, int ms)
 		timeval.tv_nsec = (ms %= 1000) * 1000000;
 	}
 
-       for (;;) { 
-          if((*futexp != 0) && (__sync_val_compare_and_swap(futexp, *futexp, *futexp - 1) > 0))
-          break;		                    
+       for (;;) {                  
           retval = syscall(SYS_futex, futexp, FUTEX_WAIT, 0, &timeval, NULL, 0);
           if (retval == -1 && errno != EAGAIN)
           return true;
-          }                               
+
+          if((*futexp != 0) && (__sync_val_compare_and_swap(futexp, *futexp, *futexp - 1) > 0))
+          break;
+          }
+                               
           return false;          
        }
 

@@ -171,8 +171,14 @@ public:
 #ifdef XECLOSE
     int                 xeclose;  
 #endif    
+#ifdef EMBEDTHREAD
     int                 m_threadbreakembed;
-    int                 m_threadbreakexitembed;  
+    int                 m_threadbreakexitembed;
+    pthread_mutex_t     mutex2;
+#ifdef XEMBED
+    int                 mapok;
+#endif    
+#endif
 #endif    
     VstEvents           vstev[VSTSIZE];
     ERect               retRect = {0,0,200,500};    
@@ -204,9 +210,12 @@ public:
 #ifdef EMBEDRESIZE
   int resizedone;
 #endif     
+#ifdef EMBEDTHREAD
    pthread_t           m_EMBEDThread;
    static void         *callEMBEDThread(void *arg) { return ((RemotePluginClient*)arg)->EMBEDThread(); }
    void                *EMBEDThread();
+   int runembed;
+#endif
 #ifdef EMBEDDRAG
    Window x11_win;
    Window pparent;
