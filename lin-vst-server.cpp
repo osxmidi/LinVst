@@ -243,10 +243,16 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		    
     case WM_TIMER:
 	/*
+         if(remoteVSTServerInstance)
+	 {
+         if (!remoteVSTServerInstance->exiting && remoteVSTServerInstance->guiVisible)
+	 {	
          if(wParam == 678)
          {
          remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
-         }	
+         }
+	 }
+	 }
 	*/
      break;
        	
