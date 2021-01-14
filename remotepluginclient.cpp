@@ -147,6 +147,11 @@ else
 
                 switch(opcode)
                 {
+                    case audioMasterSetTime:       
+                    memcpy(timeInfo2, (VstTimeInfo*)&m_shm3[FIXED_SHM_SIZE3 - (sizeof(VstTimeInfo)*2)], sizeof(VstTimeInfo));
+                    m_audioMaster(theEffect, audioMasterSetTime, 0, 0, timeInfo2, 0);
+                    break;					
+				
                     case audioMasterGetTime:       
                     val = readIntring(&m_shmControl->ringBuffer);
                     timeInfo = (VstTimeInfo *) m_audioMaster(theEffect, audioMasterGetTime, 0, val, 0, 0);
