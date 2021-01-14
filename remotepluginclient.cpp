@@ -54,9 +54,12 @@ void* RemotePluginClient::AMThread()
     int         ok = 1;
     char retstr2[512];
 
-   int timeout = 50;
+    int timeout = 50;
 
     VstTimeInfo *timeInfo;
+    VstTimeInfo *timeInfo2;    
+    VstTimeInfo timeinfo2; 
+    timeInfo2 = &timeinfo2; 
 
     int         els;
     int         *ptr2;
