@@ -1592,11 +1592,6 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
       }
         break;
 
-    case DEPRECATED_VST_SYMBOL(audioMasterSetTime):
-        if (debugLevel > 1)
-            cerr << "dssi-vst-server[2]: audioMasterSetTime requested" << endl;
-        break;
-
     case DEPRECATED_VST_SYMBOL(audioMasterTempoAt):
         // if (debugLevel > 1)
             // cerr << "dssi-vst-server[2]: audioMasterTempoAt requested" << endl;
