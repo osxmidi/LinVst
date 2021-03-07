@@ -2,7 +2,6 @@
     Copyright 2004-2007 Chris Cannam
 */
 
-
 #ifndef REMOTE_PLUGIN_H
 #define REMOTE_PLUGIN_H
 
@@ -15,106 +14,105 @@
 
 #define PROCESSSIZE (1024 * 1024 * 2)
 
-#define FIXED_SHM_SIZE  PROCESSSIZE + CHUNKSIZEMAX
-#define FIXED_SHM_SIZE2 (1024 * 128)
-#define FIXED_SHM_SIZE3 (1024 * 128)
+#define FIXED_SHM_SIZE PROCESSSIZE
+#define FIXED_SHM_SIZE2 ((1024 * 128) * 2)
+#define FIXED_SHM_SIZE2SEND (1024 * 128)
+#define FIXED_SHM_SIZE3 CHUNKSIZEMAX
 
-#define FIXED_SHM_SIZECHUNKSTART PROCESSSIZE
+#define SHMVALX 2048
 
 #define VSTSIZE 2048
 
 const float RemotePluginVersion = 0.986;
 
-enum RemotePluginDebugLevel
-{
-    RemotePluginDebugNone,
-    RemotePluginDebugSetup,
-    RemotePluginDebugEvents,
-    RemotePluginDebugData
+enum RemotePluginDebugLevel {
+  RemotePluginDebugNone,
+  RemotePluginDebugSetup,
+  RemotePluginDebugEvents,
+  RemotePluginDebugData
 };
 
-enum RemotePluginOpcode
-{
-    RemotePluginGetVersion = 0,
-    RemotePluginUniqueID,
-    RemotePluginGetName,
-    RemotePluginGetMaker,
-    RemotePluginGetFlags,
-    RemotePluginGetinitialDelay,
-    RemotePluginProcessEvents,
-    RemotePluginGetChunk,
-    RemotePluginSetChunk,
-    RemotePluginCanBeAutomated,
-    RemotePluginGetProgram,
-    RemotePluginEffectOpen,
-    // RemotePluginGetUniqueID,
-    // RemotePluginGetInitialDelay,
+enum RemotePluginOpcode {
+  RemotePluginGetVersion = 0,
+  RemotePluginUniqueID,
+  RemotePluginGetName,
+  RemotePluginGetMaker,
+  RemotePluginGetFlags,
+  RemotePluginGetinitialDelay,
+  RemotePluginProcessEvents,
+  RemotePluginGetChunk,
+  RemotePluginSetChunk,
+  RemotePluginCanBeAutomated,
+  RemotePluginGetProgram,
+  RemotePluginEffectOpen,
+  // RemotePluginGetUniqueID,
+  // RemotePluginGetInitialDelay,
 
-    RemotePluginSetBufferSize = 100,
-    RemotePluginSetSampleRate,
-    RemotePluginReset,
-    RemotePluginTerminate,
+  RemotePluginSetBufferSize = 100,
+  RemotePluginSetSampleRate,
+  RemotePluginReset,
+  RemotePluginTerminate,
 
-    RemotePluginGetInputCount = 200,
-    RemotePluginGetOutputCount,
+  RemotePluginGetInputCount = 200,
+  RemotePluginGetOutputCount,
 
-    RemotePluginGetParameterCount = 300,
-    RemotePluginGetParameterName,
-    RemotePluginGetParameterDisplay,
-    RemotePluginGetParameterLabel,
+  RemotePluginGetParameterCount = 300,
+  RemotePluginGetParameterName,
+  RemotePluginGetParameterDisplay,
+  RemotePluginGetParameterLabel,
 #ifdef WAVES
-    RemotePluginGetShellName,
+  RemotePluginGetShellName,
 #endif
-    RemotePluginSetParameter,
-    RemotePluginGetParameter,
-    RemotePluginGetParameterDefault,
-    RemotePluginGetParameters,
+  RemotePluginSetParameter,
+  RemotePluginGetParameter,
+  RemotePluginGetParameterDefault,
+  RemotePluginGetParameters,
 
-    RemotePluginGetProgramCount = 350,
-    RemotePluginGetProgramNameIndexed,
-    RemotePluginGetProgramName,
-    RemotePluginSetCurrentProgram,
+  RemotePluginGetProgramCount = 350,
+  RemotePluginGetProgramNameIndexed,
+  RemotePluginGetProgramName,
+  RemotePluginSetCurrentProgram,
 
-    RemotePluginProcess = 500,
-    RemotePluginIsReady,
+  RemotePluginProcess = 500,
+  RemotePluginIsReady,
 
-    RemotePluginSetDebugLevel = 600,
-    RemotePluginWarn,
+  RemotePluginSetDebugLevel = 600,
+  RemotePluginWarn,
 
-    RemotePluginShowGUI = 700,
-    RemotePluginHideGUI,
+  RemotePluginShowGUI = 700,
+  RemotePluginHideGUI,
 
 #ifdef EMBED
-    RemotePluginOpenGUI,
+  RemotePluginOpenGUI,
 #endif
 
-    RemotePluginGetEffInt = 800,
-    RemotePluginGetEffString,
-    RemotePluginDoVoid,
-    RemotePluginDoVoid2,
+  RemotePluginGetEffInt = 800,
+  RemotePluginGetEffString,
+  RemotePluginDoVoid,
+  RemotePluginDoVoid2,
 #ifdef DOUBLEP
-    RemotePluginProcessDouble,
-    RemoteSetPrecision,
+  RemotePluginProcessDouble,
+  RemoteSetPrecision,
 #endif
-    RemoteInProp,
-    RemoteOutProp,
+  RemoteInProp,
+  RemoteOutProp,
 #ifdef MIDIEFF
-    RemoteMidiKey,
-    RemoteMidiProgName,
-    RemoteMidiCurProg,
-    RemoteMidiProgCat,
-    RemoteMidiProgCh,
-    RemoteSetSpeaker,
-    RemoteGetSpeaker,
+  RemoteMidiKey,
+  RemoteMidiProgName,
+  RemoteMidiCurProg,
+  RemoteMidiProgCat,
+  RemoteMidiProgCh,
+  RemoteSetSpeaker,
+  RemoteGetSpeaker,
 #endif
 #ifdef CANDOEFF
-    RemotePluginEffCanDo,
-#endif	
-#ifdef CHUNKBUF
-    RemotePluginGetBuf,
-    RemotePluginSetBuf,
+  RemotePluginEffCanDo,
 #endif
-    RemotePluginNoOpcode = 9999
+#ifdef CHUNKBUF
+  RemotePluginGetBuf,
+  RemotePluginSetBuf,
+#endif
+  RemotePluginNoOpcode = 9999
 };
 
 #endif

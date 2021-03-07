@@ -9,12 +9,10 @@
 #include <string>
 #include <vector>
 
-class Paths
-{
+class Paths {
 public:
-    std::vector<std::string> getPath(std::string envVar,
-					    std::string deflt,
-					    std::string defltHomeRelPath);
+  std::vector<std::string> getPath(std::string envVar, std::string deflt,
+                                   std::string defltHomeRelPath);
 };
 
 int shm_mkstemp(char *fileBase);
