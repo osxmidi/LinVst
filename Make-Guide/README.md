@@ -75,12 +75,6 @@ sudo make install
 ```
 Installs lin-vst-serverxxxx.exe and lin-vst-serverxxxxx.exe.so to `/usr/bin` and installs linvst.so into the vst folder in the source code folder.
 
-The default Makefile is for 64 bit vst's only.
-
-Makefile-64-32bit builds a LinVst version that runs both 64 bit vst's and 32 bit vst's.
-
-Defining EMBEDRESIZE enables vst window resizing (may not work for all DAW's).
-
 Defining NOFOCUS enables an alternative keyboard/mouse focus operation
 
 See Makefile comments for define options.
