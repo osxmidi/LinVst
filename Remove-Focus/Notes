@@ -1,3 +1,5 @@
-To remove Focus grabbing use the Makefiles in this folder.
+To remove Focus grabbing use the Makefile in this folder.
+
+If Bitwig has plugin timeout loading problems use the Makefile in this Bitwig folder.
 
 It will also disable keyboard input.
