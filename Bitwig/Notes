@@ -1,5 +1,5 @@
 LinVst may have some problems with some plugins and Bitwig.
 
-If LinVst has trouble with Bitwig use the Makefiles with Bitwig in their name, Makefile-Bitwig for 64 bit vsts or Makefile-64-32bit-Bitwig for 64 bit and 32 bit vsts.
+If LinVst has problems with plugins timing out in Bitwig use this Makefile.
 
 Choose (check) the plugins to be run Individually in the Bitwig Settings-Plug-ins panel.
