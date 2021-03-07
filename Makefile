@@ -27,13 +27,11 @@ LINK_WINE32 = -L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine
 32COMPILE = $(shell gcc -print-multi-lib | grep -o m32)
 32COMPILEVAL = m32
 
-TARGETS     = check32compile linvst.so lin-vst-servertrack.exe lin-vst-servertrack32.exe
+TARGETS     = linvst.so lin-vst-servertrack.exe lin-vst-servertrack32.exe
 
 # --------------------------------------------------------------
 
 all: $(TARGETS)
-
-check32compile:
 
 linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o paths.unix.o
 	$(CXX) $^ $(LINK_PLUGIN) -o $@
