@@ -93,4 +93,6 @@ install:
 	install -d $(VST_DIR)
 	install -m 755 linvst.so $(VST_DIR)
 	install -m 755 lin-vst-servertrack.exe lin-vst-servertrack.exe.so $(BIN_DIR)
+        ifeq ($(32COMPILE),$(32COMPILEVAL))
 	install -m 755 lin-vst-servertrack32.exe lin-vst-servertrack32.exe.so $(BIN_DIR)
+        endif
