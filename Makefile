@@ -24,8 +24,7 @@ LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
 LINK_WINE = -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 LINK_WINE32 = -L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -L/usr/lib/i386-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 
-32COMPILE = $(shell gcc -print-multi-lib | grep -o m32)
-32COMPILEVAL = m32
+PATH_TO_FILE = /usr/include/bits/libc-header-start.h
 
 TARGETS     = linvst.so lin-vst-servertrack.exe lin-vst-servertrack32.exe
 
@@ -39,12 +38,10 @@ linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o paths.
 lin-vst-servertrack.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
 	$(WINECXX) -m64 $^ $(LINK_WINE) -o $@
 
-ifeq ($(32COMPILE),$(32COMPILEVAL))
+ifneq ("$(wildcard $(PATH_TO_FILE))","")
 lin-vst-servertrack32.exe: lin-vst-server.wine32.o remotepluginserver.wine32.o paths.wine32.o
 	$(WINECXX) -m32 $^ $(LINK_WINE32) -o $@
 else
-#$(info 32COMPILE is $(32COMPILE))
-#$(info 32COMPILEVAL is $(32COMPILEVAL))
 lin-vst-servertrack32.exe: 
 endif
 
@@ -93,6 +90,6 @@ install:
 	install -d $(VST_DIR)
 	install -m 755 linvst.so $(VST_DIR)
 	install -m 755 lin-vst-servertrack.exe lin-vst-servertrack.exe.so $(BIN_DIR)
-        ifeq ($(32COMPILE),$(32COMPILEVAL))
+    ifneq ("$(wildcard $(PATH_TO_FILE))","")
 	install -m 755 lin-vst-servertrack32.exe lin-vst-servertrack32.exe.so $(BIN_DIR)
         endif
