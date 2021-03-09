@@ -26,7 +26,7 @@ For example linvstconvertxx "/home/user/vst/*" or linvstconvertxx "/home/user/vs
 
 -------------
 
-LinVst-3.15 made using Debian but will probably run on other distros.
+LinVst made using Debian but will probably run on other distros.
 
 32 bit vst's running under the 64bit LinVst versions need a distros multiarch to be enabled (sudo apt-get install gcc-multilib g++-multilib for Ubuntu/Debian).
 
