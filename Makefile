@@ -24,7 +24,7 @@ LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
 LINK_WINE = -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 LINK_WINE32 = -L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -L/usr/lib/i386-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
 
-PATH_TO_FILE = /usr/include/bits/libc-header-start.h
+PATH_TO_FILE = /usr/include/bits
 
 TARGETS     = linvst.so lin-vst-servertrack.exe lin-vst-servertrack32.exe
 
