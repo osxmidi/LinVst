@@ -68,7 +68,7 @@ RemotePluginDebugLevel debugLevel = RemotePluginDebugNone;
 
 #define disconnectserver 32143215
 
-#define hidegui2 77775634
+//#define hidegui2 77775634
 
 using namespace std;
 
@@ -251,8 +251,8 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (remoteVSTServerInstance) {
       if (!remoteVSTServerInstance->exiting &&
           remoteVSTServerInstance->guiVisible) {
-        remoteVSTServerInstance->hidegui = 1;
-        //         remoteVSTServerInstance->hideGUI();
+       // remoteVSTServerInstance->hidegui = 1;
+          remoteVSTServerInstance->hideGUI();
         return 0;
       }
     }
@@ -2214,8 +2214,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
         TranslateMessage(&msg);
         DispatchMessage(&msg);
 
-        if (remoteVSTServerInstance->hidegui == 1)
-          break;
+        //if (remoteVSTServerInstance->hidegui == 1)
+         // break;
 
         /*
         if((msg.message == WM_TIMER) && (msg.wParam == 678))
@@ -2228,9 +2228,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
         */
       }
 
-      if (remoteVSTServerInstance->hidegui == 1) {
-        remoteVSTServerInstance->hideGUI();
-      }
+      //if (remoteVSTServerInstance->hidegui == 1) {
+      //  remoteVSTServerInstance->hideGUI();
+      //}
 
       if (remoteVSTServerInstance->exiting)
         break;
@@ -2246,8 +2246,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
         TranslateMessage(&msg);
         DispatchMessage(&msg);
 
-        if (remoteVSTServerInstance->hidegui == 1)
-          break;
+        //if (remoteVSTServerInstance->hidegui == 1)
+        // break;
         /*
          if((msg.message == WM_TIMER) && (msg.wParam == 678))
          {
@@ -2259,9 +2259,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
          */
       }
 
-      if (remoteVSTServerInstance->hidegui == 1) {
-        remoteVSTServerInstance->hideGUI();
-      }
+      //if (remoteVSTServerInstance->hidegui == 1) {
+      //  remoteVSTServerInstance->hideGUI();
+      //}
 
       if (remoteVSTServerInstance->exiting)
         break;
