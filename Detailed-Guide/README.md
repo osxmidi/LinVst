@@ -53,13 +53,9 @@ add
 
 ------
 
-sudo edit /etc/group
+run from Terminal
 
-change 
-
-audio:x:29:pulse
-
-to audio:x:29:pulse,<your_username>
+sudo usermod -a -G audio your-user-name
 
 ------------
 
