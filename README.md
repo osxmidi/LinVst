@@ -163,3 +163,22 @@ Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedV
 
 Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
 
+-----------
+
+Optional Symlinks
+
+A symlink can be used to access vst3 plugin folders from another more convenient folder.
+
+Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins can be accessed by the Daw by creating a symlink to them using a more convenient folder such as /home/your-user-name/vst3 for instance.
+
+For example
+
+ln -s "/home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins" /home/your-user-name/vst2/vst2plugins.so
+
+creates a symbolic link named vst2plugins.so in the /home/your-user-name/vst2 folder that points to the /home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins folder containing the vst2 plugins.
+
+The /home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins vst2 plugin folder needs to have had the vst2 plugins previously setup by using linvstconvert.
+
+Then the Daw needs to have the /home/your-user-name/vst2 folder included in it's search path.
+
+When the Daw scans the /home/your-user-name/vst2 folder it should also automatically scan the /home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins folder that contains the vst2 plugins (that have been previously setup by using linvstconvert).
