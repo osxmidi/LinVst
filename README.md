@@ -167,9 +167,9 @@ Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table
 
 Optional Symlinks
 
-A symlink can be used to access vst3 plugin folders from another more convenient folder.
+A symlink can be used to access vst2 plugin folders from another more convenient folder.
 
-Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins can be accessed by the Daw by creating a symlink to them using a more convenient folder such as /home/your-user-name/vst3 for instance.
+Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins can be accessed by the Daw by creating a symlink to them using a more convenient folder such as /home/your-user-name/vst2 for instance.
 
 For example
 
