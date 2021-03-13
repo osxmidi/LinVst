@@ -17,15 +17,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #ifndef REMOTE_VST_CLIENT_H
 #define REMOTE_VST_CLIENT_H
 
 #include "remotepluginclient.h"
 
-class RemoteVSTClient : public RemotePluginClient {
+
+class RemoteVSTClient : public RemotePluginClient
+{
 public:
-  // may throw a string exception
-  RemoteVSTClient(audioMasterCallback theMaster);
-  virtual ~RemoteVSTClient();
+    // may throw a string exception
+            RemoteVSTClient(audioMasterCallback theMaster);
+    virtual ~RemoteVSTClient();
 };
 #endif
