@@ -30,9 +30,16 @@ Gui Batch Testing.
 
 testvstgui can be used to select a vst folder for testing (testvst32gui is used for testing 32 bit vst's).
 
+Unzip the testvst zip file, and then (using the terminal) cd into the unzipped testvst folder.
+
+then enter
+
+chmod +x testvst-batch
+(chmod +x testvst32-batch for 32 bit plugins)
+
 Click on (start) testvstgui and then select a folder and then press the Start button and it will cycle through the vst's in the folder.
 
-To cancel the vst cycling open a Terminal and enter 
+To cancel the vst cycling before all vst's are tested, open a Terminal and enter 
 kill -9 $(pgrep -f testvst-batch)
 or for 32 bit vst's
 kill -9 $(pgrep -f testvst32-batch)
@@ -41,7 +48,7 @@ kill -9 $(pgrep -f testvst32-batch)
 
 Command Line Batch Testing.
 
-For testing multiple vst dll files at once, unzip the testvst folder, then (using the terminal) cd into the unzipped testvst folder.
+Unzip the testvst zip file, and then (using the terminal) cd into the unzipped testvst folder.
 
 then enter
 
@@ -69,6 +76,11 @@ If a Wine plugin problem is encountered, then that plugin can be identified by t
 Use testvst.exe from a folder that is not in a daw search path.
 
 If testvst.exe.so and/or testvst32.exe.so are in any daw search paths then they can cause problems if the daw tries to load them.
+
+To cancel the vst cycling before all vst's are tested, open a Terminal and enter 
+kill -9 $(pgrep -f testvst-batch)
+or for 32 bit vst's
+kill -9 $(pgrep -f testvst32-batch)
 
 -----
 
