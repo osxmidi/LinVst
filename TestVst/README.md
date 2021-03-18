@@ -44,6 +44,8 @@ kill -9 $(pgrep -f testvst-batch)
 or for 32 bit vst's
 kill -9 $(pgrep -f testvst32-batch)
 
+Starting testvstgui using a Terminal will show what vst is currently loading, so a problematic vst can be identified.
+
 -------
 
 Command Line Batch Testing.
