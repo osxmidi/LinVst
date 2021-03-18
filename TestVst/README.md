@@ -24,6 +24,23 @@ If testvst.exe.so and/or testvst32.exe.so are in any daw search paths then they 
 
 Batch Testing
 
+-------
+
+Gui Batch Testing.
+
+testvstgui can be used to select a vst folder for testing (testvst32gui is used for testing 32 bit vst's).
+
+Click on (start) testvstgui and then select a folder and then press the Start button and it will cycle through the vst's in the folder.
+
+To cancel the vst cycling open a Terminal and enter 
+kill -9 $(pgrep -f testvst-batch)
+or for 32 bit vst's
+kill -9 $(pgrep -f testvst32-batch)
+
+-------
+
+Command Line Batch Testing.
+
 For testing multiple vst dll files at once, unzip the testvst folder, then (using the terminal) cd into the unzipped testvst folder.
 
 then enter
