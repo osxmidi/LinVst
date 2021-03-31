@@ -1127,14 +1127,15 @@ int RemoteVSTServer::processVstEvents() {
   int *ptr;
   int sizeidx = 0;
   int size;
-  VstEvents *evptr;
+  VstEvents *evptr;  
+  int retval;
 
   ptr = (int *)m_shm2;
   els = *ptr;
-  sizeidx = sizeof(int);
+  sizeidx = sizeof(int);  
 
-  if (els > VSTSIZE)
-    els = VSTSIZE;
+ // if (els > VSTSIZE)
+ //   els = VSTSIZE;
 
   evptr = &vstev[0];
   evptr->numEvents = els;
@@ -1146,10 +1147,10 @@ int RemoteVSTServer::processVstEvents() {
     evptr->events[i] = bsize;
     sizeidx += size;
   }
+  
+  retval = m_plugin->dispatcher(m_plugin, effProcessEvents, 0, 0, evptr, 0);
 
-  m_plugin->dispatcher(m_plugin, effProcessEvents, 0, 0, evptr, 0);
-
-  return 1;
+  return retval;
 }
 
 void RemoteVSTServer::getChunk(ShmControl *m_shmControlptr) {
@@ -1407,62 +1408,68 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
     break;
 
   case audioMasterProcessEvents:
-    if (debugLevel > 1)
+      if (debugLevel > 1)
       cerr << "dssi-vst-server[2]: audioMasterProcessEvents requested" << endl;
     {
       VstEvents *evnts;
       int eventnum;
+ 	  int eventnum2;       
       int *ptr2;
       int sizeidx = 0;
       int ok;
 
-      if (remoteVSTServerInstance) {
-        if (!remoteVSTServerInstance->exiting &&
-            remoteVSTServerInstance->effectrun) {
-          evnts = (VstEvents *)ptr;
+    if (remoteVSTServerInstance) {
+      if (!remoteVSTServerInstance->exiting &&
+          remoteVSTServerInstance->effectrun) {
+        evnts = (VstEvents *)ptr;
 
-          if (!evnts) {
-            break;
+        if (!evnts) {
+          break;
+        }
+
+        if (evnts->numEvents <= 0) {
+          break;
+        }
+
+        eventnum = evnts->numEvents;
+        eventnum2 = 0;  
+
+        ptr2 = (int *)&remoteVSTServerInstance->m_shm3[VSTEVENTS_SEND_OFFSET];
+
+        sizeidx = sizeof(int);
+
+     //   if (eventnum > VSTSIZE)
+     //     eventnum = VSTSIZE;
+
+        for (int i = 0; i < eventnum; i++) {
+          VstEvent *pEvent = evnts->events[i];
+          if (pEvent->type == kVstSysExType)
+            eventnum--;
+          else {
+            unsigned int size =
+                (2 * sizeof(VstInt32)) + evnts->events[i]->byteSize;
+            memcpy(&remoteVSTServerInstance->m_shm3[VSTEVENTS_SEND_OFFSET + sizeidx], evnts->events[i],
+                   size);
+            sizeidx += size;
+            if((sizeidx) >= VSTEVENTS_SEND)
+            break;   
+            eventnum2++;      
           }
+        }
+        
+        if(eventnum2 > 0)
+        {       
+        *ptr2 = eventnum2;
 
-          if (evnts->numEvents <= 0) {
-            break;
-          }
-
-          eventnum = evnts->numEvents;
-
-          ptr2 = (int *)&remoteVSTServerInstance->m_shm2[FIXED_SHM_SIZE2SEND];
-
-          sizeidx = sizeof(int);
-
-          if (eventnum > VSTSIZE)
-            eventnum = VSTSIZE;
-
-          for (int i = 0; i < eventnum; i++) {
-            VstEvent *pEvent = evnts->events[i];
-            if (pEvent->type == kVstSysExType)
-              eventnum--;
-            else {
-              unsigned int size =
-                  (2 * sizeof(VstInt32)) + evnts->events[i]->byteSize;
-              memcpy(&remoteVSTServerInstance
-                          ->m_shm3[FIXED_SHM_SIZE2SEND + sizeidx],
-                     evnts->events[i], size);
-              sizeidx += size;
-            }
-          }
-          *ptr2 = eventnum;
-
-          remoteVSTServerInstance->m_shmControlptr->ropcode =
-              (RemotePluginOpcode)opcode;
-          remoteVSTServerInstance->waitForServer(
-              remoteVSTServerInstance->m_shmControlptr);
-          retval = 0;
-          retval = remoteVSTServerInstance->m_shmControlptr->retint;
-          rv = retval;
+        remoteVSTServerInstance->m_shmControlptr->ropcode = (RemotePluginOpcode)opcode;
+        remoteVSTServerInstance->waitForServer(remoteVSTServerInstance->m_shmControlptr);
+        retval = 0;
+        retval = remoteVSTServerInstance->m_shmControlptr->retint;
+        rv = retval;
         }
       }
     }
+   }
     break;
 
   case audioMasterIOChanged: {
@@ -2037,7 +2044,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
   cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
   cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-  cerr << "LinVst version 4.0" << endl;
+  cerr << "LinVst version 4.1" << endl;
 
   if (cmdline) {
     int offset = 0;

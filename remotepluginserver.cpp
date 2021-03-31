@@ -189,8 +189,7 @@ int RemotePluginServer::sizeShm() {
 
   int *ptr;
 
-  size_t sz = FIXED_SHM_SIZE + SHMVALX + FIXED_SHM_SIZE2 + SHMVALX +
-              FIXED_SHM_SIZE3 + SHMVALX + (sizeof(ShmControl) * 6) + 1024;
+  size_t sz = PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX + CHUNKSIZEMAX + SHMVALX + VSTEVENTS_SEND + SHMVALX + (sizeof(ShmControl) * 6) + SHMVALX;
 
   m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
                        m_shmFd, 0);
@@ -209,10 +208,9 @@ int RemotePluginServer::sizeShm() {
       perror("mlock fail1");
   }
 
-  m_shm2 = &m_shm[FIXED_SHM_SIZE + SHMVALX];
-  m_shm3 = &m_shm[FIXED_SHM_SIZE + SHMVALX + FIXED_SHM_SIZE2 + SHMVALX];
-  m_shm4 = &m_shm[FIXED_SHM_SIZE + SHMVALX + FIXED_SHM_SIZE2 + SHMVALX +
-                  FIXED_SHM_SIZE3 + SHMVALX];
+  m_shm2 = &m_shm[PROCESSSIZE + SHMVALX];
+  m_shm3 = &m_shm[PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX];
+  m_shm4 = &m_shm[PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX + CHUNKSIZEMAX + SHMVALX + VSTEVENTS_SEND + SHMVALX];
 
   int startok;
 
@@ -220,7 +218,7 @@ int RemotePluginServer::sizeShm() {
 
   ptr = (int *)m_shm;
 
-  *ptr = 400;
+  *ptr = 410;
 
   for (int i = 0; i < 400000; i++) {
     if ((*ptr == 2) || (*ptr == 3)) {
@@ -315,8 +313,8 @@ void RemotePluginServer::dispatchProcessEvents() {
     els = *ptr;
 
     if (els > 0) {
-      processVstEvents();
-      *ptr = 0;
+      processVstEvents();      
+      *ptr = 0;    
     }
 #endif
 
