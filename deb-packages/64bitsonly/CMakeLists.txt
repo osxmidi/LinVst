@@ -15,7 +15,6 @@ SET(MINOR_VERSION "1")
 SET(PATCH_VERSION "0")
 
 add_subdirectory( convertvst )
-add_subdirectory( converttreevst )
 add_subdirectory( liblinvst )
 add_subdirectory( exelinvst )
 
