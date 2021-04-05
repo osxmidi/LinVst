@@ -12,7 +12,11 @@ See LinVst3 https://github.com/osxmidi/LinVst3 for running vst3 plugins.
 
 Copy all of the lin-vst-serverxxxx files (files with lin-vst-server in their names) in the embedded folder to /usr/bin.
 
-Make a folder and place the windows vst's in it.
+Install the vst's.
+
+The vst's will probably be installed by default to a Wine folder, something like ~/.wine/drive_c/Program Files/Steinberg/VSTPlugins (which is similar to where they are installed on Windows).
+
+It's also possible with most plugins to make a folder and install the windows vst's into it.
 
 Start linvstconvert (in the convert folder) and then select the linvst.so file in the embedded folder.
 
