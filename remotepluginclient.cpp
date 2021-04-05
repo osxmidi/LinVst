@@ -753,7 +753,10 @@ void RemotePluginClient::syncStartup() {
 
   startok = 0;
 
-  for (int i = 0; i < 400000; i++) {
+  for (int i = 0; i < 400000; i++) { 
+     if (*ptr == 2001) {
+      break;
+    }   
     if (*ptr == 2000) {
       startok = 1;
       break;
