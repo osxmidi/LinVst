@@ -26,13 +26,6 @@ Start up the linux DAW and point it to scan the folder containing the windows vs
 
 If new vst plugins are added to a folder, then just run linvstconvert again on that folder.
 
-linvstconverttree also scans subfolders for vst dll files.
-linvstconvert doesn't scan subfolders for vst dll files.
-
-They both do the same thing except when it comes to scanning subfolders.
-
-linvstconverttree would be the one to use for most situations but linvstconvert might have it's uses as well.
-
 More detailed install info is at https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide which also includes possible performance details.
 
 Install details for vsts are at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins.
@@ -41,15 +34,11 @@ Make info is at https://github.com/osxmidi/LinVst/tree/master/Make-Guide
 
 Binary LinVst releases are available at https://github.com/osxmidi/LinVst/releases
 
-If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
+If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert).
 
 Scripts are also avaliable as an alternative to linvstconvert in the convert and manage folders and also https://github.com/Goli4thus/linvstmanage
 
 ## Common Problems/Possible Fixes
-
-linvstconvert will not convert vst dll's in sub folders and so some plugins might not appear after a daw scan, so if that happens then use linvstconverttree.
-
-linvstconverttree will convert vst dll's in all sub folders.
 
 If window resizing does not work, then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
 
@@ -81,7 +70,7 @@ For example, if the windows vst exe installation file is located in the Download
 msi files can be clicked on to start their installation.
 
 ```
-Usually by default vst installers install to a path something like ~/.wine/drive_c/Program Files/Steinberg/VSTPlugins and that would usually be the path/folder to use with linvstconvert or (linvstconverttree for subdirs) and then that path would be set in the DAW's plugin search paths.
+Usually by default vst installers install to a path something like ~/.wine/drive_c/Program Files/Steinberg/VSTPlugins and that would usually be the path/folder to use with linvstconvert and then that path would be set in the DAW's plugin search paths.
 
 To change into the plugin directory (using the terminal) cd ~/".wine/drive_c/Program Files/Steinberg/VSTPlugins"
 
@@ -89,7 +78,7 @@ To change into the plugin directory (using the terminal) cd ~/".wine/drive_c/Pro
 
 -----
 
-If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert or linvstconvertree).
+If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert).
 
 LinVst looks for wine in /usr/bin and if there isn't a /usr/bin/wine then that will probably cause problems.
 /usr/bin/wine can be a symbolic link to /opt/wine-staging/bin/wine (for wine staging) for example.
