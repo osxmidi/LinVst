@@ -10,17 +10,24 @@ See LinVst3 https://github.com/osxmidi/LinVst3 for running vst3 plugins.
 
 (See the Wiki page for a visual guide https://github.com/osxmidi/LinVst/wiki)
 
-Decide on what version to run, either the embedded window version or the standalone window version (the embedded version would probably be the default choice)
-
-Copy all of the lin-vst-serverxxxx files (files with lin-vst-server in their names) from the version that was chosen to /usr/bin (either the embedded or standalone version folder)
+Copy all of the lin-vst-serverxxxx files (files with lin-vst-server in their names) in the embedded folder to /usr/bin.
 
 Make a folder and place the windows vst's in it.
 
-Start linvstconvert (in the convert folder) and then select the linvst.so from the chosen embedded or standalone window version folder.
+Start linvstconvert (in the convert folder) and then select the linvst.so file in the embedded folder.
 
 Point linvstconvert to the folder containing the windows vst's and hit the Start (Convert) button.
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
+
+If new vst plugins are added to a folder, then just run linvstconvert again on that folder.
+
+linvstconverttree also scans subfolders for vst dll files.
+linvstconvert doesn't scan subfolders for vst dll files.
+
+They both do the same thing except when it comes to scanning subfolders.
+
+linvstconverttree would be the one to use for most situations but linvstconvert might have it's uses as well.
 
 More detailed install info is at https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide which also includes possible performance details.
 
