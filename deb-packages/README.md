@@ -2,25 +2,23 @@
 
 The vst dll files need to have associated .so files (that have the same name as the vst dll files), so that a Linux DAW can load them.
 
-linvstconvert and linvstconverttree (also handles vst dll files in subdirectories) can produce the associated .so files automatically.
+linvstconvert can produce the associated .so files automatically.
 
-linvstconvert will not convert vst dll's in sub folders and so some plugins might not appear after a daw scan, so if that happens then use linvstconverttree.
+Install the vst's.
 
-linvstconverttree will convert vst dll's in all sub folders.
+The vst's will probably be installed by default to a Wine folder, something like ~/.wine/drive_c/Program Files/Steinberg/VSTPlugins (which is similar to where they are installed on Windows).
 
-Start linvstconvert (or linvstconverttree) and select the linvst.so file which is installed in /usr/share/LinVst/xxbit.
+It's also possible with most plugins to make a folder and install the windows vst's into it.
 
-Then select the folder containing the vst dll files, and then click on the Convert button.
+Start linvstconvert (in the convert folder) and then select the linvst.so file in the embedded folder.
 
-Then point the DAW to scan that vst folder.
+Point linvstconvert to the folder containing the windows vst's and hit the Start (Convert) button.
 
-linvstconvert and linvstconverttree are installed in /usr/bin
+Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
-There are also python scripts that can be used linvstconvert64 for LinVst 64bit only, linvstconvert6432 for LinVst 64bit and 32bit and linvstconvert32 for LinVst 32bit only.
+If new vst plugins are added to a folder, then just run linvstconvert again on that folder.
 
-linvstconvertxx "path to vst dll folder/*" (** for subdirectories); Path to vst dll folder is enclosed in quotes.
-
-For example linvstconvertxx "/home/user/vst/*" or linvstconvertxx "/home/user/vst/**" for subdirectories.
+linvstconvert is installed into /usr/bin
 
 -------------
 
@@ -64,8 +62,6 @@ The 64 bits package installs the following files:
 /usr/bin/lin-vst-servertrack.exe
 /usr/bin/lin-vst-servertrack.exe.so
 /usr/bin/linvstconvert
-/usr/bin/linvstconverttree
-/usr/bin/linvstconvert64
 /usr/share/LinVst/64bit/linvst.so
 /usr/share/LinVst/Readme
 ```
@@ -96,8 +92,6 @@ The 64 bit and 32 bit package installs the following files:
 /usr/bin/lin-vst-servertrack32.exe
 /usr/bin/lin-vst-servertrack32.exe.so
 /usr/bin/linvstconvert
-/usr/bin/linvstconverttree
-/usr/bin/linvstconvert6432
 /usr/share/LinVst/64bit-32bit/linvst.so
 /usr/share/LinVst/Readme
 ```
@@ -126,8 +120,6 @@ The 64 bits package installs the following files:
 /usr/bin/lin-vst-server32lx.exe
 /usr/bin/lin-vst-server32lx.exe.so
 /usr/bin/linvstconvert
-/usr/bin/linvstconverttree
-/usr/bin/linvstconvert32
 /usr/share/LinVst/32bit/linvst.so
 /usr/share/LinVst/Readme
 ```
