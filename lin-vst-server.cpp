@@ -1957,10 +1957,14 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
 }
 
 void RemoteVSTServer::finisherror() {
-  cerr << "Failed to create par thread!" << endl;
+   cerr << "Failed to load dll!" << endl;
+  
+  int *ptr;
+  ptr = (int *)remoteVSTServerInstance->m_shm;  
+  *ptr = 2001;
 
   exiting = 1;
-  sleep(1);
+//  sleep(1);
 
   if (ThreadHandle[0]) {
     WaitForSingleObject(ThreadHandle[0], 5000);
@@ -2116,6 +2120,33 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   remoteVSTServerInstance->ThreadHandle[1] = 0;
   remoteVSTServerInstance->ThreadHandle[2] = 0;
   remoteVSTServerInstance->ThreadHandle[3] = 0;  
+    
+  cerr << "Loading  " << libname << endl;
+
+  libHandle = LoadLibrary(libname);
+  if (!libHandle) {
+    cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname
+         << "\"" << endl;
+    remoteVSTServerInstance->finisherror();
+    delete remoteVSTServerInstance;
+    exit(0);
+  }
+
+  VstEntry getinstance = 0;
+
+  getinstance = (VstEntry)GetProcAddress(libHandle, NEW_PLUGIN_ENTRY_POINT);
+
+  if (!getinstance) {
+    getinstance = (VstEntry)GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
+    if (!getinstance) {
+      cerr << "dssi-vst-server: ERROR: VST entrypoints" << endl;
+      remoteVSTServerInstance->finisherror();
+      delete remoteVSTServerInstance;
+      if (libHandle)
+        FreeLibrary(libHandle);
+      exit(0);
+    }
+  }    
 
   DWORD threadIdp = 0;
   remoteVSTServerInstance->ThreadHandle[0] =
@@ -2178,33 +2209,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
     remoteVSTServerInstance->finisherror();
     delete remoteVSTServerInstance;
     exit(0);
-  }
-
-  cerr << "Loading  " << libname << endl;
-
-  libHandle = LoadLibrary(libname);
-  if (!libHandle) {
-    cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname
-         << "\"" << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    exit(0);
-  }
-
-  VstEntry getinstance = 0;
-
-  getinstance = (VstEntry)GetProcAddress(libHandle, NEW_PLUGIN_ENTRY_POINT);
-
-  if (!getinstance) {
-    getinstance = (VstEntry)GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
-    if (!getinstance) {
-      cerr << "dssi-vst-server: ERROR: VST entrypoints" << endl;
-      remoteVSTServerInstance->finisherror();
-      delete remoteVSTServerInstance;
-      if (libHandle)
-        FreeLibrary(libHandle);
-      exit(0);
-    }
   }
 
   remoteVSTServerInstance->m_plugin = getinstance(hostCallback);
