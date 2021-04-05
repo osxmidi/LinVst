@@ -10,7 +10,7 @@ See LinVst3 https://github.com/osxmidi/LinVst3 for running vst3 plugins.
 
 (See the Wiki page for a visual guide https://github.com/osxmidi/LinVst/wiki)
 
-Copy all of the lin-vst-serverxxxx files (files with lin-vst-server in their names) in the embedded folder to /usr/bin.
+Copy all of the lin-vst-serverxxxx files (files with lin-vst-server in their names) to /usr/bin.
 
 Install the vst's.
 
@@ -18,7 +18,7 @@ The vst's will probably be installed by default to a Wine folder, something like
 
 It's also possible with most plugins to make a folder and install the windows vst's into it.
 
-Start linvstconvert (in the convert folder) and then select the linvst.so file in the embedded folder.
+Start linvstconvert (in the convert folder) and then select the linvst.so file.
 
 Point linvstconvert to the folder containing the windows vst's and hit the Start (Convert) button.
 
