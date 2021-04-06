@@ -14,6 +14,9 @@ Point linvstconvert to the folder containing the windows vst's and hit the Start
 
 Start up the linux DAW and point it to scan the folder containing the windows vst's.
 
+linvstconvert can be used to convert multiple vst folders after linvst.so is loaded.
+Wait for the button to turn back to "Start" (from "Done") and then choose another folder and then hit "Start".
+
 If new vst plugins are added to a folder, then just run linvstconvert again on that folder.
 
 linvstconvert is installed into /usr/bin
