@@ -171,7 +171,7 @@ void buttoncallback(GtkFileChooser *button, gpointer data)
  }
  
  filecopy = 0;
- filehit = 0;
+ filehit = 1;
  folderhit = 0;
 
  gtk_button_set_label(GTK_BUTTON (button), "Done");
