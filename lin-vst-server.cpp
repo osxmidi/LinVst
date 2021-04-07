@@ -1959,10 +1959,6 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
 void RemoteVSTServer::finisherror() {
    cerr << "Failed to load dll!" << endl;
   
-  int *ptr;
-  ptr = (int *)remoteVSTServerInstance->m_shm;  
-  *ptr = 2001;
-
   exiting = 1;
 //  sleep(1);
 
@@ -2041,6 +2037,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   char *libname = 0;
   char *libname2 = 0;
   char *fileInfo = 0;
+  int *ptr;
 
   HINSTANCE libHandle = 0;
 
@@ -2110,11 +2107,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   if (remoteVSTServerInstance->starterror == 1) {
     cerr << "ERROR: Remote VST startup error" << endl;
     if (remoteVSTServerInstance) {
+      if(remoteVSTServerInstance->m_shm)
+      {
+      ptr = (int *)remoteVSTServerInstance->m_shm;  
+      *ptr = 2001;
+      }
       remoteVSTServerInstance->finisherror();
       delete remoteVSTServerInstance;
     }
     exit(0);
   }
+  
+  ptr = (int *)remoteVSTServerInstance->m_shm; 
 
   remoteVSTServerInstance->ThreadHandle[0] = 0;
   remoteVSTServerInstance->ThreadHandle[1] = 0;
@@ -2126,7 +2130,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   libHandle = LoadLibrary(libname);
   if (!libHandle) {
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname
-         << "\"" << endl;
+         << "\"" << endl; 
+    *ptr = 2001;
     remoteVSTServerInstance->finisherror();
     delete remoteVSTServerInstance;
     exit(0);
@@ -2140,6 +2145,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
     getinstance = (VstEntry)GetProcAddress(libHandle, OLD_PLUGIN_ENTRY_POINT);
     if (!getinstance) {
       cerr << "dssi-vst-server: ERROR: VST entrypoints" << endl;
+      *ptr = 2001;
       remoteVSTServerInstance->finisherror();
       delete remoteVSTServerInstance;
       if (libHandle)
@@ -2151,45 +2157,27 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   DWORD threadIdp = 0;
   remoteVSTServerInstance->ThreadHandle[0] =
       CreateThread(0, 0, AudioThreadMain, 0, CREATE_SUSPENDED, &threadIdp);
-  if (!remoteVSTServerInstance->ThreadHandle[0]) {
-    cerr << "Failed to create audio thread!" << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    exit(0);
-  }
 
   DWORD threadIdp2 = 0;
   remoteVSTServerInstance->ThreadHandle[1] =
       CreateThread(0, 0, GetSetThreadMain, 0, CREATE_SUSPENDED, &threadIdp2);
-  if (!remoteVSTServerInstance->ThreadHandle[1]) {
-    cerr << "Failed to create getset thread!" << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    exit(0);
-  }
 
   DWORD threadIdp3 = 0;
   remoteVSTServerInstance->ThreadHandle[2] =
       CreateThread(0, 0, ParThreadMain, 0, CREATE_SUSPENDED, &threadIdp3);
-  if (!remoteVSTServerInstance->ThreadHandle[2]) {
-    cerr << "Failed to create par thread!" << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    exit(0);
-  }
   
   DWORD threadIdp4 = 0;
   remoteVSTServerInstance->ThreadHandle[3] =
       CreateThread(0, 0, ControlThreadMain, 0, CREATE_SUSPENDED, &threadIdp4);
-  if (!remoteVSTServerInstance->ThreadHandle[3]) {
+      
+  if (!remoteVSTServerInstance->ThreadHandle[0] || !remoteVSTServerInstance->ThreadHandle[1] || !remoteVSTServerInstance->ThreadHandle[2] || !remoteVSTServerInstance->ThreadHandle[3]) {
     cerr << "Failed to create par thread!" << endl;
+    *ptr = 2001;
     remoteVSTServerInstance->finisherror();
     delete remoteVSTServerInstance;
     exit(0);
   }  
 
-  int *ptr;
-  ptr = (int *)remoteVSTServerInstance->m_shm;
   *ptr = 2000;
 
   int startok;
