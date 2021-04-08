@@ -192,6 +192,7 @@ int main (int argc, char *argv[])
   gtk_init (&argc, &argv);
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_default_size (GTK_WINDOW (window), 300, 300); 
   gtk_window_set_title (GTK_WINDOW (window), "LinVst");
   gtk_container_set_border_width (GTK_CONTAINER (window), 8);
 
