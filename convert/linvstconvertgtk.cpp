@@ -223,7 +223,7 @@ int main (int argc, char *argv[])
   gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(fileselect), TRUE);
 
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (folderselect), g_get_home_dir());
-  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fileselect), g_get_home_dir());
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fileselect), "./");
 
   extfilter = gtk_file_filter_new ();
   gtk_file_filter_add_pattern (extfilter, "linvst.so");
