@@ -1736,7 +1736,7 @@ int RemotePluginClient::getChunk(void **ptr, int bank_prg) {
   int chunkrem;
   int sz;
     
-  m_shmControl *m_shmControlptr = m_shmControl3;      
+  ShmControl *m_shmControlptr = m_shmControl3;      
 
   m_shmControlptr->ropcode = RemotePluginGetChunk;
   m_shmControlptr->value = bank_prg;
@@ -1823,7 +1823,7 @@ int RemotePluginClient::setChunk(void *ptr, int sz, int bank_prg) {
   if (sz <= 0)
     return 0;
     
-  m_shmControl *m_shmControlptr = m_shmControl3;  
+  ShmControl *m_shmControlptr = m_shmControl3;  
 
   if (sz >= CHUNKSIZEMAX) {
     ptridx = (char *)ptr;
