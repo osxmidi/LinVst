@@ -1,0 +1,13 @@
+The convert folder is for making the linvstconvert utility that name converts Windows vst dll filenames (.dll) to corresponding Linux shared library filenames (.so).
+
+-------
+
+Makefile makes linvstconvert
+
+sudo make install, installs linvstconvert to /usr/bin
+
+gtk3 dev libraries are needed.
+
+-------
+
+The -no-pie option in the Makefile might need to be removed on some systems.

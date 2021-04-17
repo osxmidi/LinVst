@@ -22,7 +22,7 @@ link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY} ${GTK3_LIBRARY_DIRS})
 
 add_definitions(${GTK3_CFLAGS_OTHER})
 
-set( CONVERTVST_SRC ../../../convert/linvstconvertgtk.cpp)
+set( CONVERTVST_SRC ../../convert-64bit-32bit/linvstconvertgtk.cpp)
 
 add_executable( linvstconvert ${CONVERTVST_SRC} )
 set_target_properties( linvstconvert PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} " )
