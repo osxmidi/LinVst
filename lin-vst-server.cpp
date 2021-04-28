@@ -2220,7 +2220,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
       FreeLibrary(libHandle);
     exit(0);
   }
-
+/*
   if (!(remoteVSTServerInstance->m_plugin->flags & effFlagsCanReplacing)) {
     cerr << "dssi-vst-server: ERROR: Plugin does not support processReplacing "
             "(required)"
@@ -2231,7 +2231,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
       FreeLibrary(libHandle);
     exit(0);
   }
-
+*/
   if (remoteVSTServerInstance->m_plugin->flags & effFlagsHasEditor)
     remoteVSTServerInstance->haveGui = true;
   else
