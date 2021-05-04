@@ -1296,7 +1296,7 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts) {
     VstEvent *pEvent = evnts->events[i];
 
     if (pEvent->type == kVstSysExType) {
-      eventnum--;
+      continue;
     } else {
       unsigned int size = (2 * sizeof(VstInt32)) + evnts->events[i]->byteSize;
       memcpy(&m_shm2[sizeidx], evnts->events[i], size);
