@@ -453,7 +453,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   }
 #endif
 
-  if ((child = fork()) < 0) {
+  if ((child = vfork()) < 0) {
     m_runok = 1;
     cleanup();
     return;
