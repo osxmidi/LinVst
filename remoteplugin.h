@@ -22,6 +22,13 @@
 
 #define VSTEVENTS_SEND_OFFSET (CHUNKSIZEMAX + SHMVALX)
 
+  struct ParamState {
+  float value;
+  int changed;
+  };
+
+#define PARCACHE (sizeof(ParamState) * 10000)
+
 const float RemotePluginVersion = 0.986;
 
 enum RemotePluginDebugLevel {
