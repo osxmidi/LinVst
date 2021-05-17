@@ -117,16 +117,15 @@ public:
       
       ParamState p;
   
-      if(val < 10000)
-      {
       for (int i = 0; i < val; ++i)
       {
+      if(i >= 10000)
+      break;
       p.changed = 0;   
       float value = getParameter(i);      
       p.value = value;       
       memcpy(&m_shm5[i * sizeof(ParamState)], &p, sizeof(ParamState));      
-      } 
-      }    
+      }   
        
       return val;                   
 #else    
