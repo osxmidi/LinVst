@@ -58,6 +58,16 @@ The terminal output of TestVst can sometimes be used to work out what dll overri
 
 Some plugins won't run due to various problems.
 
+If a GLXBadFBConfig error occurs (check daw errors, it may happen with Kontakt and maybe with other plugins and certain video and mesa systems)
+
+add MESA_GL_VERSION_OVERRIDE=4.5 to ~/.pam_environment (create the file if it doesn't exist) and then log out and in.
+
+or by entering into a terminal
+
+export MESA_GL_VERSION_OVERRIDE=4.5
+
+and then start the daw from that terminal
+
 ----
 
 To install a windows vst exe installation file use wine "path to the exe file"
