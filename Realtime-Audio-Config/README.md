@@ -48,3 +48,4 @@ RTIRQ_NAME_LIST="xhci_hcd"
 
 After reboot, check rtirq status
 sudo /usr/bin/rtirq status
+or sudo /etc/init.d/rtirq status
