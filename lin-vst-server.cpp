@@ -990,7 +990,7 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
   wclass.hIconSm = 0;
 
   if (!RegisterClassEx(&wclass)) {
-    cerr << "dssi-vst-server: ERROR: Failed to window class!\n" << endl;
+    cerr << "dssi-vst-server: ERROR: Failed to register window class!\n" << endl;
 #ifdef EMBED
     winm->winerror = 1;
     memcpy(m_shmControlptr->wret, winm, sizeof(winmessage));
@@ -1018,8 +1018,8 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
   rect = 0;
 
   m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
-  m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
-  m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+  //m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
+  //m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
 
   if (!rect) {
     cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n"
@@ -1184,6 +1184,8 @@ void RemoteVSTServer::openGUI() {
   ShowWindow(hWnd, SW_SHOWNORMAL);
   // ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
+    
+  m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);    
 
   timerval = 678;
   timerval = SetTimer(hWnd, timerval, 80, 0);
