@@ -1181,12 +1181,11 @@ void RemoteVSTServer::openGUI() {
     return;
   }
   guiVisible = true;
+  m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);        
   ShowWindow(hWnd, SW_SHOWNORMAL);
   // ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
     
-  m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);    
-
   timerval = 678;
   timerval = SetTimer(hWnd, timerval, 80, 0);
 }
