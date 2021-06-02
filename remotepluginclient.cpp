@@ -696,7 +696,7 @@ void RemotePluginClient::syncStartup() {
   ptr = (int *)m_shm;
 
   for (int i = 0; i < 400000; i++) {
-    if (*ptr == 450) {
+    if (*ptr == 451) {
       startok = 1;
       break;
     }
