@@ -122,6 +122,8 @@ void eventloop(Display *display, Window parent, Window child, int width,
   Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 #endif
 
+  plugin->eventstop = 1;
+
   if (parent && child) {
     for (int loopidx = 0; (loopidx < 10) && XPending(display); loopidx++) {
       XEvent e;
@@ -323,6 +325,7 @@ void eventloop(Display *display, Window parent, Window child, int width,
       }
     }
   }
+plugin->eventstop = 0;
 }
 #endif
 
@@ -644,6 +647,13 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
       // XLockDisplay(plugin->display);
 #ifdef EMBED
       plugin->eventrun = 0;
+
+      for (int i5 = 0; i5 < 50000; i5++) {
+        if (plugin->eventstop == 0)
+          break;
+        usleep(100);
+      }
+
 #ifdef XECLOSE
       XSync(plugin->display, true);
 
@@ -769,6 +779,13 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
       // XLockDisplay(plugin->display);
 #ifdef EMBED
       plugin->eventrun = 0;
+
+      for (int i5 = 0; i5 < 50000; i5++) {
+        if (plugin->eventstop == 0)
+          break;
+        usleep(100);
+      }
+
 #ifdef XECLOSE
       XSync(plugin->display, true);
 

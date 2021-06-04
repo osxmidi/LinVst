@@ -164,6 +164,7 @@ public:
 
   struct ParamState {
   float value;
+  float valueupdate;
   int changed;
   };
 #endif

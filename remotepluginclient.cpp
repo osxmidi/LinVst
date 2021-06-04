@@ -619,7 +619,7 @@ m_threadbreakexitembed(0),
 #ifdef EMBEDDRAG
       x11_win(0), pparent(0), root(0), children(0), numchildren(0), parentok(0),
 #endif
-      eventrun(0),
+      eventrun(0), eventstop(0),
 #endif
 #ifdef PCACHE
      m_shm5(0),
@@ -1061,9 +1061,12 @@ void RemotePluginClient::setParameter(int p, float v) {
   
 #ifdef PCACHE
   ParamState* pstate = (ParamState*)m_shm5; 
-    
+
+  if(p < 10000)
+  {    
   pstate[p].changed = 1;
-  pstate[p].value = v;  
+  pstate[p].valueupdate = v;  
+  }
 #else
   m_shmControlptr4->ropcode = RemotePluginSetParameter;
   m_shmControlptr4->value = p;
@@ -1083,8 +1086,11 @@ float RemotePluginClient::getParameter(int p) {
   }
 
 #ifdef PCACHE
+  if(p < 10000)
+  {    
   ParamState* pstate = (ParamState*)m_shm5;        
   return pstate[p].value;
+  }
 #else
   m_shmControlptr5->ropcode = RemotePluginGetParameter;
   m_shmControlptr5->value = p;

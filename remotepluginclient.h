@@ -219,6 +219,7 @@ public:
   int parentok;
 #endif
   int eventrun;
+  int eventstop;
 #endif
 
   char *m_shm3;
@@ -229,6 +230,7 @@ public:
 
   struct ParamState {
   float value;
+  float valueupdate;
   int changed;
   };
 #endif
