@@ -183,6 +183,7 @@ Samples might need to be manually extracted (by clicking on the slatepack files)
 
 **OP-X PRO-II** Use the 32 bit XP version.
 (The 64 bit version can run (but with some GUI problems) by disabling d2d1 in the Libraries section of winecfg)
+It does run ok with Wine-tkg
 
 **Toneboosters TrackEssentials** (disable d2d1 for Ferox)
 
