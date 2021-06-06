@@ -47,7 +47,7 @@ adding "xhci_hcd" to RTIRQ_NAME_LIST in the rtirq.conf file might be needed
 sudo edit /etc/rtirq.conf 
 or sudo edit /etc/default/rtirq
 #RTIRQ_NAME_LIST="snd usb i8042"
-RTIRQ_NAME_LIST="xhci_hcd"
+RTIRQ_NAME_LIST="xhci_hcd snd usb i8042"
 
 After reboot, check rtirq status
 sudo /usr/bin/rtirq status
