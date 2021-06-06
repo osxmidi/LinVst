@@ -4,6 +4,8 @@ If they are not set then cpu spiking can occur with plugins.
 
 Installing jackd2 can set up realtime as well.
 
+For Reaper, also set RT priority to 40 in Audio device settings if using Alsa.
+
 To set audio realtime priorities manually, edit the below files.
 
 ```
