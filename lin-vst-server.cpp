@@ -612,6 +612,32 @@ void RemoteVSTServer::process(float **inputs, float **outputs,
 #ifdef DOUBLEP
 void RemoteVSTServer::processdouble(double **inputs, double **outputs,
                                     int sampleFrames) {
+#ifdef PCACHE
+/*
+  struct ParamState {
+  float value;
+  float valueupdate;
+  int changed;
+  };
+*/
+   
+   ParamState *pstate = (ParamState*)remoteVSTServerInstance->m_shm5; 
+        
+   if(numpars > 0)
+   {
+   for(int idx=0;idx<numpars;idx++)
+   {
+   //sched_yield();
+   if(pstate[idx].changed == 1)
+   {
+   setParameter(idx, pstate[idx].valueupdate);
+   pstate[idx].value = pstate[idx].valueupdate; 
+   pstate[idx].changed = 0; 
+   }    
+   } 
+   }            
+#endif
+    
   inProcessThread = true;
   m_plugin->processDoubleReplacing(m_plugin, inputs, outputs, sampleFrames);
   inProcessThread = false;
