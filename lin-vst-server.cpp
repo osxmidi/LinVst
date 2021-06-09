@@ -1031,12 +1031,14 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
     memcpy(m_shmControlptr->wret, winm, sizeof(winmessage));
     return;
   }
+    
+  SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), 200, 200, 0);    
 
   rect = 0;
 
   m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
-  //m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
-  //m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
+  m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);
+  m_plugin->dispatcher(m_plugin, effEditGetRect, 0, 0, &rect, 0);
 
   if (!rect) {
     cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n"
@@ -1197,8 +1199,7 @@ void RemoteVSTServer::openGUI() {
     guiVisible = false;
     return;
   }
-  guiVisible = true;
-  m_plugin->dispatcher(m_plugin, effEditOpen, 0, 0, hWnd, 0);        
+  guiVisible = true;    
   ShowWindow(hWnd, SW_SHOWNORMAL);
   // ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
