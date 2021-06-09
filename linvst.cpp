@@ -180,7 +180,6 @@ void eventloop(Display *display, Window parent, Window child, int width,
         if (y3 < 0) {
           height += y3;
           y3 = 0;
-          ;
         }
 
         if (((e.xcrossing.x_root < x3) ||
