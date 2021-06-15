@@ -696,7 +696,7 @@ void RemotePluginClient::syncStartup() {
   ptr = (int *)m_shm;
 
   for (int i = 0; i < 400000; i++) {
-    if (*ptr == 451) {
+    if (*ptr == 452) {
       startok = 1;
       break;
     }
@@ -1063,9 +1063,12 @@ void RemotePluginClient::setParameter(int p, float v) {
   ParamState* pstate = (ParamState*)m_shm5; 
 
   if(p < 10000)
-  {    
+  { 
+  if(pstate[p].value != v)
+  {   
   pstate[p].changed = 1;
   pstate[p].valueupdate = v;  
+  }
   }
 #else
   m_shmControlptr4->ropcode = RemotePluginSetParameter;

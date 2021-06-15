@@ -123,7 +123,8 @@ public:
       break;
       p.changed = 0;   
       float value = getParameter(i);      
-      p.value = value;       
+      p.value = value;  
+      p.valueupdate = value;      
       memcpy(&m_shm5[i * sizeof(ParamState)], &p, sizeof(ParamState));      
       }   
        
@@ -2146,7 +2147,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
   cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
   cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-  cerr << "LinVst version 4.5.1" << endl;
+  cerr << "LinVst version 4.5.2" << endl;
 
   if (cmdline) {
     int offset = 0;
