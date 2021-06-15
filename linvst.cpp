@@ -545,7 +545,7 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
     plugin->display = XOpenDisplay(0);
 
     if (plugin->display && plugin->handle && !plugin->winm->winerror) {
-      plugin->eventrun = 1;
+      // plugin->eventrun = 1;
       // XLockDisplay(plugin->display);
       plugin->editopen = 1;
 
@@ -633,6 +633,7 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
     //  plugin->openGUI();
       plugin->displayerr = 0;
       // XUnlockDisplay(plugin->display);
+      plugin->eventrun = 1;
     } else {
       plugin->displayerr = 1;
       plugin->editopen = 0;
