@@ -125,7 +125,7 @@ void eventloop(Display *display, Window parent, Window child, int width,
   plugin->eventstop = 1;
 
   if (parent && child) {
-    for (int loopidx = 0; (loopidx < 100) && XPending(display); loopidx++) {
+    for (int loopidx = 0; (loopidx < 10) && XPending(display); loopidx++) {
       XEvent e;
 
       XNextEvent(display, &e);
@@ -859,9 +859,11 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
 
     plugin->effVoidOp(effClose);
 
-#ifndef BITWIG
-    wait(NULL);
-#endif
+//#ifndef BITWIG
+//    wait(NULL);
+    int wstatus;
+    waitpid(-1, &wstatus, WUNTRACED);
+//#endif
 
     delete plugin;
     break;
