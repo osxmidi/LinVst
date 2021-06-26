@@ -790,7 +790,7 @@ void RemoteVSTServer::effDoVoid(int opcode) {
 
   if (opcode == effClose) {
     // usleep(500000);
- //   m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
+    m_plugin->dispatcher(m_plugin, effClose, 0, 0, NULL, 0);
     waitForServerexit();
     terminate();
     return;
@@ -2483,8 +2483,6 @@ remoteVSTServerInstance->audfin
 
   if (debugLevel > 0)
     cerr << "dssi-vst-server[1]: closed threads" << endl;
-
-  remoteVSTServerInstance->m_plugin->dispatcher(remoteVSTServerInstance->m_plugin, effClose, 0, 0, NULL, 0);
 
   if (remoteVSTServerInstance)
     delete remoteVSTServerInstance;
