@@ -1,5 +1,11 @@
 **Waves plugins**.
 
+It is possible to install Waves Central v12 and then install plugins using https://github.com/PietJankbal/powershell-wrapper-for-wine but it is not all smooth sailing.
+
+Ignore any warning messages and manipulate/move the Waves Central window into different positions to get past any black window problems and also manipulate the mouse/improvise when selecting plugins to install.
+
+-----------------
+
 Waves Central v11 needs windows powershell which does not currently work.
 
 Because Wine has some missing parts as compared to Windows (ie Robocopy, reg entries, some dll's etc) some things need to be installed and setup.
