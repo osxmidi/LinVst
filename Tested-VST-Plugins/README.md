@@ -159,6 +159,9 @@ The DAW scan should then pick up the Waves plugins.
 
 (for earlier Wine versions it might need winetricks msxml3 (might also need crypt32.dll overrides, winetricks crypt32))
 
+**Audio/Midi clips**
+The Audacity Windows version can be used to drag audio/midi clips from the vst window to Audacity (after maybe previewing/arranging them in the vst such as MT-PowerDrumKit) and then there is the option of editing them in Audacity before saving and dragging them to the Linux Daw.
+
 **MT-PowerDrumKit** (Disable d2d1 in the Libraries section of winecfg) (drag and drop ok with the LinVst embedded window and standalone window drag and drop enabled versions).
 Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help with d2d1 (can also depend on hardware and drivers).
 
