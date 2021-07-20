@@ -24,6 +24,8 @@ sudo apt-get install libx11-dev
 
 sudo apt-get install wine-stable-dev or sudo apt-get install wine-staging-dev
 
+or sudo apt-get install libwine-dev
+
 -------
 
 ## For Fedora 
