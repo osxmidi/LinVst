@@ -2703,7 +2703,7 @@ void RemoteVSTServer::finisherror() {
     CloseHandle(ThreadHandle[0]);
   }
 
-#ifndef PCACHE
+#ifdef DRAGWIN
   if (ThreadHandle[1]) {
     WaitForSingleObject(ThreadHandle[1], 5000);
     // TerminateThread(ThreadHandle[1], 0);
