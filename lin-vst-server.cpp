@@ -45,6 +45,10 @@
 
 #include "paths.h"
 
+#include <X11/Xatom.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+
 #define APPLICATION_CLASS_NAME "dssi_vst"
 #ifdef TRACKTIONWM
 #define APPLICATION_CLASS_NAME2 "dssi_vst2"
@@ -211,8 +215,49 @@ public:
   virtual void waitForServer(ShmControl *m_shmControlptr);
   virtual void waitForServerexit();
 
+#ifdef DRAGWIN   
+  virtual Window findxdndwindow(Display* display, Window child);
+#endif  
+
   HWND hWnd;
   WNDCLASSEX wclass;
+#ifdef DRAGWIN   
+  HWINEVENTHOOK g_hook;
+  HCURSOR hCurs1;
+  HCURSOR hCurs2;
+  Display *display;
+  Window drag_win;
+  int dodragwin;   
+  Window window;
+  HWND winehwnd;		
+  int xdndversion;				
+  unsigned char *data;
+  unsigned char *data2;
+  Window proxyptr;				
+  int prevx;
+  int prevy;
+  int windowok;
+  int dndfinish;
+  int dndaccept;
+  int dropdone;
+  string dragfilelist;
+  Atom atomlist;
+  Atom atomplain;
+  Atom atomstring;
+  Window pwindow;        
+  Atom XdndSelection;
+  Atom XdndAware;
+  Atom XdndProxy;
+  Atom XdndTypeList;
+  Atom XdndActionCopy;   
+  Atom XdndPosition; 
+  Atom XdndStatus; 
+  Atom XdndEnter;
+  Atom XdndDrop;
+  Atom XdndLeave;
+  Atom XdndFinished; 
+#endif
+
 #ifdef TRACKTIONWM
   WNDCLASSEX wclass2;
   POINT offset;
@@ -343,7 +388,73 @@ DWORD WINAPI AudioThreadMain(LPVOID parameter) {
   return 0;
 }
 
+#ifdef DRAGWIN 
+Window RemoteVSTServer::findxdndwindow(Display* display, Window child)
+{
+int gchildx;
+int gchildy;
+unsigned int gmask;
+Atom type;
+int fmt;
+unsigned long nitems; 
+unsigned long remaining;
+Window groot;
+Window gchild;
+int grootx;
+int grooty;
+unsigned char *data3;
+int x, y;
+
+  data3 = 0;
+  type = None;
+  fmt = 0;
+  nitems = 0;
+ 
+  if (child == None) 
+  return None;
+  	  
+  if(XGetWindowProperty(display, child, XdndAware, 0, 1, False, AnyPropertyType, &type, &fmt, &nitems, &remaining, &data3) == Success)
+  { 
+  if(data3 && (type != None) && (fmt == 32) && (nitems == 1))	
+  {
+  if(data3)
+  {
+  xdndversion = *data3;
+  XFree(data3);
+  data3 = 0;
+  return child;
+  }
+  }
+  }
+  
+  XQueryPointer(display, child, &groot, &gchild, &x, &y, &gchildx, &gchildx, &gmask);
+ 	
+  if(gchild == None) 
+  return None;
+ 		
+  return findxdndwindow(display, gchild);
+  }
+#endif
+
+#ifdef DRAGWIN   
 DWORD WINAPI GetSetThreadMain(LPVOID parameter) {
+POINT point;
+Window groot;
+Window gchild;
+int grootx;
+int grooty;
+int gchildx;
+int gchildy;
+unsigned int gmask;
+Atom type;
+int fmt;
+unsigned long nitems; 
+unsigned long remaining;
+int x, y;
+XEvent e;
+XClientMessageEvent xdndclient;
+XEvent xdndselect;  
+   
   /*
       struct sched_param param;
       param.sched_priority = 1;
@@ -357,7 +468,279 @@ DWORD WINAPI GetSetThreadMain(LPVOID parameter) {
   */
 
   while (!remoteVSTServerInstance->exiting) {
-    remoteVSTServerInstance->dispatchGetSet(5);
+  
+  if(remoteVSTServerInstance->dodragwin == 1)
+  {  
+  usleep(1000);
+  
+  if(IsWindow(FindWindow(NULL , TEXT("TrackerWindow"))))
+  remoteVSTServerInstance->windowok = 1;
+  else
+  remoteVSTServerInstance->windowok = 0;
+  
+   //     GetCursorPos(&point); 
+  XQueryPointer(remoteVSTServerInstance->display, DefaultRootWindow(remoteVSTServerInstance->display), &groot, &gchild, &x, &y, &gchildx, &gchildx, &gmask);
+  XFlush(remoteVSTServerInstance->display);
+  
+  point.x = x; 
+  point.y = y;
+ 
+  remoteVSTServerInstance->winehwnd = WindowFromPoint(point);
+  if(remoteVSTServerInstance->winehwnd && (remoteVSTServerInstance->winehwnd != GetDesktopWindow()))
+  {
+  if(remoteVSTServerInstance->windowok == 0)
+  {
+  remoteVSTServerInstance->dodragwin = 0;
+  continue;
+  }
+  }
+  else
+  {		    
+  SetCursor(remoteVSTServerInstance->hCurs1);
+ 
+  if((x == remoteVSTServerInstance->prevx) && (y == remoteVSTServerInstance->prevy))
+  ;
+  else
+  {
+  remoteVSTServerInstance->prevx = x;
+  remoteVSTServerInstance->prevy = y;
+				
+  remoteVSTServerInstance->xdndversion = -1;			
+    
+  remoteVSTServerInstance->window = remoteVSTServerInstance->findxdndwindow(remoteVSTServerInstance->display, DefaultRootWindow(remoteVSTServerInstance->display));
+ 
+  if(remoteVSTServerInstance->window != None)
+  { 	
+  if((remoteVSTServerInstance->window != remoteVSTServerInstance->pwindow) && (remoteVSTServerInstance->xdndversion != -1))
+  {			
+  if(remoteVSTServerInstance->xdndversion > 3)
+  {
+  remoteVSTServerInstance->proxyptr = 0;
+  remoteVSTServerInstance->data2 = 0;
+  type = None;
+  fmt = 0;
+  nitems = 0;
+				 
+  if(XGetWindowProperty(remoteVSTServerInstance->display, remoteVSTServerInstance->window, remoteVSTServerInstance->XdndProxy, 0, 1, False, AnyPropertyType, &type, &fmt, &nitems, &remaining, &remoteVSTServerInstance->data2) == Success)
+  {
+  if (remoteVSTServerInstance->data2 && (type != None) && (fmt == 32) && (nitems == 1))
+  {	
+  Window *ptemp = (Window *)remoteVSTServerInstance->data2;
+  if(ptemp)
+  remoteVSTServerInstance->proxyptr = *ptemp;
+  XFree (remoteVSTServerInstance->data2);
+  }
+  }
+  }
+  
+  if(remoteVSTServerInstance->pwindow)
+  {
+  memset(&xdndclient, sizeof(xdndclient), 0);
+  xdndclient.type = ClientMessage;
+  xdndclient.display = remoteVSTServerInstance->display;
+  xdndclient.window = remoteVSTServerInstance->pwindow;
+  xdndclient.message_type = remoteVSTServerInstance->XdndLeave;
+  xdndclient.format=32;
+  xdndclient.data.l[0] = remoteVSTServerInstance->drag_win;
+  xdndclient.data.l[1] = 0;
+  xdndclient.data.l[2] = 0;
+  xdndclient.data.l[3] = 0;
+  xdndclient.data.l[4] = 0;
+
+  if(remoteVSTServerInstance->proxyptr)
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->proxyptr, False, NoEventMask, (XEvent*)&xdndclient);
+  else
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->pwindow, False, NoEventMask, (XEvent*)&xdndclient);
+  XFlush(remoteVSTServerInstance->display);
+  }
+							
+  memset(&xdndclient, sizeof(xdndclient), 0);
+  xdndclient.type = ClientMessage;
+  xdndclient.display = remoteVSTServerInstance->display;
+  xdndclient.window = remoteVSTServerInstance->window;
+  xdndclient.message_type = remoteVSTServerInstance->XdndEnter;
+  xdndclient.format=32;
+  xdndclient.data.l[0] = remoteVSTServerInstance->drag_win;
+  xdndclient.data.l[1] = min(5, remoteVSTServerInstance->xdndversion) << 24;
+  xdndclient.data.l[2] = remoteVSTServerInstance->atomlist;
+  xdndclient.data.l[3] = remoteVSTServerInstance->atomplain;
+  xdndclient.data.l[4] = remoteVSTServerInstance->atomstring;
+
+  if(remoteVSTServerInstance->proxyptr)
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->proxyptr, False, NoEventMask, (XEvent*)&xdndclient);
+  else
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->window, False, NoEventMask, (XEvent*)&xdndclient);
+  XFlush(remoteVSTServerInstance->display);
+  remoteVSTServerInstance->dndaccept = 0;
+  }
+			
+  if(remoteVSTServerInstance->xdndversion != -1)
+  {
+  memset(&xdndclient, sizeof(xdndclient), 0);
+  xdndclient.type = ClientMessage;
+  xdndclient.display = remoteVSTServerInstance->display;
+  xdndclient.window = remoteVSTServerInstance->window;
+  xdndclient.message_type = remoteVSTServerInstance->XdndPosition;
+  xdndclient.format=32;
+  xdndclient.data.l[0] = remoteVSTServerInstance->drag_win;
+  xdndclient.data.l[1] = 0;
+  xdndclient.data.l[2] = (x <<16) | y;
+  xdndclient.data.l[3] = CurrentTime;
+  xdndclient.data.l[4] = remoteVSTServerInstance->XdndActionCopy;
+  
+  if(remoteVSTServerInstance->proxyptr)
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->proxyptr, False, NoEventMask, (XEvent*)&xdndclient);
+  else
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->window, False, NoEventMask, (XEvent*)&xdndclient);
+  XFlush(remoteVSTServerInstance->display);
+			}			
+  remoteVSTServerInstance->pwindow = remoteVSTServerInstance->window;	
+  }
+  }
+                
+  while(XPending(remoteVSTServerInstance->display)) 
+  {
+  XNextEvent(remoteVSTServerInstance->display, &e);
+      
+  switch (e.type) 
+  {
+  case SelectionRequest:
+  {
+  memset(&xdndselect, sizeof(xdndselect), 0); 
+  xdndselect.xselection.type = SelectionNotify;
+  xdndselect.xselection.requestor = e.xselectionrequest.requestor;
+  xdndselect.xselection.selection = e.xselectionrequest.selection;
+  xdndselect.xselection.target = e.xselectionrequest.target; 
+  xdndselect.xselection.property = e.xselectionrequest.property;   
+  xdndselect.xselection.time = e.xselectionrequest.time;   
+ 
+  XChangeProperty(remoteVSTServerInstance->display, e.xselectionrequest.requestor, e.xselectionrequest.property, e.xselectionrequest.target, 8, PropModeReplace, (unsigned char*)remoteVSTServerInstance->dragfilelist.c_str(), strlen(remoteVSTServerInstance->dragfilelist.c_str()));
+
+  XSendEvent(remoteVSTServerInstance->display, e.xselectionrequest.requestor, False, NoEventMask, &xdndselect);
+  XFlush (remoteVSTServerInstance->display);      
+  }
+  break;
+            
+  case ClientMessage:
+  if(e.xclient.message_type == remoteVSTServerInstance->XdndStatus)
+  {
+  remoteVSTServerInstance->dndaccept = e.xclient.data.l[1] & 1;
+  }
+  else if(e.xclient.message_type == remoteVSTServerInstance->XdndFinished)
+  {
+  remoteVSTServerInstance->dndfinish = 1;
+  }
+  break;
+       
+  default:
+  break;
+  }   
+  }   
+
+  if(remoteVSTServerInstance->dndfinish == 1)
+  {
+  XFlush(remoteVSTServerInstance->display); 
+  remoteVSTServerInstance->dodragwin = 0;
+  }
+  else
+  {
+  if((remoteVSTServerInstance->windowok == 0) && (remoteVSTServerInstance->dropdone == 0) && !GetAsyncKeyState(VK_ESCAPE) && remoteVSTServerInstance->pwindow && (remoteVSTServerInstance->xdndversion != -1))
+  {
+  if(remoteVSTServerInstance->dndaccept == 1) 
+  {
+  memset(&xdndclient, sizeof(xdndclient), 0);
+  xdndclient.type = ClientMessage;
+  xdndclient.display = remoteVSTServerInstance->display;
+  xdndclient.window = remoteVSTServerInstance->pwindow;
+  xdndclient.message_type = remoteVSTServerInstance->XdndDrop;
+  xdndclient.format=32;
+  xdndclient.data.l[0] = remoteVSTServerInstance->drag_win;
+  xdndclient.data.l[1] = 0;
+  xdndclient.data.l[2] = CurrentTime;
+  xdndclient.data.l[3] = 0;
+  xdndclient.data.l[4] = 0;
+
+  if(remoteVSTServerInstance->proxyptr)
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->proxyptr, False, NoEventMask, (XEvent*)&xdndclient);
+  else
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->pwindow, False, NoEventMask, (XEvent*)&xdndclient);
+  XFlush(remoteVSTServerInstance->display);
+ 
+  memset(&xdndclient, sizeof(xdndclient), 0);
+  xdndclient.type = ClientMessage;
+  xdndclient.display = remoteVSTServerInstance->display;
+  xdndclient.window = remoteVSTServerInstance->pwindow;
+  xdndclient.message_type = remoteVSTServerInstance->XdndLeave;
+  xdndclient.format=32;
+  xdndclient.data.l[0] = remoteVSTServerInstance->drag_win;
+  xdndclient.data.l[1] = 0;
+  xdndclient.data.l[2] = 0;
+  xdndclient.data.l[3] = 0;
+  xdndclient.data.l[4] = 0;
+
+  if(remoteVSTServerInstance->proxyptr)
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->proxyptr, False, NoEventMask, (XEvent*)&xdndclient);
+  else
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->pwindow, False, NoEventMask, (XEvent*)&xdndclient);
+  XFlush(remoteVSTServerInstance->display); 
+
+  remoteVSTServerInstance->dropdone = 1;
+  }
+  else
+  {
+  if(remoteVSTServerInstance->pwindow)
+  {                 
+  memset(&xdndclient, sizeof(xdndclient), 0);
+  xdndclient.type = ClientMessage;
+  xdndclient.display = remoteVSTServerInstance->display;
+  xdndclient.window = remoteVSTServerInstance->pwindow;
+  xdndclient.message_type = remoteVSTServerInstance->XdndLeave;
+  xdndclient.format=32;
+  xdndclient.data.l[0] = remoteVSTServerInstance->drag_win;
+  xdndclient.data.l[1] = 0;
+  xdndclient.data.l[2] = 0;
+  xdndclient.data.l[3] = 0;
+  xdndclient.data.l[4] = 0;
+
+  if(remoteVSTServerInstance->proxyptr)
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->proxyptr, False, NoEventMask, (XEvent*)&xdndclient);
+  else
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->pwindow, False, NoEventMask, (XEvent*)&xdndclient);
+  XFlush(remoteVSTServerInstance->display); 
+				
+  remoteVSTServerInstance->dodragwin = 0;                   
+  }     
+  }
+  }
+  else if((remoteVSTServerInstance->windowok == 0) && GetAsyncKeyState(VK_ESCAPE) && remoteVSTServerInstance->pwindow && (remoteVSTServerInstance->xdndversion != -1))                   
+  {
+  SetCursor(remoteVSTServerInstance->hCurs2);
+
+  memset(&xdndclient, sizeof(xdndclient), 0);
+  xdndclient.type = ClientMessage;
+  xdndclient.display = remoteVSTServerInstance->display;
+  xdndclient.window = remoteVSTServerInstance->pwindow;
+  xdndclient.message_type = remoteVSTServerInstance->XdndLeave;
+  xdndclient.format=32;
+  xdndclient.data.l[0] = remoteVSTServerInstance->drag_win;
+  xdndclient.data.l[1] = 0;
+  xdndclient.data.l[2] = 0;
+  xdndclient.data.l[3] = 0;
+  xdndclient.data.l[4] = 0;
+
+  if(remoteVSTServerInstance->proxyptr)
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->proxyptr, False, NoEventMask, (XEvent*)&xdndclient);
+  else
+  XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->pwindow, False, NoEventMask, (XEvent*)&xdndclient);
+  XFlush(remoteVSTServerInstance->display); 
+
+  remoteVSTServerInstance->dodragwin = 0;
+  }
+  }   
+  }
+  }
+  
+   usleep(1000);
   }
  
   // param.sched_priority = 0;
@@ -366,6 +749,7 @@ DWORD WINAPI GetSetThreadMain(LPVOID parameter) {
   ExitThread(0);
   return 0;
 }
+#endif
 
 DWORD WINAPI ParThreadMain(LPVOID parameter) {
   /*
@@ -426,7 +810,7 @@ hosttracktion(0),
       haveGui(true), timerval(0), exiting(false), effectrun(false),
       inProcessThread(false), guiVisible(false), parfin(0), audfin(0),
       getfin(0), confin(0), guiupdate(0), guiupdatecount(0), guiresizewidth(500),
-      guiresizeheight(200), melda(0), hWnd(0), 
+      guiresizeheight(200), melda(0), hWnd(0), dodragwin(0), drag_win(0), pwindow(0), data(0), data2(0), proxyptr(0), prevx(-1), prevy(-1), winehwnd(0),
 #ifdef PCACHE
       numpars(0),
 #endif            
@@ -440,6 +824,10 @@ hosttracktion(0),
   */
   winm = &winm2;
 #endif
+
+ //mimelist[0] = (char *)"text/uri-list";
+ 
+ //mimelist[1] = (char *)"text/plain";
 }
 
 std::string RemoteVSTServer::getName() {
@@ -1192,7 +1580,224 @@ void RemoteVSTServer::hideGUI() {
 
   // if (!exiting)
   //    usleep(50000);
+  
+#ifdef DRAGWIN  
+  if(g_hook)
+  UnhookWinEvent(g_hook); 
+
+  if(drag_win && display)
+  {
+  XDestroyWindow(display, drag_win);
+  drag_win = 0;  
+  }
+#endif  
 }
+
+#ifdef DRAGWIN 
+void CALLBACK SysDragImage(HWINEVENTHOOK hook, DWORD event, HWND hWnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime)
+{
+typedef struct tagTrackerWindowInfo
+{
+IDataObject* dataObject;
+IDropSource* dropSource;
+} TrackerWindowInfo;
+
+IEnumFORMATETC* ienum;
+STGMEDIUM stgMedium;
+FORMATETC fmt; 
+HRESULT hr;
+char* winedirpath;
+char hit2[4096];
+UINT numchars;
+UINT numfiles;
+ULONG numfmt;
+int cfdrop;
+
+  if(remoteVSTServerInstance->dodragwin == 1)
+  return;
+
+  if(remoteVSTServerInstance->windowok == 1)
+  return;
+
+  remoteVSTServerInstance->dodragwin = 0;
+  remoteVSTServerInstance->pwindow = 0;          		
+  remoteVSTServerInstance->window = 0;		
+  remoteVSTServerInstance->xdndversion = -1;				
+  remoteVSTServerInstance->data = 0;
+  remoteVSTServerInstance->data2 = 0;			
+  remoteVSTServerInstance->prevx = -1;
+  remoteVSTServerInstance->prevy = -1;
+  remoteVSTServerInstance->windowok = 0;
+  remoteVSTServerInstance->dndfinish = 0;
+  remoteVSTServerInstance->dndaccept = 0;
+  remoteVSTServerInstance->dropdone = 0;
+  remoteVSTServerInstance->proxyptr = 0;
+  remoteVSTServerInstance->winehwnd = 0;
+  
+  cfdrop = 0;
+
+  if(event == EVENT_OBJECT_CREATE && idObject == OBJID_WINDOW) 
+  {
+  if(!IsWindow(FindWindow(NULL , TEXT("TrackerWindow"))))
+  return;
+  TrackerWindowInfo *trackerInfo = (TrackerWindowInfo*)GetWindowLongPtrA(hWnd, 0);
+  if(trackerInfo)
+  {
+  ienum = NULL;
+  trackerInfo->dataObject->EnumFormatEtc(DATADIR_GET, &ienum);
+  if (ienum) 
+  {             
+  while(ienum->Next(1, &fmt, &numfmt) == S_OK )
+  {             
+  if (trackerInfo->dataObject->QueryGetData(&fmt) == S_OK)
+  {
+  stgMedium = {0};
+  hr = trackerInfo->dataObject->GetData(&fmt, &stgMedium);
+       
+  if(hr == S_OK)
+  {
+  if(stgMedium.pUnkForRelease != NULL) 
+  continue;
+  
+  remoteVSTServerInstance->dragfilelist.clear();
+  memset(hit2, 0, 4096);
+    
+  switch (stgMedium.tymed) 
+  {
+  case TYMED_HGLOBAL: 
+  {   
+  HGLOBAL gmem = stgMedium.hGlobal;
+  HDROP hdrop = (HDROP)GlobalLock(gmem);
+        
+  if(hdrop)
+  {
+  numfiles = DragQueryFileW((HDROP)hdrop, 0xFFFFFFFF, NULL, 0);
+
+  WCHAR buffer[MAX_PATH];
+  
+  for(int i=0;i<numfiles;i++)
+  {
+  numchars = DragQueryFileW((HDROP)hdrop, i, buffer, MAX_PATH);
+  
+  if(numchars == 0)
+  continue;
+     
+  winedirpath = wine_get_unix_file_name(buffer);
+                        
+  remoteVSTServerInstance->dragfilelist += "file://";
+               
+  if(realpath(winedirpath, hit2) != 0) 
+  {
+  remoteVSTServerInstance->dragfilelist += hit2;
+    
+  for(size_t pos = remoteVSTServerInstance->dragfilelist.find(' '); 
+  pos != string::npos; 
+  pos = remoteVSTServerInstance->dragfilelist.find(' ', pos))
+  {
+  remoteVSTServerInstance->dragfilelist.replace(pos, 1, "%20");
+  }
+  }
+  else
+  remoteVSTServerInstance->dragfilelist += winedirpath;
+  remoteVSTServerInstance->dragfilelist += "\r"; 
+  remoteVSTServerInstance->dragfilelist += "\n"; 
+  }
+  cfdrop = 1;     
+  GlobalUnlock(gmem);
+  }
+  }
+  break;
+       
+  case TYMED_FILE:
+  {
+  winedirpath = wine_get_unix_file_name(stgMedium.lpszFileName);
+       
+  remoteVSTServerInstance->dragfilelist += "file://";
+               
+  if(realpath(winedirpath, hit2) != 0) 
+  {
+  remoteVSTServerInstance->dragfilelist += hit2;
+    
+  for (size_t pos = remoteVSTServerInstance->dragfilelist.find(' '); 
+  pos != string::npos; 
+  pos = remoteVSTServerInstance->dragfilelist.find(' ', pos))
+  {
+  remoteVSTServerInstance->dragfilelist.replace(pos, 1, "%20");
+  }
+  }
+  else
+  remoteVSTServerInstance->dragfilelist += winedirpath;
+ 
+  remoteVSTServerInstance->dragfilelist += "\r"; 
+  remoteVSTServerInstance->dragfilelist += "\n";      
+  } 
+  cfdrop = 1;           
+  break;
+             
+  default:
+  break;
+  }
+  
+  if(stgMedium.pUnkForRelease)
+  stgMedium.pUnkForRelease->Release();
+  else
+  ::ReleaseStgMedium(&stgMedium);
+   
+  }
+  
+   ienum->Release();      
+  }
+  }
+  
+  if(cfdrop != 0)
+  remoteVSTServerInstance->dodragwin = 1;
+  }       
+  }
+  }
+}
+#endif
+
+/*
+
+https://stackoverflow.com/questions/2947139/how-to-know-user-is-dragging-something-when-the-cursor-is-not-in-my-window?tab=active
+
+
+When most of Drag&Drop operations start, system creates a feedback window with "SysDragImage" class. It's possible to catch the creation and destruction of this feedback window, and react in your application accordingly.
+
+Here's a sample code (form class declaration is skipped to make it shorter):
+
+procedure WinEventProc(hWinEventHook: THandle; event: DWORD;
+  hwnd: HWND; idObject, idChild: Longint; idEventThread, dwmsEventTime: DWORD); stdcall;
+var
+  ClassName: string;
+begin
+  SetLength(ClassName, 255);
+  SetLength(ClassName, GetClassName(hWnd, pchar(ClassName), 255));
+
+  if pchar(ClassName) = 'SysDragImage' then
+  begin
+    if event = EVENT_OBJECT_CREATE then
+      Form1.Memo1.Lines.Add('Drag Start')
+    else
+      Form1.Memo1.Lines.Add('Drag End');    
+  end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  FEvent1 := SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, 0, @WinEventProc, 0, 0, WINEVENT_OUTOFCONTEXT);
+  FEvent2 := SetWinEventHook(EVENT_OBJECT_DESTROY, EVENT_OBJECT_DESTROY, 0, @WinEventProc, 0, 0, WINEVENT_OUTOFCONTEXT);
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  UnhookWinEvent(FEvent1);
+  UnhookWinEvent(FEvent2);
+end;
+
+The only issue here is when you press Escape right after beginning of the Drag & Drop, the system won't generate EVENT_OBJECT_DESTROY event. But this can easily be solved by starting timer on EVENT_OBJECT_CREATE, and periodically monitoing if the feedback windows is still alive.
+
+*/
 
 #ifdef EMBED
 void RemoteVSTServer::openGUI() {
@@ -1207,6 +1812,36 @@ void RemoteVSTServer::openGUI() {
     
   timerval = 678;
   timerval = SetTimer(hWnd, timerval, 80, 0);
+   
+#ifdef DRAGWIN  
+  if(display)
+  {
+  XSetWindowAttributes attr = {0};  
+  attr.event_mask = NoEventMask;
+
+  drag_win = XCreateWindow(display, DefaultRootWindow(display), 0, 0, 1, 1, 0, 0, InputOutput, CopyFromParent, CWEventMask, &attr);
+
+  if (drag_win) 
+  {
+  int version = 5;
+  XChangeProperty(display, drag_win, XdndAware, XA_ATOM, 32, PropModeReplace, (unsigned char *)&version, 1);
+
+  atomlist = XInternAtom(display, "text/uri-list", False);
+  atomplain = XInternAtom(display, "text/plain", False);
+  atomstring = XInternAtom(display, "audio/midi", False);
+  
+  if (!XSetSelectionOwner(display, XdndSelection, drag_win, CurrentTime))
+  {
+  if(drag_win && display)
+  XDestroyWindow(display, drag_win);
+  drag_win = 0;  
+  return;
+  }
+                     
+  g_hook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, NULL, SysDragImage, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);   
+  }
+  } 
+#endif  
 }
 #endif
 
@@ -1222,7 +1857,7 @@ int RemoteVSTServer::processVstEvents() {
   els = *ptr;
   sizeidx = sizeof(int);  
 
- // if (els > VSTSIZE)
+ // if (els > VSTSIZE)sysd
  //   els = VSTSIZE;
 
   evptr = &vstev[0];
@@ -2260,7 +2895,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   remoteVSTServerInstance->ThreadHandle[0] =
       CreateThread(0, 0, AudioThreadMain, 0, CREATE_SUSPENDED, &threadIdp);
 
-#ifndef PCACHE
+#ifdef DRAGWIN 
   DWORD threadIdp2 = 0;
   remoteVSTServerInstance->ThreadHandle[1] =
       CreateThread(0, 0, GetSetThreadMain, 0, CREATE_SUSPENDED, &threadIdp2);
@@ -2277,7 +2912,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
       CreateThread(0, 0, ControlThreadMain, 0, CREATE_SUSPENDED, &threadIdp4);
       
   if (!remoteVSTServerInstance->ThreadHandle[0]
-#ifndef PCACHE
+#ifdef DRAGWIN 
  || !remoteVSTServerInstance->ThreadHandle[1]
 #endif
 #ifndef PCACHE
@@ -2351,7 +2986,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
     remoteVSTServerInstance->haveGui = false;
 
   ResumeThread(remoteVSTServerInstance->ThreadHandle[0]);
-#ifndef PCACHE
+#ifdef DRAGWIN 
   ResumeThread(remoteVSTServerInstance->ThreadHandle[1]);
 #endif
 #ifndef PCACHE
@@ -2360,6 +2995,29 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   ResumeThread(remoteVSTServerInstance->ThreadHandle[3]);  
 
   remoteVSTServerInstance->deviceName2 = deviceName;
+
+#ifdef DRAGWIN  
+   XInitThreads();
+  
+   remoteVSTServerInstance->display = XOpenDisplay(NULL);
+   
+   remoteVSTServerInstance->XdndSelection = XInternAtom(remoteVSTServerInstance->display, "XdndSelection", False);
+   remoteVSTServerInstance->XdndAware = XInternAtom(remoteVSTServerInstance->display, "XdndAware", False);
+   remoteVSTServerInstance->XdndProxy = XInternAtom(remoteVSTServerInstance->display, "XdndProxy", False);
+   remoteVSTServerInstance->XdndTypeList = XInternAtom(remoteVSTServerInstance->display, "XdndTypeList", False);
+   remoteVSTServerInstance->XdndActionCopy = XInternAtom(remoteVSTServerInstance->display, "XdndActionCopy", False);
+   
+   remoteVSTServerInstance->XdndPosition = XInternAtom(remoteVSTServerInstance->display, "XdndPosition", False);
+   remoteVSTServerInstance->XdndStatus = XInternAtom(remoteVSTServerInstance->display, "XdndStatus", False);
+   remoteVSTServerInstance->XdndActionCopy = XInternAtom(remoteVSTServerInstance->display, "XdndActionCopy", False);
+   remoteVSTServerInstance->XdndEnter = XInternAtom(remoteVSTServerInstance->display, "XdndEnter", False);
+   remoteVSTServerInstance->XdndDrop = XInternAtom(remoteVSTServerInstance->display, "XdndDrop", False);
+   remoteVSTServerInstance->XdndLeave = XInternAtom(remoteVSTServerInstance->display, "XdndLeave", False);
+   remoteVSTServerInstance->XdndFinished = XInternAtom(remoteVSTServerInstance->display, "XdndFinished", False);
+   
+   remoteVSTServerInstance->hCurs1 = LoadCursor(NULL, IDC_SIZEALL); 
+   remoteVSTServerInstance->hCurs2 = LoadCursor(NULL, IDC_NO); 
+#endif   
 
   MSG msg;
   int tcount = 0;
@@ -2448,7 +3106,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
 remoteVSTServerInstance->parfin && 
 #endif
 remoteVSTServerInstance->audfin 
-#ifndef PCACHE
+#ifdef DRAGWIN
 && remoteVSTServerInstance->getfin 
 #endif
 && remoteVSTServerInstance->confin)
@@ -2463,7 +3121,7 @@ remoteVSTServerInstance->audfin
     // TerminateThread(remoteVSTServerInstance->ThreadHandle[0], 0);
     CloseHandle(remoteVSTServerInstance->ThreadHandle[0]);
   }
-#ifndef PCACHE
+#ifdef DRAGWIN 
   if (remoteVSTServerInstance->ThreadHandle[1]) {
     // TerminateThread(remoteVSTServerInstance->ThreadHandle[1], 0);
     CloseHandle(remoteVSTServerInstance->ThreadHandle[1]);
@@ -2483,6 +3141,11 @@ remoteVSTServerInstance->audfin
 
   if (debugLevel > 0)
     cerr << "dssi-vst-server[1]: closed threads" << endl;
+
+#ifdef DRAGWIN  
+  if(remoteVSTServerInstance->display)  
+    XCloseDisplay(remoteVSTServerInstance->display);
+#endif
 
   if (remoteVSTServerInstance)
     delete remoteVSTServerInstance;

@@ -10,9 +10,16 @@
 #define __cdecl
 #endif
 
+
+
+
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#ifdef DRAGWIN 
+#include <objidl.h>
+#include <shellapi.h>
+#endif
 #undef min
 #undef max
 
@@ -32,6 +39,8 @@ typedef intptr_t VstIntPtr;
 #include <string>
 
 #include <atomic>
+
+
 
 class RemotePluginServer {
 public:
