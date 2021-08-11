@@ -810,7 +810,10 @@ hosttracktion(0),
       haveGui(true), timerval(0), exiting(false), effectrun(false),
       inProcessThread(false), guiVisible(false), parfin(0), audfin(0),
       getfin(0), confin(0), guiupdate(0), guiupdatecount(0), guiresizewidth(500),
-      guiresizeheight(200), melda(0), hWnd(0), dodragwin(0), drag_win(0), pwindow(0), data(0), data2(0), proxyptr(0), prevx(-1), prevy(-1), winehwnd(0),
+      guiresizeheight(200), melda(0), hWnd(0), 
+#ifdef DRAGWIN
+dodragwin(0), drag_win(0), pwindow(0), data(0), data2(0), proxyptr(0), prevx(-1), prevy(-1), winehwnd(0),
+#endif
 #ifdef PCACHE
       numpars(0),
 #endif            
