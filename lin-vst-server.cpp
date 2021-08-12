@@ -1667,6 +1667,8 @@ int cfdrop;
   case TYMED_HGLOBAL: 
   {   
   HGLOBAL gmem = stgMedium.hGlobal;
+  if(gmem)
+  {
   HDROP hdrop = (HDROP)GlobalLock(gmem);
         
   if(hdrop)
@@ -1703,8 +1705,9 @@ int cfdrop;
   remoteVSTServerInstance->dragfilelist += "\n"; 
   }
   cfdrop = 1;     
-  GlobalUnlock(gmem);
   }
+  GlobalUnlock(gmem);    
+  } 
   }
   break;
        
