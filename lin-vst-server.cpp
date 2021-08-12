@@ -1747,7 +1747,8 @@ int cfdrop;
   ::ReleaseStgMedium(&stgMedium);
   } 	  
   }
-  }   
+  }  
+  if (ienum)   
   ienum->Release(); 
   if(cfdrop != 0)
   remoteVSTServerInstance->dodragwin = 1;
