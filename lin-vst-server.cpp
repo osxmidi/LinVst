@@ -1658,10 +1658,7 @@ int cfdrop;
   hr = trackerInfo->dataObject->GetData(&fmt, &stgMedium);
        
   if(hr == S_OK)
-  {
-  if(stgMedium.pUnkForRelease != NULL) 
-  continue;
-  
+  {  
   remoteVSTServerInstance->dragfilelist.clear();
   memset(hit2, 0, 4096);
     
