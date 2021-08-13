@@ -2998,8 +2998,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   remoteVSTServerInstance->deviceName2 = deviceName;
 
 #ifdef DRAGWIN  
-   XInitThreads();
-  
+   if(XInitThreads() != 0)
+   {  
    remoteVSTServerInstance->display = XOpenDisplay(NULL);
 	
    if(remoteVSTServerInstance->display)
@@ -3020,6 +3020,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
    
    remoteVSTServerInstance->hCurs1 = LoadCursor(NULL, IDC_SIZEALL); 
    remoteVSTServerInstance->hCurs2 = LoadCursor(NULL, IDC_NO); 
+   }
    }
 #endif   
 
