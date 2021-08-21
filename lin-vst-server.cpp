@@ -3007,9 +3007,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
    remoteVSTServerInstance->XdndSelection = XInternAtom(remoteVSTServerInstance->display, "XdndSelection", False);
    remoteVSTServerInstance->XdndAware = XInternAtom(remoteVSTServerInstance->display, "XdndAware", False);
    remoteVSTServerInstance->XdndProxy = XInternAtom(remoteVSTServerInstance->display, "XdndProxy", False);
-   remoteVSTServerInstance->XdndTypeList = XInternAtom(remoteVSTServerInstance->display, "XdndTypeList", False);
-   remoteVSTServerInstance->XdndActionCopy = XInternAtom(remoteVSTServerInstance->display, "XdndActionCopy", False);
-   
+   remoteVSTServerInstance->XdndTypeList = XInternAtom(remoteVSTServerInstance->display, "XdndTypeList", False);   
    remoteVSTServerInstance->XdndPosition = XInternAtom(remoteVSTServerInstance->display, "XdndPosition", False);
    remoteVSTServerInstance->XdndStatus = XInternAtom(remoteVSTServerInstance->display, "XdndStatus", False);
    remoteVSTServerInstance->XdndActionCopy = XInternAtom(remoteVSTServerInstance->display, "XdndActionCopy", False);
