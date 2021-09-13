@@ -208,12 +208,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   if (dlltype == 2) {
 #ifdef EMBED
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst-servertrack32-bw.exe";
+    LinVstName = BIN_DIR "/lin-vst-servertrack32-bw.exe";
 #else
-    LinVstName = "/usr/bin/lin-vst-servertrack32.exe";
+    LinVstName = BIN_DIR "/lin-vst-servertrack32.exe";
 #endif
 #else
-    LinVstName = "/usr/bin/lin-vst-servertrack32st.exe";
+    LinVstName = BIN_DIR "/lin-vst-servertrack32st.exe";
 #endif
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
@@ -223,12 +223,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
     }
 #ifdef EMBED
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst-servertrack32-bw.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-servertrack32-bw.exe.so";
 #else
-    LinVstName = "/usr/bin/lin-vst-servertrack32.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-servertrack32.exe.so";
 #endif
 #else
-    LinVstName = "/usr/bin/lin-vst-servertrack32st.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-servertrack32st.exe.so";
 #endif
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
@@ -239,12 +239,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   } else {
 #ifdef EMBED
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst-servertrack-bw.exe";
+    LinVstName = BIN_DIR "/lin-vst-servertrack-bw.exe";
 #else
-    LinVstName = "/usr/bin/lin-vst-servertrack.exe";
+    LinVstName = BIN_DIR "/lin-vst-servertrack.exe";
 #endif
 #else
-    LinVstName = "/usr/bin/lin-vst-servertrackst.exe";
+    LinVstName = BIN_DIR "/lin-vst-servertrackst.exe";
 #endif
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
@@ -254,12 +254,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
     }
 #ifdef EMBED
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst-servertrack-bw.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-servertrack-bw.exe.so";
 #else
-    LinVstName = "/usr/bin/lin-vst-servertrack.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-servertrack.exe.so";
 #endif
 #else
-    LinVstName = "/usr/bin/lin-vst-servertrackst.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-servertrackst.exe.so";
 #endif
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
@@ -272,12 +272,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   if (dlltype == 2) {
 #ifdef EMBED
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst-server32-bw.exe";
+    LinVstName = BIN_DIR "/lin-vst-server32-bw.exe";
 #else
-    LinVstName = "/usr/bin/lin-vst-server32.exe";
+    LinVstName = BIN_DIR "/lin-vst-server32.exe";
 #endif
 #else
-    LinVstName = "/usr/bin/lin-vst-server32st.exe";
+    LinVstName = BIN_DIR "/lin-vst-server32st.exe";
 #endif
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
@@ -287,12 +287,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
     }
 #ifdef EMBED
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst-server32-bw.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-server32-bw.exe.so";
 #else
-    LinVstName = "/usr/bin/lin-vst-server32.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-server32.exe.so";
 #endif
 #else
-    LinVstName = "/usr/bin/lin-vst-server32st.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-server32st.exe.so";
 #endif
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
@@ -303,12 +303,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   } else {
 #ifdef EMBED
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst-server-bw.exe";
+    LinVstName = BIN_DIR "/lin-vst-server-bw.exe";
 #else
-    LinVstName = "/usr/bin/lin-vst-server.exe";
+    LinVstName = BIN_DIR "/lin-vst-server.exe";
 #endif
 #else
-    LinVstName = "/usr/bin/lin-vst-serverst.exe";
+    LinVstName = BIN_DIR "/lin-vst-serverst.exe";
 #endif
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
@@ -318,12 +318,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
     }
 #ifdef EMBED
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst-server-bw.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-server-bw.exe.so";
 #else
-    LinVstName = "/usr/bin/lin-vst-server.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-server.exe.so";
 #endif
 #else
-    LinVstName = "/usr/bin/lin-vst-serverst.exe.so";
+    LinVstName = BIN_DIR "/lin-vst-serverst.exe.so";
 #endif
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
@@ -337,43 +337,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
 #ifdef TRACKTIONWM
 #ifdef EMBED
 #ifdef BITWIG
-  LinVstName = "/usr/bin/lin-vst-servertrack-bw.exe";
+  LinVstName = BIN_DIR "/lin-vst-servertrack-bw.exe";
 #else
-  LinVstName = "/usr/bin/lin-vst-servertrack.exe";
+  LinVstName = BIN_DIR "/lin-vst-servertrack.exe";
 #endif
 #else
-  LinVstName = "/usr/bin/lin-vst-servertrackst.exe";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#ifdef EMBED
-#ifdef BITWIG
-  LinVstName = "/usr/bin/lin-vst-servertrack-bw.exe.so";
-#else
-  LinVstName = "/usr/bin/lin-vst-servertrack.exe.so";
-#endif
-#else
-  LinVstName = "/usr/bin/lin-vst-servertrackst.exe.so";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#else
-#ifdef EMBED
-#ifdef BITWIG
-  LinVstName = "/usr/bin/lin-vst-server-bw.exe";
-#else
-  LinVstName = "/usr/bin/lin-vst-server.exe";
-#endif
-#else
-  LinVstName = "/usr/bin/lin-vst-serverst.exe";
+  LinVstName = BIN_DIR "/lin-vst-servertrackst.exe";
 #endif
   test = std::ifstream(LinVstName.c_str()).good();
   if (!test) {
@@ -383,12 +352,43 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   }
 #ifdef EMBED
 #ifdef BITWIG
-  LinVstName = "/usr/bin/lin-vst-server-bw.exe.so";
+  LinVstName = BIN_DIR "/lin-vst-servertrack-bw.exe.so";
 #else
-  LinVstName = "/usr/bin/lin-vst-server.exe.so";
+  LinVstName = BIN_DIR "/lin-vst-servertrack.exe.so";
 #endif
 #else
-  LinVstName = "/usr/bin/lin-vst-serverst.exe.so";
+  LinVstName = BIN_DIR "/lin-vst-servertrackst.exe.so";
+#endif
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
+    m_runok = 1;
+    cleanup();
+    return;
+  }
+#else
+#ifdef EMBED
+#ifdef BITWIG
+  LinVstName = BIN_DIR "/lin-vst-server-bw.exe";
+#else
+  LinVstName = BIN_DIR "/lin-vst-server.exe";
+#endif
+#else
+  LinVstName = BIN_DIR "/lin-vst-serverst.exe";
+#endif
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
+    m_runok = 1;
+    cleanup();
+    return;
+  }
+#ifdef EMBED
+#ifdef BITWIG
+  LinVstName = BIN_DIR "/lin-vst-server-bw.exe.so";
+#else
+  LinVstName = BIN_DIR "/lin-vst-server.exe.so";
+#endif
+#else
+  LinVstName = BIN_DIR "/lin-vst-serverst.exe.so";
 #endif
   test = std::ifstream(LinVstName.c_str()).good();
   if (!test) {
@@ -402,9 +402,9 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
 
 #ifdef VST32
 #ifdef EMBED
-  LinVstName = "/usr/bin/lin-vst-server32lx.exe";
+  LinVstName = BIN_DIR "/lin-vst-server32lx.exe";
 #else
-  LinVstName = "/usr/bin/lin-vst-server32lxst.exe";
+  LinVstName = BIN_DIR "/lin-vst-server32lxst.exe";
 #endif
   test = std::ifstream(LinVstName.c_str()).good();
   if (!test) {
@@ -413,9 +413,9 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
     return;
   }
 #ifdef EMBED
-  LinVstName = "/usr/bin/lin-vst-server32lx.exe.so";
+  LinVstName = BIN_DIR "/lin-vst-server32lx.exe.so";
 #else
-  LinVstName = "/usr/bin/lin-vst-server32lxst.exe.so";
+  LinVstName = BIN_DIR "/lin-vst-server32lxst.exe.so";
 #endif
   test = std::ifstream(LinVstName.c_str()).good();
   if (!test) {
@@ -471,15 +471,15 @@ for(int fd=3; fd<maxfd; fd++)
       m_386run = 1;
 #ifdef EMBED
 #ifdef BITWIG
-      if (execlp("/usr/bin/lin-vst-servertrack32-bw.exe",
-                 "/usr/bin/lin-vst-servertrack32-bw.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-servertrack32-bw.exe",
+                 BIN_DIR "/lin-vst-servertrack32-bw.exe", argStr, NULL))
 #else
-      if (execlp("/usr/bin/lin-vst-servertrack32.exe",
-                 "/usr/bin/lin-vst-servertrack32.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-servertrack32.exe",
+                 BIN_DIR "/lin-vst-servertrack32.exe", argStr, NULL))
 #endif
 #else
-      if (execlp("/usr/bin/lin-vst-servertrack32st.exe",
-                 "/usr/bin/lin-vst-servertrack32st.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-servertrack32st.exe",
+                 BIN_DIR "/lin-vst-servertrack32st.exe", argStr, NULL))
 #endif
       {
         m_runok = 1;
@@ -489,15 +489,15 @@ for(int fd=3; fd<maxfd; fd++)
     } else {
 #ifdef EMBED
 #ifdef BITWIG
-      if (execlp("/usr/bin/lin-vst-servertrack-bw.exe",
-                 "/usr/bin/lin-vst-servertrack-bw.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-servertrack-bw.exe",
+                 BIN_DIR "/lin-vst-servertrack-bw.exe", argStr, NULL))
 #else
-      if (execlp("/usr/bin/lin-vst-servertrack.exe",
-                 "/usr/bin/lin-vst-servertrack.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-servertrack.exe",
+                 BIN_DIR "/lin-vst-servertrack.exe", argStr, NULL))
 #endif
 #else
-      if (execlp("/usr/bin/lin-vst-servertrackst.exe",
-                 "/usr/bin/lin-vst-servertrackst.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-servertrackst.exe",
+                 BIN_DIR "/lin-vst-servertrackst.exe", argStr, NULL))
 #endif
       {
         m_runok = 1;
@@ -510,15 +510,15 @@ for(int fd=3; fd<maxfd; fd++)
       m_386run = 1;
 #ifdef EMBED
 #ifdef BITWIG
-      if (execlp("/usr/bin/lin-vst-server32-bw.exe",
-                 "/usr/bin/lin-vst-server32-bw.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-server32-bw.exe",
+                 BIN_DIR "/lin-vst-server32-bw.exe", argStr, NULL))
 #else
-      if (execlp("/usr/bin/lin-vst-server32.exe",
-                 "/usr/bin/lin-vst-server32.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-server32.exe",
+                 BIN_DIR "/lin-vst-server32.exe", argStr, NULL))
 #endif
 #else
-      if (execlp("/usr/bin/lin-vst-server32st.exe",
-                 "/usr/bin/lin-vst-server32st.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-server32st.exe",
+                 BIN_DIR "/lin-vst-server32st.exe", argStr, NULL))
 #endif
       {
         m_runok = 1;
@@ -528,15 +528,15 @@ for(int fd=3; fd<maxfd; fd++)
     } else {
 #ifdef EMBED
 #ifdef BITWIG
-      if (execlp("/usr/bin/lin-vst-server-bw.exe",
-                 "/usr/bin/lin-vst-server-bw.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-server-bw.exe",
+                 BIN_DIR "/lin-vst-server-bw.exe", argStr, NULL))
 #else
-      if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe",
+      if (execlp(BIN_DIR "/lin-vst-server.exe", BIN_DIR "/lin-vst-server.exe",
                  argStr, NULL))
 #endif
 #else
-      if (execlp("/usr/bin/lin-vst-serverst.exe",
-                 "/usr/bin/lin-vst-serverst.exe", argStr, NULL))
+      if (execlp(BIN_DIR "/lin-vst-serverst.exe",
+                 BIN_DIR "/lin-vst-serverst.exe", argStr, NULL))
 #endif
       {
         m_runok = 1;
@@ -549,15 +549,15 @@ for(int fd=3; fd<maxfd; fd++)
 #ifdef TRACKTIONWM
 #ifdef EMBED
 #ifdef BITWIG
-    if (execlp("/usr/bin/lin-vst-servertrack-bw.exe",
-               "/usr/bin/lin-vst-servertrack-bw.exe", argStr, NULL))
+    if (execlp(BIN_DIR "/lin-vst-servertrack-bw.exe",
+               BIN_DIR "/lin-vst-servertrack-bw.exe", argStr, NULL))
 #else
-    if (execlp("/usr/bin/lin-vst-servertrack.exe",
-               "/usr/bin/lin-vst-servertrack.exe", argStr, NULL))
+    if (execlp(BIN_DIR "/lin-vst-servertrack.exe",
+               BIN_DIR "/lin-vst-servertrack.exe", argStr, NULL))
 #endif
 #else
-    if (execlp("/usr/bin/lin-vst-servertrackst.exe",
-               "/usr/bin/lin-vst-servertrackst.exe", argStr, NULL))
+    if (execlp(BIN_DIR "/lin-vst-servertrackst.exe",
+               BIN_DIR "/lin-vst-servertrackst.exe", argStr, NULL))
 #endif
     {
       m_runok = 1;
@@ -567,14 +567,14 @@ for(int fd=3; fd<maxfd; fd++)
 #else
 #ifdef EMBED
 #ifdef BITWIG
-    if (execlp("/usr/bin/lin-vst-server-bw.exe",
-               "/usr/bin/lin-vst-server-bw.exe", argStr, NULL))
+    if (execlp(BIN_DIR "/lin-vst-server-bw.exe",
+               BIN_DIR "/lin-vst-server-bw.exe", argStr, NULL))
 #else
-    if (execlp("/usr/bin/lin-vst-server.exe", "/usr/bin/lin-vst-server.exe",
+    if (execlp(BIN_DIR "/lin-vst-server.exe", BIN_DIR "/lin-vst-server.exe",
                argStr, NULL))
 #endif
 #else
-    if (execlp("/usr/bin/lin-vst-serverst.exe", "/usr/bin/lin-vst-serverst.exe",
+    if (execlp(BIN_DIR "/lin-vst-serverst.exe", BIN_DIR "/lin-vst-serverst.exe",
                argStr, NULL))
 #endif
     {
@@ -586,11 +586,11 @@ for(int fd=3; fd<maxfd; fd++)
 #endif
 #else
 #ifdef EMBED
-    if (execlp("/usr/bin/lin-vst-server32lx.exe",
-               "/usr/bin/lin-vst-server32lx.exe", argStr, NULL))
+    if (execlp(BIN_DIR "/lin-vst-server32lx.exe",
+               BIN_DIR "/lin-vst-server32lx.exe", argStr, NULL))
 #else
-    if (execlp("/usr/bin/lin-vst-server32lxst.exe",
-               "/usr/bin/lin-vst-server32lxst.exe", argStr, NULL))
+    if (execlp(BIN_DIR "/lin-vst-server32lxst.exe",
+               BIN_DIR "/lin-vst-server32lxst.exe", argStr, NULL))
 #endif
     {
       m_runok = 1;
