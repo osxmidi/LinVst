@@ -54,6 +54,7 @@ For cd installs
 sudo mount -t udf -o unhide /dev/sr0 /mnt
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access.
+For Arch based distros sudo pacman -Sy gnutls lib32-gnutls samba
 
 Kontakt tries to install the vc redist dlls and they might not actually get installed.
 
