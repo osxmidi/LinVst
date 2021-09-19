@@ -139,6 +139,7 @@ PUBLIC C:\users\Public
 Wine Staging is only needed for Waves Central and the Waves plugins themselves can run with any of the Wine versions, Wine-Stable, Wine-Devel or Wine Staging.
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access as well.
+For Arch based distros sudo pacman -Sy gnutls lib32-gnutls samba
 
 The file to wrap with linvst.so is WaveShellxxxxxxxx.dll which is probably in Program Files/VSTPlugIns for 64 bit systems.
 
