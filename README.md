@@ -120,6 +120,7 @@ wininet is used by some vst's for net access including registration and online h
 wininet can be overridden with wininet.dll and iertutil.dll and nsi.dll
 
 The winbind and libntlm0 and gnutls packages might need to be installed for net access (sudo apt-get install winbind sudo apt-get install gnutls-bin sudo apt-get install libntlm0)
+For Arch based distros sudo pacman -Sy gnutls lib32-gnutls samba
 
 Occasionally other dlls might need to be overridden such as gdiplus.dll etc
 
