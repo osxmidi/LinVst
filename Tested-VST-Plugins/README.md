@@ -221,6 +221,8 @@ Serum needs Wine Staging to register.
 
 **IK SampleTank**
 
+**Martinic Plugins**
+
 **Mercuriall Spark Amp Sim**
 
 **Melda 
