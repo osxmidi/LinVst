@@ -40,6 +40,8 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 ## Common Problems/Possible Fixes
 
+To uninstall vst's that have been installed, open a Terminal and enter "wine uninstaller" (without the quotes) and hit Enter.
+
 For performance setup see https://github.com/osxmidi/LinVst/tree/master/Realtime-Audio-Config
 
 If window resizing does not work, then after a resize the UI needs to be closed and then reopened for the new window size to take effect.
