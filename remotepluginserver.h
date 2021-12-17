@@ -264,7 +264,15 @@ public:
     char a[64 + 8 + (sizeof(int32_t) * 2) + 48];
     // char a[96];
   };
-
+  
+    struct winmessage {
+    intptr_t handle;
+    int width;
+    int height;
+    int winerror;
+  } winm2;
+  winmessage *winm;
+  
   HANDLE ThreadHandle[4];
 
   ShmControl *m_shmControlptr;

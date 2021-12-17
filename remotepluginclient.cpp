@@ -696,7 +696,7 @@ void RemotePluginClient::syncStartup() {
   ptr = (int *)m_shm;
 
   for (int i = 0; i < 400000; i++) {
-    if (*ptr == 452) {
+    if (*ptr == 470) {
       startok = 1;
       break;
     }
@@ -752,6 +752,11 @@ void RemotePluginClient::syncStartup() {
 
 #ifdef EMBED
   winm = &winm2;
+
+  winm->handle = 0;
+  winm->winerror = 0;
+  winm->width = 0;
+  winm->height = 0;
 #endif
 
   if (pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread,
@@ -967,11 +972,11 @@ void RemotePluginClient::terminate() { return; }
 int RemotePluginClient::getEffInt(int opcode, int value) {
   int retval;
 
-  m_shmControlptr->ropcode = RemotePluginGetEffInt;
-  m_shmControlptr->opcode = opcode;
-  m_shmControlptr->value = value;
-  waitForServer(m_shmControlptr);
-  retval = m_shmControlptr->retint;
+  m_shmControl3->ropcode = RemotePluginGetEffInt;
+  m_shmControl3->opcode = opcode;
+  m_shmControl3->value = value;
+  waitForServer(m_shmControl3);
+  retval = m_shmControl3->retint;
   return retval;
 }
 
@@ -1508,9 +1513,11 @@ void RemotePluginClient::setDebugLevel(RemotePluginDebugLevel level) { return; }
 bool RemotePluginClient::warn(std::string str) { return false; }
 
 void RemotePluginClient::showGUI() {
+#ifdef EMBED
+  memcpy(m_shmControl3->wret, winm, sizeof(winmessage));
+#endif
   m_shmControl3->ropcode = RemotePluginShowGUI;
   waitForServer(m_shmControl3);
-
 #ifdef EMBED
   memcpy(winm, m_shmControl3->wret, sizeof(winmessage));
 #endif

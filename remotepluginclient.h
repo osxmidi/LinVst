@@ -195,7 +195,7 @@ public:
   int width;
   int height;
   struct winmessage {
-    int handle;
+    intptr_t handle;
     int width;
     int height;
     int winerror;
