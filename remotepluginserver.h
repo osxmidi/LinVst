@@ -265,8 +265,8 @@ public:
     // char a[96];
   };
   
-    struct winmessage {
-    intptr_t handle;
+  struct winmessage {
+    int handle;
     int width;
     int height;
     int winerror;
