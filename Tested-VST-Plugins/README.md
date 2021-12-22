@@ -26,7 +26,7 @@ Install winetricks cmd (to workaround possible cmd problems that can cause hangs
 
 **Kontakt Player 5.x and 6.x** (can try turning multiprocessing off for some setups).
 
-LinVst3 can run the Kontakt vst3 version.
+LinVst3 https://github.com/osxmidi/LinVst3 can run the Kontakt vst3 version.
 
 Some additional dll overrides (below) might be needed for Kontakt.
 
