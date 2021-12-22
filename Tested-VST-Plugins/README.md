@@ -18,16 +18,13 @@ A scan of the plugin dll file can be done to find out if the plugin depends on d
 
 Wine (current versions) doesn't have the temp directory paths set in the registry, so importing Waves.reg in the Waves folder using regedit is probably a good idea as it sets the temp file path in the registry (for 64 bit Windows) and some plugins might need this info to install properly.
 
-**Kontakt (Wine 4)
-
-The Native Access install might hang when installing the ISO Driver and setting Windows 10 in winecfg might get around it.
-
-Install winetricks cmd (to workaround possible cmd problems that can cause hangs).
 
 **Kontakt Player 5.x and 6.x** (can try turning multiprocessing off for some setups).
 
 LinVst3 https://github.com/osxmidi/LinVst3 can run the Kontakt vst3 version.
 
+older versions info
+{
 Some additional dll overrides (below) might be needed for Kontakt.
 
 Kontakt when used with Wine (Stable) 4.x needs a msvcp140.dll override whereas Kontakt used with Wine Staging 4.x doesn't. 
@@ -61,6 +58,7 @@ For Arch based distros sudo pacman -Sy gnutls lib32-gnutls samba
 Kontakt tries to install the vc redist dlls and they might not actually get installed.
 
 To install the real vc redist dlls (in a dll override way) use winetricks vcrunxxxx.
+}
 
 **Waves plugins**.
 
@@ -72,6 +70,8 @@ Ignore any warning messages and manipulate/move the Waves Central window into di
 
 -------
 
+older versions info
+{
 Waves Central v11 needs windows powershell which does not currently work.
 
 Because Wine has some missing parts as compared to Windows (ie Robocopy, reg entries, some dll's etc) some things need to be installed and setup.
@@ -130,6 +130,7 @@ COMMONPROGRAMFILES(X86) C:\Program Files (x86)\Common Files
 PROGRAMFILES(X86) C:\Program Files (x86)
 
 PUBLIC C:\users\Public
+}
 
 -----------------
 
