@@ -26,6 +26,8 @@ Install winetricks cmd (to workaround possible cmd problems that can cause hangs
 
 **Kontakt Player 5.x and 6.x** (can try turning multiprocessing off for some setups).
 
+LinVst3 can run the Kontakt vst3 version.
+
 Some additional dll overrides (below) might be needed for Kontakt.
 
 Kontakt when used with Wine (Stable) 4.x needs a msvcp140.dll override whereas Kontakt used with Wine Staging 4.x doesn't. 
@@ -192,6 +194,10 @@ Drag the clip from the Beats window to outside of the Addictive Drums 2 window a
 Samples might need to be manually extracted (by clicking on the slatepack files) (using Archive Manager).
 
 **BFD3 FXpansion**
+
+**Mercuriall Spark**
+Real Time kernels can interfere with Mercuriall Spark's thread priorities resulting in poor performance.
+Low Latency kernels seem ok.
 
 **Spire Synth** (Disable d2d1 in the Libraries section of winecfg) (32 bit version seems to work ok with a d2d1 version 6.1.7601.17514 32 bit dll override)
 
