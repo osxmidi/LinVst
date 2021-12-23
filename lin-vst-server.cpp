@@ -2101,6 +2101,16 @@ UINT numchars;
 UINT numfiles;
 ULONG numfmt;
 int cfdrop;
+DWORD processID;
+DWORD retprocID;
+
+  retprocID = GetWindowThreadProcessId(hWnd, &processID);
+    
+  if(!retprocID)
+  return;
+    
+  if(processID != GetCurrentProcessId())
+  return;	
 
   if(remoteVSTServerInstance->dodragwin == 1)
   return;
