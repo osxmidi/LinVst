@@ -1520,18 +1520,17 @@ void RemoteVSTServer::eventloop()
         //     if(mapped2)
         //    {
         if (e.xcrossing.focus == False) {   
-#ifdef DRAGWIN      
-    //    if(dragwinsocketok == 2)
-     //   {
+        #ifdef DRAGWIN      
+        if(drag_win && display)   
+        {  
         XSetSelectionOwner(display, XdndSelection, 0, CurrentTime); 
         XSetSelectionOwner(display, XdndSelection, drag_win, CurrentTime);
+        }
      //   }
 #endif        
           XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
           //    XSetInputFocus(display, child, RevertToParent,
           //    e.xcrossing.time);
-      //  }
-        //     }
              }
         break;
 #endif
@@ -2076,17 +2075,6 @@ void RemoteVSTServer::hideGUI() {
 
   // if (!exiting)
   //    usleep(50000);
-  
-#ifdef DRAGWIN  
-  if(g_hook)
-  UnhookWinEvent(g_hook); 
-
-  if(drag_win && display)
-  {
-  XDestroyWindow(display, drag_win);
-  drag_win = 0;  
-  }
-#endif  
 }
 
 #ifdef DRAGWIN 
@@ -2118,6 +2106,9 @@ DWORD retprocID;
     
   if(processID != GetCurrentProcessId())
   return;	
+  
+  if(!remoteVSTServerInstance->drag_win || !remoteVSTServerInstance->display)
+  return;
 
   if(remoteVSTServerInstance->dodragwin == 1)
   return;
@@ -2317,36 +2308,6 @@ void RemoteVSTServer::openGUI() {
   ShowWindow(hWnd, SW_SHOWNORMAL);
   // ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
-       
-#ifdef DRAGWIN  
-  if(display)
-  {
-  attr = {0};  
-  attr.event_mask = NoEventMask;
-
-  drag_win = XCreateWindow(display, DefaultRootWindow(display), 0, 0, 1, 1, 0, 0, InputOutput, CopyFromParent, CWEventMask, &attr);
-
-  if (drag_win) 
-  {
-  int version = 5;
-  XChangeProperty(display, drag_win, XdndAware, XA_ATOM, 32, PropModeReplace, (unsigned char *)&version, 1);
-
-  atomlist = XInternAtom(display, "text/uri-list", False);
-  atomplain = XInternAtom(display, "text/plain", False);
-  atomstring = XInternAtom(display, "audio/midi", False);
-  
-  if (!XSetSelectionOwner(display, XdndSelection, drag_win, CurrentTime))
-  {
-  if(drag_win && display)
-  XDestroyWindow(display, drag_win);
-  drag_win = 0;  
-  return;
-  }
-                     
-  g_hook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, NULL, SysDragImage, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);   
-  }
-  } 
-#endif  
 }
 #endif
 
@@ -3540,7 +3501,28 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
 }
 else
     remoteVSTServerInstance->haveGui = false; 
-}    
+}  
+
+#ifdef DRAGWIN
+  if(remoteVSTServerInstance->display)
+  {
+  remoteVSTServerInstance->attr = {0};  
+  remoteVSTServerInstance->attr.event_mask = NoEventMask;
+
+  remoteVSTServerInstance->drag_win = XCreateWindow(remoteVSTServerInstance->display, DefaultRootWindow(remoteVSTServerInstance->display), 0, 0, 1, 1, 0, 0, InputOutput, CopyFromParent, CWEventMask, &remoteVSTServerInstance->attr);
+
+  if(remoteVSTServerInstance->drag_win) 
+  {
+  int version = 5;
+  XChangeProperty(remoteVSTServerInstance->display, remoteVSTServerInstance->drag_win, remoteVSTServerInstance->XdndAware, XA_ATOM, 32, PropModeReplace, (unsigned char *)&version, 1);
+
+  remoteVSTServerInstance->atomlist = XInternAtom(remoteVSTServerInstance->display, "text/uri-list", False);
+  remoteVSTServerInstance->atomplain = XInternAtom(remoteVSTServerInstance->display, "text/plain", False);
+  remoteVSTServerInstance->atomstring = XInternAtom(remoteVSTServerInstance->display, "audio/midi", False);                     
+  }
+  remoteVSTServerInstance->g_hook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, NULL, SysDragImage, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);  
+  }
+#endif     
 
   MSG msg;
   int tcount = 0;
@@ -3664,6 +3646,16 @@ remoteVSTServerInstance->audfin
 
   if (debugLevel > 0)
     cerr << "dssi-vst-server[1]: closed threads" << endl;
+    
+#ifdef DRAGWIN 
+  if(remoteVSTServerInstance->g_hook)
+  UnhookWinEvent(remoteVSTServerInstance->g_hook);  
+  if(remoteVSTServerInstance->drag_win && remoteVSTServerInstance->display)
+  {
+  XDestroyWindow(remoteVSTServerInstance->display, remoteVSTServerInstance->drag_win);
+  remoteVSTServerInstance->drag_win = 0;  
+  }
+#endif      
  
   if(remoteVSTServerInstance->display)  
     XCloseDisplay(remoteVSTServerInstance->display);
