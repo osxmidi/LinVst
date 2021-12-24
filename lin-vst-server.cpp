@@ -1519,13 +1519,20 @@ void RemoteVSTServer::eventloop()
         //        {
         //     if(mapped2)
         //    {
-        if (e.xcrossing.focus == False) {    
+        if (e.xcrossing.focus == False) {   
+#ifdef DRAGWIN      
+    //    if(dragwinsocketok == 2)
+     //   {
+        XSetSelectionOwner(display, XdndSelection, 0, CurrentTime); 
+        XSetSelectionOwner(display, XdndSelection, drag_win, CurrentTime);
+     //   }
+#endif        
           XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
           //    XSetInputFocus(display, child, RevertToParent,
           //    e.xcrossing.time);
-        }
+      //  }
         //     }
-        //     }
+             }
         break;
 #endif
 
