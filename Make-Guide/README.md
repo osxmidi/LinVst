@@ -65,6 +65,8 @@ The makegtk etc files in the convert folder contain simple commands for making t
 
 A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
 
+use make -f Makefile-convert to make linvstconvert in main directory
+
 --
 
 ## For LinVst
@@ -77,13 +79,9 @@ sudo make install
 ```
 Installs lin-vst-serverxxxx.exe and lin-vst-serverxxxxx.exe.so to `/usr/bin` and installs linvst.so into the vst folder in the source code folder.
 
-Defining NOFOCUS enables an alternative keyboard/mouse focus operation
+To make the drag and drop from vst plugin to daw version, use the Makefile in the dragwin folder.
 
 See Makefile comments for define options.
-
-The Standalone folder contains makefiles for a standalone window version.
-
-Undefining WINONTOP for the standalone window versions will make a standalone window version that has standard window behaviour (not an on top window).
 
 The 32bitonly folder contains makefiles for Linux 32 bit systems and 32 bit vst's only.
 
