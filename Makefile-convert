@@ -1,0 +1,21 @@
+# Makefile for linvstconvert
+# linvstconvert is made in the convert directory
+# linvstconvert needs the gtk3 dev libraries installed
+# to make use make -f Makefile-convert
+# to install to /usr/bin use sudo make -f Makefile-convert install
+# to clean the convert directory use sudo make -f Makefile-convert clean
+
+TARGETS = linvstconvert
+
+# --------------------------------------------------------------
+
+all: $(TARGETS)
+
+linvstconvert: 
+	cd convert; make		
+
+install:
+	cd convert; make install
+
+clean:
+	cd convert; make clean
