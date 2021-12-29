@@ -189,8 +189,8 @@ Exports EZdrummer Libraries clips to a midi file in the /home/user/.wine/drive_c
 Choose Select All (from the right side Menu drop down) to be able to drag multiple clips to the midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder
 
 **Melda MDrummer**
-Might need Multi-core, GPU acceleration, high DPI turned off if performance is very slow.
-Melda plugins in general might need GPU and Multi-core options turned off.
+Might need GPU acceleration, high DPI turned off if performance is very slow.
+Melda plugins in general might need GPU acceleration options turned off.
 
 **Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
 Drag the clip from the Beats window to outside of the Addictive Drums 2 window and then a midi file will appear (probably AD2Beat.mid) in /home/user/.wine/drive_c/users/user/My Documents/Addictive Drums 2/XXXXXX/Settings which should contain the clip and which can then be dragged to the DAW. Same thing applies for the recorded wav file (ADDrop.wav).
