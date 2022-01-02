@@ -145,6 +145,7 @@ public:
 
 #ifdef EMBED
   void openGUI();
+  ERect *rp;    
 #endif
 
   int getEffInt(int opcode, int value);
