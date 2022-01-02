@@ -51,7 +51,6 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
                      VstIntPtr value, void *ptr, float opt) {
   RemotePluginClient *plugin = (RemotePluginClient *)effect->object;
   VstIntPtr v = 0;
-  ERect *rp;
 
 #ifdef EMBED
 #ifdef TRACKTIONWM
@@ -75,13 +74,11 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
    
   switch (opcode) {
   case effEditGetRect:
-    rp = &plugin->retRect;
-    *((struct ERect **)ptr) = rp;
-
+    *((struct ERect **)ptr) = plugin->rp;
     if (plugin->editopen == 1)
-      v = 1;
+    v = 1;
     else
-      v = 0;
+    v = 0;
     break;
 
   case effEditIdle:
@@ -225,11 +222,10 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
     
     if(plugin->winm->winerror == 0)
     {    
-    rp = &plugin->retRect;
-    rp->bottom = plugin->winm->height;
-    rp->top = 0;
-    rp->right = plugin->winm->width;
-    rp->left = 0;
+    plugin->rp->bottom = plugin->winm->height;
+    plugin->rp->top = 0;
+    plugin->rp->right = plugin->winm->width;
+    plugin->rp->left = 0;
     }
     else
     break;
