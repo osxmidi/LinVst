@@ -197,24 +197,17 @@ void *RemotePluginClient::AMThread() {
 #ifdef EMBED
 #ifdef EMBEDRESIZE
       case audioMasterSizeWindow: {
-        int width2 = m_shmControlptrth->value;
-        int height2 = m_shmControlptrth->value2;
+        width = m_shmControlptrth->value;
+        height = m_shmControlptrth->value2;
+ 
+        rp->bottom = height;
+        rp->top = 0;
+        rp->right = width;
+        rp->left = 0;
 
-        if (display && parent && child) {
-          width = width2;
-          height = height2;
-
-          retRect.left = 0;
-          retRect.top = 0;
-          retRect.right = width;
-          retRect.bottom = height;
-
-          if (reaperid == 0)
-            retval = m_audioMaster(theEffect, audioMasterSizeWindow, width,
-                                   height, 0, 0);
-          XResizeWindow(display, child, width, height);
-        }
-      } break;
+        retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);
+      } 
+      break;
 #endif
 #endif
 
@@ -757,6 +750,8 @@ void RemotePluginClient::syncStartup() {
   winm->winerror = 0;
   winm->width = 0;
   winm->height = 0;
+    
+  rp = &retRect;    
 #endif
 
   if (pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread,
