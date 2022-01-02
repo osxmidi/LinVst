@@ -3211,10 +3211,9 @@ void RemoteVSTServer::guiUpdate() {
     UpdateWindow(remoteVSTServerInstance->hWnd);
     remoteVSTServerInstance->guiupdate = 0;
     remoteVSTServerInstance->guiupdatecount = 0;
-    */
-	
-	// remoteVSTServerInstance->guiupdate = 0;
   }
+  */
+	// remoteVSTServerInstance->guiupdate = 0;	
 #endif
 #endif
 #ifndef EMBED
