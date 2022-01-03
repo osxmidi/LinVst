@@ -1239,9 +1239,9 @@ void RemoteVSTServer::effDoVoid(int opcode) {
     return;
   }
 	
-  if (opcode == effStartProcess) {  
-    getParameterCount(); 
-  }	
+//  if (opcode == effStartProcess) {  
+//    getParameterCount(); 
+//  }	
 
   if (opcode == effClose) {
     // usleep(500000);
