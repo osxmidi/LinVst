@@ -1460,7 +1460,7 @@ void RemoteVSTServer::eventloop()
      switch (e.type) {
      
      case ReparentNotify:
-     if((e.xreparent.event == parent) && (reparentdone == 0) && (guiVisible == false))
+     if((e.xreparent.event == parent) && (reparentdone == 0))
      {
     
  //     if(parentok == 0)
