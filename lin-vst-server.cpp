@@ -2798,6 +2798,8 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
           
           XResizeWindow(remoteVSTServerInstance->display, remoteVSTServerInstance->child, remoteVSTServerInstance->guiresizewidth, remoteVSTServerInstance->guiresizeheight);          
 
+          remoteVSTServerInstance->eventloop();   		
+		
           remoteVSTServerInstance->m_shmControlptr->ropcode = (RemotePluginOpcode)opcode;
           remoteVSTServerInstance->m_shmControlptr->value = remoteVSTServerInstance->guiresizewidth;
           remoteVSTServerInstance->m_shmControlptr->value2 = remoteVSTServerInstance->guiresizeheight;
@@ -2805,6 +2807,8 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
           retval = 0;
           retval = remoteVSTServerInstance->m_shmControlptr->retint;
           rv = retval;
+		
+          remoteVSTServerInstance->eventloop();   		
           
        //    remoteVSTServerInstance->guiupdate = 1;
         }
