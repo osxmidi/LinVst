@@ -2,39 +2,21 @@
 
 Some distros/hardware can result in varying latency results.
 
-LinVst has produced reasonable latency results with a low latency kernel and with a real time kernel and with the Liquorix kernel but results can vary from system to system.
+LinVst has produced reasonable latency results with a low latency kernel but results can vary from system to system.
 
-A kernel that has PREEMPT in it's info would be the preference (obtain kernel info by running uname -a).
+A low latency kernel would be the preference with realtime priorities setup.
+
+Some Distros have realtime priorities setup and ready to go but some don't (see the next section on how to setup realtime priorities).
 
 Some problems might appear when realtime kernels are used with Wine, such as vst plugin windows freezing and/or frozen dialog boxes etc.
 
-rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may have some effect.
+rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may also have some effect.
 
 LinVst is memory access intensive.
 
 Systems with faster memory are most likely to perform better ie (ddr4).
 
 Having memory in 2 (or more) different motherboard memory banks may result in better performance then if the memory was just in one bank (interleaved memory).
-
-Wineserver opens and accesses files in /tmp/.wine-uid https://www.amlie.name/getting-good-performance-with-windows-vsts-in-linux/
-
-/tmp/.wine-uid can be mounted in memory (rather than using the standard disk based /tmp/.wine-uid) for whenever Wineserver accesses /tmp/.wine-uid, which may help with xruns.
-
-For non systemd systems, enter into the terminal
-
-echo "tmpfs /tmp/.wine-1000 tmpfs mode=0700,uid=1000,gid=1000,nosuid,x-mount.mkdir=0700 0 0" | sudo tee -a /etc/fstab
-
-and then reboot
-
-sudo reboot
-
-verify with findmnt /tmp
-
-The uid is usually 1000, the uid can be obtained using id -u and if it isn't 1000 then replace the 3 occurances of the 1000 number in the above echo line with the new number.
-
-For example, if the uid is 500 then the above echo line would be
-
-echo "tmpfs /tmp/.wine-500 tmpfs mode=0700,uid=500,gid=500,nosuid,x-mount.mkdir=0700 0 0" | sudo tee -a /etc/fstab
 
 Wineserver can be set to a higher priority which may have an effect on cpu load and system response on some systems/setups/plugins.
 
