@@ -2,13 +2,14 @@
 
 Some distros/hardware can result in varying latency results.
 
-LinVst has produced reasonable latency results with a low latency kernel but results can vary from system to system.
+LinVst has produced reasonable latency results with a low latency kernel and with realtime audio priorities setup, but results can vary from system to system.
 
-A low latency kernel would be the preference with realtime priorities setup.
+A low latency kernel would be the preference with realtime audio priorities setup.
 
-Some Distros have realtime priorities setup and ready to go but some don't (see the next section on how to setup realtime priorities).
+Some Distros have realtime audio priorities setup and ready to go but some don't (see the next section on how to setup realtime audio priorities).
+Realtime audio priorities can affect audio performance.
 
-Some problems might appear when realtime kernels are used with Wine, such as vst plugin windows freezing and/or frozen dialog boxes etc.
+Some problems might appear when realtime kernels are used with Wine, such as vst plugin windows freezing and/or frozen dialog boxes, possible poor audio performance (due to real time kernel thread priorities incompatibility) etc.
 
 rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may also have some effect.
 
@@ -25,7 +26,7 @@ Wineserver can have it's priority level changed from normal to high or very high
 The Wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
 
 ```
-Set realtime priorities
+Set realtime audio priorities
 
 If they are not set then cpu spiking can occur with Kontakt and other plugins.
 
