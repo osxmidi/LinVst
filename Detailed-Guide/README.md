@@ -9,7 +9,7 @@ A low latency kernel would be the preference with realtime audio priorities setu
 Some Distros have realtime audio priorities setup and ready to go but some don't (see the next section on how to setup realtime audio priorities).
 Realtime audio priorities can affect audio performance.
 
-Some problems might appear when realtime kernels are used with Wine, such as vst plugin windows freezing and/or frozen dialog boxes, possible poor audio performance (due to real time kernel thread priorities incompatibility) etc.
+Some problems might appear when realtime kernels are used with Wine, such as vst plugin windows freezing and/or frozen dialog boxes, possible poor audio performance (due to possible real time kernel thread priority incompatibilities with some windows plugins run with wine) etc.
 
 rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may also have some effect.
 
