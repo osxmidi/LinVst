@@ -40,6 +40,8 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 ## Common Problems/Possible Fixes
 
+For recommended Linux kernel and audio setup info see https://github.com/osxmidi/LinVst/blob/master/Detailed-Guide/README.md
+
 To uninstall vst's that have been installed, open a Terminal and enter "wine uninstaller" (without the quotes) and hit Enter.
 
 For performance setup see https://github.com/osxmidi/LinVst/tree/master/Realtime-Audio-Config
