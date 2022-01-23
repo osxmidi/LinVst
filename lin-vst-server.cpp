@@ -3581,6 +3581,12 @@ else
            (loopidx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); loopidx++) {
         if (remoteVSTServerInstance->exiting)
           break;
+	      
+        if((msg.message == WM_TIMER) && (msg.wParam == 678))
+        {
+        if((remoteVSTServerInstance->guiVisible == true) && (remoteVSTServerInstance->hostreaper == 1) && (remoteVSTServerInstance->pparent == 0) && (remoteVSTServerInstance->reaptimecount < 100))
+        remoteVSTServerInstance->guiUpdate();
+        }	      	      
 
         if (msg.message == 15 && !remoteVSTServerInstance->guiVisible)
           break;
@@ -3590,12 +3596,6 @@ else
 
         //if (remoteVSTServerInstance->hidegui == 1)
          // break;
-
-        if((msg.message == WM_TIMER) && (msg.wParam == 678))
-        {
-        if((remoteVSTServerInstance->guiVisible == true) && (remoteVSTServerInstance->hostreaper == 1) && (remoteVSTServerInstance->pparent == 0) && (remoteVSTServerInstance->reaptimecount < 100))
-        remoteVSTServerInstance->guiUpdate();
-        }
       }
 
       //if (remoteVSTServerInstance->hidegui == 1) {
@@ -3609,6 +3609,12 @@ else
       while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
         if (remoteVSTServerInstance->exiting)
           break;
+	      
+        if((msg.message == WM_TIMER) && (msg.wParam == 678))
+        {
+        if((remoteVSTServerInstance->guiVisible == true) && (remoteVSTServerInstance->hostreaper == 1) && (remoteVSTServerInstance->pparent == 0) && (remoteVSTServerInstance->reaptimecount < 100))
+        remoteVSTServerInstance->guiUpdate();
+        }	      
 
         if (msg.message == 15 && !remoteVSTServerInstance->guiVisible)
           break;
@@ -3618,12 +3624,6 @@ else
 
         //if (remoteVSTServerInstance->hidegui == 1)
         // break;
-        
-        if((msg.message == WM_TIMER) && (msg.wParam == 678))
-        {
-        if((remoteVSTServerInstance->guiVisible == true) && (remoteVSTServerInstance->hostreaper == 1) && (remoteVSTServerInstance->pparent == 0) && (remoteVSTServerInstance->reaptimecount < 100))
-        remoteVSTServerInstance->guiUpdate();
-        }
       }
 
       //if (remoteVSTServerInstance->hidegui == 1) {
