@@ -6,20 +6,31 @@ An error like "relocatable linking with relocations from format elf64-x86-64" me
 The 64 bit lin-vst-server files and the linvst.so files would probably be compiled and would probably be in the current code folder. 
 A sudo make install should install just the 64 bit files and place linvst.so in the current code/vst folder.
 
+An error that occurs when trying to make linvstconvert would probably be due to not having the gtk3 development libraries not installed.
+
 ------
 
 # To make
+
+LinVst consists of 2 parts, the lin-vst-server files and the linvst.so file part and the linvstconvert part.
+
+The lin-vst-server files are installed to /usr/bin and the linvst.so file is installed to ./vst using sudo make install.
+linvstconvert is then used to to prepare vst2 dll files for use in a daw using the linvst.so file.
+
+Install the wine development files and the 32 bit wine/system development files for 32 bit vst's.
+
+After compiling, the 64 bit and 32 bit lin-vst-server files and the linvst.so file are placed in the current code folder. 
+A sudo make install will install the lin-vst-server files to /usr/bin and linvst.so to the current code/vst folder and linvst.so can be used with linvstconvert to prepare vst2 dll files for use in a daw.
+
+To compile linvstconvert use the Makefile-convert makefile, make -f Makefile-convert
+linvstconvert requires the gtk3 development libraries to be installed.
+
 
 For the deb package see https://github.com/osxmidi/LinVst/tree/master/deb-packages
 
 Remove -DVESTIGE from the makefiles to use the VST2 SDK (by default the VST2 SDK is not required).
 
 If using the VST2 SDK then the plugininterfaces folder needs to be placed inside the LinVst main source folder.
-
-Install wine development files.
-
-After compiling, the 64 bit and 32 bit lin-vst-server files and the linvst.so file are placed in the current code folder. 
-A sudo make install will install the lin-vst-server files to /usr/bin and linvst.so to the current code/vst folder and linvst.so can be used with linvstconvert to prepare vst2 dll files for use in a daw.
 
 ------
 
