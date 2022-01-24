@@ -3,9 +3,10 @@
 An error like "remotepluginserver.h:18:10: fatal error: windows.h: No such file or directory" means that the wine development libraries have not been installed.
 
 An error like "relocatable linking with relocations from format elf64-x86-64" means that the 32 bit wine and system libraries have not been installed.
-If 64 bit vst's are only required and no 32 bit vst's are required, then use make -f Makefile-64bitonly
+If 64 bit vst's are only required and no 32 bit vst's are required, then use make -f Makefile-64bitonly or copy/overwrite Makefile-64bitonly to Makefile
 
 An error that occurs when trying to make linvstconvert would probably be due to not having the gtk3 development libraries installed.
+The linvstconvert makefile uses a -no-pie option which could be removed from the makefile if it causes problems with some compliers.
 
 ------
 
