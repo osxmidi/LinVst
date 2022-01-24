@@ -22,7 +22,7 @@ Install the wine development files and the 32 bit wine/system development files 
 After compiling, the 64 bit and 32 bit lin-vst-server files and the linvst.so file are placed in the current code folder. 
 A sudo make install will install the lin-vst-server files to /usr/bin and linvst.so to the current code/vst folder and linvst.so can be used with linvstconvert to prepare vst2 dll files for use in a daw.
 
-To compile linvstconvert use the Makefile-convert makefile, make -f Makefile-convert
+To compile linvstconvert use the Makefile-convert makefile, make -f Makefile-convert or cd into the convert folder and then make
 linvstconvert requires the gtk3 development libraries to be installed.
 
 
