@@ -3,9 +3,11 @@
 An error like "remotepluginserver.h:18:10: fatal error: windows.h: No such file or directory" means that the wine development libraries have not been installed.
 
 An error like "relocatable linking with relocations from format elf64-x86-64" means that the 32 bit wine and system libraries have not been installed.
+
 If 64 bit vst's are only required and no 32 bit vst's are required, then use make -f Makefile-64bitonly or copy/overwrite Makefile-64bitonly to Makefile
 
 An error that occurs when trying to make linvstconvert would probably be due to not having the gtk3 development libraries installed.
+
 The linvstconvert makefile uses a -no-pie option which could be removed from the makefile if it causes problems with some compliers.
 
 ------
@@ -20,9 +22,11 @@ linvstconvert is then used to prepare vst2 dll files for use in a daw using the 
 Install the wine development files and the 32 bit wine/system development files for 32 bit vst's.
 
 After compiling, the 64 bit and 32 bit lin-vst-server files and the linvst.so file are placed in the current code folder. 
+
 A sudo make install will install the lin-vst-server files to /usr/bin and linvst.so to the current code/vst folder and linvst.so can be used with linvstconvert to prepare vst2 dll files for use in a daw.
 
-To compile linvstconvert use the Makefile-convert makefile, make -f Makefile-convert or cd into the convert folder and then make
+To compile linvstconvert use the Makefile-convert makefile, make -f Makefile-convert or cd into the convert folder and then make.
+
 linvstconvert requires the gtk3 development libraries to be installed.
 
 
