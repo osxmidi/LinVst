@@ -148,9 +148,11 @@ Also, see the Tested VST's folder at https://github.com/osxmidi/LinVst/tree/mast
 
 If plugins were working then suddenly don't, try testing if it's the wineprefix that is causing the problems
 
-To test if it's the wineprefix that's causing the problem (possible file corruption, installation problems etc),
+Basically to test a plugin using a temporary new wineprefix, open a Terminal and then set it up to use the new wineprefix (only valid for the Terminal that was opened and setup, not other Terminals).
 
-using Terminal
+To test if it's the wineprefix that's causing the problem (possible file corruption, installation problems etc), 
+
+open a Terminal
 
 cd into your home directory
 
@@ -158,7 +160,7 @@ then enter into the Terminal
 
 mkdir .my-new-prefix
 
-export WINEPREFIX=/home/yourusername/.my-new-prefix
+export WINEPREFIX=/home/yourusername/.my-new-prefix (this sets the wineprefix to use for this Terminal only, system files need to be setup to make it permanent)
 
 winecfg
 
@@ -183,6 +185,8 @@ See if the daw loads and scans the vst ok.
 If the plugin runs ok in this new wineprefix (/home/yourusername/.my-new-prefix) and the same plugin doesn't run ok 
 in the old wineprefix ~/.wine (default wineprefix) then there is a high probablity that the ~/.wine (default wineprefix) 
 is causing some problems.
+
+To test the same plugin using the default wineprefix, exit the Terminal used for testing and then install the plugin into the default wineprefix and set it up using linvstconvert.
 
 -------
 
