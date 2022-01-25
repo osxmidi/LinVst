@@ -165,7 +165,7 @@ winecfg
 
 and that will create a new wineprefix named .my-new-prefix
 
-and then in the same Terminal window install a simple vst "wine ValhallaSupermassiveWin_V1_1_1v5.exe" or whatever vst
+and then in the same Terminal window install a simple vst "wine delay.exe" or whatever vst
 
 Download LinVst from the releases page and copy all of the lin-vst-server files to /usr/bin
 
