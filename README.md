@@ -186,7 +186,7 @@ If the plugin runs ok in this new wineprefix (/home/yourusername/.my-new-prefix)
 in the old wineprefix ~/.wine (default wineprefix) then there is a high probablity that the ~/.wine (default wineprefix) 
 is causing some problems.
 
-To test the same plugin using the default wineprefix (~/.wine), exit the Terminal used for testing and then install the plugin into the default wineprefix and set it up using linvstconvert.
+To test the same plugin using the default wineprefix (~/.wine), delete the temporary wineprefix rm -R .my-new-prefix and then exit the Terminal used for testing and then install the plugin into the default wineprefix and set it up using linvstconvert.
 
 -------
 
