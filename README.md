@@ -64,42 +64,6 @@ The terminal output of TestVst can sometimes be used to work out what dll overri
 
 Some plugins won't run due to various problems.
 
--------
-
-If plugins were working then suddenly don't, try testing if it's the wineprefix that is causing the problems
-
-To test if it's the wineprefix that's causing the problem (possible file corruption, installation problems etc),
-
-using Terminal
-
-cd into your home directory
-
-then enter into the Terminal
-
-mkdir .my-new-prefix
-
-export WINEPREFIX=/home/yourusername/.my-new-prefix
-
-winecfg
-
-and that will create a new wineprefix named .my-new-prefix
-
-and then in the same Terminal window install a simple vst "wine ValhallaSupermassiveWin_V1_1_1v5.exe" or whatever vst
-
-Download LinVst from the releases page and copy all of the lin-vst-server files to /usr/bin
-
-sudo cp /home/yourusername/Downloads//LinVst-4.7/lin-vst* /usr/bin
-
-start linvstconvert and select the linvst.so file from the downloaded LinVst 4.7 folder
-
-find the vst dll in the /home/yourusername/.my-new-prefix folder and hit the start button.
-
-Start your daw up (from the same terminal window) and set the search path to the vst folder(s) in /home/yourusername/.my-new-prefix
-
-restart the daw
-
-See if the daw loads and scans the vst ok.
-
 ----
 
 To install a windows vst exe installation file use wine "path to the exe file"
@@ -180,6 +144,44 @@ Usually the dragged item (dragged outside of the vst's window) will be saved as 
 See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 in the Tested VST's folder at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins for some details.
 
 Also, see the Tested VST's folder at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins for some vst plugin setups and possible tips.
+
+-------
+
+If plugins were working then suddenly don't, try testing if it's the wineprefix that is causing the problems
+
+To test if it's the wineprefix that's causing the problem (possible file corruption, installation problems etc),
+
+using Terminal
+
+cd into your home directory
+
+then enter into the Terminal
+
+mkdir .my-new-prefix
+
+export WINEPREFIX=/home/yourusername/.my-new-prefix
+
+winecfg
+
+and that will create a new wineprefix named .my-new-prefix
+
+and then in the same Terminal window install a simple vst "wine ValhallaSupermassiveWin_V1_1_1v5.exe" or whatever vst
+
+Download LinVst from the releases page and copy all of the lin-vst-server files to /usr/bin
+
+sudo cp /home/yourusername/Downloads//LinVst-4.7/lin-vst* /usr/bin
+
+start linvstconvert and select the linvst.so file from the downloaded LinVst 4.7 folder
+
+find the vst dll in the /home/yourusername/.my-new-prefix folder and hit the start button.
+
+Start your daw up (from the same terminal window) and set the search path to the vst folder(s) in /home/yourusername/.my-new-prefix
+
+restart the daw
+
+See if the daw loads and scans the vst ok.
+
+-------
 
 **Waveform**
 
