@@ -82,6 +82,7 @@ Usually by default vst installers install to a path something like ~/.wine/drive
 
 To change into the plugin directory (using the terminal) cd ~/".wine/drive_c/Program Files/Steinberg/VSTPlugins"
 
+```
 -----
 
 If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert).
