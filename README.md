@@ -168,7 +168,7 @@ and that will create a new wineprefix named .my-new-prefix
 
 and then in the same Terminal window install a simple vst "wine delay.exe" or whatever vst
 
-Download LinVst from the releases page and copy all of the lin-vst-server files to /usr/bin
+Reinstall LinVst so that possible LinVst file corruption in not an issue, download LinVst from the releases page and copy all of the lin-vst-server files to /usr/bin
 
 sudo cp /home/yourusername/Downloads//LinVst-4.7/lin-vst* /usr/bin
 
