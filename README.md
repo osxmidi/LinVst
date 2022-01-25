@@ -82,8 +82,6 @@ Usually by default vst installers install to a path something like ~/.wine/drive
 
 To change into the plugin directory (using the terminal) cd ~/".wine/drive_c/Program Files/Steinberg/VSTPlugins"
 
-```
-
 -----
 
 If a LinVst version error pops up then LinVst probably needs to be reinstalled to /usr/bin and the older (renamed) linvst.so files in the vst dll folder need to be overwritten (using linvstconvert).
@@ -180,6 +178,8 @@ Start your daw up (from the same terminal window) and set the search path to the
 restart the daw
 
 See if the daw loads and scans the vst ok.
+
+If the plugin runs ok in this new wineprefix (/home/yourusername/.my-new-prefix) and the same plugin doesn't run ok in the old wineprefix ~/.wine (default wineprefix) then there is a high probablity that the ~/.wine (default wineprefix) is causing some problems.
 
 -------
 
