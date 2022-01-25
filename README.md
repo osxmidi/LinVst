@@ -179,7 +179,9 @@ restart the daw
 
 See if the daw loads and scans the vst ok.
 
-If the plugin runs ok in this new wineprefix (/home/yourusername/.my-new-prefix) and the same plugin doesn't run ok in the old wineprefix ~/.wine (default wineprefix) then there is a high probablity that the ~/.wine (default wineprefix) is causing some problems.
+If the plugin runs ok in this new wineprefix (/home/yourusername/.my-new-prefix) and the same plugin doesn't run ok 
+in the old wineprefix ~/.wine (default wineprefix) then there is a high probablity that the ~/.wine (default wineprefix) 
+is causing some problems.
 
 -------
 
