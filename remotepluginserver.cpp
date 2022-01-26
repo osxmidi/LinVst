@@ -942,29 +942,28 @@ void RemotePluginServer::dispatchControlEvents(ShmControl *m_shmControlptr) {
 
 #ifdef MIDIEFF
   case RemoteMidiKey: {
-    int index = readIntring(&m_shmControl5->ringBuffer);
+    int index = m_shmControlptr->value;
     bool b = getMidiKey(index, m_shmControlptr);
     m_shmControlptr->retbool = b;
     break;
   }
 
   case RemoteMidiProgName: {
-    int index = readIntring(&m_shmControl5->ringBuffer);
+    int index = m_shmControlptr->value;
     bool b = getMidiProgName(index, m_shmControlptr);
     m_shmControlptr->retbool = b;
-    ;
     break;
   }
 
   case RemoteMidiCurProg: {
-    int index = readIntring(&m_shmControl5->ringBuffer);
+    int index = m_shmControlptr->value;
     bool b = getMidiCurProg(index, m_shmControlptr);
     m_shmControlptr->retbool = b;
     break;
   }
 
   case RemoteMidiProgCat: {
-    int index = readIntring(&m_shmControl5->ringBuffer);
+    int index = m_shmControlptr->value;
     bool b = getMidiProgCat(index, m_shmControlptr);
     m_shmControlptr->retbool = b;
     break;
