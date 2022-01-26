@@ -100,13 +100,15 @@ void *RemotePluginClient::AMThread() {
         break;
 
       switch (opcode) {
+/*              
       case audioMasterSetTime:
         memcpy(timeInfo2, m_shmControlptrth->timeset, sizeof(VstTimeInfo));
         retval = 0;
         m_audioMaster(theEffect, audioMasterSetTime, 0, 0, timeInfo2, 0);
         m_shmControlptrth->retint = retval;
         break;
-
+*/
+              
       case audioMasterAutomate:
       {
         idx = m_shmControlptrth->value;
