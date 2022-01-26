@@ -112,7 +112,7 @@ To make the drag and drop from vst plugin to daw version, use the Makefile in th
 
 See Makefile comments for define options.
 
-The 32bitonly folder contains makefiles for Linux 32 bit systems and 32 bit vst's only.
+
 
 
 
