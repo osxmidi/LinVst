@@ -2584,7 +2584,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
       cerr << "dssi-vst-server[2]: audioMasterIdle requested " << endl;
     // plugin->dispatcher(plugin, effEditIdle, 0, 0, 0, 0);
     break;
-
+/*
   case audioMasterSetTime:
 
     if (remoteVSTServerInstance) {
@@ -2603,7 +2603,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
       }
     }
     break;
-
+*/
   case audioMasterGetTime:
 
     if (remoteVSTServerInstance) {
