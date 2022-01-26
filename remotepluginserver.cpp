@@ -917,16 +917,6 @@ void RemotePluginServer::dispatchControlEvents(ShmControl *m_shmControlptr) {
     break;
   }
 
-    /*
-        case RemoteMainsChanged:
-        {
-            int v = readIntring(&m_shmControl5->ringBuffer);
-            // std::cerr << "Mains changing " << v << std::endl;
-            eff_mainsChanged(v);
-            break;
-        }
-    */
-
   case RemotePluginCanBeAutomated:
     canBeAutomated(m_shmControlptr);
     break;
@@ -970,7 +960,7 @@ void RemotePluginServer::dispatchControlEvents(ShmControl *m_shmControlptr) {
   }
 
   case RemoteMidiProgCh: {
-    int index = readIntring(&m_shmControl5->ringBuffer);
+    int index = m_shmControlptr->value;
     bool b = getMidiProgCh(index, m_shmControlptr);
     m_shmControlptr->retbool = b;
     break;
@@ -991,7 +981,7 @@ void RemotePluginServer::dispatchControlEvents(ShmControl *m_shmControlptr) {
 
 #ifdef CANDOEFF
   case RemotePluginEffCanDo: {
-        bool b =  getEffCanDo(readStringring(m_shmControlptr->sendstr);
+        bool b =  getEffCanDo(m_shmControlptr->sendstr);
         m_shmControlptr->retbool = b;
         break;
   }
