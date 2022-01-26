@@ -1,5 +1,0 @@
-LinVst may have some problems with some plugins and Bitwig.
-
-If LinVst has problems with plugins timing out in Bitwig use this Makefile.
-
-Choose (check) the plugins to be run Individually in the Bitwig Settings-Plug-ins panel.
