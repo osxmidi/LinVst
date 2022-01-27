@@ -212,6 +212,22 @@ void *RemotePluginClient::AMThread() {
       break;
 #endif
 #endif
+              
+#ifdef MIDIEFF
+      case audioMasterGetInputSpeakerArrangement:
+        retval = 0;
+        retval =
+            m_audioMaster(theEffect, audioMasterGetInputSpeakerArrangement, 0, 0, 0, 0);
+        m_shmControlptrth->retint = retval;
+        break;
+
+      case audioMasterGetSpeakerArrangement:
+        retval = 0;
+        retval =
+            m_audioMaster(theEffect, audioMasterGetSpeakerArrangement, 0, 0, 0, 0);
+        m_shmControlptrth->retint = retval;
+        break;
+#endif              
 
       case audioMasterGetInputLatency:
         retval = 0;
