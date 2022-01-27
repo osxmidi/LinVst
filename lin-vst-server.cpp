@@ -2956,6 +2956,36 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
       rv = 1;
 #endif
     break;
+		  
+#ifdef MIDIEFF
+   case audioMasterGetInputSpeakerArrangement:
+        if(remoteVSTServerInstance)
+        {
+        if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
+        {
+        remoteVSTServerInstance->m_shmControlptr->ropcode = (RemotePluginOpcode)opcode;
+        remoteVSTServerInstance->waitForServer(remoteVSTServerInstance->m_shmControlptr);
+        retval = 0;
+        retval = remoteVSTServerInstance->m_shmControlptr->retint;
+        rv = retval;
+        }
+        }
+        break;
+
+   case audioMasterGetSpeakerArrangement:
+        if(remoteVSTServerInstance)
+        {
+        if(!remoteVSTServerInstance->exiting && remoteVSTServerInstance->effectrun)
+        {
+        remoteVSTServerInstance->m_shmControlptr->ropcode = (RemotePluginOpcode)opcode;
+        remoteVSTServerInstance->waitForServer(remoteVSTServerInstance->m_shmControlptr);
+        retval = 0;
+        retval = remoteVSTServerInstance->m_shmControlptr->retint;
+        rv = retval;
+        }
+        }
+        break;
+#endif		  
 
   case audioMasterGetSampleRate:
     if (debugLevel > 1)
