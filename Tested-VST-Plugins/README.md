@@ -211,7 +211,7 @@ Install
 
 1: SSD5_Free_Sampler_r108_Win.exe
 
-2: Slate_Audio_Center_Win_2.0.29.exe (if "only for me" user option is chosen the installation setup files get installed to "/home/yourusername/.wine/drive_c/users/yourusername/AppData/Local/Programs/Steven Slate Drums IM/Steven Slate Drums IM.exe
+2: Slate_Audio_Center_Win_2.0.29.exe (if "only for me" user option is chosen the installation setup files get installed to "/home/yourusername/.wine/drive_c/users/yourusername/AppData/Local/Programs/Steven Slate Drums IM/Steven Slate Drums IM.exe)
 
 3: Steven_Slate_Drums_IM_r109_Win.exe
 
