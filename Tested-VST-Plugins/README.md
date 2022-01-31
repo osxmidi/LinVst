@@ -66,11 +66,11 @@ It is possible to install Waves Central v12 or Waves Central v13 and then instal
 
 Wine Staging is needed (not just Wine).
 
-Ignore any warning messages and manipulate/move the Waves Central window into different positions to get past any black window update problems (if selecting a checkbox, move the window to force a window update) and also maybe manipulate the mouse/improvise when selecting plugins to install.
+Ignore any warning messages and manipulate/move the Waves Central window into different positions to get past any black window update problems (if selecting a checkbox, move the window to force a window update or suspend the system to force a window update) and also maybe manipulate the mouse/improvise when selecting plugins to install.
 
 -------
 
-older versions info
+Waves older versions info
 {
 Waves Central v11 needs windows powershell which does not currently work.
 
@@ -173,6 +173,7 @@ The DAW scan should then pick up the Waves plugins.
 (for earlier Wine versions it might need winetricks msxml3 (might also need crypt32.dll overrides, winetricks crypt32))
 
 **Audio/Midi clips**
+LinVst has a Drag-and-Drop version (see the Dragwin folder for the Makefile).
 The Audacity Windows version can be used to drag audio/midi clips from the vst window to Audacity (after maybe previewing/arranging them in the vst such as MT-PowerDrumKit and EZdrummer) and then there is the option of editing them in Audacity before saving and dragging them to the Linux Daw.
 It works with Ardour as well.
 
