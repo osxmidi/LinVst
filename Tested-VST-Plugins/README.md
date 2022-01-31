@@ -200,8 +200,38 @@ For the DragandDrop LinVst version, dragging clips to the Daw should be ok.
 For the DragandDrop LinVst version, dragging clips to the Daw should be ok.
 For the non DragandDrop LinVst version, drag the clip from the Beats window to outside of the Addictive Drums 2 window and then a midi file will appear (probably AD2Beat.mid) in /home/user/.wine/drive_c/users/user/My Documents/Addictive Drums 2/XXXXXX/Settings which should contain the clip and which can then be dragged to the DAW. Same thing applies for the recorded wav file (ADDrop.wav).
 
-**Steven Slate Drums SSD5** Drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
+**Steven Slate Drums SSD5** 
+For the DragandDrop LinVst version, dragging clips to the Daw should be ok.
+For the non DragandDrop LinVst version, drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
 Samples might need to be manually extracted (by clicking on the slatepack files) (using Archive Manager).
+
+Install and setup guide
+
+1: SSD5_Free_Sampler_r108_Win.exe
+
+2: Slate_Audio_Center_Win_2.0.29.exe (if "only for me" user option is chosen the installation setup files get installed to "/home/yourusername/.wine/drive_c/users/yourusername/AppData/Local/Programs/Steven Slate Drums IM/Steven Slate Drums IM.exe
+
+3: Steven_Slate_Drums_IM_r109_Win.exe
+
+Run Steven Slate Drums IM.exe
+
+wine "/home/yourusername/.wine/drive_c/users/yourusername/AppData/Local/Programs/Steven Slate Drums IM/Steven Slate Drums IM.exe" (use suspend system to update the display window redraws if there are display window problems)
+
+Choose this folder that contains the slatepack files
+
+Choose /home/yourusername and it will automatically add the SSD5Library folder part.
+
+hit Install
+
+then exit the program
+
+The slatepack files don't get unzipped and installed automatically using wine, so
+
+Extract the slatepack files (unzip SSD5LibFree01.slatepack) and place the extracted folders in the /home/yourusername/SSD5Library folder
+
+setup the plugin when opened in the daw to point to /home/yourusername/SSD5Library folder for the samples.
+
+Performance quality and disk streaming can be setup for performance.
 
 **BFD3 FXpansion**
 
