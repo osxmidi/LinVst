@@ -219,9 +219,9 @@ Run Steven Slate Drums IM.exe
 
 wine "/home/yourusername/.wine/drive_c/users/yourusername/AppData/Local/Programs/Steven Slate Drums IM/Steven Slate Drums IM.exe" (use suspend system to update the display window redraws if there are display window problems)
 
-Choose this folder that contains the slatepack files
+Choose for the slatepack piles, the folder that contains the slatepack files
 
-Choose /home/yourusername and it will automatically add the SSD5Library folder part.
+Choose for destination folder, /home/yourusername and it will automatically add the SSD5Library folder part.
 
 hit Install
 
@@ -231,7 +231,7 @@ The slatepack files don't get unzipped and installed automatically using wine, s
 
 Extract the slatepack files (unzip SSD5LibFree01.slatepack) and place the extracted folders in the /home/yourusername/SSD5Library folder
 
-setup the plugin when opened in the daw to point to /home/yourusername/SSD5Library folder for the samples.
+Setup the plugin when opened in the daw to point to /home/yourusername/SSD5Library folder for the samples.
 
 Performance quality and disk streaming can be setup for performance.
 
