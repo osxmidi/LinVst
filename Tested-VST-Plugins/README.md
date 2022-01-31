@@ -183,12 +183,12 @@ Setting HKEY_CURRENT_USER Software Wine Direct3D MaxVersionGL 30002 might help w
 
 **MT-PowerDrumKit** 
 For the DragandDrop LinVst version, dragging clips to the Daw should be ok.
-For the non DragandDrop LinVst version, MT-PowerDrumKit exports grooves to mtpdk.mid in the /home/user/Documents folder (the last dragged groove or fill to the composer) and then mtpdk.mid can be drag and dropped into the DAW.
+For the non DragandDrop LinVst version, use the Windows version of Audactity and drag clips to it or, MT-PowerDrumKit exports grooves to mtpdk.mid in the /home/user/Documents folder (the last dragged groove or fill to the composer) and then mtpdk.mid can be drag and dropped into the DAW.
 To deal with multiple grooves/fills (compositions), drag the composition from the composer window to outside of the MT-PowerDrumKit window and then mtpdk.mid should contain the whole composition.
 
 **EZDrummer2** (visual glitches can be removed by choosing the Windows XP version in winecfg). 
 For the DragandDrop LinVst version, dragging clips to the Daw should be ok.
-For the non DragandDrop LinVst version, EZdrummer exports Libraries clips to a midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder (the last dragged clip that was dragged outside of the EZDrummer2 window) and then the midi file can be drag and dropped into the DAW.
+For the non DragandDrop LinVst version, use the Windows version of Audactity and drag clips to it or, EZdrummer exports Libraries clips to a midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder (the last dragged clip that was dragged outside of the EZDrummer2 window) and then the midi file can be drag and dropped into the DAW.
 Choose Select All (from the right side Menu drop down) to be able to drag multiple clips to the midi file in the /home/user/.wine/drive_c/ProgramData/Toontrack/EZdrummer folder
 
 **Melda MDrummer**
@@ -198,14 +198,16 @@ For the DragandDrop LinVst version, dragging clips to the Daw should be ok.
 
 **Addictive Drums 2** (Addictive Drums 2 requires that the dll (and therefore the renamed linvst.so) needs to be loaded from the installation directory, ie a fixed path).
 For the DragandDrop LinVst version, dragging clips to the Daw should be ok.
-For the non DragandDrop LinVst version, drag the clip from the Beats window to outside of the Addictive Drums 2 window and then a midi file will appear (probably AD2Beat.mid) in /home/user/.wine/drive_c/users/user/My Documents/Addictive Drums 2/XXXXXX/Settings which should contain the clip and which can then be dragged to the DAW. Same thing applies for the recorded wav file (ADDrop.wav).
+For the non DragandDrop LinVst version, use the Windows version of Audactity and drag clips to it or drag the clip from the Beats window to outside of the Addictive Drums 2 window and then a midi file will appear (probably AD2Beat.mid) in /home/user/.wine/drive_c/users/user/My Documents/Addictive Drums 2/XXXXXX/Settings which should contain the clip and which can then be dragged to the DAW. Same thing applies for the recorded wav file (ADDrop.wav).
 
 **Steven Slate Drums SSD5** 
 For the DragandDrop LinVst version, dragging clips to the Daw should be ok.
-For the non DragandDrop LinVst version, drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
+For the non DragandDrop LinVst version, use the Windows version of Audactity and drag clips to it or drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
 Samples might need to be manually extracted (by clicking on the slatepack files) (using Archive Manager).
 
-Install and setup guide
+Install and Setup guide for SSD5
+
+Install
 
 1: SSD5_Free_Sampler_r108_Win.exe
 
