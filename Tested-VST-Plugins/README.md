@@ -173,7 +173,7 @@ The DAW scan should then pick up the Waves plugins.
 (for earlier Wine versions it might need winetricks msxml3 (might also need crypt32.dll overrides, winetricks crypt32))
 
 **Audio/Midi clips**
-LinVst has a Drag-and-Drop version (see the Dragwin folder for the Makefile).
+LinVst has a Drag-and-Drop version (see the dragwin folder for the Makefile).
 The Audacity Windows version can be used to drag audio/midi clips from the vst window to Audacity (after maybe previewing/arranging them in the vst such as MT-PowerDrumKit and EZdrummer) and then there is the option of editing them in Audacity before saving and dragging them to the Linux Daw.
 It works with Ardour as well.
 
