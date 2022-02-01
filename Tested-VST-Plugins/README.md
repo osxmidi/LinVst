@@ -206,7 +206,7 @@ For the Drag-and-Drop LinVst version, dragging clips to the Daw should be ok.
 For the non Drag-and-Drop LinVst version, use the Windows version of Audactity and drag clips to it or drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
 
 To install version SSD55, use the audio centre and login and install.
-SSD55 needs VCRUNTIME140_1.dll which is in vc_redist.x64.exe (vc_redist.x86.exe) which need to be installed.
+SSD55 needs the Visual C++ Redistributable, vc_redist.x64.exe (vc_redist.x86.exe) which need to be installed.
 
 Manual Install and Setup guide for SSD5 version
 
