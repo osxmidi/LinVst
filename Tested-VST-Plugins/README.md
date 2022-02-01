@@ -201,13 +201,14 @@ For the Drag-and-Drop LinVst version, dragging clips to the Daw should be ok.
 For the Drag-and-Drop LinVst version, dragging clips to the Daw should be ok.
 For the non Drag-and-Drop LinVst version, use the Windows version of Audactity and drag clips to it or drag the clip from the Beats window to outside of the Addictive Drums 2 window and then a midi file will appear (probably AD2Beat.mid) in /home/user/.wine/drive_c/users/user/My Documents/Addictive Drums 2/XXXXXX/Settings which should contain the clip and which can then be dragged to the DAW. Same thing applies for the recorded wav file (ADDrop.wav).
 
-**Steven Slate Drums SSD5** 
+**Steven Slate Drums SSD5/SSD5** 
 For the Drag-and-Drop LinVst version, dragging clips to the Daw should be ok.
 For the non Drag-and-Drop LinVst version, use the Windows version of Audactity and drag clips to it or drag the Groove/Fill from the Grooves window to outside of the SSD5 window and then a midi file will appear in /home/user/.wine/drive_c/users/user/Temp which should contain the clip and which can then be dragged to the DAW.
 
-Samples might need to be manually extracted (by using unzip).
+To install version SSD55, use the audio centre and login and install.
+SSD55 needs VCRUNTIME140_1.dll which is in vc_redist.x64.exe (vc_redist.x86.exe) which need to be installed.
 
-Install and Setup guide for SSD5
+Manual Install and Setup guide for SSD5 version
 
 Install
 
