@@ -13,6 +13,8 @@ Some problems might appear when realtime kernels are used with Wine, such as vst
 
 rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may also have some effect.
 
+A fast video card helps with Daw automation.
+
 LinVst is memory access intensive.
 
 Systems with faster memory are most likely to perform better ie (ddr4).
