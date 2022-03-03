@@ -25,7 +25,7 @@
   struct ParamState {
   float value;
   float valueupdate;
-  int changed;
+  char changed;
   };
 
 #define PARCACHE (sizeof(ParamState) * 10000)
