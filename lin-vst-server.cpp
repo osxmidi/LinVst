@@ -2490,6 +2490,10 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
     if (remoteVSTServerInstance) {
       if (!remoteVSTServerInstance->exiting &&
           remoteVSTServerInstance->effectrun) {
+#ifdef PCACHE	
+	if(index >= 10000)
+	break;	
+#endif	      
         remoteVSTServerInstance->m_shmControlptr->ropcode =
             (RemotePluginOpcode)opcode;
         remoteVSTServerInstance->m_shmControlptr->value = index;
@@ -2498,7 +2502,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
             remoteVSTServerInstance->m_shmControlptr);
         retval = 0;
         retval = remoteVSTServerInstance->m_shmControlptr->retint;
-        rv = retval;
+        rv = retval;	      
       }
     }
     break;
