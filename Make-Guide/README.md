@@ -40,11 +40,9 @@ If using the VST2 SDK then the plugininterfaces folder needs to be placed inside
 ------
 
 ## For Manjaro/Arch
-
 ```
 sudo pacman -Sy wine-staging libx11 gcc-multilib
 ```
-
 ------
 
 ## For Ubuntu/Debian
@@ -82,6 +80,8 @@ wine-devel packages for other distros (`sudo apt-get install wine-devel`).
 
 ```
 --------
+
+## To make linvstconvert
 
 The convert folder is for making the linvstconvert and linvstconverttree (navigates subfolders) utilities that name convert Windows vst dll filenames (.dll) to corresponding Linux shared library filenames (.so).
 
