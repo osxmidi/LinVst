@@ -47,6 +47,8 @@ sudo pacman -Sy wine-staging libx11 gcc-multilib
 
 ## For Ubuntu/Debian
 ```
+wine-stable and wine-stable-dev are the recommended versions to use for making LinVst.
+
 sudo apt-get install libx11-dev
 
 sudo apt-get install wine-stable-dev or sudo apt-get install wine-staging-dev
