@@ -75,24 +75,6 @@ sudo yum -y install libstdc++.i686 libX11.i686
 ```
 -------
  
-Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
-
-Additional 32 bit development libraries are probably needed.
-
-## On Ubuntu/Debian 64 bits 
-```
-sudo dpkg --add-architecture i386
-
-sudo apt-get install libc6-dev-i386
-
-sudo apt-get install gcc-multilib g++-multilib
-
-sudo apt-get install libx11-dev
-
-sudo apt-get install libx11-dev:i386
-```
------
-
 ## Other distros
 
 ```
