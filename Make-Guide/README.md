@@ -48,13 +48,24 @@ sudo pacman -Sy wine-staging libx11 gcc-multilib
 ------
 
 ## For Ubuntu/Debian
-
+```
 sudo apt-get install libx11-dev
 
 sudo apt-get install wine-stable-dev or sudo apt-get install wine-staging-dev
 
-or sudo apt-get install libwine-dev
 
+Additional 32 bit development libraries are needed for 32 bit vst's.
+
+sudo dpkg --add-architecture i386
+
+sudo apt-get install libc6-dev-i386
+
+sudo apt-get install gcc-multilib g++-multilib
+
+sudo apt-get install libx11-dev
+
+sudo apt-get install libx11-dev:i386
+```
 -------
 
 ## For Fedora 
@@ -62,7 +73,6 @@ or sudo apt-get install libwine-dev
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
 sudo yum -y install libstdc++.i686 libX11.i686
 ```
-
 -------
  
 Include and Library paths might need to be changed in the Makefile for various 64 bit and 32 bit Wine development path locations (otherwise 32 bit compiles might try to link with 64 bit libraries etc).
