@@ -93,7 +93,7 @@ use make -f Makefile-convert to make linvstconvert in main directory
 
 --------
 
-## For LinVst
+## To make LinVst
 ```
 sudo make clean
 
