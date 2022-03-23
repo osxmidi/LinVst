@@ -25,7 +25,7 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 find_program (
           WINEGPP_BIN
           NAMES wineg++
-          PATHS /usr/bin /opt/wine-stable/bin /opt/wine-devel/bin /opt/wine-staging/bin /opt/wine-stable/bin /opt/wine-devel/bin /opt/wine-staging/bin
+          PATHS /usr/bin /opt/wine-stable/bin /opt/wine-devel/bin /opt/wine-staging/bin
 )
 
 if( NOT WINEGPP_BIN )
