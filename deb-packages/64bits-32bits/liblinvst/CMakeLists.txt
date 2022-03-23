@@ -19,7 +19,7 @@ set( CMAKE_CXX_COMPILER /usr/bin/c++ )
 
 set( LINVST_SO_SRC SHARED
   ../../../linvst.cpp
-  ../../../remotevstclient.cpp
+  ../../../deb-packages/remotevstclientpkg.cpp
   ../../../remotepluginclient.cpp
   ../../../paths.cpp
   )
