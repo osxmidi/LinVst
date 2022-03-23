@@ -71,11 +71,11 @@ include_directories( ${WIN_INCLUDE} )
 add_executable( lin-vst-server32lx.exe  ${LINVST_SVR_SRC} )
 #set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS}  -m32 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DEMBEDRESIZE -DPCACHE" )
 
-set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -Wl,-L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -m32 -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DEMBEDRESIZE -DPCACHE")
+set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -Wl,-L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -m32 -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DEMBEDRESIZE -DPCACHE -DDRAGWIN")
 
 set_target_properties( lin-vst-server32lx.exe PROPERTIES LINK_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine" )
 
-target_link_libraries( lin-vst-server32lx.exe pthread rt )
+target_link_libraries( lin-vst-server32lx.exe pthread X11 rt shell32 ole32)
 
 #install( TARGETS  lin-vst-server32lx.exe DESTINATION bin )
 #install(FILES  ${PROJECT_BINARY_DIR}/bin/lin-vst-server32lx.exe.so  DESTINATION bin)
