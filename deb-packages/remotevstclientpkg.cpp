@@ -200,6 +200,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   mfile.close();
 #endif
 
+
 #ifndef VST32
 #ifdef VST6432
   if (dlltype == 2) {
@@ -251,6 +252,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   }
 
 #else
+
 #ifdef EMBED
   LinVstName = "/usr/bin/lin-vst-servertrack.exe";
 #else
@@ -262,9 +264,10 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
     cleanup();
     return;
   }
-}
 #endif
 #endif
+
+
 
 #ifdef VST32
 #ifdef EMBED
