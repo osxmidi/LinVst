@@ -96,11 +96,9 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   std::string LinVstName;
   bool test;
 
-#ifdef VST6432
   int dlltype;
   unsigned int offset;
   char buffer[256];
-#endif
 
   char hit2[4096];
 
