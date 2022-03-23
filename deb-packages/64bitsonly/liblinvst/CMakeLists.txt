@@ -13,13 +13,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ../../../)
 
 set( CMAKE_CXX_COMPILER /usr/bin/c++ )
 
 set( LINVST_SO_SRC SHARED
   ../../../linvst.cpp
-  ../../../remotevstclient.cpp
+  ../../../deb-packages/remotevstclientpkg.cpp
   ../../../remotepluginclient.cpp
   ../../../paths.cpp
   )
