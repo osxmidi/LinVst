@@ -62,8 +62,6 @@ sudo apt-get install libc6-dev-i386
 
 sudo apt-get install gcc-multilib g++-multilib
 
-sudo apt-get install libx11-dev
-
 sudo apt-get install libx11-dev:i386
 ```
 -------
