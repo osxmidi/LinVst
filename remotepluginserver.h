@@ -46,7 +46,7 @@ class RemotePluginServer {
 public:
   virtual ~RemotePluginServer();
 
-  virtual float getVersion() { return RemotePluginVersion; }
+  virtual int getVersion() = 0;
   virtual std::string getName() = 0;
   virtual std::string getMaker() = 0;
 
@@ -168,10 +168,11 @@ public:
   char *m_shm2;
   char *m_shm3;
   char *m_shm4;
-#ifdef PCACHE
   char *m_shm5;
+#ifdef PCACHE
+  char *m_shm6;
 
-  struct ParamState {
+  struct alignas(64) ParamState {
   float value;
   float valueupdate;
   char changed;
@@ -260,12 +261,12 @@ public:
   int bufferSize;
   int sampleRate;
 
-  struct vinfo {
+  struct alignas(64) vinfo {
     char a[64 + 8 + (sizeof(int32_t) * 2) + 48];
     // char a[96];
   };
   
-  struct winmessage {
+  struct alignas(64) winmessage {
     int handle;
     int width;
     int height;

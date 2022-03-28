@@ -5,24 +5,20 @@
 #ifndef REMOTE_PLUGIN_H
 #define REMOTE_PLUGIN_H
 
-#define SHMVALX 2048
-
 #define VSTSIZE 2048
 
 #ifdef CHUNKBUF
-#define CHUNKSIZEMAX 1024 * 1024
-#define CHUNKSIZE 1024 * 1024
+#define CHUNKSIZEMAX 1024 * 512
+#define CHUNKSIZE 1024 * 512
 #else
 #define CHUNKSIZEMAX 1024 * 1024 * 2
 #endif
 
-#define PROCESSSIZE (1024 * 1024 * 2)
+#define PROCESSSIZE (1024 * 768 * 2)
 #define VSTEVENTS_PROCESS (1024 * 128)
 #define VSTEVENTS_SEND (1024 * 128)
 
-#define VSTEVENTS_SEND_OFFSET (CHUNKSIZEMAX + SHMVALX)
-
-  struct ParamState {
+  struct alignas(64) ParamState {
   float value;
   float valueupdate;
   char changed;

@@ -58,7 +58,7 @@ public:
 
   std::string getFileIdentifiers();
 
-  float getVersion();
+  int getVersion();
   int getUID();
 
   std::string getName();
@@ -195,7 +195,7 @@ public:
   int handle;
   int width;
   int height;
-  struct winmessage {
+  struct alignas(64) winmessage {
     int handle;
     int width;
     int height;
@@ -225,11 +225,11 @@ public:
 
   char *m_shm3;
   char *m_shm4;
-
-#ifdef PCACHE
   char *m_shm5;
+#ifdef PCACHE
+  char *m_shm6;
 
-  struct ParamState {
+  struct alignas(64) ParamState {
   float value;
   float valueupdate;
   char changed;
@@ -252,7 +252,7 @@ public:
 #endif
 #endif
 
-  struct vinfo {
+  struct alignas(64) vinfo {
     char a[64 + 8 + (sizeof(int32_t) * 2) + 48];
     // char a[96];
   };

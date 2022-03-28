@@ -129,7 +129,7 @@ public:
       float value = getParameter(i);      
       p.value = value;  
       p.valueupdate = value;      
-      memcpy(&m_shm5[i * sizeof(ParamState)], &p, sizeof(ParamState));      
+      memcpy(&m_shm6[i * sizeof(ParamState)], &p, sizeof(ParamState));      
       }   
        
       return val;                   
@@ -173,7 +173,10 @@ public:
 
   //    virtual int         getInitialDelay() {return m_plugin->initialDelay;}
   //    virtual int         getUniqueID() { return m_plugin->uniqueID;}
-  //    virtual int         getVersion() { return m_plugin->version;}
+  virtual int getVersion() {   
+  if (m_plugin)
+  return m_plugin->version;
+  }
 
   virtual int processVstEvents();
 
@@ -1033,14 +1036,14 @@ void RemoteVSTServer::process(float **inputs, float **outputs,
                               int sampleFrames) {
 #ifdef PCACHE
 /*
-  struct ParamState {
+  struct alignas(64) ParamState {
   float value;
   float valueupdate;
   char changed;
   };
 */
    
-   ParamState *pstate = (ParamState*)remoteVSTServerInstance->m_shm5; 
+   ParamState *pstate = (ParamState*)remoteVSTServerInstance->m_shm6; 
         
    if(numpars > 0)
    {
@@ -1058,7 +1061,12 @@ void RemoteVSTServer::process(float **inputs, float **outputs,
 #endif
 
   inProcessThread = true;
+  if(m_plugin->processReplacing)
   m_plugin->processReplacing(m_plugin, inputs, outputs, sampleFrames);
+  else if(m_plugin->process)
+  {
+  m_plugin->process(m_plugin, inputs, outputs, sampleFrames);
+  }
   inProcessThread = false;
 }
 
@@ -1067,14 +1075,14 @@ void RemoteVSTServer::processdouble(double **inputs, double **outputs,
                                     int sampleFrames) {
 #ifdef PCACHE
 /*
-  struct ParamState {
+  struct alignas(64) ParamState {
   float value;
   float valueupdate;
   char changed;
   };
 */
    
-   ParamState *pstate = (ParamState*)remoteVSTServerInstance->m_shm5; 
+   ParamState *pstate = (ParamState*)remoteVSTServerInstance->m_shm6; 
         
    if(numpars > 0)
    {
@@ -1731,7 +1739,14 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
 #endif
 
   if ((haveGui == false) || (guiVisible == true))
+  {
+  winm->handle = 0;
+  winm->width = 0;
+  winm->height = 0;
+  winm->winerror = 1;
+  memcpy(m_shmControlptr->wret, winm, sizeof(winmessage));
   return;
+  }
 
   memset(&wclass, 0, sizeof(WNDCLASSEX));
   wclass.cbSize = sizeof(WNDCLASSEX);
@@ -2652,7 +2667,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
         eventnum = evnts->numEvents;
         eventnum2 = 0;  
 
-        ptr2 = (int *)&remoteVSTServerInstance->m_shm3[VSTEVENTS_SEND_OFFSET];
+        ptr2 = (int *)remoteVSTServerInstance->m_shm4;
 
         sizeidx = sizeof(int);
 
@@ -2666,8 +2681,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
           else {
             unsigned int size =
                 (2 * sizeof(VstInt32)) + evnts->events[i]->byteSize;
-            memcpy(&remoteVSTServerInstance->m_shm3[VSTEVENTS_SEND_OFFSET + sizeidx], evnts->events[i],
-                   size);
+            memcpy(&remoteVSTServerInstance->m_shm4[sizeidx], evnts->events[i], size);
             sizeidx += size;
             if((sizeidx) >= VSTEVENTS_SEND)
             break;   
@@ -3325,7 +3339,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
   cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
   cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-  cerr << "LinVst version 4.7.2" << endl;
+  cerr << "LinVst version 4.7.5" << endl;
   
   if (cmdline[0] == '\0') {
     exit(0);
@@ -3516,18 +3530,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
       FreeLibrary(libHandle);
     exit(0);
   }
-/*
-  if (!(remoteVSTServerInstance->m_plugin->flags & effFlagsCanReplacing)) {
-    cerr << "dssi-vst-server: ERROR: Plugin does not support processReplacing "
-            "(required)"
-         << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    if (libHandle)
-      FreeLibrary(libHandle);
-    exit(0);
-  }
-*/
+
+//  if (!(remoteVSTServerInstance->m_plugin->flags & effFlagsCanReplacing))
+
   if (remoteVSTServerInstance->m_plugin->flags & effFlagsHasEditor)
     remoteVSTServerInstance->haveGui = true;
   else

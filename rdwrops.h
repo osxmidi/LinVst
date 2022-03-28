@@ -12,7 +12,7 @@
 
 #include <atomic>
 
-struct amessage {
+struct alignas(64) amessage {
   int flags;
   int pcount;
   int parcount;
@@ -21,23 +21,23 @@ struct amessage {
   int delay;
 };
 
-struct vinfo {
+struct alignas(64) vinfo {
   char a[64 + 8 + (sizeof(int32_t) * 2) + 48];
   // char a[96];
 };
 
-  struct winmessage {
+  struct alignas(64) winmessage {
     int handle;
     int width;
     int height;
     int winerror;
   };
 
-#ifdef VST32
-struct alignas(32) ShmControl
-#else
+//#ifdef VST32
+//struct alignas(32) ShmControl
+//#else
 struct alignas(64) ShmControl
-#endif
+//#endif
 {
   std::atomic_int runServer;
   std::atomic_int runClient;
