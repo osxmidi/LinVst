@@ -1286,6 +1286,7 @@ int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt) {
 #ifdef TRACKTIONWM
   if (opcode == 67584930) {
     hosttracktion = 1;
+    return 0;
   }
 #endif
 #endif
