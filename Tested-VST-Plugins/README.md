@@ -16,14 +16,12 @@ A scan of the plugin dll file can be done to find out if the plugin depends on d
 
 "strings vstname.dll | grep -i d2d1"
 
-Wine (current versions) doesn't have the temp directory paths set in the registry, so importing Waves.reg in the Waves folder using regedit is probably a good idea as it sets the temp file path in the registry (for 64 bit Windows) and some plugins might need this info to install properly.
-
 
 **Kontakt Player 5.x and 6.x** (can try turning multiprocessing off for some setups).
 
 LinVst3 https://github.com/osxmidi/LinVst3 can run the Kontakt vst3 version.
 
-older versions info
+only for older versions info
 {
 Some additional dll overrides (below) might be needed for Kontakt.
 
@@ -33,7 +31,7 @@ To override a Wine dll, copy the windows dll (64 bit) to ~/.wine/drive_c/windows
 
 Native Access might need a msvcp140.dll override.
 
-Temp directory paths might need to be setup in the registry for some Native Access installs (Use regedit to import Waves.reg in the Waves folder).
+Temp directory paths might need to be setup in the registry for some Native Access installs.
 
 Native Access can abort or crash partway through a download (because Wine can have problems mounting the downloaded iso file) but the iso file has been downloaded, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
 
