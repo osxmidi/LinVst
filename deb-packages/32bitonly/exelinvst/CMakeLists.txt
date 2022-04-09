@@ -37,6 +37,8 @@ endif()
           
 set( CMAKE_CXX_COMPILER ${WINEGPP_BIN} )
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--subsystem,windows")
+
 # Find wine windows header.
 
 find_path( WIN_INCLUDE windows.h 
@@ -71,7 +73,7 @@ include_directories( ${WIN_INCLUDE} )
 add_executable( lin-vst-server32lx.exe  ${LINVST_SVR_SRC} )
 #set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS}  -m32 -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DEMBEDRESIZE -DPCACHE" )
 
-set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -Wl,--subsystem,windows,-L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -L/opt/wine-stable/lib/wine/i386-unix -L/opt/wine-devel/lib/wine/i386-unix -L/opt/wine-staging/lib/wine/i386-unix -m32 -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DEMBEDRESIZE -DPCACHE -DDRAGWIN")
+set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS}  -m32 -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DEMBEDRESIZE -DPCACHE -DDRAGWIN")
 
 set_target_properties( lin-vst-server32lx.exe PROPERTIES LINK_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -L/opt/wine-stable/lib/wine/i386-unix -L/opt/wine-devel/lib/wine/i386-unix -L/opt/wine-staging/lib/wine/i386-unix -m32" )
 
