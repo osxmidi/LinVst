@@ -10,7 +10,7 @@ The vst's will probably be installed by default to a Wine folder, something like
 
 It's also possible with most plugins to make a folder and install the windows vst's into it.
 
-Start linvstconvert and select the linvst.so file which is installed in /usr/share/LinVst/xxbit.
+Start linvstconvert (which is installed into /usr/bin) and select the linvst.so file which is installed into /usr/share/LinVst/xxbit.
 
 Point linvstconvert to the folder containing the windows vst's and hit the Start (Convert) button.
 
