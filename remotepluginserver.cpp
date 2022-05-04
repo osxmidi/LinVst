@@ -291,7 +291,7 @@ int chunkrem;
 
   ptr = (int *)m_shm;
 
-  *ptr = 475;
+  *ptr = 476;
 
   for (int i = 0; i < 400000; i++) {
     if ((*ptr == 2) || (*ptr == 3)) {
