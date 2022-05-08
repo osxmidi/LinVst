@@ -189,6 +189,14 @@ is causing some problems.
 To test the same plugin using the default wineprefix (~/.wine), delete the temporary wineprefix rm -R .my-new-prefix and then exit the Terminal used for testing and then install the plugin into the default wineprefix and set it up using linvstconvert.
 
 -------
+**Reaper/Hyperthreading**
+
+In Options/Preferences/Buffering uncheck Auto-detect the number of needed audio processing threads and set 
+Audio reading/processing threads to the amount of physical cores of the cpu (not virtual cores such as hyperthreading cores).
+
+This can help with stutters and rough audio response.
+
+Other Daws might have similar settings.
 
 **Waveform**
 
