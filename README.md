@@ -189,6 +189,7 @@ is causing some problems.
 To test the same plugin using the default wineprefix (~/.wine), delete the temporary wineprefix rm -R .my-new-prefix and then exit the Terminal used for testing and then install the plugin into the default wineprefix and set it up using linvstconvert.
 
 -------
+
 **Hyperthreading**
 
 For Reaper, in Options/Preferences/Buffering uncheck Auto-detect the number of needed audio processing threads and set 
