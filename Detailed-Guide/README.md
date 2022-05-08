@@ -1,5 +1,14 @@
 ## Latency/Performance
 
+**Hyperthreading**
+
+For Reaper, in Options/Preferences/Buffering uncheck Auto-detect the number of needed audio processing threads and set 
+Audio reading/processing threads to the amount of physical cores of the cpu (not virtual cores such as hyperthreading cores).
+
+This can help with stutters and rough audio response.
+
+Other Daws might have similar settings
+
 Some distros/hardware can result in varying latency results.
 
 LinVst has produced reasonable latency results with a low latency kernel and with realtime audio priorities setup, but results can vary from system to system.
