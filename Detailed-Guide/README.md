@@ -9,6 +9,8 @@ This can help with stutters and rough audio response.
 
 Other Daws might have similar settings
 
+---
+
 Some distros/hardware can result in varying latency results.
 
 LinVst has produced reasonable latency results with a low latency kernel and with realtime audio priorities setup, but results can vary from system to system.
