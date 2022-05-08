@@ -414,7 +414,7 @@ LRESULT WINAPI MainProc2(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 #endif
 
 DWORD WINAPI AudioThreadMain(LPVOID parameter) {
-  /*
+
       struct sched_param param;
       param.sched_priority = 1;
 
@@ -424,7 +424,7 @@ DWORD WINAPI AudioThreadMain(LPVOID parameter) {
       {
           perror("Failed to set realtime priority for audio thread");
       }
-  */
+
   while (!remoteVSTServerInstance->exiting) {
     remoteVSTServerInstance->dispatchProcess(5);
   }
@@ -513,6 +513,10 @@ XEvent xdndselect;
           perror("Failed to set realtime priority for audio thread");
       }
   */
+
+   struct sched_param param;
+   param.sched_priority = 0;
+   (void)sched_setscheduler(0, SCHED_OTHER, &param);
 
   while (!remoteVSTServerInstance->exiting) {
   
@@ -830,6 +834,17 @@ DWORD WINAPI ParThreadMain(LPVOID parameter) {
           perror("Failed to set realtime priority for audio thread");
       }
   */
+
+      struct sched_param param;
+      param.sched_priority = 1;
+
+      int result = sched_setscheduler(0, SCHED_FIFO, &param);
+
+      if (result < 0)
+      {
+          perror("Failed to set realtime priority for audio thread");
+      }
+
   while (!remoteVSTServerInstance->exiting) {
     remoteVSTServerInstance->dispatchPar(5);
   }
@@ -852,6 +867,17 @@ DWORD WINAPI ControlThreadMain(LPVOID parameter) {
           perror("Failed to set realtime priority for audio thread");
       }
   */
+
+      struct sched_param param;
+      param.sched_priority = 1;
+
+      int result = sched_setscheduler(0, SCHED_FIFO, &param);
+
+      if (result < 0)
+      {
+          perror("Failed to set realtime priority for audio thread");
+      }
+
   while (!remoteVSTServerInstance->exiting) {
     remoteVSTServerInstance->dispatchControl2(5);
   }
@@ -3340,7 +3366,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
   cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
   cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-  cerr << "LinVst version 4.7.6" << endl;
+  cerr << "LinVst version 4.7.7" << endl;
   
   if (cmdline[0] == '\0') {
     exit(0);
@@ -3390,6 +3416,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   size_t found2 = fileName.find_last_of("/");
   fileName = fileName.substr(found2 + 1, strlen(libname) - (found2 + 1));
   // SetCurrentDirectory(pathName.c_str());
+
+   struct sched_param param;
+   param.sched_priority = 0;
+   (void)sched_setscheduler(0, SCHED_OTHER, &param);
 
   remoteVSTServerInstance = 0;
 
