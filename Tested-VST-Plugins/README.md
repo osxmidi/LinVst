@@ -1,4 +1,4 @@
-## Tested vst's
+## Tested Vst's
 
 LinVst tested with Waveform, Ardour, Reaper, Renoise, Bitwig Studio (For Bitwig 2.5 and later, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
 For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins).
