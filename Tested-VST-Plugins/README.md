@@ -237,6 +237,8 @@ Setup the plugin when opened in the daw to point to /home/yourusername/SSD5Libra
 
 Performance quality and disk streaming can be setup for performance.
 
+**DrumCore 3**
+
 **BFD3 FXpansion**
 
 **Mercuriall Spark**
