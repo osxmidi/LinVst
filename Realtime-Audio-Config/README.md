@@ -38,7 +38,7 @@ add
 
 ```
 
-Also, installing the rtirq-init (rtirq for Manjaro) and irqbalance packages might be useful.
+Also, installing the rtirq-init (rtirq for Arch/EndeavourOS/Manjaro) and irqbalance packages might be useful.
 
 rtirq is enabled when threadirqs is added to grub
 
