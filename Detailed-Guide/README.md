@@ -17,6 +17,8 @@ LinVst has produced reasonable latency results with a low latency kernel and wit
 
 A low latency kernel would be the preference with realtime audio priorities setup.
 
+For Debian based distros there is the Liquorix kernel.
+
 Some Distros have realtime audio priorities setup and ready to go but some don't (see the next section on how to setup realtime audio priorities).
 Realtime audio priorities can affect audio performance.
 
