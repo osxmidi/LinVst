@@ -43,6 +43,8 @@ Wineserver can have it's priority level changed from normal to high or very high
 
 The Wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
 
+---
+
 **Set realtime audio priorities**
 
 ```
