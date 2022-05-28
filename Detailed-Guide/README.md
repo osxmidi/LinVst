@@ -45,7 +45,7 @@ The Wineserver priority can be set with wine-staging by setting the STAGING_RT_P
 
 ---
 
-**Set realtime audio priorities**
+**Set Realtime Audio Priorities**
 
 If they are not set then cpu spiking etc can occur with Kontakt and other plugins.
 
