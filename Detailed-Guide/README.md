@@ -11,18 +11,21 @@ Other Daws might have similar settings
 
 ---
 
+**Kernel/Realtime Audio Setup**
+
 Some distros/hardware can result in varying latency results.
 
-LinVst has produced reasonable latency results with a low latency kernel and with realtime audio priorities setup, but results can vary from system to system.
+LinVst has produced reasonable latency results with a low latency kernel along with realtime audio priorities also being setup/configured, but results can vary from system to system.
 
-A low latency kernel would be the preference with realtime audio priorities setup.
+Some Distros have realtime audio priorities setup/configured and ready to go but some don't (see the next section on how to setup realtime audio priorities).
 
-For Debian based distros there is the Liquorix kernel.
+Realtime audio priority setup/configuration can affect audio performance.
 
-Some Distros have realtime audio priorities setup and ready to go but some don't (see the next section on how to setup realtime audio priorities).
-Realtime audio priorities can affect audio performance.
+A low latency kernel would be the preference along with realtime audio priorities being setup/configured.
 
-Some problems might appear when realtime kernels are used with Wine, such as vst plugin windows freezing and/or frozen dialog boxes, possible poor audio performance (due to possible real time kernel thread priority incompatibilities with some windows plugins run with wine) etc.
+Some problems might appear when realtime kernels (Debian real time kernel) are used with Wine, such as vst plugin windows freezing and/or frozen dialog boxes, possible poor audio performance (due to possible real time kernel incompatibilities with some windows plugins run with wine) etc.
+
+For Debian based distros (Debian/MX Linux/Ubuntu etc) there is the Liquorix kernel.
 
 rtirq https://github.com/rncbc/rtirq (rtirq-init for Ubuntu/Debian) and irqbalance may also have some effect.
 
