@@ -44,7 +44,7 @@ Wineserver can have it's priority level changed from normal to high or very high
 The Wineserver priority can be set with wine-staging by setting the STAGING_RT_PRIORITY_SERVER environmental variable between 1 and 99, for example STAGING_RT_PRIORITY_SERVER=60
 
 ```
-Set realtime audio priorities
+**Set realtime audio priorities**
 
 If they are not set then cpu spiking can occur with Kontakt and other plugins.
 
@@ -52,7 +52,8 @@ sudo edit /etc/security/limits.conf
 
 add
 
-@audio          -       rtprio          99
+@audio - rtprio 95
+@audio - memlock unlimited
 
 ------
 
