@@ -1,4 +1,4 @@
-Some distros such as Manjaro/Mint don't seem to currently setup audio for realtime 
+Some distros such as Manjaro/Mint/Ubuntu don't seem to currently setup audio for realtime 
 
 If they are not set then cpu spiking can occur with plugins.
 
