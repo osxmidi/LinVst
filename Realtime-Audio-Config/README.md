@@ -54,6 +54,7 @@ sudo edit /etc/rtirq.conf
 or sudo edit /etc/default/rtirq
 
 #RTIRQ_NAME_LIST="snd usb i8042"
+
 RTIRQ_NAME_LIST="xhci_hcd snd usb i8042"
 
 After reboot, check rtirq status
