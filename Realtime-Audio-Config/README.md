@@ -43,12 +43,16 @@ Also, installing the rtirq-init (rtirq for Arch/EndeavourOS/Manjaro) and irqbala
 rtirq is enabled when threadirqs is added to grub
 
 sudo edit /etc/default/grub 
+
 GRUB_CMDLINE_LINUX="threadirqs"
+
 sudo update-grub or for arch based systems do a system update pacman -Syu
 
 adding "xhci_hcd" to RTIRQ_NAME_LIST in the rtirq.conf file might be needed
+
 sudo edit /etc/rtirq.conf 
 or sudo edit /etc/default/rtirq
+
 #RTIRQ_NAME_LIST="snd usb i8042"
 RTIRQ_NAME_LIST="xhci_hcd snd usb i8042"
 
