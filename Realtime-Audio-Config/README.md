@@ -40,7 +40,7 @@ add
 
 Also, installing the rtirq-init (rtirq for Arch/EndeavourOS/Manjaro) and irqbalance packages might be useful.
 
-rtirq is enabled when threadirqs is added to grub
+rtirq is enabled when threadirqs is added to grub (applies to linux-lowlatency and linux-generic kernels)
 
 sudo edit /etc/default/grub 
 
