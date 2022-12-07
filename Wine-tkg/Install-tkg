@@ -1,0 +1,37 @@
+sudo rm /usr/bin/wine
+sudo rm /usr/bin/wine64
+sudo rm /usr/bin/wine64-preloader
+sudo rm /usr/bin/wineboot
+sudo rm /usr/bin/winecfg
+sudo rm /usr/bin/wineconsole
+sudo rm /usr/bin/winefile
+sudo rm /usr/bin/winemaker
+sudo rm /usr/bin/winemine
+sudo rm /usr/bin/winepath
+sudo rm /usr/bin/wine-preloader
+sudo rm /usr/bin/wineserver
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/wine /usr/bin/wine
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/wine64 /usr/bin/wine64
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/wine64-preloader /usr/bin/wine64-preloader
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/wineboot /usr/bin/wineboot
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/winecfg /usr/bin/winecfg
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/wineconsole /usr/bin/wineconsole
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/winefile /usr/bin/winefile
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/winemaker /usr/bin/winemaker
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/winemine /usr/bin/winemine
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/winepath /usr/bin/winepath
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/wine-preloader /usr/bin/wine-preloader
+
+sudo ln -s ~/Downloads/wine-7.22-staging-tkg-amd64/bin/wineserver /usr/bin/wineserver
+
