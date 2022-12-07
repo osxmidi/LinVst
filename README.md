@@ -190,6 +190,8 @@ To test the same plugin using the default wineprefix (~/.wine), delete the tempo
 
 -------
 
+Wine tkg install instructions https://github.com/osxmidi/LinVst/tree/master/Wine-tkg
+
 **Hyperthreading**
 
 For Reaper, in Options/Preferences/Buffering uncheck Auto-detect the number of needed audio processing threads and set 
