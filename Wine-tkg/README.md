@@ -1,8 +1,8 @@
-Wine-tkg Releases at https://github.com/Kron4ek/Wine-Builds
+Wine-tkg Releases are at https://github.com/Kron4ek/Wine-Builds
 
 Wine-tkg has certain advantages over the usual WineHQ or distro Wine.
 
-Possibly, the easiest way imo to install Wine-tkg is to leave the Wine that is already installed (Wine from WineHQ or distro) where it is and just use 
+Possibly, the easiest way to install Wine-tkg is to leave the Wine that is already installed (Wine from WineHQ or distro) where it is and just use 
 symbolic links in the /usr/bin directory to point to the unarchived Wine tkg location.
 
 If say, wine-7.22-staging-tkg-amd64.tar.xz is unarchived in the Downloads folder to produce a wine-7.22-staging-tkg-amd64 folder in the Downloads folder,
