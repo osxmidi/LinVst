@@ -13,6 +13,8 @@ If Wine tkg updates to a new version (say, wine-7.23-staging-tkg-amd64) in the f
 
 For compiling (say, compiling the LinVst code) the original Wine winegcc needs to be used (left where it is) and that is also done by the Install-tkg script.
 
+If Wine gets automatically updated by the distro, then the Install-tkg script will need to be run again (winecfg might need to be run again as well).
+
 If someone wants to stop using Wine tkg and go back to the original (WineHQ, distro) Wine then Wine will need to be installed again 
 from WineHQ or the distro.
 
