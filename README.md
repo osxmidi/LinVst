@@ -44,7 +44,7 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 Native Access has switched to using Powershell and is therefore not supported by Wine at this time.
 
-An older version of Native Access can be used https://support.native-instruments.com/hc/en-us/articles/360000407909-Native-Access-1-Legacy-Installers-for-Older-Operating-Systems 
+An older version of Native Access can be used https://support.native-instruments.com/hc/en-us/articles/360000407909-Native-Access-1-Legacy-Installers-for-Older-Operating-Systems and then install tips (Kontakt etc) can be followed https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins
 
 For recommended Linux kernel and audio setup info see https://github.com/osxmidi/LinVst/blob/master/Detailed-Guide/README.md
 
