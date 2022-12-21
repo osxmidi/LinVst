@@ -4,6 +4,10 @@
 
 LinVst3 https://github.com/osxmidi/LinVst3 can run the Kontakt vst3 version.
 
+Native Access has switched to using Powershell and is therefore not supported by Wine at this time.
+
+An older version of Native Access can be used https://support.native-instruments.com/hc/en-us/articles/360000407909-Native-Access-1-Legacy-Installers-for-Older-Operating-Systems and then install tips (Kontakt etc) can be followed below. 
+
 only for older versions info
 {
 Some additional dll overrides (below) might be needed for Kontakt.
