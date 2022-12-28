@@ -8,17 +8,7 @@ Native Access has switched to using Powershell and is therefore not supported by
 
 An older version of Native Access can be used https://support.native-instruments.com/hc/en-us/articles/360000407909-Native-Access-1-Legacy-Installers-for-Older-Operating-Systems and then install tips (Kontakt etc) can be followed below. 
 
-only for older versions info
-{
-Some additional dll overrides (below) might be needed for Kontakt.
-
-Kontakt when used with Wine (Stable) 4.x needs a msvcp140.dll override whereas Kontakt used with Wine Staging 4.x doesn't. 
-
-To override a Wine dll, copy the windows dll (64 bit) to ~/.wine/drive_c/windows/system32 and then override the dll to be native by entering the dll name in the winecfg Libraries option tab.
-
-Native Access might need a msvcp140.dll override.
-
-Temp directory paths might need to be setup in the registry for some Native Access installs.
+Set the Windows version to Windows 10 using winecfg.
 
 Native Access can abort or crash partway through a download (because Wine can have problems mounting the downloaded iso file) but the iso file has been downloaded, so a manual mounting and install of the downloaded iso file or a manual unzipping and install of the downloaded zip file in ~/.wine/drive_c/users/user/Downloads is needed.
 
@@ -43,7 +33,6 @@ For Arch based distros sudo pacman -Sy gnutls lib32-gnutls samba
 Kontakt tries to install the vc redist dlls and they might not actually get installed.
 
 To install the real vc redist dlls (in a dll override way) use winetricks vcrunxxxx.
-}
 
 **Waves plugins**.
 
