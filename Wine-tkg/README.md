@@ -11,7 +11,7 @@ Then run winecfg.
 
 If Wine tkg updates to a new version (say, wine-7.23-staging-tkg-amd64) in the future then the Install-tkg script will need to be updated to the new name by replacing the "wine-7.22-staging-tkg-amd64" text with "wine-7.23-staging-tkg-amd64" and then running the Install-tkg script and then running winecfg.
 
-For compiling (say, compiling the LinVst code) the original Wine winegcc needs to be used (left where it is) and that is also done by the Install-tkg script.
+For compiling (say, compiling the LinVst code) winegcc (wineg++) uses /usr/bin/clang so clang needs to be installed.
 
 If Wine gets automatically updated by the distro, then the Install-tkg script will need to be run again (winecfg might need to be run again as well).
 
