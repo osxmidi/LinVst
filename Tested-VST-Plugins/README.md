@@ -1,6 +1,6 @@
 ## Tested Vst Plugins
 
-**Kontakt Player 5.x and 6.x** (can try turning multiprocessing off for some setups).
+**Kontakt Player 5.x and 6.x and 7.x** (can try turning multiprocessing off for some setups).
 
 LinVst3 https://github.com/osxmidi/LinVst3 can run the Kontakt 7 etc vst3 version, tested using Wine-tkg https://github.com/osxmidi/LinVst/tree/master/Wine-tkg and a DirectX 11 capable card.
 
