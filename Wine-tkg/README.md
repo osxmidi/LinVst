@@ -11,7 +11,7 @@ Then run winecfg.
 
 If Wine tkg updates to a new version in the future then the Install-tkg script will need to be updated to the new unarchived Wine-tkg folder name by replacing the "wine-8.0-rc2-staging-tkg-amd64" text with the new unarchived Wine-tkg folder name (simple text editor search and replace) and then running the Install-tkg script and then running winecfg.
 
-For compiling (say, compiling the LinVst code) winegcc (wineg++) uses /usr/bin/clang so clang needs to be installed, also lld might need to be installed for some distros, sudo pacman -Sy lld
+For compiling (say, compiling the LinVst code) Wine 8 will have been needed to be installed before the tkg version of Wine8 has been installed (and then running the Install-tkg script).
 
 If Wine gets automatically updated by the distro, then the Install-tkg script will need to be run again (winecfg might need to be run again as well).
 
