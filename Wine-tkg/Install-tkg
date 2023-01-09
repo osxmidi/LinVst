@@ -8,13 +8,13 @@ sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/wine64-preloader /usr/
 
 sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/wineboot /usr/bin/wineboot
 
-# sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winebuild /usr/bin/winebuild
+sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winebuild /usr/bin/winebuild
 
 sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winecfg /usr/bin/winecfg
 
 sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/wineconsole /usr/bin/wineconsole
 
-# sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winecpp /usr/bin/winecpp
+sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winecpp /usr/bin/winecpp
 
 sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winedbg /usr/bin/winedbg
 
@@ -22,9 +22,9 @@ sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winedump /usr/bin/wine
 
 sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winefile /usr/bin/winefile
 
-# sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/wineg++ /usr/bin/wineg++
+sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/wineg++ /usr/bin/wineg++
 
-# sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winegcc /usr/bin/winegcc
+sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winegcc /usr/bin/winegcc
 
 sudo ln -s ~/Downloads/wine-8.0-rc2-staging-tkg-amd64/bin/winemaker /usr/bin/winemaker
 
