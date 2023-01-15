@@ -1,0 +1,80 @@
+The following edited servertrack.exe allows the user to use different versions of wine for plugins located in their own wine directories. 
+It has helped me with many plugins, when they only run (well) with a specific release, as I have increasing incompatibilities 
+with the wine 6+7 releases, for example many softube, korg, old amplitube 32bit run best with wine 5.x or 6.x
+I currently have wine-staging as my main version of wine, plus four versions of wine-tkg for different purposes. 
+I have used this now for a couple of months on different *buntu machines, and it has saved me a lot of grief, 
+especially with many older projects, that no longer load properly.
+
+lin-vst-servertrack.exe
+
+How to use:
+
+    We replace the old versions of the lin-vst-servertrack.exe files with the modified script
+
+    create wine prefix and install plugin
+    WINEPREFIX=/home/foo/.wine-pluginX wine <install.exe>
+
+    link or copy a wine release into the tree (I prefer to copy to create a permanent/movable copy of the plugin)
+    cp -a /usr/local/wine-tkg-staging-fsync-git-5.10.r0.g8648971f /home/foo/.wine-pluginX/wine
+
+    Done! Just use linvst as per normal.
+
+-------------
+
+
+#!/bin/sh
+
+appname="lin-vst-servertrack.exe.so"
+
+# koala: get WINEPREFIX and WINEDIR. Use 'realpath' command to make sure we are using requested version of wine.  
+# koala: Also using a clunky 'xargs dirname' pipe to remain compatible with non-bash users. 
+# koala: You might want to make the IFS a global in the script, as I didn't account for spaces in this section.
+
+if [ -x "$WINEPREFIX/wine/bin/wine" ]; then
+    WINEDIR="$(realpath $WINEPREFIX/wine/bin/wine | xargs dirname | xargs dirname )"
+else
+   # fallback to system wine
+    WINEDIR="$(which wine | xargs realpath | xargs dirname | xargs dirname )"
+fi
+
+# koala: set the relevant binaries and paths
+# NOTE: this will only work if the directory structure follows the standard
+WINESERVER=$WINEDIR/bin/wineserver
+WINELOADER=$WINEDIR/bin/wine
+WINEDLLPATH=$WINEDIR/lib/wine
+
+# determine the application directory
+appdir=''
+case "$0" in
+  */*)
+    # $0 contains a path, use it
+    appdir=`dirname "$0"`
+    ;;
+  *)
+    # no directory in $0, search in PATH
+    saved_ifs=$IFS
+    IFS=:
+    for d in $PATH
+    do
+      IFS=$saved_ifs
+      if [ -x "$d/$appname" ]; then appdir="$d"; break; fi
+    done
+    ;;
+esac
+
+# figure out the full app path
+if [ -n "$appdir" ]; then
+    apppath="$appdir/$appname"
+    WINEDLLPATH="$appdir:$WINEDLLPATH"
+    export WINEDLLPATH
+else
+    apppath="$appname"
+fi
+
+# determine the WINELOADER
+if [ ! -x "$WINELOADER" ]; then WINELOADER="wine"; fi
+
+# and try to start the app
+exec "$WINELOADER" "$apppath" "$@"
+
+
