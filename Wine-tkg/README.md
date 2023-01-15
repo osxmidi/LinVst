@@ -26,11 +26,13 @@ Assuming that Wine (wine-8.0-rc2-amd64) has been downloaded (and unarchived in t
 
 In a terminal (which will set WINEPREFIX and PATH just for that terminal)
 
+```
 mkdir ~/.wineX
 WINEPREFIX=~/.wineX
 cp -a ~/Downloads/wine-8.0-rc2-amd64/* ~/.wineX
 export PATH=$PATH:~/.wineX/bin
 
+```
 then run winecfg in the new wineprefix
 
 WINEPREFIX and PATH can then be permanently set at startup.
