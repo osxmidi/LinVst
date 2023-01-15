@@ -18,4 +18,22 @@ If Wine tkg becomes the Wine that the user mainly uses then the distro or WineHQ
 
 If someone wants to stop using Wine tkg and go back to the original (WineHQ, distro) Wine then Wine will need to be installed again from WineHQ or the distro.
 
+---------
+
+Another way is create a new wineprefix and run Wine-tkg releases from there.
+
+Assuming that Wine (wine-8.0-rc2-amd64) has been downloaded (and unarchived in the Downloads folder) from the Wine-tkg releases site at https://github.com/Kron4ek/Wine-Builds
+
+In a terminal (which will set WINEPREFIX and PATH just for that terminal)
+
+mkdir ~/.wineX
+WINEPREFIX=~/.wineX
+cp -a ~/Downloads/wine-8.0-rc2-amd64/* ~/.wineX
+export PATH=$PATH:~/.wineX/bin
+
+then run winecfg in the new wineprefix
+
+WINEPREFIX and PATH can then be permanently set at startup.
+
+
 
