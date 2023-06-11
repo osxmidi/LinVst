@@ -46,7 +46,7 @@ sudo edit /etc/default/grub
 
 GRUB_CMDLINE_LINUX="threadirqs"
 
-sudo update-grub or for arch based systems do a system update pacman -Syu
+sudo update-grub or for arch based systems do a system update, sudo pacman -Syu
 
 adding "xhci_hcd" to RTIRQ_NAME_LIST in the rtirq.conf file might be needed
 
