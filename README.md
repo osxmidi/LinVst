@@ -68,6 +68,8 @@ The terminal output of TestVst can sometimes be used to work out what dll overri
 
 Some plugins won't run due to various problems.
 
+Flatpak Daw installations might not work with LinVst.
+
 ----
 
 To install a windows vst exe installation file use wine "path to the exe file"
