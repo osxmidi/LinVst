@@ -1751,47 +1751,7 @@ void RemoteVSTServer::eventloop()
      XNextEvent(display, &e);
 
      switch (e.type) {
-     
-     /*
-          case KeyPress:
-      if(dragwin && hostreaper)
-      {  
-      e.xkey.window = dragwin;
-      XSendEvent(display, dragwin, False, NoEventMask, (XEvent *)&e);
-      }   
-      else
-      {
-      if(parent)
-      { 
-      if(e.xkey.keycode == 65)
-      { 
-      e.xkey.window = parent;
-      XSendEvent(display, parent, False, NoEventMask, (XEvent *)&e);
-      }
-      }             
-      }    
-      break;
-      
-          case KeyRelease:
-      if(dragwin && hostreaper)
-      {  
-      e.xkey.window = dragwin;
-      XSendEvent(display, dragwin, False, NoEventMask, (XEvent *)&e);
-      }   
-      else
-      {
-      if(parent)
-      {  
-      if(e.xkey.keycode == 65)
-      { 
-      e.xkey.window = parent;
-      XSendEvent(display, parent, False, NoEventMask, (XEvent *)&e);
-      }
-      }             
-      }    
-      break;      
-     */
-     
+	     
      case ReparentNotify:
      if((e.xreparent.event == parent) && (reparentdone == 0))
      {
@@ -2277,11 +2237,11 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
   
   
 #ifdef FOCUS
-      XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | KeyPressMask | KeyReleaseMask);
-      XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask | KeyPressMask | KeyReleaseMask);
+      XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask);
 #else
-      XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask | KeyPressMask | KeyReleaseMask);
-      XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask | KeyPressMask | KeyReleaseMask);
+      XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask);
 #endif  
   
       
