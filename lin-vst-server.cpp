@@ -508,8 +508,11 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	if(wParam == WM_CREATE) 
 	{
 	remoteVSTServerInstance->chWnd = (HWND)lParam;
-    LONG_PTR val = SetWindowLongPtr(remoteVSTServerInstance->chWnd, GWLP_WNDPROC, (LONG_PTR)WinSubclassProc);
-    remoteVSTServerInstance->oldwProc = (WNDPROC)val;
+	if(remoteVSTServerInstance->chWnd)
+	{
+        LONG_PTR val = SetWindowLongPtr(remoteVSTServerInstance->chWnd, GWLP_WNDPROC, (LONG_PTR)WinSubclassProc);
+        remoteVSTServerInstance->oldwProc = (WNDPROC)val;
+        }
 	return false;
 	}
 	break;
