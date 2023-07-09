@@ -3632,7 +3632,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
   cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
   cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-  cerr << "LinVst version 5.0.0" << endl;
+  cerr << "LinVst version 4.7.8" << endl;
   
   if (cmdline[0] == '\0') {
     exit(0);
