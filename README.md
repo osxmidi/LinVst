@@ -42,7 +42,7 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 # Daw Notes
 
-Makefiles in the dragwin folder are for drag and drop from the plugin to the daw.
+Makefiles in the dragwin folder are for (possible) drag and drop from the plugin to the daw.
 Makefiles in the spacebar folder are for (possible) spacebar play/stop operation.
 
 **Hyperthreading**
