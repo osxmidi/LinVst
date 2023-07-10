@@ -36,7 +36,7 @@ Remove -DVESTIGE from the makefiles to use the VST2 SDK (by default the VST2 SDK
 
 If using the VST2 SDK then the plugininterfaces folder needs to be placed inside the LinVst main source folder.
 
-Makefiles in the dragwin folder are for drag and drop from the plugin to the daw.
+Makefiles in the dragwin folder are for (possible) drag and drop from the plugin to the daw.
 
 Makefiles in the spacebar folder are for (possible) spacebar play/stop operation.
 
