@@ -55,7 +55,7 @@ Other Daws might have similar settings.
 
 **Waveform**
 
-For Waveform, disable sandbox option for plugins.
+For Waveform, (maybe) disable sandbox option for plugins.
 
 **Bitwig**
 
