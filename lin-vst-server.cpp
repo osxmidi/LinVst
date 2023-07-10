@@ -3917,8 +3917,10 @@ else
         if (remoteVSTServerInstance->exiting)
           break;
 
-#ifndef NOTIFY          
-         if(msg.message == WM_LBUTTONDOWN)
+#ifndef NOTIFY 
+	 if(remoteVSTServerInstance->chWnd && remoteVSTServerInstance->display && remoteVSTServerInstance->child)
+	 {
+         if((msg.message == WM_LBUTTONDOWN) && (msg.hwnd == remoteVSTServerInstance->chWnd))
          {
          focusWindow = 0;
          XGetInputFocus(remoteVSTServerInstance->display,&focusWindow,&param);
@@ -3933,7 +3935,8 @@ else
 #endif                       
          XSetInputFocus(remoteVSTServerInstance->display, remoteVSTServerInstance->child, RevertToPointerRoot, CurrentTime);
          }   
-	     }
+	 }
+	 }
 #endif	      
 	     // if(msg.message == WM_NCLBUTTONDOWN)
 	     //  printf("mouse2\n");
@@ -3968,7 +3971,9 @@ else
       if(remoteVSTServerInstance->exiting)
       break;
 #ifndef NOTIFY          
-      if(msg.message == WM_LBUTTONDOWN)
+      if(remoteVSTServerInstance->chWnd && remoteVSTServerInstance->display && remoteVSTServerInstance->child)
+      {
+      if((msg.message == WM_LBUTTONDOWN) && (msg.hwnd == remoteVSTServerInstance->chWnd))
       {
       focusWindow = 0;
       XGetInputFocus(remoteVSTServerInstance->display,&focusWindow,&param);
@@ -3983,7 +3988,8 @@ else
 #endif              
       XSetInputFocus(remoteVSTServerInstance->display, remoteVSTServerInstance->child, RevertToPointerRoot, CurrentTime);
       }   
-	  }
+      }
+      }
 #endif	      
 	      
 	     // if(msg.message == WM_NCLBUTTONDOWN)
