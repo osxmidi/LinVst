@@ -30,12 +30,15 @@ To compile linvstconvert use the Makefile-convert makefile, make -f Makefile-con
 
 linvstconvert requires the gtk3 development libraries to be installed.
 
-
 For the deb package see https://github.com/osxmidi/LinVst/tree/master/deb-packages
 
 Remove -DVESTIGE from the makefiles to use the VST2 SDK (by default the VST2 SDK is not required).
 
 If using the VST2 SDK then the plugininterfaces folder needs to be placed inside the LinVst main source folder.
+
+Makefiles in the dragwin folder are for drag and drop from the plugin to the daw.
+
+Makefiles in the spacebar folder are for (possible) spacebar play/stop operation.
 
 ------
 
