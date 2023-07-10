@@ -42,7 +42,7 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 # Daw Notes
 
-Makefiles in the spacebar folder are for spacebar play/stop operation.
+Makefiles in the spacebar folder are for (possible) spacebar play/stop operation.
 
 **Hyperthreading**
 
