@@ -80,8 +80,6 @@ Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedV
 
 Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
 
------------
-
 ## Common Problems/Possible Fixes
 
 Native Access has switched to using Powershell and is therefore not supported by Wine at this time.
