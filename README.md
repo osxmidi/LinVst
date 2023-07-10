@@ -40,6 +40,48 @@ If a LinVst version error pops up then LinVst probably needs to be reinstalled t
 
 Scripts are also avaliable as an alternative to linvstconvert in the convert and manage folders and also https://github.com/Goli4thus/linvstmanage
 
+# Daw Notes
+
+Makefiles in the spacebar folder are for spacebar play/stop operation.
+
+**Hyperthreading**
+
+For Reaper, in Options/Preferences/Buffering uncheck Auto-detect the number of needed audio processing threads and set 
+Audio reading/processing threads to the amount of physical cores of the cpu (not virtual cores such as hyperthreading cores).
+
+This can help with stutters and rough audio response.
+
+Other Daws might have similar settings.
+
+**Waveform**
+
+For Waveform, disable sandbox option for plugins.
+
+**Bitwig**
+
+For Bitwig, in Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
+For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins.
+
+**Renoise**
+
+Choose the sandbox option for plugins.
+
+Sometimes a synth vst might not declare itself as a synth and Renoise might not enable it.
+
+A workaround is to install sqlitebrowser
+
+sudo add-apt-repository ppa:linuxgndu/sqlitebrowser-testing
+
+sudo apt-get update && sudo apt-get install sqlitebrowser
+
+Add the synth vst's path to VST_PATH and start Renoise to scan it.
+
+Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedVSTs_x64.db (enable hidden folders with right click in the file browser).
+
+Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
+
+-----------
+
 ## Common Problems/Possible Fixes
 
 Native Access has switched to using Powershell and is therefore not supported by Wine at this time.
@@ -197,44 +239,6 @@ To test the same plugin using the default wineprefix (~/.wine), delete the tempo
 -------
 
 Wine tkg install instructions https://github.com/osxmidi/LinVst/tree/master/Wine-tkg
-
-**Hyperthreading**
-
-For Reaper, in Options/Preferences/Buffering uncheck Auto-detect the number of needed audio processing threads and set 
-Audio reading/processing threads to the amount of physical cores of the cpu (not virtual cores such as hyperthreading cores).
-
-This can help with stutters and rough audio response.
-
-Other Daws might have similar settings.
-
-**Waveform**
-
-For Waveform, disable sandbox option for plugins.
-
-**Bitwig**
-
-For Bitwig, in Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
-For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins.
-
-**Renoise**
-
-Choose the sandbox option for plugins.
-
-Sometimes a synth vst might not declare itself as a synth and Renoise might not enable it.
-
-A workaround is to install sqlitebrowser
-
-sudo add-apt-repository ppa:linuxgndu/sqlitebrowser-testing
-
-sudo apt-get update && sudo apt-get install sqlitebrowser
-
-Add the synth vst's path to VST_PATH and start Renoise to scan it.
-
-Then exit renoise and edit the database file /home/user/.renoise/V3.1.0/ CachedVSTs_x64.db (enable hidden folders with right click in the file browser).
-
-Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table and then locate the entry for the synth vst and enable the "IsSynth" flag from "0" (false) to "1" (true) and save.
-
------------
 
 Optional Symlinks
 
