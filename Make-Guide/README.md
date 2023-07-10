@@ -106,9 +106,6 @@ sudo make install
 ```
 Installs lin-vst-serverxxxx.exe and lin-vst-serverxxxxx.exe.so to `/usr/bin` and installs linvst.so into the vst folder in the source code folder.
 
-To make the drag and drop from vst plugin to daw version, use the Makefile in the dragwin folder.
-
-See Makefile comments for define options.
 
 
 
