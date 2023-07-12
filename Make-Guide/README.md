@@ -38,8 +38,6 @@ If using the VST2 SDK then the plugininterfaces folder needs to be placed inside
 
 Makefiles in the dragwin folder are for (possible) drag and drop from the plugin to the daw.
 
-Makefiles in the spacebar folder are for (possible) spacebar play/stop operation.
-
 ------
 
 ## For Manjaro/Arch
