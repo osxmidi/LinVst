@@ -223,11 +223,6 @@ public:
   virtual Window findxdndwindow(Display* display, Window child);
 #endif  
 
-#ifdef SUBC  
-  HWND chWnd; 
-  WNDPROC oldwProc;
-#endif  
-
   HWND hWnd;
   WNDCLASSEX wclass;
 #ifdef DRAGWIN   
@@ -367,126 +362,6 @@ private:
 
 RemoteVSTServer *remoteVSTServerInstance = 0;
 
-#ifdef SUBC
-LRESULT APIENTRY WinSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
-{ 
-    switch (msg) {
-#ifndef NOTIFY			
-    case WM_KEYDOWN:			
-    {
-    WORD keyFlags = HIWORD(lParam);
-
-    if((keyFlags & KF_REPEAT) != KF_REPEAT)
-    {
-    if(wParam == VK_SPACE)
-    {
-    if(remoteVSTServerInstance->dragwin && remoteVSTServerInstance->hostreaper)
-    { 
-    XKeyEvent event;
-    event.display = remoteVSTServerInstance->display;
-    event.window = remoteVSTServerInstance->dragwin;
-    event.root = DefaultRootWindow(remoteVSTServerInstance->display);
-    event.subwindow = None;
-    event.time = CurrentTime;
-    event.x = 1;
-    event.y = 1;
-    event.x_root = 1;
-    event.y_root = 1;
-    event.same_screen = TRUE;
-    event.type = KeyPress;
-    event.keycode = 65;
-    event.state = None;
-
-    XSendEvent(event.display, event.window, False, NoEventMask, (XEvent *)&event);      
-    }         
-    else if(remoteVSTServerInstance->parent)
-    { 
-    XKeyEvent event;
-
-    event.display = remoteVSTServerInstance->display;
-    event.window = remoteVSTServerInstance->parent;
-    event.root = DefaultRootWindow(remoteVSTServerInstance->display);
-    event.subwindow = None;
-    event.time = CurrentTime;
-    event.x = 1;
-    event.y = 1;
-    event.x_root = 1;
-    event.y_root = 1;
-    event.same_screen = TRUE;
-    event.type = KeyPress;
-    event.keycode = 65;
-    event.state = None;
-
-    XSendEvent(event.display, event.window, False, NoEventMask, (XEvent *)&event);      
-    }             
-    }   
-    }
-  
-    return false;
-    }  
-
-    case WM_KEYUP:
-    {
-    WORD keyFlags = HIWORD(lParam);
-
-    if((keyFlags & KF_REPEAT) != KF_REPEAT)
-    {
-    if (wParam == VK_SPACE)
-    {
-    if(remoteVSTServerInstance->dragwin && remoteVSTServerInstance->hostreaper)
-    { 
-    XKeyEvent event;
-
-    event.display = remoteVSTServerInstance->display;
-    event.window = remoteVSTServerInstance->dragwin;
-    event.root = DefaultRootWindow(remoteVSTServerInstance->display);
-    event.subwindow = None;
-    event.time = CurrentTime;
-    event.x = 1;
-    event.y = 1;
-    event.x_root = 1;
-    event.y_root = 1;
-    event.same_screen = TRUE;
-    event.type = KeyRelease;
-    event.keycode = 65;
-    event.state = None;
-
-    XSendEvent(event.display, event.window, False, NoEventMask, (XEvent *)&event);      
-    }         
-    else if(remoteVSTServerInstance->parent)
-    { 
-    XKeyEvent event;
-
-    event.display = remoteVSTServerInstance->display;
-    event.window = remoteVSTServerInstance->parent;
-    event.root = DefaultRootWindow(remoteVSTServerInstance->display);
-    event.subwindow = None;
-    event.time = CurrentTime;
-    event.x = 1;
-    event.y = 1;
-    event.x_root = 1;
-    event.y_root = 1;
-    event.same_screen = TRUE;
-    event.type = KeyRelease;
-    event.keycode = 65;
-    event.state = None;
-
-    XSendEvent(event.display, event.window, False, NoEventMask, (XEvent *)&event);      
-    }  
-    }  
-    }        
-   
-    return false;
-    }  
- #endif   
-    default:    
-    return CallWindowProc(remoteVSTServerInstance->oldwProc, hWnd, msg, wParam, lParam); 
-    }
-    return 0;       
-} 
-
-#endif
-
 LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
     case WM_CLOSE:
@@ -502,131 +377,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     }
 #endif
     break;
-    
-#ifdef SUBC       
-    case WM_PARENTNOTIFY:
-	if(wParam == WM_CREATE) 
-	{
-	remoteVSTServerInstance->chWnd = (HWND)lParam;
-	if(remoteVSTServerInstance->chWnd)
-	{
-        LONG_PTR val = SetWindowLongPtr(remoteVSTServerInstance->chWnd, GWLP_WNDPROC, (LONG_PTR)WinSubclassProc);
-        remoteVSTServerInstance->oldwProc = (WNDPROC)val;
-        }
-	return false;
-	}
-	break;
-#endif
-
-#ifndef NOTIFY			
-    case WM_KEYDOWN:			
-    {
-    WORD keyFlags = HIWORD(lParam);
-
-    if((keyFlags & KF_REPEAT) != KF_REPEAT)
-    {
-    if(wParam == VK_SPACE)
-    {
-    if(remoteVSTServerInstance->dragwin && remoteVSTServerInstance->hostreaper)
-    { 
-    XKeyEvent event;
-    event.display = remoteVSTServerInstance->display;
-    event.window = remoteVSTServerInstance->dragwin;
-    event.root = DefaultRootWindow(remoteVSTServerInstance->display);
-    event.subwindow = None;
-    event.time = CurrentTime;
-    event.x = 1;
-    event.y = 1;
-    event.x_root = 1;
-    event.y_root = 1;
-    event.same_screen = TRUE;
-    event.type = KeyPress;
-    event.keycode = 65;
-    event.state = None;
-
-    XSendEvent(event.display, event.window, False, NoEventMask, (XEvent *)&event);      
-    }         
-    else if(remoteVSTServerInstance->parent)
-    { 
-    XKeyEvent event;
-
-    event.display = remoteVSTServerInstance->display;
-    event.window = remoteVSTServerInstance->parent;
-    event.root = DefaultRootWindow(remoteVSTServerInstance->display);
-    event.subwindow = None;
-    event.time = CurrentTime;
-    event.x = 1;
-    event.y = 1;
-    event.x_root = 1;
-    event.y_root = 1;
-    event.same_screen = TRUE;
-    event.type = KeyPress;
-    event.keycode = 65;
-    event.state = None;
-
-    XSendEvent(event.display, event.window, False, NoEventMask, (XEvent *)&event);      
-    }             
-    }   
-    }
-  
-    return false;
-    }  
-
-    case WM_KEYUP:
-    {
-    WORD keyFlags = HIWORD(lParam);
-
-    if((keyFlags & KF_REPEAT) != KF_REPEAT)
-    {
-    if (wParam == VK_SPACE)
-    {
-    if(remoteVSTServerInstance->dragwin && remoteVSTServerInstance->hostreaper)
-    { 
-    XKeyEvent event;
-
-    event.display = remoteVSTServerInstance->display;
-    event.window = remoteVSTServerInstance->dragwin;
-    event.root = DefaultRootWindow(remoteVSTServerInstance->display);
-    event.subwindow = None;
-    event.time = CurrentTime;
-    event.x = 1;
-    event.y = 1;
-    event.x_root = 1;
-    event.y_root = 1;
-    event.same_screen = TRUE;
-    event.type = KeyRelease;
-    event.keycode = 65;
-    event.state = None;
-
-    XSendEvent(event.display, event.window, False, NoEventMask, (XEvent *)&event);      
-    }         
-    else if(remoteVSTServerInstance->parent)
-    { 
-    XKeyEvent event;
-
-    event.display = remoteVSTServerInstance->display;
-    event.window = remoteVSTServerInstance->parent;
-    event.root = DefaultRootWindow(remoteVSTServerInstance->display);
-    event.subwindow = None;
-    event.time = CurrentTime;
-    event.x = 1;
-    event.y = 1;
-    event.x_root = 1;
-    event.y_root = 1;
-    event.same_screen = TRUE;
-    event.type = KeyRelease;
-    event.keycode = 65;
-    event.state = None;
-
-    XSendEvent(event.display, event.window, False, NoEventMask, (XEvent *)&event);      
-    }  
-    }  
-    }        
-   
-    return false;
-    }  
- #endif   
- 
+	    
     case WM_TIMER:
     if (remoteVSTServerInstance) 
     {
@@ -1154,10 +905,6 @@ hosttracktion(0),
       inProcessThread(false), guiVisible(false), parfin(0), audfin(0),
       getfin(0), confin(0), guiupdate(0), guiupdatecount(0), guiresizewidth(500),
       guiresizeheight(200), melda(0), hWnd(0), display(0), child(0), parent(0), pparent(0), parentok(0), reparentdone(0),
-#ifdef SUBC
-      oldwProc(0),
-      chWnd(0),  
-#endif
 #ifdef DRAGWIN
 dodragwin(0), drag_win(0), pwindow(0), window(0), xdndversion(-1), data(0), data2(0), prevx(-1), prevy(-1), dndfinish(0), dndaccept(0), dropdone(0),  proxyptr(0), winehwnd(0),
 #endif
@@ -1829,8 +1576,7 @@ void RemoteVSTServer::eventloop()
         if (e.xmap.window == child)
           mapped2 = 0;
         break;
-
-#ifdef NOTIFY
+	     
       case EnterNotify:
         //      if(reaperid)
         //        {
@@ -1850,7 +1596,6 @@ void RemoteVSTServer::eventloop()
           //    e.xcrossing.time);
              }
         break;
-#endif
 
 /*
 #ifdef FOCUS
@@ -3623,11 +3368,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
 
   HINSTANCE libHandle = 0;
   
-#ifndef NOTIFY   
-  Window focusWindow = 0;
-  int param = 0;
-#endif
-
   cerr << "DSSI VST plugin server v" << RemotePluginVersion << endl;
   cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
   cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
@@ -3916,30 +3656,6 @@ else
       for (int loopidx = 0; (loopidx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); loopidx++) {
         if (remoteVSTServerInstance->exiting)
           break;
-
-#ifndef NOTIFY 
-	 if(remoteVSTServerInstance->chWnd && remoteVSTServerInstance->display && remoteVSTServerInstance->child)
-	 {
-         if((msg.message == WM_LBUTTONDOWN) && (msg.hwnd == remoteVSTServerInstance->chWnd))
-         {
-         focusWindow = 0;
-         XGetInputFocus(remoteVSTServerInstance->display,&focusWindow,&param);
-         if(focusWindow != remoteVSTServerInstance->child)
-         {
-#ifdef DRAGWIN      
-        if(remoteVSTServerInstance->drag_win && remoteVSTServerInstance->display)   
-        {  
-        XSetSelectionOwner(remoteVSTServerInstance->display, remoteVSTServerInstance->XdndSelection, 0, CurrentTime); 
-        XSetSelectionOwner(remoteVSTServerInstance->display, remoteVSTServerInstance->XdndSelection, remoteVSTServerInstance->drag_win, CurrentTime);
-        }
-#endif                       
-         XSetInputFocus(remoteVSTServerInstance->display, remoteVSTServerInstance->child, RevertToPointerRoot, CurrentTime);
-         }   
-	 }
-	 }
-#endif	      
-	     // if(msg.message == WM_NCLBUTTONDOWN)
-	     //  printf("mouse2\n");
 	      
         if((msg.message == WM_TIMER) && (msg.wParam == 678))
         {
@@ -3970,31 +3686,6 @@ else
       while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
       if(remoteVSTServerInstance->exiting)
       break;
-#ifndef NOTIFY          
-      if(remoteVSTServerInstance->chWnd && remoteVSTServerInstance->display && remoteVSTServerInstance->child)
-      {
-      if((msg.message == WM_LBUTTONDOWN) && (msg.hwnd == remoteVSTServerInstance->chWnd))
-      {
-      focusWindow = 0;
-      XGetInputFocus(remoteVSTServerInstance->display,&focusWindow,&param);
-      if(focusWindow != remoteVSTServerInstance->child)
-      {
-#ifdef DRAGWIN      
-        if(remoteVSTServerInstance->drag_win && remoteVSTServerInstance->display)   
-        {  
-        XSetSelectionOwner(remoteVSTServerInstance->display, remoteVSTServerInstance->XdndSelection, 0, CurrentTime); 
-        XSetSelectionOwner(remoteVSTServerInstance->display, remoteVSTServerInstance->XdndSelection, remoteVSTServerInstance->drag_win, CurrentTime);
-        }
-#endif              
-      XSetInputFocus(remoteVSTServerInstance->display, remoteVSTServerInstance->child, RevertToPointerRoot, CurrentTime);
-      }   
-      }
-      }
-#endif	      
-	      
-	     // if(msg.message == WM_NCLBUTTONDOWN)
-	     //  printf("mouse2\n");
-	      
 	      
         if((msg.message == WM_TIMER) && (msg.wParam == 678))
         {
