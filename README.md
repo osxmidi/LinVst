@@ -106,6 +106,8 @@ TestVst can also be used to test dll overrides (wine dll's that are replaced by 
 
 The terminal output of TestVst can sometimes be used to work out what dll override might be needed (if wine dll unimplemented function errors appear in the terminal output for instance).
 
+An "X Error of failed request:  GLXBadFBConfig" error might need export MESA_GL_VERSION_OVERRIDE=4.5
+
 Some plugins won't run due to various problems.
 
 Flatpak Daw installations might not work with LinVst.
