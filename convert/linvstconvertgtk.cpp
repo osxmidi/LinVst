@@ -5,6 +5,7 @@
    #include <gtk/gtk.h>
    #include <string.h>
    #include <fts.h>
+   #include <bits/stdc++.h>
 
    gchar *folderpath;
    gchar *filepath;
@@ -14,12 +15,30 @@
    int filecopy = 0;
 
    int intimer = 0;
+   int vst2filehit = 0;
+
+   size_t find_last(std::string searchstr, std::string searcharg)
+   {
+   size_t foundret = 0;
+   size_t found = searchstr.find(searcharg, 0);
+   foundret = found;
+ 
+   while(found != std::string::npos)
+   {
+   found += searcharg.size();
+   found = searchstr.find(searcharg, found);
+   if(found != std::string::npos)
+   foundret = found;
+   }
+   return foundret;
+   }
 
    int doconvert(char *linvst, char folder[])
    {
    DIR *dirlist;
    struct dirent *dentry;
    std::string convertname;
+   std::string convertnamecase;
    std::string cfolder;
    char *folderpath[] = {folder, 0};
 
@@ -48,33 +67,31 @@
     else if (node->fts_info & FTS_F) 
     convertname = node->fts_path;
     else continue;
-   
-    if(convertname.find(".dll") != std::string::npos)
-    {
-    convertname.replace(convertname.begin() + convertname.find(".dll"), convertname.end(), ".so");
-    }
-    else if(convertname.find(".Dll") != std::string::npos)
-    {
-    convertname.replace(convertname.begin() + convertname.find(".Dll"), convertname.end(), ".so");
-    }
-    else if(convertname.find(".DLL") != std::string::npos)
-    {
-    convertname.replace(convertname.begin() + convertname.find(".DLL"), convertname.end(), ".so");
-    }
-    else
-    continue;
+    convertnamecase = convertname;
+    transform(convertnamecase.begin(), convertnamecase.end(), convertnamecase.begin(), ::tolower);
+	vst2filehit = 0;
 
+    if(convertnamecase.find(".dll") != std::string::npos)
+	{
+    int fulllength = strlen(convertnamecase.c_str());
+    if((convertnamecase[fulllength - 1] == 'l') && (convertnamecase[fulllength - 2] == 'l') && (convertnamecase[fulllength - 3] == 'd') && (convertnamecase[fulllength - 4] == '.'))
+    {    
+    size_t position = find_last(convertnamecase, ".dll");
+    if(position != 0)
+    convertname.replace(convertname.begin() + position, convertname.end(), ".so");
+    vst2filehit = 1;
+	}	
+    }
+
+	if(vst2filehit == 1)
+	{
     std::string sourcename = linvst;
-
-    std::ifstream source(sourcename.c_str(), std::ios::binary);
-      
+    std::ifstream source(sourcename.c_str(), std::ios::binary);      
     std::ofstream dest(convertname.c_str(), std::ios::binary);
-
     dest << source.rdbuf();
-
     source.close();
-    dest.close();
-        
+    dest.close();	
+	}		        
     }
 
    if(fs)
