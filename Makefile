@@ -20,7 +20,7 @@ BUILD_FLAGS_WIN32 = -m32 -fPIC -O2 -DVST6432 -DEMBED -DEMBEDDRAG -DWAVES -DTRACK
 
 LINK_FLAGS   = $(LDFLAGS)
 
-LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
+LINK_PLUGIN = -shared -lpthread -ldl -lX11 $(LINK_FLAGS)
 LINK_WINE = -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/opt/wine-stable/lib64/wine/x86_64-unix -L/opt/wine-devel/lib64/wine/x86_64-unix -L/opt/wine-staging/lib64/wine/x86_64-unix -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lX11 -lrt -lshell32  -lole32 $(LINK_FLAGS)
 LINK_WINE32 = -m32 -L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -L/opt/wine-stable/lib/wine/i386-unix -L/opt/wine-devel/lib/wine/i386-unix -L/opt/wine-staging/lib/wine/i386-unix -L/usr/lib/i386-linux-gnu/wine-development -lpthread -lX11 -lrt -lshell32 -lole32 $(LINK_FLAGS)
 
