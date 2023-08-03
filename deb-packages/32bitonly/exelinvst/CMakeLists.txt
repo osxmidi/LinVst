@@ -77,7 +77,7 @@ set_target_properties( lin-vst-server32lx.exe PROPERTIES COMPILE_FLAGS " ${CMAKE
 
 set_target_properties( lin-vst-server32lx.exe PROPERTIES LINK_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/wine-stable/lib/wine -L/opt/wine-devel/lib/wine -L/opt/wine-staging/lib/wine -L/opt/wine-stable/lib/wine/i386-unix -L/opt/wine-devel/lib/wine/i386-unix -L/opt/wine-staging/lib/wine/i386-unix -m32" )
 
-target_link_libraries( lin-vst-server32lx.exe pthread X11 rt shell32 ole32)
+target_link_libraries( lin-vst-server32lx.exe pthread X11 shell32 ole32)
 
 #install( TARGETS  lin-vst-server32lx.exe DESTINATION bin )
 #install(FILES  ${PROJECT_BINARY_DIR}/bin/lin-vst-server32lx.exe.so  DESTINATION bin)
