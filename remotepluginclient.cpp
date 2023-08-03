@@ -858,7 +858,7 @@ void RemotePluginClient::cleanup() {
   }
 
   if (m_shmFileName) {
-    shm_unlink(m_shmFileName);
+    unlink(m_shmFileName);
     free(m_shmFileName);
     m_shmFileName = 0;
   }
