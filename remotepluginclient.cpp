@@ -640,13 +640,18 @@ m_threadbreakexitembed(0),
 
   srand(time(NULL));
 
-  sprintf(tmpFileBase, "/vstrplugin_shm_XXXXXX");
-  m_shmFd = shm_mkstemp(tmpFileBase);
-  if (m_shmFd < 0) {
+  sprintf(tmpFileBase, "/tmp/rplugin_shm_XXXXXX");
+  if (mkstemp(tmpFileBase) < 0) {
     cleanup();
-    throw((std::string) "Failed to open or create shared memory file");
+	throw((std::string)"Failed to obtain temporary filename");
   }
   m_shmFileName = strdup(tmpFileBase);
+
+  m_shmFd = open(m_shmFileName, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+  if (m_shmFd < 0) {
+     cleanup();
+	 throw((std::string)"Failed to open or create shared memory file");
+  }
 
   if (sizeShm()) {
     cleanup();
