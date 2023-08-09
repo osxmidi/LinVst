@@ -642,20 +642,26 @@ m_threadbreakexitembed(0),
 
   sprintf(tmpFileBase, "/tmp/rplugin_shm_XXXXXX");
   if (mkstemp(tmpFileBase) < 0) {
+    m_runok = 1;
     cleanup();
-	throw((std::string)"Failed to obtain temporary filename");
+    return;
+//	throw((std::string)"Failed to obtain temporary filename");
   }
   m_shmFileName = strdup(tmpFileBase);
 
   m_shmFd = open(m_shmFileName, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
   if (m_shmFd < 0) {
-     cleanup();
-	 throw((std::string)"Failed to open or create shared memory file");
+    m_runok = 1;
+    cleanup();
+    return;
+//	 throw((std::string)"Failed to open or create shared memory file");
   }
 
   if (sizeShm()) {
+    m_runok = 1;
     cleanup();
-    throw((std::string) "Failed to mmap shared memory file");
+    return;
+//    throw((std::string) "Failed to mmap shared memory file");
   }
 }
 
@@ -699,7 +705,7 @@ void RemotePluginClient::syncStartup() {
   ptr = (int *)m_shm;
 
   for (int i = 0; i < 400000; i++) {
-    if (*ptr == 478) {
+    if (*ptr == 490) {
       startok = 1;
       break;
     }
@@ -766,8 +772,10 @@ void RemotePluginClient::syncStartup() {
 
   if (pthread_create(&m_AMThread, NULL, RemotePluginClient::callAMThread,
                      this) != 0) {
+    m_runok = 1;
     cleanup();
-    throw((std::string) "Failed to initialize thread");
+    return;
+//    throw((std::string) "Failed to initialize thread");
   }
 
   startok = 0;

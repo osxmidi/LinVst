@@ -94,6 +94,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   Dl_info info;
   std::string dllName;
   std::string LinVstName;
+  std::string LinVstNameso;
   bool test;
 
   int dlltype;
@@ -200,227 +201,61 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   mfile.close();
 #endif
 
-#ifndef VST32
 #ifdef VST6432
-#ifdef TRACKTIONWM
-  if (dlltype == 2) {
-#ifdef EMBED
-#ifdef BITWIG
-    LinVstName = BIN_DIR "/lin-vst-servertrack32-bw.exe";
-#else
-    LinVstName = BIN_DIR "/lin-vst-servertrack32.exe";
-#endif
-#else
-    LinVstName = BIN_DIR "/lin-vst-servertrack32st.exe";
-#endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test) {
-      m_runok = 1;
-      cleanup();
-      return;
-    }
-#ifdef EMBED
-#ifdef BITWIG
-    LinVstName = BIN_DIR "/lin-vst-servertrack32-bw.exe.so";
-#else
-    LinVstName = BIN_DIR "/lin-vst-servertrack32.exe.so";
-#endif
-#else
-    LinVstName = BIN_DIR "/lin-vst-servertrack32st.exe.so";
-#endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test) {
-      m_runok = 1;
-      cleanup();
-      return;
-    }
-  } else {
-#ifdef EMBED
-#ifdef BITWIG
-    LinVstName = BIN_DIR "/lin-vst-servertrack-bw.exe";
-#else
-    LinVstName = BIN_DIR "/lin-vst-servertrack.exe";
-#endif
-#else
-    LinVstName = BIN_DIR "/lin-vst-servertrackst.exe";
-#endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test) {
-      m_runok = 1;
-      cleanup();
-      return;
-    }
-#ifdef EMBED
-#ifdef BITWIG
-    LinVstName = BIN_DIR "/lin-vst-servertrack-bw.exe.so";
-#else
-    LinVstName = BIN_DIR "/lin-vst-servertrack.exe.so";
-#endif
-#else
-    LinVstName = BIN_DIR "/lin-vst-servertrackst.exe.so";
-#endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test) {
-      m_runok = 1;
-      cleanup();
-      return;
-    }
-  }
-#else
-  if (dlltype == 2) {
-#ifdef EMBED
-#ifdef BITWIG
-    LinVstName = BIN_DIR "/lin-vst-server32-bw.exe";
-#else
+  if (dlltype == 2)
+   {
     LinVstName = BIN_DIR "/lin-vst-server32.exe";
-#endif
-#else
-    LinVstName = BIN_DIR "/lin-vst-server32st.exe";
-#endif
+    LinVstNameso = BIN_DIR "/lin-vst-server32.exe.so";
+   }
+  else
+   {
+    LinVstName = BIN_DIR "/lin-vst-server.exe";
+    LinVstNameso = BIN_DIR "/lin-vst-server.exe.so";
+   }
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
       m_runok = 1;
       cleanup();
       return;
     }
-#ifdef EMBED
-#ifdef BITWIG
-    LinVstName = BIN_DIR "/lin-vst-server32-bw.exe.so";
+    test = std::ifstream(LinVstNameso.c_str()).good();
+    if (!test) {
+      m_runok = 1;
+      cleanup();
+      return;
+    }
 #else
-    LinVstName = BIN_DIR "/lin-vst-server32.exe.so";
-#endif
-#else
-    LinVstName = BIN_DIR "/lin-vst-server32st.exe.so";
-#endif
+#ifdef VST32
+    LinVstName = BIN_DIR "/lin-vst-server32lx.exe";
+    LinVstNameso = BIN_DIR "/lin-vst-server32lx.exe.so";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
       m_runok = 1;
       cleanup();
       return;
     }
-  } else {
-#ifdef EMBED
-#ifdef BITWIG
-    LinVstName = BIN_DIR "/lin-vst-server-bw.exe";
+    test = std::ifstream(LinVstNameso.c_str()).good();
+    if (!test) {
+      m_runok = 1;
+      cleanup();
+      return;
+    }
 #else
     LinVstName = BIN_DIR "/lin-vst-server.exe";
-#endif
-#else
-    LinVstName = BIN_DIR "/lin-vst-serverst.exe";
-#endif
+    LinVstNameso = BIN_DIR "/lin-vst-server.exe.so";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test) {
       m_runok = 1;
       cleanup();
       return;
     }
-#ifdef EMBED
-#ifdef BITWIG
-    LinVstName = BIN_DIR "/lin-vst-server-bw.exe.so";
-#else
-    LinVstName = BIN_DIR "/lin-vst-server.exe.so";
-#endif
-#else
-    LinVstName = BIN_DIR "/lin-vst-serverst.exe.so";
-#endif
-    test = std::ifstream(LinVstName.c_str()).good();
+   test = std::ifstream(LinVstNameso.c_str()).good();
     if (!test) {
       m_runok = 1;
       cleanup();
       return;
     }
-  }
 #endif
-#else
-#ifdef TRACKTIONWM
-#ifdef EMBED
-#ifdef BITWIG
-  LinVstName = BIN_DIR "/lin-vst-servertrack-bw.exe";
-#else
-  LinVstName = BIN_DIR "/lin-vst-servertrack.exe";
-#endif
-#else
-  LinVstName = BIN_DIR "/lin-vst-servertrackst.exe";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#ifdef EMBED
-#ifdef BITWIG
-  LinVstName = BIN_DIR "/lin-vst-servertrack-bw.exe.so";
-#else
-  LinVstName = BIN_DIR "/lin-vst-servertrack.exe.so";
-#endif
-#else
-  LinVstName = BIN_DIR "/lin-vst-servertrackst.exe.so";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#else
-#ifdef EMBED
-#ifdef BITWIG
-  LinVstName = BIN_DIR "/lin-vst-server-bw.exe";
-#else
-  LinVstName = BIN_DIR "/lin-vst-server.exe";
-#endif
-#else
-  LinVstName = BIN_DIR "/lin-vst-serverst.exe";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#ifdef EMBED
-#ifdef BITWIG
-  LinVstName = BIN_DIR "/lin-vst-server-bw.exe.so";
-#else
-  LinVstName = BIN_DIR "/lin-vst-server.exe.so";
-#endif
-#else
-  LinVstName = BIN_DIR "/lin-vst-serverst.exe.so";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#endif
-#endif
-#endif
-
-#ifdef VST32
-#ifdef EMBED
-  LinVstName = BIN_DIR "/lin-vst-server32lx.exe";
-#else
-  LinVstName = BIN_DIR "/lin-vst-server32lxst.exe";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#ifdef EMBED
-  LinVstName = BIN_DIR "/lin-vst-server32lx.exe.so";
-#else
-  LinVstName = BIN_DIR "/lin-vst-server32lxst.exe.so";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
 #endif
 
   hit2[0] = '\0';
@@ -456,147 +291,39 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
     cleanup();
     return;
   } else if (child == 0) {
-// for (int fd=3; fd<256; fd++) (void) close(fd);
-/*
-int maxfd=sysconf(_SC_OPEN_MAX);
-for(int fd=3; fd<maxfd; fd++)
-    close(fd);
-*/
-#ifndef VST32
 #ifdef VST6432
-#ifdef TRACKTIONWM
-    if (dlltype == 2) {
-      m_386run = 1;
-#ifdef EMBED
-#ifdef BITWIG
-      if (execlp(BIN_DIR "/lin-vst-servertrack32-bw.exe",
-                 BIN_DIR "/lin-vst-servertrack32-bw.exe", argStr, NULL))
-#else
-      if (execlp(BIN_DIR "/lin-vst-servertrack32.exe",
-                 BIN_DIR "/lin-vst-servertrack32.exe", argStr, NULL))
-#endif
-#else
-      if (execlp(BIN_DIR "/lin-vst-servertrack32st.exe",
-                 BIN_DIR "/lin-vst-servertrack32st.exe", argStr, NULL))
-#endif
-      {
-        m_runok = 1;
-        cleanup();
-        return;
-      }
-    } else {
-#ifdef EMBED
-#ifdef BITWIG
-      if (execlp(BIN_DIR "/lin-vst-servertrack-bw.exe",
-                 BIN_DIR "/lin-vst-servertrack-bw.exe", argStr, NULL))
-#else
-      if (execlp(BIN_DIR "/lin-vst-servertrack.exe",
-                 BIN_DIR "/lin-vst-servertrack.exe", argStr, NULL))
-#endif
-#else
-      if (execlp(BIN_DIR "/lin-vst-servertrackst.exe",
-                 BIN_DIR "/lin-vst-servertrackst.exe", argStr, NULL))
-#endif
-      {
-        m_runok = 1;
-        cleanup();
-        return;
-      }
-    }
-#else
-    if (dlltype == 2) {
-      m_386run = 1;
-#ifdef EMBED
-#ifdef BITWIG
-      if (execlp(BIN_DIR "/lin-vst-server32-bw.exe",
-                 BIN_DIR "/lin-vst-server32-bw.exe", argStr, NULL))
-#else
-      if (execlp(BIN_DIR "/lin-vst-server32.exe",
-                 BIN_DIR "/lin-vst-server32.exe", argStr, NULL))
-#endif
-#else
-      if (execlp(BIN_DIR "/lin-vst-server32st.exe",
-                 BIN_DIR "/lin-vst-server32st.exe", argStr, NULL))
-#endif
-      {
-        m_runok = 1;
-        cleanup();
-        return;
-      }
-    } else {
-#ifdef EMBED
-#ifdef BITWIG
-      if (execlp(BIN_DIR "/lin-vst-server-bw.exe",
-                 BIN_DIR "/lin-vst-server-bw.exe", argStr, NULL))
-#else
-      if (execlp(BIN_DIR "/lin-vst-server.exe", BIN_DIR "/lin-vst-server.exe",
-                 argStr, NULL))
-#endif
-#else
-      if (execlp(BIN_DIR "/lin-vst-serverst.exe",
-                 BIN_DIR "/lin-vst-serverst.exe", argStr, NULL))
-#endif
-      {
-        m_runok = 1;
-        cleanup();
-        return;
-      }
-    }
-#endif
-#else
-#ifdef TRACKTIONWM
-#ifdef EMBED
-#ifdef BITWIG
-    if (execlp(BIN_DIR "/lin-vst-servertrack-bw.exe",
-               BIN_DIR "/lin-vst-servertrack-bw.exe", argStr, NULL))
-#else
-    if (execlp(BIN_DIR "/lin-vst-servertrack.exe",
-               BIN_DIR "/lin-vst-servertrack.exe", argStr, NULL))
-#endif
-#else
-    if (execlp(BIN_DIR "/lin-vst-servertrackst.exe",
-               BIN_DIR "/lin-vst-servertrackst.exe", argStr, NULL))
-#endif
-    {
+      if(dlltype == 2)
+      {    
+      if (execlp(BIN_DIR "/lin-vst-server32.exe", BIN_DIR "/lin-vst-server32.exe", argStr, NULL)) {
       m_runok = 1;
       cleanup();
       return;
-    }
-#else
-#ifdef EMBED
-#ifdef BITWIG
-    if (execlp(BIN_DIR "/lin-vst-server-bw.exe",
-               BIN_DIR "/lin-vst-server-bw.exe", argStr, NULL))
-#else
-    if (execlp(BIN_DIR "/lin-vst-server.exe", BIN_DIR "/lin-vst-server.exe",
-               argStr, NULL))
-#endif
-#else
-    if (execlp(BIN_DIR "/lin-vst-serverst.exe", BIN_DIR "/lin-vst-serverst.exe",
-               argStr, NULL))
-#endif
-    {
+      }   
+      }
+      else
+      {
+      if (execlp(BIN_DIR "/lin-vst-server.exe", BIN_DIR "/lin-vst-server.exe", argStr, NULL)) {
       m_runok = 1;
       cleanup();
       return;
-    }
-#endif
-#endif
-#else
-#ifdef EMBED
-    if (execlp(BIN_DIR "/lin-vst-server32lx.exe",
-               BIN_DIR "/lin-vst-server32lx.exe", argStr, NULL))
-#else
-    if (execlp(BIN_DIR "/lin-vst-server32lxst.exe",
-               BIN_DIR "/lin-vst-server32lxst.exe", argStr, NULL))
-#endif
-    {
+	  }   
+      }
+#else					
+#ifdef VST32 
+      if (execlp(BIN_DIR "/lin-vst-server32lx", BIN_DIR "/lin-vst-server32lx.exe", argStr, NULL)) {
       m_runok = 1;
       cleanup();
       return;
-    }
+	  }  
+#else
+      if (execlp(BIN_DIR "/lin-vst-server.exe", BIN_DIR "/lin-vst-server.exe", argStr, NULL)) {
+      m_runok = 1;
+      cleanup();
+      return;
+	  }  
+#endif					
 #endif
-  }
+     }                                       
   syncStartup();
 }
 

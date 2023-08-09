@@ -15,7 +15,7 @@ VST_DIR = ./vst
 
 BUILD_FLAGS = -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DEMBEDRESIZE -DPCACHE -DBIN_DIR='"$(BIN_DIR)"' $(CXX_FLAGS)
 
-BUILD_FLAGS_WIN = -m64 -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DEMBEDRESIZE -DPCACHE -DBIN_DIR='"$(BIN_DIR)"' -I/opt/wine-staging/include/wine/windows -I/opt/wine-stable/include/wine/windows -I/opt/wine-devel/include/wine/windows -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows
+BUILD_FLAGS_WIN = -m64 -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DEMBEDRESIZE -DPCACHE -I/opt/wine-staging/include/wine/windows -I/opt/wine-stable/include/wine/windows -I/opt/wine-devel/include/wine/windows -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows
 
 LINK_FLAGS   = $(LDFLAGS)
 
@@ -24,7 +24,7 @@ LINK_WINE = -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wi
 
 PATH_TO_FILE = /usr/include/bits
 
-TARGETS     = linvst.so lin-vst-servertrack.exe
+TARGETS     = linvst.so lin-vst-server.exe
 
 PATH := $(PATH):/opt/wine-stable/bin:/opt/wine-devel/bin:/opt/wine-staging/bin
 
@@ -36,7 +36,7 @@ all: $(TARGETS)
 linvst.so: linvst.unix.o remotevstclient.unix.o remotepluginclient.unix.o paths.unix.o
 	$(CXX) $^ $(LINK_PLUGIN) -o $@
 	
-lin-vst-servertrack.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
+lin-vst-server.exe: lin-vst-server.wine.o remotepluginserver.wine.o paths.wine.o
 	$(WINECXX) $^ $(LINK_WINE) -o $@
 
 # --------------------------------------------------------------
@@ -72,5 +72,5 @@ install:
 	install -d $(BIN_DIR)
 	install -d $(VST_DIR)
 	install -m 755 linvst.so $(VST_DIR)
-	install -m 755 lin-vst-servertrack.exe lin-vst-servertrack.exe.so $(BIN_DIR)
+	install -m 755 lin-vst-server.exe lin-vst-server.exe.so $(BIN_DIR)
 
