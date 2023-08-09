@@ -46,6 +46,7 @@ std::vector<std::string> Paths::getPath(std::string envVar, std::string deflt,
 
 // Behaves like mkstemp, but for shared memory.
 int shm_mkstemp(char *fileBase) {
+  /*
   const char charSet[] = "abcdefghijklmnopqrstuvwxyz"
                          "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                          "0123456789";
@@ -73,4 +74,5 @@ int shm_mkstemp(char *fileBase) {
       return -1;
     }
   }
+*/
 }
