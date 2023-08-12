@@ -244,7 +244,7 @@ Serum needs Wine Staging to register.
 
 **FM8** (might need the standalone FM8 to be run first so that the plugin's file browser files appear)
 
-**Line 6 Helix Native** (msvcr120.dll and gdiplus.dll overrides or winetricks vcrun2013 gdiplus wininet) (copy and paste username and password into the registration window)
+**Line 6 Helix Native** (maybe needed, msvcr120.dll and gdiplus.dll overrides or winetricks vcrun2013 gdiplus wininet) (copy and paste username and password into the registration window)
 
 **S-Gear Amp Sim**
 
