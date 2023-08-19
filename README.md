@@ -257,3 +257,58 @@ The /home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins vst2 p
 Then the Daw needs to have the /home/your-user-name/vst2 folder included in it's search path.
 
 When the Daw scans the /home/your-user-name/vst2 folder it should also automatically scan the /home/your-user-name/.wine/drive_c/Program Files/Steinberg/VSTPlugins folder that contains the vst2 plugins (that have been previously setup by using linvstconvert).
+
+------
+
+Wine Config
+
+LinVst expects wine to be found in /usr/bin.
+
+Sometimes usernames and passwords might need to be copied and pasted into the window because manual entry might not work in all cases.
+
+Sometimes a windows vst needs a Wine dll override.
+
+Finding out what dll's to possibly override can be done by running "strings vstname.dll | grep -i dll", which will display a list of dll's from the plugins dll file.
+
+For instance, if the dll list contains d2d1.dll and there are problems running the plugin, then d2d1 might possibly be a candidate to override or disable.
+
+If the Wine debugger displays "unimplemented function in XXXX.dll" somewhere in it's output, then that dll usually needs to be overriden with a windows dll.
+
+Overriding a dll involves copying the windows dll to a wine windows directory and then running winecfg to configure wine to override the dll.
+
+64 bit .dlls are copied to /home/username/.wine/drive_c/windows/system32 
+
+32 bit .dlls are copied to /home/username/.wine/drive_c/windows/syswow64
+
+Run winecfg and select the Libraries tab and then select the dll to override from the list or type the name.
+
+After adding the dll, check with the edit option that the dll's settings are native first and then builtin.
+
+https://www.winehq.org/docs/wineusr-guide/config-wine-main
+
+Sometimes required dll's might be missing and additional windows redistributable packages might need to be installed.
+
+Some windows vst's use D3D, and Wine uses Linux OpenGL to implement D3D, so a capable Linux OpenGL driver/setup might be required for some windows vst's.
+
+Disabling d2d1 in the Libraries section of winecfg might help with some windows vst's.
+
+Some D3D dll overrides might be needed for some windows vst's.
+
+D3D/OpenGL Wine config advice can be found at gaming forums and other forums.
+
+Additional dll's (dll overrides) might have to be added to Wine for some Windows vst's to work.
+
+Winetricks might help with some plugins https://github.com/Winetricks/winetricks
+
+Some plugins might use wininet for internet connections (online registration, online help, etc) which might cause problems depending on Wines current implementation.
+
+Running winetricks wininet and/or installing winbind and libntlm0 for a distro (sudo apt-get install winbind, sudo apt-get install libntlm0) might help (wininet and it's associated dll's can also be manually installed as dll overrides).
+
+Turning off the vst's multiprocessor support and/or GPU acceleration might help in some cases, due to what features Wine currently supports (Wine version dependent).
+
+On some slower systems Wine can initially take a long time to load properly when Wine is first used, which might cause a LinVst crash.
+The solution is to initialise Wine first by running winecfg or any other Wine based program, so that Wine has been initialised before LinVst is used.
+
+Upgrading to the latest wine-stable version is recommended.
+
+------
