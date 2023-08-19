@@ -217,6 +217,9 @@ Performance quality and disk streaming can be setup for performance.
 
 **BFD3 FXpansion**
 
+**ModoDrum**
+Midi Grooves are in ~/.wine/drive_c/Program Files/IK Multimedia/MODO DRUM
+
 **Mercuriall Spark**
 Real Time kernels can interfere with Mercuriall Spark's thread priorities resulting in poor performance.
 Low Latency kernels seem ok.
