@@ -111,6 +111,7 @@ Performance quality and disk streaming can be setup for performance.
 
 **ModoDrum**
 Midi Grooves are in ~/.wine/drive_c/Program Files/IK Multimedia/MODO DRUM
+Dragging grooves to Daw tracks works with LinVst drag and drop version if te Daw supports it.
 
 **Mercuriall Spark**
 Real Time kernels can interfere with Mercuriall Spark's thread priorities resulting in poor performance.
