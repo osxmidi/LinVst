@@ -84,11 +84,11 @@ wine-devel packages for other distros (`sudo apt-get install wine-devel`).
 
 ## To make linvstconvert
 
-The convert folder is for making the linvstconvert and linvstconverttree (navigates subfolders) utilities that name convert Windows vst dll filenames (.dll) to corresponding Linux shared library filenames (.so).
+The convert folder is for making linvstconvert that name convert Windows vst dll filenames (.dll) to corresponding Linux shared library filenames (.so).
 
 The makegtk etc files in the convert folder contain simple commands for making the convert utilities.
 
-A -no-pie option might be needed on some systems for the linvstconvert and linvstconverttree utilities icons to appear.
+A -no-pie option might be needed on some systems for the linvstconvert icon to appear.
 
 use make -f Makefile-convert to make linvstconvert in main directory
 
