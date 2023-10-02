@@ -53,7 +53,7 @@
    return 1;
    }
 
-   FTS *fs = fts_open(folderpath, FTS_NOCHDIR, 0);
+   FTS *fs = fts_open(folderpath, FTS_NOCHDIR | FTS_LOGICAL, 0);
    if (!fs) 
    {
    return 1;
