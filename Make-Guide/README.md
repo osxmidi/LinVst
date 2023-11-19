@@ -40,7 +40,7 @@ Makefiles in the dragwin folder are for (possible) drag and drop from the plugin
 
 ------
 
-## For Manjaro/Arch
+## For Manjaro/EndeavourOS/Arch
 ```
 sudo pacman -Sy wine-staging libx11 gcc-multilib
 ```
