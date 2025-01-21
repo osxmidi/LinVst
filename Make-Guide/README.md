@@ -37,6 +37,8 @@ Remove -DVESTIGE from the makefiles to use the VST2 SDK (by default the VST2 SDK
 If using the VST2 SDK then the plugininterfaces folder needs to be placed inside the LinVst main source folder.
 
 Makefiles in the dragwin folder are for (possible) drag and drop from the plugin to the daw.
+by using the Makefile in the dragwin folder.
+This tends to work with the usual Xfce window managers (MX Linux Xfce etc) but it might not totally work with other window managers such as Wayland based window managers (Mutter etc).
 
 ------
 
