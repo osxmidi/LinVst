@@ -43,7 +43,7 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 # Daw Notes
 
 Makefiles in the dragwin folder are for (possible) drag and drop from the plugin to the daw and drag and drop from the desktop to the vst plugin window (such as sfz files being dragged to the sforzando plugin window etc).
-This tends to work with the usual xfce window managers but it might not totally work with Wayland based window managers such as Mutter etc.
+This tends to work with the usual Xfce window managers but it might not totally work with other window managers such as Wayland based window managers (Mutter etc).
 
 **Hyperthreading**
 
@@ -188,7 +188,7 @@ For details about overriding dll's, see the Wine Config section in the Detailed 
 To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
 
 The drag and drop enabled LinVst version is included in the LinVst binary release and can be enabled via source code by using the Makefile in the dragwin folder.
-This tends to work with the usual Xfce window managers but it might not totally work with Wayland based window managers such as Mutter etc.
+This tends to work with the usual Xfce window managers (MX Linux Xfce etc) but it might not totally work with other window managers such as Wayland based window managers (Mutter etc).
 
 It's possible to drag and drop from the plugin to the daw and drag and drop from the desktop to the vst plugin window (such as sfz files being dragged to the sforzando plugin window etc) but the distro and window manager need to be compatible such as MX Linux Xcfe version etc and so does the Linux Daw.
 
