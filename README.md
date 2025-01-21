@@ -42,7 +42,8 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 
 # Daw Notes
 
-Makefiles in the dragwin folder are for (possible) drag and drop from the plugin to the daw.
+Makefiles in the dragwin folder are for (possible) drag and drop from the plugin to the daw and drag and drop from the desktop to the vst plugin window (such as sfz files being dragged to the sforzando plugin window etc).
+This tends to work with the usual xfce window managers but it might not totally work with Wayland based window managers such as Mutter etc.
 
 **Hyperthreading**
 
@@ -186,7 +187,12 @@ For details about overriding dll's, see the Wine Config section in the Detailed 
 
 To enable 32 bit vst's on a 64 bit system, a distro's multilib needs to be installed (on Ubuntu it would be sudo apt-get install gcc-multilib g++-multilib)
 
-Drag and Drop is enabled for the embedded LinVst version used with Reaper/Tracktion/Waveforn/Bitwig but it's only for items dragged and dropped onto the vst window and not for items dragged and dropped from the vst window to the DAW/host or to the Desktop window.
+The drag and drop enabled LinVst version is included in the LinVst binary release and can be enabled via source code by using the Makefile in the dragwin folder.
+This tends to work with the usual Xfce window managers but it might not totally work with Wayland based window managers such as Mutter etc.
+
+It's possible to drag and drop from the plugin to the daw and drag and drop from the desktop to the vst plugin window (such as sfz files being dragged to the sforzando plugin window etc) but the distro and window manager need to be compatible such as MX Linux Xcfe version etc and so does the Linux Daw.
+
+Sometimes it is possible to manually retrieve a dropped file without using the LinVst drag and drop version.
 Usually the dragged item (dragged outside of the vst's window) will be saved as a midi or wav file in a location that is most likely to be located in one of the vst's folders ie a folder in My Documents or a folder that the vst installation has created. The midi or wav file can then be dragged to the DAW.
 See MT-PowerDrumKit and EZDrummer2 and Addictive Drums 2 and SSD5 in the Tested VST's folder at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins for some details.
 
