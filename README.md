@@ -43,7 +43,7 @@ Scripts are also avaliable as an alternative to linvstconvert in the convert and
 # Daw Notes
 
 Makefiles in the dragwin folder are for (possible) drag and drop from the plugin to the daw and drag and drop from the desktop to the vst plugin window (such as sfz files being dragged to the sforzando plugin window etc).
-This tends to work with the usual Xfce window managers but it might not totally work with other window managers such as Wayland based window managers (Mutter etc).
+This tends to work with the usual Xfce window managers but it might not totally work with other window managers such as Wayland based window managers (Mutter etc) and it's also Linux Daw dependent as well.
 
 **Hyperthreading**
 
