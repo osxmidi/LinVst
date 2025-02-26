@@ -951,7 +951,7 @@ void RemoteVSTServer::EffectOpen(ShmControl *m_shmControlptr) {
     cerr << "dssi-vst-server[1]: opening plugin" << endl;
 
   m_plugin->dispatcher(m_plugin, effOpen, 0, 0, NULL, 0);
-  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+ // m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
 
   m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, bufferSize, NULL, 0);
   m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL,
@@ -1021,12 +1021,18 @@ void RemoteVSTServer::EffectOpen(ShmControl *m_shmControlptr) {
   HWND hWnd2 = CreateWindow(APPLICATION_CLASS_NAME2, "LinVst", WS_CAPTION, 0, 0,
                             200, 200, 0, 0, GetModuleHandle(0), 0);
   if (hWnd2)
-    GetClientRect(hWnd2, &offsetcl);
+  {
+  GetClientRect(hWnd2, &offsetcl);
   GetWindowRect(hWnd2, &offsetwin);
-  DestroyWindow(hWnd2);
-
   offset.x = (offsetwin.right - offsetwin.left) - offsetcl.right;
   offset.y = (offsetwin.bottom - offsetwin.top) - offsetcl.bottom;
+  DestroyWindow(hWnd2);
+  }
+  else
+  {
+  offset.x = 6;
+  offset.y = 32;
+  }
 
   UnregisterClassA(APPLICATION_CLASS_NAME2, GetModuleHandle(0));
 #endif
@@ -1056,7 +1062,7 @@ void RemoteVSTServer::EffectOpen(ShmControl *m_shmControlptr) {
         remoteVSTServerInstance->m_shmControl);
   }
 
-  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
+//  m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
 
   effectrun = true;
 }
@@ -1336,9 +1342,9 @@ std::string RemoteVSTServer::getEffString(int opcode, int index) {
 
 void RemoteVSTServer::setBufferSize(int sz) {
   if (bufferSize != sz) {
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+//    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
     m_plugin->dispatcher(m_plugin, effSetBlockSize, 0, sz, NULL, 0);
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
+//    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
     bufferSize = sz;
   }
 
@@ -1348,9 +1354,9 @@ void RemoteVSTServer::setBufferSize(int sz) {
 
 void RemoteVSTServer::setSampleRate(int sr) {
   if (sampleRate != sr) {
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
+ //   m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 0, NULL, 0);
     m_plugin->dispatcher(m_plugin, effSetSampleRate, 0, 0, NULL, (float)sr);
-    m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
+ //   m_plugin->dispatcher(m_plugin, effMainsChanged, 0, 1, NULL, 0);
     sampleRate = sr;
   }
 
