@@ -453,35 +453,25 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
 #endif
 
       case ConfigureNotify:
-//      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) ||
-((e.xconfigure.event == pparent) && (parentok)))
-//      {
+        //      if((e.xconfigure.event == parent) || (e.xconfigure.event ==
+        //      child) || ((e.xconfigure.event == pparent) && (parentok)))
+        //      {
 
-      x = 0;
-      y = 0;
-      ignored = 0;
+        XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0,
+                              0, &xmove, &ymove, &ignored);
 
-      XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0, 0,
-&x, &y, &ignored); e.xconfigure.send_event = false; e.xconfigure.type =
-ConfigureNotify; e.xconfigure.event = child; e.xconfigure.window = child;
-      e.xconfigure.x = x;
-#ifdef TRACKTIONWM
-      if(waveformid > 0)
-      e.xconfigure.y = y + waveformid;
-      else
-      e.xconfigure.y = y;
-#else
-      e.xconfigure.y = y;
+#ifdef TRACKTIONWM  
+      if(hosttracktion > 0)  
+      {   
+      xmove += offset.x;
+      ymove += offset.y;
+      }
 #endif
-      e.xconfigure.width = width;
-      e.xconfigure.height = height;
-      e.xconfigure.border_width = 0;
-      e.xconfigure.above = None;
-      e.xconfigure.override_redirect = False;
-      XSendEvent (display, child, False, StructureNotifyMask |
-SubstructureRedirectMask, &e);
-//      }
-      break;
+
+           if(hWnd && guiVisible && !exiting) 
+	       MoveWindow(hWnd, GetSystemMetrics(SM_XVIRTUALSCREEN) + xmove, GetSystemMetrics(SM_YVIRTUALSCREEN) + ymove, width, height, true);
+ 
+        break;
 
 #ifdef EMBEDDRAG
       case ClientMessage:
