@@ -1660,50 +1660,26 @@ void RemoteVSTServer::eventloop()
         break;
 #endif
 */
-      case ConfigureNotify:
+	     
+        case ConfigureNotify:
         //      if((e.xconfigure.event == parent) || (e.xconfigure.event ==
         //      child) || ((e.xconfigure.event == pparent) && (parentok)))
         //      {
-/*
-#ifdef TRACKTIONWM  
-      if(waveformid > 0) 
-      {	      
-      if(e.xconfigure.event != child)
-      break;
-      }	
-#endif		      
-*/
+
         XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0,
                               0, &xmove, &ymove, &ignored);
-        e.xconfigure.send_event = false;
-        e.xconfigure.type = ConfigureNotify;
-        e.xconfigure.event = child;
-        e.xconfigure.window = child;
+
 #ifdef TRACKTIONWM  
       if(hosttracktion > 0)  
       {   
-      e.xconfigure.x = xmove + offset.x;
-      e.xconfigure.y = ymove + offset.y;
+      xmove += offset.x;
+      ymove += offset.y;
       }
-      else
-      {
-      e.xconfigure.x = xmove;
-      e.xconfigure.y = ymove;
-      }
-#else
-      e.xconfigure.x = xmove;
-      e.xconfigure.y = ymove;
-#endif    
-        e.xconfigure.width = width;
-        e.xconfigure.height = height;
-        e.xconfigure.border_width = 0;
-        e.xconfigure.above = None;
-        e.xconfigure.override_redirect = False;
-        XSendEvent(display, child, False,
-                   StructureNotifyMask | SubstructureRedirectMask, &e);
-	      // if(hWnd)
-	      // MoveWindow(hWnd, xmove, ymove, width, height, true);
-        //      }
+#endif
+
+           if(hWnd && guiVisible && !exiting) 
+	       MoveWindow(hWnd, GetSystemMetrics(SM_XVIRTUALSCREEN) + xmove, GetSystemMetrics(SM_YVIRTUALSCREEN) + ymove, width, height, true);
+ 
         break;
 
 #ifdef EMBEDDRAG
