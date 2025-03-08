@@ -385,6 +385,7 @@ LRESULT WINAPI MainProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     {
     if (wParam == 678) 
     {
+    if(remoteVSTServerInstance->m_plugin)
     remoteVSTServerInstance->m_plugin->dispatcher(remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);          
     remoteVSTServerInstance->eventloop();
     return false;
