@@ -1956,17 +1956,10 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
       XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask);
 #endif
   
-  */
+  */ 
   
-  
-#ifdef FOCUS
-      XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask);
-#else
-      XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask);
-#endif  
-  
+      XSelectInput(display, parent, StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask);  
       
       XSync(display, false);
       
@@ -2353,10 +2346,13 @@ void RemoteVSTServer::openGUI() {
   timerval = 678;
   timerval = SetTimer(hWnd, timerval, 80, 0);  
   
-  guiVisible = true;    
   ShowWindow(hWnd, SW_SHOWNORMAL);
   // ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
+
+  XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+
+  guiVisible = true; 
 }
 #endif
 
