@@ -3694,7 +3694,7 @@ else
 
       if (remoteVSTServerInstance->exiting)
         break;
-      remoteVSTServerInstance->dispatchControl(5);
+      remoteVSTServerInstance->dispatchControl(20);
     }
   }
 
