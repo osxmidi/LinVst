@@ -3420,6 +3420,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
    param.sched_priority = 0;
    (void)sched_setscheduler(0, SCHED_OTHER, &param);
 */
+
+  SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
+
+  HRESULT oleret = OleInitialize(NULL);
+	
   remoteVSTServerInstance = 0;
 
   string deviceName = fileName;
@@ -3780,6 +3785,9 @@ remoteVSTServerInstance->audfin
 
   if (libHandle)
     FreeLibrary(libHandle);
+
+  if(oleret == S_OK)
+  OleUninitialize();	
 
   if (debugLevel > 0)
     cerr << "dssi-vst-server[1]: freed dll" << endl;
