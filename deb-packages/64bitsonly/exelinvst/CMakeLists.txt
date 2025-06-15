@@ -68,7 +68,7 @@ set( CMAKE_CXX_STANDARD 14 )
 include_directories( ${WIN_INCLUDE} )
 
 add_executable( lin-vst-server.exe ${LINVST_SVR_SRC} )
-set_target_properties(  lin-vst-server.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -m64 -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DEMBEDRESIZE -DPCACHE -DDRAGWIN")
+set_target_properties(  lin-vst-server.exe PROPERTIES COMPILE_FLAGS " ${CMAKE_CXX_FLAGS} -m64 -fPIC -O2 -DEMBED -DEMBEDDRAG -DWAVES -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DEMBEDRESIZE -DPCACHE -DXOFFSET -DDRAGWIN")
 set_target_properties( lin-vst-server.exe PROPERTIES LINK_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/opt/wine-stable/lib64/wine/x86_64-unix -L/opt/wine-devel/lib64/wine/x86_64-unix -L/opt/wine-staging/lib64/wine/x86_64-unix -L/usr/lib/x86_64-linux-gnu/wine-development" )
 target_link_libraries( lin-vst-server.exe pthread X11 shell32 ole32)
 
