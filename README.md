@@ -7,7 +7,7 @@ See LinVst-X (https://github.com/osxmidi/LinVst-X) for running vst plugins in a 
 See LinVst3 https://github.com/osxmidi/LinVst3 for running vst3 plugins.
 
 Arch wine has changed to Wow64 versions which do not run 32 bit vst's.
-See the wine-tkg folder for possible 32 bit vst solutions.
+See the Wine-tkg folder for possible 32 bit vst solutions.
 
 ## Quick Start Guide (see the Detailed-Guide folder for more info) 
 
