@@ -8,7 +8,7 @@ Arch wine has changed to Wow64 versions which do not run 32 bit vst's.
 
 For arch, it's possible to install Wine 10.10 (and possibly future versions) from tkg which runs 64 and 32 bit vst's (tkg also has a wow64 version)
 
-Download wine-10.10-staging-tkg-amd64.tar.xz and wine-10.10-staging-tkg-x86.tar.xz from https://github.com/Kron4ek/Wine-Builds/releases
+Download wine-10.10-staging-tkg-amd64.tar.xz and wine-10.10-staging-tkg-x86.tar.xz (or any non wow64 versions) from https://github.com/Kron4ek/Wine-Builds/releases
 
 uninstall wine-gecko and wine-mono and wine or wine-staging
 
