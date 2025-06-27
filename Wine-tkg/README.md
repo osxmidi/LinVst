@@ -13,7 +13,9 @@ Download wine-10.10-staging-tkg-amd64.tar.xz and wine-10.10-staging-tkg-x86.tar.
 uninstall wine-gecko and wine-mono and wine or wine-staging
 
 sudo pacman -Rs wine-gecko
+
 sudo pacman -Rs wine-mono
+
 sudo pacman -Rs wine-staging (or wine)
 
 -------------
