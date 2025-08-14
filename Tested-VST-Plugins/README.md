@@ -246,11 +246,13 @@ Sforzando newer versions might not work properly due to Wine d2d1 problems.
 
 **Waves plugins**.
 
-It is possible to install Waves Central v12 or Waves Central v13 and then install Waves plugins by installing https://github.com/PietJankbal/powershell-wrapper-for-wine and following their instructions, but it is not all smooth sailing.
+It maybe possible to install Waves Central v12 or Waves Central v13 and then install Waves plugins by installing, using winetricks
+
+winetricks powershell_core 
+
+winetricks corefonts
 
 Wine Staging is needed (not just Wine).
-
-Ignore any warning messages and manipulate/move the Waves Central window into different positions to get past any black window update problems (if selecting a checkbox, move the window to force a window update or suspend the system to force a window update) and also maybe manipulate the mouse/improvise when selecting plugins to install.
 
 -------
 
