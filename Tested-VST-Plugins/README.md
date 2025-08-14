@@ -33,8 +33,11 @@ and click on Native Access.exe to start it
 Login
 
 Check in Preferences->File Management that the default paths are
+
 Download Location C::Program Files\Native Instruments
+
 Application Location C:\Program Files\Native Instruments
+
 Content Location C:\users\Public\Documents
 
 The NTKDaemon seems to stay up ok for a session involving closing and starting Native Access.
