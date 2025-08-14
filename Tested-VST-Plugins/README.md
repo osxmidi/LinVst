@@ -258,7 +258,11 @@ Wine Staging is needed (not just Wine).
 
 Waves older versions info
 {
-Waves Central v11 needs windows powershell which does not currently work.
+Waves Central v11 needs windows powershell 
+
+winetricks powershell_core 
+
+winetricks corefonts
 
 Because Wine has some missing parts as compared to Windows (ie Robocopy, reg entries, some dll's etc) some things need to be installed and setup.
 
