@@ -1,4 +1,51 @@
 ## Tested Vst Plugins
+**Native Access Install**
+
+For Debian (Arch based distros have similar things that might need to be installed or are already installed by default)
+
+sudo apt install cabextract
+
+sudo apt-get install winbind
+sudo apt-get install gnutls-bin
+sudo apt-get install libntlm0
+
+Maybe for Arch based distros
+sudo pacman -Sy cabextract
+sudo pacman -Sy gnutls lib32-gnutls samba
+
+Usiing winetricks, install
+
+winetricks powershell_core
+winetricks corefonts
+
+Install Native-Access_2.exe using wine (wine Native-Access_2.exe)
+
+The NTKDaemon and Native Access seem to run ok only if clicked on (not by using the Terminal and a command line).
+
+open wine folder ~/.wine/drive_c/Program Files/Native Instruments/Native Access/resources/daemon/win using the File Manager
+
+and click on NTKDaemon 1.25.0 Setup PC.exe to start it
+
+Then open wine folder ~/.wine/drive_c/Program Files/Native Instruments/Native Access using the File Manager
+
+and click on Native Access.exe to start it
+
+Login
+
+First install might give a download folder error (I got that error) so cancel that install
+and fix the download folder in the prefs and then close and restart Native Access
+
+Check in Preferences->File Management that the default paths are
+Download Location C::Program Files\Native Instruments
+Application Location C:\Program Files\Native Instruments
+Content Location C:\users\Public\Documents
+
+I installed Kontakt 6 Player ok and it shows up as installed in Native Access.
+
+The NTKDaemon seems to stay up ok for a session involving closing and starting Native Access.
+
+After a reboot it probably needs NTKDaemon 1.25.0 Setup PC.exe to be run again and then start Native Access.exe
+
 
 **Kontakt Player 5.x and 6.x and 7.x** (can try turning multiprocessing off for some setups).
 
