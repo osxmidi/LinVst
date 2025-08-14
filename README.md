@@ -86,7 +86,7 @@ Go to the "Browse Data" tab in SQLite browser and choose the CachedPlugins table
 
 ## Common Problems/Possible Fixes
 
-Native Access installation is at 
+Native Access installation steps are at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins
 
 An older version of Native Access can be used https://support.native-instruments.com/hc/en-us/articles/360000407909-Native-Access-1-Legacy-Installers-for-Older-Operating-Systems and then install tips (Kontakt etc) can be followed https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins
 
