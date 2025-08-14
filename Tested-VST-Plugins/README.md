@@ -32,15 +32,10 @@ and click on Native Access.exe to start it
 
 Login
 
-First install might give a download folder error (I got that error) so cancel that install
-and fix the download folder in the prefs and then close and restart Native Access
-
 Check in Preferences->File Management that the default paths are
 Download Location C::Program Files\Native Instruments
 Application Location C:\Program Files\Native Instruments
 Content Location C:\users\Public\Documents
-
-I installed Kontakt 6 Player ok and it shows up as installed in Native Access.
 
 The NTKDaemon seems to stay up ok for a session involving closing and starting Native Access.
 
@@ -50,8 +45,6 @@ After a reboot it probably needs NTKDaemon 1.25.0 Setup PC.exe to be run again a
 **Kontakt Player 5.x and 6.x and 7.x** (can try turning multiprocessing off for some setups).
 
 LinVst3 https://github.com/osxmidi/LinVst3 can run the Kontakt 7 etc vst3 version, tested using Wine-tkg https://github.com/osxmidi/LinVst/tree/master/Wine-tkg and a DirectX 11 capable card (otherwise there might be black screen problems).
-
-Native Access has switched to using Powershell and is therefore not supported by Wine at this time.
 
 An older version of Native Access can be used https://support.native-instruments.com/hc/en-us/articles/360000407909-Native-Access-1-Legacy-Installers-for-Older-Operating-Systems and then install tips (Kontakt etc) can be followed below. 
 
