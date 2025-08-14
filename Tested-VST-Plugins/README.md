@@ -409,7 +409,24 @@ If a plugin needs a dll override it might be found by running TestVst from the t
 
 d2d1 based plugins
 
+**d2d1**
+
+If a plugin needs a dll override it might be found by running TestVst from the terminal and looking for any unimplemented function in xxxx.dll errors in the output (the xxxx.dll is the dll that needs to be replaced with a dll override).
+
+d2d1 based plugins
+
 d2d1.dll can cause errors because Wine's current d2d1 support is not complete and using a d2d1.dll override might produce a black (blank) display.
+
+Wine supports Direct2D 1.2 and some plugins and JUCE8 made plugins use Direct2D 1.3.
+
+Some plugins might need d2d1 to be disabled in the winecfg Libraries tab (add a d2d1 entry and then edit it and select disable), but some plugins won't run if d2d1 is disabled.
+
+A scan of the plugin dll file can be done to find out if the plugin depends on d2d1 
+
+"strings vstname.dll | grep -i d2d1"
+
+--------
+
 
 Some plugins might need d2d1 to be disabled in the winecfg Libraries tab (add a d2d1 entry and then edit it and select disable), but some plugins won't run if d2d1 is disabled.
 
