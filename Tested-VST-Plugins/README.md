@@ -46,16 +46,21 @@ Option 2 (option 2 is not preferred because the above powershell wrapper install
 sudo apt install cabextract
 
 sudo apt-get install winbind
+
 sudo apt-get install gnutls-bin
+
 sudo apt-get install libntlm0
 
 Maybe for Arch based distros
+
 sudo pacman -Sy cabextract
+
 sudo pacman -Sy gnutls lib32-gnutls samba
 
 Usiing winetricks, install
 
 winetricks powershell_core
+
 winetricks corefonts
 
 Install Native-Access_2.exe using wine (wine Native-Access_2.exe)
