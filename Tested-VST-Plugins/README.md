@@ -79,7 +79,7 @@ Login
 
 Check in Preferences->File Management that the default paths are
 
-Download Location C::Program Files\Native Instruments
+Download Location C:\Program Files\Native Instruments
 
 Application Location C:\Program Files\Native Instruments
 
