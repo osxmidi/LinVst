@@ -41,7 +41,7 @@ Content Location C:\users\Public\Documents
 
 ----
 
-Option 2 (option 2 is not preferred because the above powershell wrapper install handles some wine/powershell bugs
+Option 2 (option 2 is not preferred because the above powershell wrapper install handles some wine/powershell bugs)
 
 sudo apt install cabextract
 
@@ -295,7 +295,7 @@ Waves Central
 
 Install the powershell wrapper at https://github.com/PietJankbal/powershell-wrapper-for-wine
 
-Using winetricks install
+Using winetricks, install
 
 winetricks corefonts
 
