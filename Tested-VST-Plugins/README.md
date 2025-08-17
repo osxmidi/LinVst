@@ -17,23 +17,16 @@ sudo pacman -Sy cabextract
 
 sudo pacman -Sy gnutls lib32-gnutls samba
 
-Usiing winetricks, install
+Install the powershell wrapper at https://github.com/PietJankbal/powershell-wrapper-for-wine
 
-winetricks powershell_core
+Usiing winetricks, install
 
 winetricks corefonts
 
 Install Native-Access_2.exe using wine (wine Native-Access_2.exe)
 
-The NTKDaemon and Native Access seem to run ok only if clicked on (not by using the Terminal and a command line).
 
-open wine folder ~/.wine/drive_c/Program Files/Native Instruments/Native Access/resources/daemon/win using the File Manager
-
-and click on NTKDaemon 1.25.0 Setup PC.exe to start it
-
-Then open wine folder ~/.wine/drive_c/Program Files/Native Instruments/Native Access using the File Manager
-
-and click on Native Access.exe to start it
+and hen click on the Native Access desktop icon to start it
 
 Login
 
@@ -44,11 +37,6 @@ Download Location C:\Program Files\Native Instruments
 Application Location C:\Program Files\Native Instruments
 
 Content Location C:\users\Public\Documents
-
-The NTKDaemon seems to stay up ok for a session involving closing and starting Native Access.
-
-After a reboot it probably needs NTKDaemon 1.25.0 Setup PC.exe to be run again and then start Native Access.exe
-
 
 **Kontakt Player 5.x and 6.x and 7.x** (can try turning multiprocessing off for some setups).
 
@@ -251,11 +239,21 @@ Sforzando newer versions might not work properly due to Wine d2d1 problems.
 
 **Waves plugins**.
 
-It maybe possible to install Waves Central v12 or Waves Central v13 and then install Waves plugins by installing, using winetricks
+Waves Central
 
-winetricks powershell_core 
+Install the powershell wrapper at https://github.com/PietJankbal/powershell-wrapper-for-wine
+
+Using winetricks install
 
 winetricks corefonts
+
+Install Waves Central
+
+Click on the Waves Central Desktop icon
+
+Login, then when the autostart browser startup fails, copy the browser link to the clipboard (one of the options that appear after the autostart browser startup fails).
+
+Then open a Linux browser and paste the browser link
 
 Wine Staging is needed (not just Wine).
 
