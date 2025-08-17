@@ -23,10 +23,11 @@ Usiing winetricks, install
 
 winetricks corefonts
 
+winetricks dotnet48
+
 Install Native-Access_2.exe using wine (wine Native-Access_2.exe)
 
-
-and hen click on the Native Access desktop icon to start it
+and then click on the Native Access desktop icon to start it
 
 Login
 
@@ -37,6 +38,49 @@ Download Location C:\Program Files\Native Instruments
 Application Location C:\Program Files\Native Instruments
 
 Content Location C:\users\Public\Documents
+
+----
+
+Option 2 (option 2 is not preferred because the above powershell wrapper install handles some wine/powershell bugs
+
+sudo apt install cabextract
+
+sudo apt-get install winbind
+sudo apt-get install gnutls-bin
+sudo apt-get install libntlm0
+
+Maybe for Arch based distros
+sudo pacman -Sy cabextract
+sudo pacman -Sy gnutls lib32-gnutls samba
+
+Usiing winetricks, install
+
+winetricks powershell_core
+winetricks corefonts
+
+Install Native-Access_2.exe using wine (wine Native-Access_2.exe)
+
+The NTKDaemon and Native Access seem to run ok only if clicked on (not by using the Terminal and a command line).
+
+open wine folder ~/.wine/drive_c/Program Files/Native Instruments/Native Access/resources/daemon/win using the File Manager
+
+and click on NTKDaemon 1.25.0 Setup PC.exe to start it
+
+Then open wine folder ~/.wine/drive_c/Program Files/Native Instruments/Native Access using the File Manager
+
+and click on Native Access.exe to start it
+
+Login
+
+Check in Preferences->File Management that the default paths are
+Download Location C::Program Files\Native Instruments
+Application Location C:\Program Files\Native Instruments
+Content Location C:\users\Public\Documents
+
+The NTKDaemon seems to stay up ok for a session involving closing and starting Native Access.
+
+After a reboot it probably needs NTKDaemon 1.25.0 Setup PC.exe to be run again and then start Native Access.exe
+
 
 **Kontakt Player 5.x and 6.x and 7.x** (can try turning multiprocessing off for some setups).
 
