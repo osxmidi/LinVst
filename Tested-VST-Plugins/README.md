@@ -315,7 +315,9 @@ Waves older versions info
 {
 Waves Central v11 needs windows powershell 
 
-winetricks powershell_core 
+Install the powershell wrapper at https://github.com/PietJankbal/powershell-wrapper-for-wine
+
+Using winetricks, install
 
 winetricks corefonts
 
