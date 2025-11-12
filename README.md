@@ -114,6 +114,8 @@ An "X Error of failed request:  GLXBadFBConfig" error might need export MESA_GL_
 
 Some plugins won't run due to various problems.
 
+Wine Bottles https://github.com/osxmidi/LinVst/tree/master/Wine-Bottles
+
 Flatpak Daw installations might not work with LinVst.
 
 ----
