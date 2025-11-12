@@ -1,22 +1,22 @@
 Install approx guide
 
 
-create bottle named vst2 (or whatever)
+create bottle named vstbottle (or whatever)
 
 
-(To check) ls ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vst2
+(To check) ls ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle
 
 
-run executable (in bottle) to install a vst2 plugin ie vst2 dll installed into (can be installed to other locations in "Program Files" depending on the plugin ie could be installed into the Steinberg foder instead of VST2 or whatever)
+run executable (in bottle) to install a vst2 plugin ie the vst2 dll was installed into "Program Files"/"Common Files"/VST2 (can be installed to other locations in "Program Files" depending on the plugin ie could be installed into the Steinberg foder instead of VST2 or whatever)
 
 
 (To check) ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vst2/drive_c/"Program Files"/"Common Files"/VST2
 
 
-use linvstconvert and choose ~/var/app/com.usebottles.bottles/data/bottles/bottles/vst2/drive_c/"Program Files"/"Common Files"/VST2
+use linvstconvert and choose ~/var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
 
 
-add DAW VST search to include ~/var/app/com.usebottles.bottles/data/bottles/bottles/vst2/drive_c/"Program Files"/"Common Files"/VST2
+add the Daw VST search path to include ~/var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
 
 
 The WINELOADER variable needs to be set as it points to the location where wine is (wine is usually in usr/bin but with bottles it's not).
@@ -31,12 +31,12 @@ Run Daw from the terminal (or configure WINELOADER to be set on boot)
 
 LinVst automatically sets the WINEPREFIX variable based on the path of the linvst.so file (that has been renamed to the vst2 dll's name so that the Linux Daw can load it).
 
-So, LinVst automatically sets the WINEPREFIX to the wine location in a bottle
+So, LinVst automatically sets the WINEPREFIX to the wine location in a bottle when the Daw loads the vst.
 
-check if wine loader is set
+check if the WINELOADER path is set
 
 env | grep WINELOADER
 
-check wine loader version
+check wine version
 
 $WINELOADER --version
