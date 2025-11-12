@@ -10,7 +10,7 @@ create bottle named vstbottle (or whatever)
 run executable (in bottle) to install a vst2 plugin ie the vst2 dll was installed into "Program Files"/"Common Files"/VST2 (can be installed to other locations in "Program Files" depending on the plugin ie could be installed into the Steinberg foder instead of VST2 or whatever)
 
 
-(To check) ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vst2/drive_c/"Program Files"/"Common Files"/VST2
+(To check) ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
 
 
 use linvstconvert and choose ~/var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
