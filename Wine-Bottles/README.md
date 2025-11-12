@@ -24,7 +24,7 @@ use linvstconvert and choose the destination to be where the vst was installed
 add the Daw VST search path to include ~/var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
 
 
-The WINELOADER variable needs to be set as it points to the location where wine is (wine is usually in usr/bin but with bottles it's not).
+The WINELOADER variable needs to be set as it points to the location where wine is (wine is usually in /usr/bin but with bottles it's not).
 
 USE (depending where wine is in a bottle)
 
