@@ -4,7 +4,7 @@ Install approx guide
 create bottle named vstbottle (or whatever)
 
 
-(To check) ls ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle
+(To check) ls ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle (the ~/ at the start of the path means your /home/username/)
 
 
 run executable to install a vst2 plugin
@@ -28,7 +28,7 @@ The WINELOADER variable needs to be set as it points to the location where wine 
 
 USE (depending where wine is in a bottle)
 
-export WINELOADER=/home/osxuser/.var/app/com.usebottles.bottles/data/bottles/runners/soda-9.0-1/bin/wine (in a terminal)
+export WINELOADER=~/.var/app/com.usebottles.bottles/data/bottles/runners/soda-9.0-1/bin/wine (in a terminal)
 
 to set the WINELOADER
 
