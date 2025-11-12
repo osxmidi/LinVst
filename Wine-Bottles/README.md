@@ -7,13 +7,17 @@ create bottle named vstbottle (or whatever)
 (To check) ls ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle
 
 
-run executable (in bottle) to install a vst2 plugin ie the vst2 dll was installed into "Program Files"/"Common Files"/VST2 (can be installed to other locations in "Program Files" depending on the plugin ie could be installed into the Steinberg foder instead of VST2 or whatever)
+run executable to install a vst2 plugin
+
+ie the vst2 dll was installed into "Program Files"/"Common Files"/VST2 (can be installed to other locations in "Program Files" depending on the plugin ie could be installed into the Steinberg foder instead of VST2 or whatever)
 
 
 (To check) ~/.var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
 
 
-use linvstconvert and choose ~/var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
+use linvstconvert and choose the destination to be where the vst was installed 
+
+~/var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
 
 
 add the Daw VST search path to include ~/var/app/com.usebottles.bottles/data/bottles/bottles/vstbottle/drive_c/"Program Files"/"Common Files"/VST2
@@ -29,9 +33,7 @@ to set the WINELOADER
 
 Run Daw from the terminal (or configure WINELOADER to be set on boot)
 
-LinVst automatically sets the WINEPREFIX variable based on the path of the linvst.so file (that has been renamed to the vst2 dll's name so that the Linux Daw can load it).
-
-So, LinVst automatically sets the WINEPREFIX to the wine location in a bottle when the Daw loads the vst.
+LinVst automatically sets the WINEPREFIX to the wine location of the vst when the Daw loads the vst.
 
 check if the WINELOADER path is set
 
