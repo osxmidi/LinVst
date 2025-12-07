@@ -10,6 +10,14 @@ For arch, it's possible to install Wine 10.10 (and possibly future versions) fro
 
 Download wine-10.10-staging-tkg-amd64.tar.xz and wine-10.10-staging-tkg-x86.tar.xz (or any non wow64 versions) from https://github.com/Kron4ek/Wine-Builds/releases
 
+For Debian
+
+sudo dpkg -r winehq-staging (or winehq-stable)
+
+sudo dpkg -r wine-staging (or wine-stable)
+
+For Arch
+
 uninstall wine-gecko and wine-mono and wine or wine-staging
 
 sudo pacman -Rs wine-gecko
